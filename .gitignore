@@ -137,4 +137,6 @@ sympy-plots-for-*.tex/
 *.bak
 *.sav
 
-
+# Emacs
+auto
+_*
