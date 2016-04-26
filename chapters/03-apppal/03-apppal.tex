@@ -2,9 +2,54 @@
 \begin{document}
 \chapter{AppPAL}
 
-\section{The need for a policy language}
+AppPAL is a language for enforcing and analyzing mobile device policies.
+AppPAL acts as a \emph{glue} between the high level policies users and companies have, and the tools used to enforce them.
+For example a user may have an opinion about which apps they'll install:
 
-\section{Design and implementation of AppPAL}
+\begin{quotation}
+  ``I don't want to install any apps with in-app-purchases;
+    though I don't mind installing a game with them---provided it's a good one.
+  I also don't want to install any malware and I trust Google to warn me if I'm installing something dangerous.''
+\end{quotation}
+
+The user may enforce their preferences by hand-selecting apps in the store, but this is error prone---users could make mistakes.
+The preferences are vague: what \emph{precisely} does the user mean by \emph{``provided it's a good one''}.
+AppPAL gives us a formal language and decision process for getting the opinions specified as a policy and enforced by a computer.
+The user's preferences could be written in AppPAL as:
+
+\begin{lstlisting}
+'user' says App isInstallable 
+  if 'iap-rules' isMetBy App,
+     App isNotMalware.
+
+'user' says 'iap-rules' isMetBy App 
+  if App isApp 
+  where
+     hasPermission(App, 'com.android.vending.BILLING') = false.
+
+'user' says 'iap-rules' isMetBy App 
+  if App hasCategory('game'),
+     App isGood.
+
+'user' says 'google' can-say App isNotMalware 
+  if App isApp.
+\end{lstlisting}
+
+This makes some of the relationships more explicit.
+To decide if an app is installable it must be shown that it meets the users \ac{iap} rules (two ways: either the app is either missing the \ac{iap} permission or it is a game that is good), and it is not malware (which the user delegates to Google to decide). 
+The AppPAL translation also shows where the policy is lacking:
+    there are no rules for deciding if something is good or not,
+    similarly there are no rules for deciding an apps category.
+The user could provide an explicit list of apps that are good and their categories; or they could delegate to a store or review service to tell them more about the apps they are selling.
+
+\section{Evaluation}
+
+AppPAL was designed by instantiating SecPAL~\cite{Becker:2006vh} for mobile device policies.
+
 
 \end{document}
 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../thesis"
+%%% End:

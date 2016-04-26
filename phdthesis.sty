@@ -1,6 +1,8 @@
 \ProvidesPackage{phdthesis}
 
 \usepackage{acronym}
+\acrodef{av}{anti-virus}
+\acrodef{iap}{in-app-purchases}
 \acrodef{tee}{trusted execution environment}
 
 \usepackage{graphicx}
@@ -22,4 +24,18 @@
 \renewcommand*{\FancyVerbLineautorefname}{line}
 \renewcommand*{\theoremautorefname}{Theorem}
 \renewcommand*{\pageautorefname}{page}
+
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  numberstyle=\sffamily\scriptsize
+} 
+\newcommand{\code}[1]{\lstinline{#1}}
+
+
+%% Sectioning commands
+%\newcommand{\frontmatter}[0]{}
+%\newcommand{\mainmatter}[0]{}
 
