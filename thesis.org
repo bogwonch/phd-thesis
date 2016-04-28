@@ -1,0 +1,123 @@
+* Literature Review
+** Detecting Incompleteness, Conflicting and Unreachability XACML Policies Using Answer Set Programming :xacml:properties:
+Using their earlier work formalising XACML using /answer set programming/ (ASP), they show how XACML programs can be checked for various properties.
+
+There formalism is as follows:
+
+| Term        | Grammar                                                 |
+|-------------+---------------------------------------------------------|
+| ⟨PolicySet⟩ | /PolicySetId/ = [⟨Target⟩, ⟪PolicySetID * ⟫, *CombID* ] |
+|             | /PolicySetId/ = [⟨Target⟩, ⟪ /PolicyID/ * ⟫, *CombID* ] |
+| ⟨Policy⟩    | /PolicyID/ = [ ⟨Target⟩, ⟪ PolicySetID + ⟫, *CombID* ]  |
+| ⟨Rule⟩      | /RuleID/ = [ *Effect*, ⟨Target⟩, ⟨Condition⟩ ]          |
+| ⟨Condition⟩ | /prepositional formulae/                                |
+| ⟨Target⟩    | ~NULL~                                                  |
+|             | ∧ ⟨AnyOf⟩ +                                             |
+| ⟨AnyOf⟩     | ∨ ⟨AllOf⟩ +                                             |
+| ⟨AllOf⟩     | ∧ ⟨Match⟩ +                                             |
+| ⟨Match⟩     | *AttrType* (/attribute value/)                          |
+| *CombID*    | ~po~                                                    |
+|             | ~do~                                                    |
+|             | ~fa~                                                    |
+|             | ~ooa~                                                   |
+| *Effect*    | ~deny~                                                  |
+|             | ~permit~                                                |
+| *AttrType*  | ~subject~                                               |
+|             | ~action~                                                |
+|             | ~resource~                                              |
+|             | ~environment~                                           |
+| ⟨Request⟩   | { *Attribute* + }                                       |
+| *Attribute* | *AttrType* (/attribute value/)                          |
+|             | /external state/                                        |
+
+When evaluating:
+
+| XACML Component | Values                                           |
+|-----------------+--------------------------------------------------|
+| ⟦⟨Match⟩⟧       | match (=m=) and not match (=nm=)                 |
+| ⟦⟨AllOf⟩⟧       | match (=m=) and not match (=nm=)                 |
+| ⟦⟨AnyOf⟩⟧       | match (=m=) and not match (=nm=)                 |
+| ⟦⟨Target⟩⟧      | match (=m=) and not match (=nm=)                 |
+| ⟦⟨Condition⟩⟧   | true (=t=) and false (=f=)                       |
+| ⟦⟨Rule⟩⟧        | permit (=p=) deny (=d= and not applicable (=na=) |
+| ⟦⟨Policy⟩⟧      | permit (=p=) deny (=d= and not applicable (=na=) |
+| ⟦⟨PolicySet⟩⟧   | permit (=p=) deny (=d= and not applicable (=na=) |
+
+| XACML Component | Evaluation                                      | Notes               |
+|-----------------+-------------------------------------------------+---------------------|
+|                 | ⎧ =m=   if M ∈ Q                                | M ∈ ⟨Match⟩         |
+| ⟦M⟧(Q)          | ⎨                                               | Q ∈ ⟨Request⟩       |
+|                 | ⎩ =nm=  if M ∉ Q                                |                     |
+|                 | ⎧ =m=   if ∀i ⟦M_i_{}⟧ = =m=                        | A ∈ ⟨AllOf⟩         |
+| ⟦A⟧(Q)          | ⎨                                               |                     |
+|                 | ⎩ =nm=  if ∃i ⟦M_i⟧ = =nm=                       |                     |
+|                 | ⎧ =m=   if ∃i ⟦A_i_{}⟧ = =m=                        | E ∈ ⟨AnyOf⟩         |
+| ⟦E⟧(Q)          | ⎨                                               |                     |
+|                 | ⎩ =nm=  if ∀i ⟦A_i⟧ = =nm=                       |                     |
+|                 | ⎧ =m=   if ∀i ⟦E_i_{}⟧ = =m=                        | T ∈ ⟨Target⟩        |
+| ⟦T⟧(Q)          | ⎨ =m=   if T = ~NULL~                           |                     |
+|                 | ⎩ =nm=  if ∃i ⟦E_i⟧ = =nm=                       |                     |
+| ⟦C⟧(Q)          | eval(C, Q)                                      | C ∈ ⟨Condition⟩     |
+|                 | ⎧ /e/   if ⟦T⟧(Q) = =m= ∧ ⟦C⟧(Q) = =t=          |                     |
+| ⟦R⟧(Q)          | ⎨ =na=  if ⟦T⟧(Q) = =m= ∧ ⟦C⟧(Q) = =f=          | R ≔ [/e/, /T/, /C/] |
+|                 | ⎩ =na=  if ⟦T⟧(Q) = =nm=                        |                     |
+|                 | ⎧ =na=          if ∀i ⟦R_i_{}⟧(Q) = =na=            | P ∈ ⟨Policy⟩        |
+| ⟦P⟧(Q)          | ⎨ =na=          if ⟦T⟧(Q) = =nm=                |                     |
+|                 | ⎩ ⊕_{CombID}(*R*)  otherwise                       |                     |
+|                 | ⎧ =na=          if ∀i ⟦P_i_{}⟧(Q) = =nm=            | PS ∈ ⟨PolicySet⟩    |
+| ⟦PS⟧(Q)         | ⎨ =na=          if ⟦T⟧(Q) = =nm=                |                     |
+|                 | ⎩ ⊕_{CombID}(*P*)  otherwise                       |                     |
+|                 | ⎧ =p=   if ∃i: v_i = =p=                         | S ≔ ⟪v₁..vₙ⟫        |
+| ⊕_po(S)          | ⎨ =d=   if ∀i: v_i ≠ =p= ∧ ∃j: v_j = =d=          |                     |
+|                 | ⎩ =na=  otherwise                               |                     |
+|                 | ⎧ =p=   if ∃i: v_i = =d=                         |                     |
+| ⊕_do(S)          | ⎨ =d=   if ∀i: v_i ≠ =d= ∧ ∃r: v_j = =p=          |                     |
+|                 | ⎩ =na=  otherwise                               |                     |
+|                 | ⎧ v_i    if ∃i: v_i ≠ =na= ∧ ∀j : j<i ⇒ v_j = =na= |                     |
+| ⊕_fa(S)          | ⎨                                               |                     |
+|                 | ⎩ =na=  if ∀i v_i = =na=                         |                     |
+|                 | ⎧ v_i    if ∃i: v_i ≠ =na= ∧ ∀j: j≠i ⇒ v_j= =na=   |                     |
+| ⊕_ooa(S)         | ⎨ =na=  if ∃i, j: i≠j ∧ v_i ≠ =na= ∧ v_j ≠ =na=   |                     |
+|                 | ⎩ =na=  if ∀i: v_i = =na=                        |                     |
+
+*** Incompleteness
+
+_complete_: ∀Q: ⟦PS_{root}⟧(Q) ≠ =na=.
+_gap_: ¬ _complete_ ≣ ∃Q: ⟦PS_{root}⟧(Q) = =na=.
+
+P_gap:
+  _gap_ ← val(PS_root, =na=).
+  ⊥     ← ¬ _gap_.
+
+*** Conflict
+
+_conflict_: ∃Q: ⟦R⟧(Q) = =p= ∧ ⟦R′⟧(Q) = =d=.
+
+P_conflict:
+  _conflict_ ← val(R, =p=), val(R′, =d=), R ≠ R′.
+  ⊥          ← ¬ _conflict_.
+
+*** Reachability
+
+_reachable_ (R): ∃Q: ⟦R⟧(Q) ≠ =na=.
+
+P_reachable:
+  _reachable_ (R) ← val(R, E), E ≠ =na=.
+
+
+A policy is unreachable if every request ends in something not-applicable.
+
+_unreachable_ (R): ∀Q: ⟦R⟧ = =na=.
+
+In the case of /permit-overrides/, a policy is not reachable if its decision is deny but the final decision of the root policy is permit
+
+_unreachable_ (R): ∀Q: ⟦R⟧ = =d= ∧ ⟦P⟧(Q) = =p=.
+
+For /deny-overrides/ the results are inverted.
+
+_unreachable_ (R): ∀Q: ⟦R⟧ = =p= ∧ ⟦P⟧(Q) = =d=.
+
+For /only-one-applicable/ there must be something unreachable if it is an applicable policy, but the final decision of the root policy is not applicable.  This indicates ther is anouther policy that is also applicable.
+
+_unreachable_ (R): 
+
