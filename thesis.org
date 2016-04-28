@@ -50,7 +50,7 @@ When evaluating:
 |                 | ⎩ =nm=  if M ∉ Q                                |                     |
 |                 | ⎧ =m=   if ∀i ⟦M_i_{}⟧ = =m=                        | A ∈ ⟨AllOf⟩         |
 | ⟦A⟧(Q)          | ⎨                                               |                     |
-|                 | ⎩ =nm=  if ∃i ⟦M_i⟧ = =nm=                       |                     |
+|                 | ⎩ =nm=  if ∃i ⟦M_{i}⟧ = =nm=                   |                     |
 |                 | ⎧ =m=   if ∃i ⟦A_i_{}⟧ = =m=                        | E ∈ ⟨AnyOf⟩         |
 | ⟦E⟧(Q)          | ⎨                                               |                     |
 |                 | ⎩ =nm=  if ∀i ⟦A_i⟧ = =nm=                       |                     |
@@ -119,5 +119,33 @@ _unreachable_ (R): ∀Q: ⟦R⟧ = =p= ∧ ⟦P⟧(Q) = =d=.
 
 For /only-one-applicable/ there must be something unreachable if it is an applicable policy, but the final decision of the root policy is not applicable.  This indicates ther is anouther policy that is also applicable.
 
-_unreachable_ (R): 
+_unreachable_ (R): ∀Q: ⟦R⟧ = =p= ∧ ⟦P⟧(Q) = =na=.
 
+For /first applicable/ a policy is unreachable if there is another policy in the same collection that is earlier in the sequence but also not reachable.
+
+_unreachable_ (R_j): ∀Q: ⟦R_{i}⟧ ≠ =na= ∧ ⟦R_{j}⟧ ≠ =na= ∧ i < j
+
+
+** Synthesising Verified Access Control Systems in XACML
+The author's present a formalism of XACML expressed using the RW language.
+RW is a propositional language with queries made as to whether an /agent/ can  /read/ or /write/ to a prepositional variable[fn:1].
+
+They show how the RW language can be translated into XACML (with an SQL backend I believe).
+
+Since RW descriptions can be verified, then they claim that allows them to produce verified XACML translations.
+
+** Formalisation and Implementation of the XACML Access Control Mechanism
+Fantastic links to surrounding work formalising XACML policies.
+
+They give a short-hand notation for XACML, and present a formalisation of XACML.
+They also have a tool, called [[https://github.com/andreamargheri/FACPL/][FACPL]] that lets you manipulate policies based on their formalism, and it looks to be actively developed.
+
+** Reasoning about XACML Policies using CSP
+They show how a subset of XACML policy features[fn:2] can be modelled in CSP.
+Looks interesting but I need to know CSP better to really understand it.
+
+* Footnotes
+
+[fn:1] No idea what this is. 
+
+[fn:2] They don't do obligation and limit constraints to time based things.
