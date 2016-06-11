@@ -1,9 +1,10 @@
 \ProvidesPackage{phdthesis}
 
 \usepackage{acronym}
-\acrodef{av}{anti-virus}
-\acrodef{iap}{in-app-purchases}
-\acrodef{tee}{trusted execution environment}
+\acrodef{AV}{anti-virus}
+\acrodef{IAP}{in-app-purchase}
+\acrodef{TEE}{trusted execution environment}
+\acrodef{PUP}{potentially unwanted program}
 
 \usepackage{graphicx}
 
@@ -35,6 +36,12 @@
 \newcommand{\code}[1]{\lstinline{#1}}
 
 \usepackage{proof}
+\usepackage{booktabs}
+\usepackage{pifont}
+\usepackage{subfig}
+\newcommand{\xmark}{\ding{55}}
+
+\newcommand{\etal}[0]{et~al{.}\@}
 
 %% Sectioning commands
 %\newcommand{\frontmatter}[0]{}

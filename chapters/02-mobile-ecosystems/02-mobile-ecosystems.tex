@@ -2,34 +2,153 @@
 \begin{document}
 \chapter{Mobile Ecosystems}
 
-\section{Android}
-
-The Android operating system is built on top of Linux.
-It is the dominant operating system for mobile devices with around 80\% of the market share.
-A diagram of the the complete system stack (taken from Google's Android for Work whitepaper~\cite{Google:2015vl}) is shown in Figure~\ref{fig:android_stack}.
-We will expand upon this diagram and give an overview of the entire Android stack in this section.
-
-Android runs on an ARM device (though x86 and MIPS variants exist).
-Increasingly these devices have some form of \ac{tee}, such as ARM's \emph{TrustZone}, for DRM and key management.
-A Linux kernel\footnote{Strictly it is not a pure Linux kernel as, despite attempts to move things upstream, it still contains drivers and patches from outside the main kernel tree.}  is eventually booted which verifies itself and the root filesystem using the \emph{dm-verity} kernel subsystem before booting Android proper.
-
-
-
-
-
-\begin{figure}
-  \includegraphics[width=1.0\linewidth]{chapters/02-mobile-ecosystems/figures/android-stack.eps}
-  \caption{System stack of a typical Android device.}
-  \label{fig:android_stack}
-\end{figure}
-
 \section{App stores and mobile app deployment}
 
-\section{Android security model}
+\section{Policies and users}
 
+For users, finding the right apps can be tricky.
+Users need to discover which are not going to abuse their data.
+This can be difficult as it isn't obvious how apps use the data each has access to.
+Consider a user attempting to buy a flashlight app.
+By searching the Play store the user is presented with a long list of apps.
+Clicking through each one they can find the permissions each requests but not the reasons why each was needed.
+They can see review scores from users but not from tools to check apps for problems and issues like SSL misconfigurations~\cite{fahl_why_2012}.
+If they want to use the app at work will it break their employers rules for mobile usage?
 
+App stores give some information about their apps; descriptions, screenshots and review scores.
+Android apps show a list of permissions when they're first installed.
+In Android Marshmallow apps will display permissions requests when the app first tries to access sensitive data (such as contacts or location information).
+Users do not understand how permissions relate to their device~\cite{felt_android_2012,thompson_when_2013}.
+Ultimately the decision of which apps to use and which permissions to grant must be made by the device user.
 
-\section{Android policies}
+Some apps are highly undesirable.
+Many \acp{PUP} are being propagated for Android devices~\cite{truong_company_2014,vanja_svajcer_classifying_????}.
+Employees are increasingly using their own phones for work.
+An employer may restrict which apps their employees can use.
+The IT department may set a mobile device policy---a series of rules describing what kinds of apps may be used and how---to prevent information leaks.
+Some users worry that apps will misuse their personal data---sending their address book or location to an advertiser without their permission.
+Such a user avoids apps which can access their location, or address book; they may apply their own personal security policies when downloading and running apps.
+
+\begin{marginfigure}
+\newcommand{\tabtitle}[1]{\textbf{\footnotesize #1}}
+\footnotesize
+\begin{center}
+  \begin{tabular}{ r l l l l }
+%                                     & \rothead{Conservative} & \rothead{Advanced} & \rothead{Fencesitter} & \rothead{Unconcerned} \\
+    \toprule
+    \tabtitle{Policy}                 & \tabtitle{C}           & \tabtitle{A}       & \tabtitle{F}          & \tabtitle{U}          \\
+    \midrule
+    \texttt{GET\_ACCOUNTS}            & \xmark                 & \xmark             & \xmark                & \xmark                \\
+    \texttt{ACCESS\_FINE\_LOCATION}   & \xmark                 & \xmark             & \xmark                &                       \\
+    \texttt{READ\_CONTACT}            & \xmark                 & \xmark             & \xmark                &                       \\
+    \texttt{READ\_PHONE\_STATE}       & \xmark                 & \xmark             &                       &                       \\
+    \texttt{SEND\_SMS}                & \xmark                 & \xmark             &                       &                       \\
+    \texttt{ACCESS\_COARSE\_LOCATION} & \xmark                 &                    &                       &                       \\
+    \bottomrule
+  \end{tabular}
+  \label{tab:lin_perms}
+  \caption{Policies identified by Lin~\etal expressed as sets of prohibited permissions.}
+\end{center}
+\end{marginfigure}
+
+Users can have internalized policies that govern which apps they chose.
+In a study of 725 Android users, Lin~\etal~found four patterns that characterise user privacy preferences for apps~\cite{lin_modeling_2014} demonstrating a refinement of Westin's privacy segmentation index~\cite{harris_interactive_privacy_2002}.
+Lin~\etal~identified four types of user.
+The \emph{Conservative} (C) users were uncomfortable allowing an app access to any personal data for any reason.
+The \emph{Unconcerned} (U) users felt okay allowing access to most data for almost any reason.
+The \emph{Advanced} (A) users were comfortable allowing apps access to location data but not if it was for advertising.
+Opinions in the largest cluster, \emph{Fencesitters} (F), varied but were broadly against collection of personal data for advertising.
+I wrote AppPAL policies to describe each of these behaviours as sets of prohibited permissions, shown in \autoref{tab:lin_perms}.
+These simplify the privacy policies identified by Lin~\etal~as I do not take into account the reason each app might have been collecting each permission
+(I could write more precise rules if I could determine why each permission was requested).
+Lin~\etal~used Androguard~\cite{andrew_desnos_androguard_????} as well as manual analysis to determine the precise reasons for each permission~\cite{lin_modeling_2014}.
+
+To test the extent users were following the policies I took installation from a partially anonymized database of installed apps captured by Carat~\cite{oliner_carat:_2013}.
+By calculating the hashes of known package names, mostly taken from the Android Observatory, I could discover who had installed certain apps.
+The initial database has over 90,000 apps and 55,000 users.
+On average each Carat user installed around 90 apps each; 4,300 apps have known names.
+Disregarding system apps (such as \texttt{com.android.vending}) and very common apps (Facebook, Dropbox, Whatsapp, and Twitter) I reduced the set to an average of 20 known apps per user.
+To see some variation in app type, I considered only the 44,000 users who had more than 20 known apps.
+Using this data, and the apps themselves taken from the Google Play Store and Android Observatory~\cite{barrera_understanding_2012}, I checked which apps satisfied which policies.
+
+\begin{figure*}
+  \centering
+  \subfloat[Advanced policy]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/lin_a.eps} 
+  }
+  \subfloat[Conservative policy]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/lin_c.eps} 
+  }\\
+  \subfloat[Fencesitter policy]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/lin_f.eps} 
+  }
+  \subfloat[Unconcerned policy]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/lin_u.eps} 
+  }\\
+  \vspace{2em}
+  \caption[Adoption of Lin~\etal~policies.]{Adoption of the four Lin~\etal~policies amongst users from the Carat dataset.  The vast majority of users do not appear to be following these policies most of the time.}
+  \label{fig:lin_uptake_graphs}
+\end{figure*}
+
+The charts shown in \autoref{fig:lin_uptake_graphs} show that very few users seem to follow Lin~\etal's policies most of the time~\cite{hallett_apppal_2016}.  Even for the least onourus unconcerned policy most users did not seem to follow the policy most of the time.
+This suggests that there is a disconnect between user's privacy preferences and their behavior (reminiscent of the \emph{privacy paradox}\footnote{The privacy paradox is that whilst people will say they are very concerned about their privacy, they do not alter their behaviour in order to protect it.  It was first noticed by psychologists looking at how people use social network; though has appeared in many other areas since.}); assuming the user population studied by Lin~\etal~was similar to the data in the Carat study.
+
+A few users, however, did seem to be installing apps meeting these policies most of the time.
+This suggests that while users may have privacy preferences the majority are not attempting to enforce them.
+Policy enforcement tools, like AppPAL, can help users enforce their own policies which they cannot do easily using the current ad hoc, manual means available to them.
+
+It is also interesting to discover when people install apps classified as malware.
+McAfee classify malware into several categories, and provided us with a dataset of apps classified as malware and \acp{PUP}.
+The \emph{malicious} and \emph{trojan} categories describe traditional malware.
+Other categories classify \ac{PUP} such as aggressive adware.
+Using AppPAL I can write policies to differentiate characterising users who allow dangerous apps and those who install poor quality ones.
+\begin{lstlisting}
+'user' says 'mcafee' can-say
+  'malware' isKindOf(App).
+'mcafee' says 'trojan' can-act-as 'malware'.
+'mcafee' says 'pup' can-act-as 'malware'.
+\end{lstlisting}
+If a user is enforcing a privacy policy we might also expect them to install less malware.
+We can check this by using AppPAL policies to measure the number of malwares each user had installed.
+
+\begin{marginfigure}
+  \centering
+  \subfloat[Malware only]{%
+    \includegraphics[width=\linewidth]{chapters/02-mobile-ecosystems/figures/malware_np.eps}
+  }\\
+  \subfloat[Malware and PUPs]{%
+    \includegraphics[width=\linewidth]{chapters/02-mobile-ecosystems/figures/malware_nm.eps}
+  }\\
+  \caption{Malware installation numbers in the Carat dataset.}
+  \label{fig:malware}
+\end{marginfigure}
+I found that 1\% of the users had a \ac{PUP} or malicious app installed.
+Figure~\ref{fig:malware} shows that infection rates for \acp{PUP} and malware is low;
+though a user is 3 times more likely to have a \ac{PUP} installed than malware.
+It is interesting to compare a user's compliance to the Lin~\etal~policies with the amount of malware each had installed (Figure \autoref{fig:lin_malware_graphs}).
+Users who were complying more than half the time with the conservative or advanced policies complied with the malware or \ac{pup} policies fully.
+This suggests that policy enforcement is worthwhile: users who do enforce policies about their apps experience less malware.
+This could also be attributed to the users needing to be more selective about their apps in order to enforce their policy: a careful user is unlikely to install malware generally.
+
+\begin{figure*}
+  \centering
+  \subfloat[Advanced policy and malware]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/advanced-v-pup.eps} 
+  }
+  \subfloat[Conservative policy and malware]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/conservative-v-pup.eps}
+  }\\
+  \subfloat[Fencesitter policy and malware]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/fencesitter-v-pup.eps}
+  }
+  \subfloat[Unconcerned policy and malware]{%
+    \includegraphics[width=0.5\linewidth]{chapters/02-mobile-ecosystems/figures/unconcerned-v-pup.eps}
+  }\\
+  \vspace{2em}
+  \caption[Plots of compliance with the Lin policies versus malware installation.]{Graphs plotting a users conformance with the Lin~\etal~policies against the amount of malware they had installed on their device.  Each dot represents a user.}
+  \label{fig:lin_malware_graphs}
+\end{figure*}
+
 
 \end{document}
 
