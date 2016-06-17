@@ -2,22 +2,20 @@
 \begin{document}
 \chapter{AppPAL}
 
-We present AppPAL, an instantiation of Becker et al.’s
-SecPAL\cite{becker_secpal:_2010} with constraints (statements
-checkable using information external to the language such as the time
-of day or static analysis tools) and predicates that allow us to
-decide which apps to run or install. The language allows us to reason
-about apps using statements from third parties. AppPAL allows us to
-enforce the policies on a device. We can express trust relationships
-amongst these parties and use constraints to do additional checks,
-such as using security checks. This lets us enforce more complex
-policies than existing tools such as Kirin qwhich are limited to
-permissions checks. Policies can be enforced by the stores selling the
-apps, on the devices installing apps or by third-parties providing app
-vetting services.
+% Why do I want AppPAL?
+
+
+\subsection{The Design and Implementation of AppPAL}
+
+AppPAL is an instantiation of Becker et al.’s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
+The language allows us to reason about apps using statements from third parties. AppPAL allows us to enforce the policies on a device.
+I can express trust relationships amongst these parties and use constraints to do additional checks, such as using security checks.
+This lets us enforce more complex policies than existing tools such as Kirin qwhich are limited to permissions checks. 
+Policies can be enforced by the stores selling the apps, on the devices installing apps or by third-parties providing app vetting services.
+
 Consider the following example:
   a user, Alice, may have rules she has to follow when using apps for work and her own policies when using apps at home in her private life.
-Using AppPAL we can write policies for work and home, and decide which policy to enforce using a user's location, or the time of day:
+Using AppPAL I can write policies for work and home, and decide which policy to enforce using a user's location, or the time of day:
 
 \begin{lstlisting}
 'alice' says App isRunnable
@@ -30,14 +28,14 @@ Using AppPAL we can write policies for work and home, and decide which policy to
   where beforeHourOfDay('17') = true.
 \end{lstlisting}
 
-We can delegate policy specification to third parties or roles, and assign principals to roles:
+I can delegate policy specification to third parties or roles, and assign principals to roles:
 
 \begin{lstlisting}
 'alice' says 'it-department' can-say 'work-policy' isMetBy(App).
 'alice' says 'alice' can-act-as 'it-department'.
 \end{lstlisting}
 
-We can write policies specifying which permissions an app must or must not have by its app store categorization.
+I can write policies specifying which permissions an app must or must not have by its app store categorization.
 For example, it would be okay allowing a photography app access to the camera, but not to allow access to location data if the user doesn't want their photos geotagged.
 
 \begin{lstlisting}
@@ -55,7 +53,7 @@ AppPAL is implemented as a library for Android and Java.
 The parser is implemented using ANTLR4.
 AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \autoref{fig:assertion}).
 
-\begin{figure*}
+\begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
   \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
   \centering
@@ -86,58 +84,7 @@ AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \a
   \end{minipage}
   \caption{Structure and simplified grammar of an AppPAL assertion.}
   \label{fig:assertion}
-\end{figure*}
-
-\section{Why SecPAL?}
-
-For modelling and writing policies we want to start from a policy
-language that supported several key features; namely:
-
-\begin{itemize}
-  \item Model decisions at separate locations.  Mobile ecosystems are
-    inherently distributed, and decisions made by one device may not be
-    the same as the decisions made by another device.  They may, however
-    wish to share information.  By opting for a distributed language we
-    can check the policies locally and make a decision based on that
-    user's information rather than by deferring to an all-seeing policy
-    enforcer.  This suits the problem better because individual devices
-    and stores have to make decisions on their own and may not have access
-    to all known information.
-
-  \item Calling external functions that can obtain extra information
-    about entities that may require special actions to fetch: for example
-    an explicit ``okay'' from the user, or some metadata about an app like
-    its version number.  If we don't allow the ability to fetch this
-    information on-the-fly then it will have to be requested before
-    checking the policy. 
-
-    We also want to be able to use static analysis tools as part of
-    our policies.  These tools can infer complex properties of apps, but
-    the low-level details they check for needn't be expressable in our
-    high level policies.  For example it is not necessary to encode how
-    data moves over intents in AppPAL policies, but it is necessary to be
-    able to say some app leaks information to another app.  A tool, such
-    as FlowDroid can check for this, and there is no need to replicate the
-    checking in AppPAL if we can simply call out to FlowDroid to give us a
-    decision.
-
-  \item Delegation.  We want to make a decision based on information from an
-    external source.  This suggest that a \emph{can-say} mechanism is required
-    that will allow us to express how trust is distributed.   Since the
-    relationship between app stores and devices is one where a user delegates
-    trust to the store and the device uses the external store to obtain the app
-    this would hint that being able to express delegation will allow us to write
-    more accurate policies.
-\end{itemize}
-
-Additionally we also wanted a language that was readable and easy to extend.
-In this regard SecPAL is an excellent choice.  Languages such as RT lacked the support for constraints.  Cassandra could not easily be distributed. 
-
-An alternative language could have been XACML.  XACML is a standardised policy language~\cite{oasis_extensible_2013} that can be extended to fit many scenarios.  It is an attribute based policy language, but can also role-based policies.  It has industrial support from \emph{Oracle}.
-
-We chose SecPAL as the basis for the AppPAL language in part because of its highly readable syntax.
-As well as being easy to read SecPAL has only three inference rules (\autoref{secpal:rules}) which makes it relatively easy to extend. 
-
+\end{figure}
 
 \begin{figure}
   \centering
@@ -170,6 +117,77 @@ As well as being easy to read SecPAL has only three inference rules (\autoref{se
   allowed level of delegation $D$ which may be $0$ or $\infty$.}
 \label{secpal:rules}
 \end{figure}
+
+
+\subsection{Why SecPAL?}
+
+For modelling and writing policies I want to start from a policy
+language that supported several key features; namely:
+
+\begin{itemize}
+  \item Model decisions at separate locations.  Mobile ecosystems are
+    inherently distributed, and decisions made by one device may not be
+    the same as the decisions made by another device.  They may, however
+    wish to share information.  By opting for a distributed language we
+    can check the policies locally and make a decision based on that
+    user's information rather than by deferring to an all-seeing policy
+    enforcer.  This suits the problem better because individual devices
+    and stores have to make decisions on their own and may not have access
+    to all known information.
+
+  \item Calling external functions that can obtain extra information
+    about entities that may require special actions to fetch: for example
+    an explicit ``okay'' from the user, or some metadata about an app like
+    its version number.  If I don't allow the ability to fetch this
+    information on-the-fly then it will have to be requested before
+    checking the policy. 
+
+    I also want to be able to use static analysis tools as part of
+    our policies.  These tools can infer complex properties of apps, but
+    the low-level details they check for needn't be expressable in our
+    high level policies.  For example it is not necessary to encode how
+    data moves over intents in AppPAL policies, but it is necessary to be
+    able to say some app leaks information to another app.  A tool, such
+    as FlowDroid can check for this, and there is no need to replicate the
+    checking in AppPAL if I can simply call out to FlowDroid to give us a
+    decision.
+
+  \item Delegation.  I want to make a decision based on information from an
+    external source.  This suggest that a \emph{can-say} mechanism is required
+    that will allow us to express how trust is distributed.   Since the
+    relationship between app stores and devices is one where a user delegates
+    trust to the store and the device uses the external store to obtain the app
+    this would hint that being able to express delegation will allow us to write
+    more accurate policies.
+\end{itemize}
+
+Additionally I also wanted a language that was readable and easy to extend.
+In this regard SecPAL is an excellent choice. 
+Languages such as RT lacked the support for constraints.  Cassandra could not easily be distributed. 
+
+One alternative language could have been XACML.  
+XACML is a standardised policy language~\cite{oasis_extensible_2013} that can be extended to fit many scenarios.  
+It is an attribute based policy language, but can also describe role-based policies; and has industrial support from \emph{Oracle}.
+XACML policies are expressed as sets of \emph{rules} that describe whether a specific action should be allowed or denied.
+When making a \emph{request} if a rule's target matches the request then the appropriate action should be taken.
+Rules are combined into policies and may contain many rules which can contradict each other if multiple ones match a given request.
+To handle contraditions between rules a \emph{combining algorithm} may be used to decide how to proceed.
+Typical algorithms include:
+\begin{description}
+  \item[Permit-overrides] where if a single rule gives a permit result then the request is permitted.
+  \item[Deny-overrides] where if a single rule gives a deny result then then the request is denied.
+  \item[First-applicable] where the rules are given an order of precedence and the first rule in the order that gives a result decides the outcome.
+  \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
+\end{description}
+
+XACML does not have a formal semantics, and is described using natural language documents~\cite{oasis_extensible_2013}. This has led to many papers where they attempt to retrofit a formal semantics onto XACML~\cite{masi_formalisation_2012}.  Ramli~\etal~use answer set programming as the basis for their translation for XACML 2.0~\cite{ramli_xacml_2012} and 3.0~\cite{ramli_logic_2014}.  They go on to use it to infer when XACML policies may be incomplete, contain conflicts on unreachable rules and policies~\cite{ramli_detecting_2015}. Other approaches have used CSP~\cite{bryans_reasoning_2005}.  In contrast SecPAL has a formal semantics and has been proven to be decidable~\cite{becker_secpal:_2010} which motivated the use of SecPAL over XACML.  Additionally whilst SecPAL was designed to support delegation relationships, XACML did not gain them until version 3.0~\cite{oasis_xacml_2010} which was not released when we did the initial survey.  Like the main specification, XACML's delegation semantics are poorly defined using natural language.
+
+Another alternative was the Ponder policy specification language~\cite{damianou_ponder_2001}.
+Like SecPAL, Ponder is designed for describing access control, authorization and delegation policies.
+It supports constraints and additionally to SecPAL supports obligation policies; where if a policy is satisfied a program can be forced to be run.  It has a clean syntax, though 
+I ultimately chose SecPAL as the basis for the AppPAL language over Ponder I felt it was more readable.
+SecPAL's relative minimism over Ponder (SecPAL has only three inference rules as shown in \autoref{secpal:rules}) makes it easier to extend.
+
 
 \section{Evaluation}
 
