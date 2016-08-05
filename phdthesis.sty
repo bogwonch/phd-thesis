@@ -1,6 +1,11 @@
 \ProvidesPackage{phdthesis}
 
 \usepackage{hanging}
+\usepackage[dvipsnames]{xcolor}
+
+% Formatting commands
+\newenvironment{todo}[0]{\begin{center}\Large\sffamily\slshape\color{BrickRed}}{\end{center}}
+\newcommand{\todotext}[1]{\begin{todo}#1\end{todo}}
 
 \usepackage{acronym}
 \acrodef{AV}{anti-virus}
@@ -31,10 +36,10 @@
 \usepackage{mathtools}
 \usepackage{multicol}
 \usepackage{listings}
-\lstset{
-  basicstyle=\ttfamily,
-  numberstyle=\sffamily\scriptsize
-} 
+\newcommand{\listingsize}[0]{\normalsize}
+\lstset{ basicstyle=\ttfamily\listingsize
+       , numberstyle=\sffamily\listingsize
+       } 
 \newcommand{\code}[1]{\lstinline{#1}}
 
 \usepackage{proof}

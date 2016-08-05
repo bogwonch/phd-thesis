@@ -2,15 +2,12 @@
 \begin{document}
 \chapter{AppPAL}
 
-% Why do I want AppPAL?
-
-
 \subsection{The Design and Implementation of AppPAL}
 
-AppPAL is an instantiation of Becker et al.’s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
+AppPAL is an instantiation of Becker et al.'s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
 The language allows us to reason about apps using statements from third parties. AppPAL allows us to enforce the policies on a device.
 I can express trust relationships amongst these parties and use constraints to do additional checks, such as using security checks.
-This lets us enforce more complex policies than existing tools such as Kirin qwhich are limited to permissions checks. 
+This lets us enforce more complex policies than existing tools such as Kirin which are limited to permissions checks. 
 Policies can be enforced by the stores selling the apps, on the devices installing apps or by third-parties providing app vetting services.
 
 Consider the following example:
