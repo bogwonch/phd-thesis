@@ -46,15 +46,14 @@ For example, it would be okay allowing a photography app access to the camera, b
     hasPermission(App, 'CAMERA') = true.
 \end{lstlisting}
 
-AppPAL is implemented as a library for Android and Java.
+AppPAL is implemented as a library for 
 The parser is implemented using ANTLR4.
-AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \autoref{fig:assertion}).
+AppPAL's basic syntax is inherited from SecPAL and (shown in \autoref{fig:assertion-grammar}).
 
 \begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
   \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
   \centering
-  \begin{minipage}{0.49\linewidth}
     \begin{equation*}\small
       \begin{array}{r l}\footnotesize
         \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
@@ -63,8 +62,11 @@ AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \a
         & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
       \end{array}
     \end{equation*}
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
+  \caption{Structure of an AppPAL assertion.}
+  \label{fig:assertion-structure}
+\end{figure}
+
+\begin{figure}
   \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
   \newcommand{\terminal}[1]{\textbf{#1}}
   \begin{tabular}{r c l}
@@ -77,10 +79,8 @@ AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \a
                             & $\vert$     & \nonterminal{E} \terminal{can-act-as} \nonterminal{E} \\
     \nonterminal{E}         & $\coloneqq$ & \terminal{Variable} $\vert$ \terminal{`constant'}
   \end{tabular}
-  \vspace{2em}
-  \end{minipage}
-  \caption{Structure and simplified grammar of an AppPAL assertion.}
-  \label{fig:assertion}
+  \caption{Grammar of an AppPAL assertion.}
+  \label{fig:assertion-grammar}
 \end{figure}
 
 \begin{figure}
@@ -177,7 +177,19 @@ Typical algorithms include:
   \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
 \end{description}
 
-XACML does not have a formal semantics, and is described using natural language documents~\cite{oasis_extensible_2013}. This has led to many papers where they attempt to retrofit a formal semantics onto XACML~\cite{masi_formalisation_2012}.  Ramli~\etal~use answer set programming as the basis for their translation for XACML 2.0~\cite{ramli_xacml_2012} and 3.0~\cite{ramli_logic_2014}.  They go on to use it to infer when XACML policies may be incomplete, contain conflicts on unreachable rules and policies~\cite{ramli_detecting_2015}. Other approaches have used CSP~\cite{bryans_reasoning_2005}.  In contrast SecPAL has a formal semantics and has been proven to be decidable~\cite{becker_secpal:_2010} which motivated the use of SecPAL over XACML.  Additionally whilst SecPAL was designed to support delegation relationships, XACML did not gain them until version 3.0~\cite{oasis_xacml_2010} which was not released when we did the initial survey.  Like the main specification, XACML's delegation semantics are poorly defined using natural language.
+XACML does not have a formal semantics, and is described using natural language
+documents~\cite{oasis_extensible_2013}. This has led to many papers where they
+attempt to retrofit a formal semantics onto
+XACML~\cite{masi_formalisation_2012}.
+
+Ramli~\etal~use answer set programming as
+the basis for their translation for XACML 2.0~\cite{ramli_xacml_2012} and
+3.0~\cite{ramli_logic_2014}.  They go on to use it to infer when XACML policies
+may be incomplete, contain conflicts on unreachable rules and
+policies~\cite{ramli_detecting_2015}.
+
+Other approaches have used CSP~\cite{bryans_reasoning_2005}.  In contrast SecPAL has a formal semantics and has been proven to be decidable~\cite{becker_secpal:_2010} which motivated the use of SecPAL over XACML.  Additionally whilst SecPAL was designed to support delegation relationships, XACML did not gain them until version 3.0~\cite{oasis_xacml_2010} which was not released when we did the initial survey.  Like the main specification, XACML's delegation semantics are poorly defined using natural language.
+
 
 Another alternative was the Ponder policy specification language~\cite{damianou_ponder_2001}.
 Like SecPAL, Ponder is designed for describing access control, authorization and delegation policies.
