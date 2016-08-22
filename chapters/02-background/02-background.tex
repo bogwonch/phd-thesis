@@ -35,13 +35,13 @@ older devices to be upgraded independently of their manufacturers.
 \begin{figure*}[htbp]
 \centering
 \includegraphics[width=\linewidth]{chapters/02-background/figures/android-versions.eps}
-\caption[ Historical Android version's distribution. ]{Historical Android version's distribution. Figure by \emph{Erikrespo} taken from \url{https://en.wikipedia.org/wiki/Android_version_history}.}
+\caption[Historical Android version's distribution.]{Historical Android version's distribution. Figure by \emph{Erikrespo} taken from \url{https://en.wikipedia.org/wiki/Android_version_history}.}
 \end{figure*}
 
 When building an Android device the manufacturers are also able to make
 modifications to the Android firmware. This can be done to support any
 custom hardware their device may have, add any additional software or
-apps, or provide a custom look or theme to their device. Again this
+apps, or provide a custom look or theme to atheir device. Again this
 creates more variety in the ecosystem, with few guarantees that any two
 devices may contain similar features or hardware. In fact since the core
 of the Android is the Linux kernel (albeit without the Linux Standard
@@ -172,6 +172,102 @@ careful consideration of their advertising and terms and conditions.
   \caption{Summary of conditions in different stores.}
 \end{table*}
 
+\section{Authorization Logic}
+\label{sec:authorization-logic}
+
+
+\subsection{SecPAL}
+\begin{figure}
+  \newcommand{\bracetext}[1]{\text{\sffamily #1}}
+  \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
+  \centering
+  \begin{minipage}{0.49\linewidth}
+    \begin{equation*}\small
+      \begin{array}{r l}\footnotesize
+        \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
+        \smalltext{ says }\overbrace{\overbrace{\smalltext{ App }}^{\bracetext{subject}}\overbrace{\smalltext{ isRunnable}}^{\bracetext{predicate}}}^{\bracetext{fact}} \\
+        & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}} \\
+        & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
+      \end{array}
+    \end{equation*}
+  \end{minipage}
+  \begin{minipage}{0.49\linewidth}
+  \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
+  \newcommand{\terminal}[1]{\textbf{#1}}
+  \begin{tabular}{r c l}
+    \footnotesize
+    \nonterminal{Assertion} & $\coloneqq$ & \nonterminal{E} \terminal{says} \nonterminal{Fact} \\
+                            &             & \hspace{1em}(\terminal{if} (\nonterminal{Fact}\terminal{,})+)?\terminal{.} \\
+                            &             & \hspace{1em}(\terminal{where} \nonterminal{Constraint})? \\
+    \nonterminal{Fact}      & $\coloneqq$ & \nonterminal{E} (\terminal{isRunable} $\vert$ $\ldots$) \\
+                            & $\vert$     & \nonterminal{E} \terminal{can-say} \terminal{inf}? \nonterminal{Fact} \\
+                            & $\vert$     & \nonterminal{E} \terminal{can-act-as} \nonterminal{E} \\
+    \nonterminal{E}         & $\coloneqq$ & \terminal{Variable} $\vert$ \terminal{'constant'}
+  \end{tabular}
+  \vspace{2em}
+  \end{minipage}
+  \caption{Structure and simplified grammar of an AppPAL assertion.}
+  \label{fig:assertion}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{eqnarray*}
+    \infer[\textsf{\scriptsize cond}]{%
+      AC, D \models A\textsf{~says~}fact\theta
+    }{%
+      \begin{array}[c]{c}
+        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
+        \forall i \in [1\cdots k]. AC,D\models A\textsf{~says~}\textit{fact}_i\theta
+      \end{array}
+      & \models{c\theta}
+      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
+    }\\
+    \infer[\textsf{\scriptsize can say}]{%
+      AC, \infty \models A\textsf{~says~}\textit{fact}
+    }{%
+      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
+      & AC, D \models B\textsf{~says~}\textit{fact}
+    } \\
+    \infer[\textsf{\scriptsize can act as}]{%
+      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
+    }{%
+      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
+      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
+    }
+  \end{eqnarray*}
+  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
+  evaluated in the context of a set of other assertions $AC$ as well as an
+  allowed level of delegation $D$ which may be $0$ or $\infty$.}
+\label{secpal:rules}
+\end{figure}
+
+\section{Why SecPAL?}
+\todotext{This all needs rewriting and reorganising and is a mess.}
+
+Languages such as RT lacked the support for constraints.  Cassandra could not easily be distributed. 
+One alternative language could have been XACML.  
+XACML is a standardised policy language~\cite{oasis_extensible_2013} that can be extended to fit many scenarios.  
+It is an attribute based policy language, but can also describe role-based policies; and has industrial support from \emph{Oracle}.
+XACML policies are expressed as sets of \emph{rules} that describe whether a specific action should be allowed or denied.
+When making a \emph{request} if a rule's target matches the request then the appropriate action should be taken.
+Rules are combined into policies and may contain many rules which can contradict each other if multiple ones match a given request.
+To handle contraditions between rules a \emph{combining algorithm} may be used to decide how to proceed.
+Typical algorithms include:
+\begin{description}
+  \item[Permit-overrides] where if a single rule gives a permit result then the request is permitted.
+  \item[Deny-overrides] where if a single rule gives a deny result then then the request is denied.
+  \item[First-applicable] where the rules are given an order of precedence and the first rule in the order that gives a result decides the outcome.
+  \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
+\end{description}
+
+XACML does not have a formal semantics, and is described using natural language documents~\cite{oasis_extensible_2013}. This has led to many papers where they attempt to retrofit a formal semantics onto XACML~\cite{masi_formalisation_2012}.  Ramli~\etal~use answer set programming as the basis for their translation for XACML 2.0~\cite{ramli_xacml_2012} and 3.0~\cite{ramli_logic_2014}.  They go on to use it to infer when XACML policies may be incomplete, contain conflicts on unreachable rules and policies~\cite{ramli_detecting_2015}. Other approaches have used CSP~\cite{bryans_reasoning_2005}.  In contrast SecPAL has a formal semantics and has been proven to be decidable~\cite{becker_secpal:_2010} which motivated the use of SecPAL over XACML.  Additionally whilst SecPAL was designed to support delegation relationships, XACML did not gain them until version 3.0~\cite{oasis_xacml_2010} which was not released when we did the initial survey.  Like the main specification, XACML's delegation semantics are poorly defined using natural language.
+
+Another alternative was the Ponder policy specification language~\cite{damianou_ponder_2001}.
+Like SecPAL, Ponder is designed for describing access control, authorization and delegation policies.
+It supports constraints and additionally to SecPAL supports obligation policies; where if a policy is satisfied a program can be forced to be run.  It has a clean syntax, though 
+I ultimately chose SecPAL as the basis for the AppPAL language over Ponder I felt it was more readable.
+SecPAL's relative minimism over Ponder (SecPAL has only three inference rules as shown in \autoref{secpal:rules}) makes it easier to extend.
 
 
 \end{document}
