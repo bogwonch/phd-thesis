@@ -1,13 +1,28 @@
 LATEXMK:=latexmk
-LATEXMK_OPTS:=-pdf
+LATEXMK_OPTS:=-pdf -quiet
 
-all: thesis.pdf | tidy
+figures=$(patsubst %.eps,%.pdf,$(wildcard figures/*.eps))
+chapters=$(wildcard chapters/*.tex)
 
-%.pdf: %.tex
-	@${LATEXMK} ${LATEXMK_OPTS} ${<}
+
+all: figures thesis | tidy
+
+figures: ${figures}
+thesis: .thesis-timestamp
 
 clean: tidy
 	@${LATEXMK} -C
+	@rm .thesis-timestamp
 
 tidy:
+	@echo "[INFO] tidying up"
 	@${LATEXMK} -c
+
+.thesis-timestamp: thesis.tex phdthesis.sty ${figures} ${chapters}
+	@echo "[INFO] compiling"
+	@${LATEXMK} ${LATEXMK_OPTS} ${<}
+	touch "${@}"
+
+%.pdf: %.eps
+	@echo "[INFO] converting " "${<}" " to pdf"
+	@epstopdf "${<}" >"${@}"

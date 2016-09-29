@@ -1,47 +1,37 @@
-\documentclass[sfsidenotes]{tufte-book}
-%\documentclass{book}
+%\documentclass[sfsidenotes]{tufte-book}
+\documentclass[phd,lfcs]{infthesis}
 \usepackage{phdthesis}
 \usepackage{subfiles}
 
-\setcounter{tocdepth}{1}
-
-% Hack to make tufte-latex work with XeLaTeX
-\ifxetex
-   \newcommand{\textls}[2][5]{%
-     \begingroup\addfontfeatures{LetterSpace=#1}#2\endgroup
-   }
-   \renewcommand{\allcapsspacing}[1]{\textls[15]{#1}}
-   \renewcommand{\smallcapsspacing}[1]{\textls[10]{#1}}
-   \renewcommand{\allcaps}[1]{\textls[15]{\MakeTextUppercase{#1}}}
-   \renewcommand{\smallcaps}[1]{\smallcapsspacing{\scshape\MakeTextLowercase{#1}}}
-   \renewcommand{\textsc}[1]{\smallcapsspacing{\textsmallcaps{#1}}}
-  \setmainfont{PragmataPro}
-  \setsansfont{PragmataPro}[Scale=MatchUppercase]
-  \setmonofont{PragmataPro}[Scale=MatchUppercase]
-  \setmathfont{PragmataPro}[Scale=MatchUppercase]
-\fi
-
 \title{Authorization Logic For Mobile Ecosystems}
 \author{Joseph Hallett}
+\submityear{2017}
+\abstract{TODO}
 
 \begin{document}
-\frontmatter
-\maketitle
-\tableofcontents
-\listoffigures
-\listoftables
+\begin{preliminary}
+  \maketitle
+  \begin{acknowledgements}
+    TODO 
+  \end{acknowledgements}
+  \standarddeclaration
+  \dedication{TODO}
+  \tableofcontents
+  \listoffigures
+  \listoftables
+\end{preliminary}
 
-\mainmatter
-\subfile{chapters/01-introduction/01-introduction.tex}
-\subfile{chapters/02-background/02-background.tex}
-\subfile{chapters/03-apppal/03-apppal.tex}
-\subfile{chapters/04-stores-and-apps/04-stores-and-apps.tex}
-\subfile{chapters/05-corporate-policies/05-corporate-policies.tex}
-\subfile{chapters/06-related-work/06-related-work.tex}
-\subfile{chapters/07-future-work/07-future-work.tex}
+\subfile{chapters/01-introduction.tex}
+\subfile{chapters/02-background.tex}
+\subfile{chapters/03-apppal.tex}
+\subfile{chapters/04-apps-and-app-stores.tex}
+\subfile{chapters/05-reasoning-about-policies.tex}
+\subfile{chapters/06-conclusion.tex}
 
 \appendix
-\bibliographystyle{plainnat}
+%\bibliographystyle{plainnat}
+\singlespace
+\bibliographystyle{plain}
 \bibliography{thesis}
 
 \end{document}
