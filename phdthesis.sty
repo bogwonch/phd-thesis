@@ -1,22 +1,27 @@
 \ProvidesPackage{phdthesis}
 
-\usepackage{hanging}
-\usepackage[dvipsnames]{xcolor}
+% Use a package if it hasn't already been loaded
+\newcommand{\includepackage}[2][]{\@ifpackageloaded{#2}{}{\usepackage[#1]{#2}}}
+
+\includepackage{hanging}
+\includepackage[dvipsnames]{xcolor}
+
+\newcommand{\new}[1]{{\color{BrickRed} #1}}
 
 % Formatting commands
 \newenvironment{todo}[0]{\begin{center}\Large\sffamily\slshape\color{BrickRed}}{\end{center}}
 \newcommand{\todotext}[1]{\begin{todo}#1\end{todo}}
 
-\usepackage{acronym}
+\includepackage{acronym}
 \acrodef{AV}{anti-virus}
 \acrodef{IAP}{in-app-purchase}
 \acrodef{TEE}{trusted execution environment}
 \acrodef{PUP}{potentially unwanted program}
 
-\usepackage{graphicx}
-\usepackage[update,prepend]{epstopdf}
+\includepackage{graphicx}
+\includepackage[update,prepend]{epstopdf}
 
-\usepackage{hyperref}
+\includepackage{hyperref}
 \renewcommand*{\equationautorefname}{Equation}
 \renewcommand*{\footnoteautorefname}{footnote}
 \renewcommand*{\itemautorefname}{item}
@@ -34,21 +39,16 @@
 \renewcommand*{\theoremautorefname}{Theorem}
 \renewcommand*{\pageautorefname}{page}
 
-\usepackage{mathtools}
-\usepackage{multicol}
-\usepackage{listings}
-\newcommand{\listingsize}[0]{\normalsize}
-\lstset{ basicstyle=\ttfamily\listingsize
-       , numberstyle=\sffamily\listingsize
-       } 
-\newcommand{\code}[1]{\lstinline{#1}}
+\includepackage{mathtools}
+\includepackage{multicol}
 
-\usepackage{proof}
-\usepackage{booktabs}
-\usepackage{tabulary}
-\usepackage{pifont}
-\usepackage{subfig}
+\includepackage{proof}
+\includepackage{booktabs}
+\includepackage{tabulary}
+\includepackage{pifont}
+\includepackage{subfig}
 \newcommand{\xmark}{\ding{55}}
+\newcommand{\cmark}{\ding{51}}%
 
 \newcommand{\etal}[0]{et~al{.}\@}
 
@@ -62,4 +62,58 @@
 \renewenvironment{table*}{\begin{table}\centering}{\end{table}}
 \newenvironment{margintable}{\begin{table}\centering}{\end{table}}
 
+
+% Nicer typography
+%\includepackage{microtype}
+
+% Saner lists
+\includepackage{enumerate}
+
+% Rotate stuff
+\includepackage{rotating}
+
+% Gantt charts
+%\includepackage{pgfgantt}
+
+% Import files from a directory (useful for figures)
+%\includepackage{import}
+
+% Source code listings
+\includepackage{listings}
+\lstdefinelanguage{AppPAL}{%
+  morekeywords={if,inf,says,where,true,false,with,is},
+  otherkeywords={can-act-as,can-say},
+  sensitive=true,
+  morestring=[b]',
+  literate={\ inf\ }{{$\infty$}}5
+}[keywords,strings]
+\lstset{%
+  basicstyle=\ttfamily,
+  keywordstyle=\ttfamily\slshape,
+  stringstyle=\sffamily,
+  columns=flexible,
+  mathescape,
+  tabsize=2,
+  showstringspaces=true,
+  %numbers=left,
+  breaklines=true,
+  numberstyle=\tiny\ttfamily\color{Gray},
+  commentstyle=\ttfamily\color{Gray}
+}
+\newcommand{\code}[2][]{\lstinline[breaklines=true, #1]{#2}}
+% Autoref line numebers
+\providecommand*{\lstnumberautorefname}{line}
+% SecPAL
+\lstdefinelanguage{apppal}{%
+  morekeywords={says,if,where,False,True},%
+  otherkeywords={=,0,inf,can-say,can-act-as},%
+  morestring=[b]"%
+}[keywords,comments,strings]
+\lstset{language=apppal}
+
+% Hyperlinks
+\includepackage{hyperref}
+
+% PDF including
+%\includepackage{pdfpages}
 

@@ -140,3 +140,6 @@ sympy-plots-for-*.tex/
 # Emacs
 auto
 _*
+
+.thesis-timestamp
+thesis.pdf
