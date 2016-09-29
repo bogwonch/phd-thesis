@@ -96,6 +96,7 @@ becomes:
   \caption{Changes to SecPAL's variable syntax.  Additions are shown in \new{red}.}
   \label{fig:apppal-types}
 \end{figure}
+
 The changes to SecPAL's syntax is shown is \autoref{fig:apppal-types}.
 After an assertion has been parsed the variables with types are extracted for
 each variable a conditional is added that \texttt{VariableName \emph{is}Type},
@@ -117,27 +118,33 @@ def expand_types(a: Assertion) -> Assertion:
 \end{lstlisting}
 
 
-% \begin{table}
-%   \newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#2}\emph{#3}}}
-%   \begin{tabular}{l l}
-%     \toprule
-%     Prefix & Meaning \\
-%     \descPred{can}{Action} &  The subject is allowed to perform the action. \\
-%     \descPred{has}{Action}  &The subject has performed the action. \\
-%     \desc{Pred}{is}{Property} & The property holds true for the subject. \\
-%     \desc{Pred}{must}{Obligation} & The subject is required to satisfy the obligation. \\
-%     \midrule
-%     \descPred
-%     \bottomrule
-%     \midrule
-%   \end{tabular}
-%   \caption{Standard prefixes used for AppPAL predicates.
-%   \label{tab:predicate-prefixes}
-% \end{table}
+The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies. 
+By translating different policies into AppPAL four different kinds of decision were used~(\autoref{tab:predicate-prefixes}).
 
-The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies.
+\newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#2}\emph{#3}}}
+\begin{table}
+  \begin{tabular}{l l}
+    \toprule
+    Prefix                        & Meaning                                            \\
+    \midrule
+    \descPred{can}{Action}        & The subject is allowed to perform the action.      \\
+    \descPred{has}{Action}        & The subject has performed the action.              \\
+    \desc{Pred}{is}{Property}     & The property holds true for the subject.           \\
+    \desc{Pred}{must}{Obligation} & The subject is required to satisfy the obligation. \\
+    \bottomrule
+    \midrule
+  \end{tabular}
+  \caption{Standard prefixes used for AppPAL predicates.
+  \label{tab:predicate-prefixes}
+\end{table}
 
 
+An \emph{is} predicate is used as described earlier, to restrict variables to a given type.
+An \emph{can} predicate is used to describe permisible actions.  
+For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can access.
+A user might have a privacy preference describing what parts of their personal data an app can share.
+App stores have procedures to go through before a developer can submit an app. \todo{CITE}
+When we need to describe the conditions for an action going ahead we use the can statement.
 
 \begin{description}
 \item[\bfseries\texttt{subject \emph{is}Type}]
