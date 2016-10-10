@@ -12,7 +12,7 @@ thesis: .thesis-timestamp
 
 clean: tidy
 	@${LATEXMK} -C
-	@rm .thesis-timestamp
+	@rm -f .thesis-timestamp
 
 tidy:
 	@echo "[INFO] tidying up"

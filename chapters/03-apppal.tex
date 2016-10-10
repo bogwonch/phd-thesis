@@ -121,20 +121,20 @@ def expand_types(a: Assertion) -> Assertion:
 The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies. 
 By translating different policies into AppPAL four different kinds of decision were used~(\autoref{tab:predicate-prefixes}).
 
-\newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#2}\emph{#3}}}
+\newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#1}\emph{#2}}}
 \begin{table}
   \begin{tabular}{l l}
     \toprule
-    Prefix                        & Meaning                                            \\
+    Prefix                      & Meaning                                            \\
     \midrule
-    \descPred{can}{Action}        & The subject is allowed to perform the action.      \\
-    \descPred{has}{Action}        & The subject has performed the action.              \\
-    \desc{Pred}{is}{Property}     & The property holds true for the subject.           \\
-    \desc{Pred}{must}{Obligation} & The subject is required to satisfy the obligation. \\
+    \descPred{can}{Action}      & The subject is allowed to perform the action.      \\
+    \descPred{has}{Action}      & The subject has performed the action.              \\
+    \descPred{is}{Property}     & The property holds true for the subject.           \\
+    \descPred{must}{Obligation} & The subject is required to satisfy the obligation. \\
     \bottomrule
     \midrule
   \end{tabular}
-  \caption{Standard prefixes used for AppPAL predicates.
+  \caption{Standard prefixes used for AppPAL predicates.}
   \label{tab:predicate-prefixes}
 \end{table}
 
@@ -233,110 +233,3 @@ AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \a
 %%% mode: latex
 %%% TeX-master: "../../thesis"
 %%% End:
-
-% \section{TODO: Insert}
-% 
-% Consider the following example:
-%   a user, Alice, may have rules she has to follow when using apps for work and her own policies when using apps at home in her private life.
-% Using AppPAL I can write policies for work and home, and decide which policy to enforce using a user's location, or the time of day:
-% 
-% \begin{lstlisting}
-% 'alice' says App isRunnable
-%   if 'home-policy' isMetBy(App)
-%   where at('work') = false.
-% \end{lstlisting}
-% \begin{lstlisting}
-% 'alice' says App isRunnable
-%   if 'work-policy' isMetBy(App)
-%   where beforeHourOfDay('17') = true.
-% \end{lstlisting}
-% 
-% I can delegate policy specification to third parties or roles, and assign principals to roles:
-% 
-% \begin{lstlisting}
-% 'alice' says 'it-department' can-say 'work-policy' isMetBy(App).
-% 'alice' says 'alice' can-act-as 'it-department'.
-% \end{lstlisting}
-% 
-% I can write policies specifying which permissions an app must or must not have by its app store categorization.
-% For example, it would be okay allowing a photography app access to the camera, but not to allow access to location data if the user doesn't want their photos geotagged.
-% 
-% \begin{lstlisting}
-% 'alice' says App isRunnable
-%   if 'permissions-policy' isMetBy(App).
-% 'alice' says 'permissions-policy' isMetBy(App)
-%   if App isAnApp
-%   where
-%     category(App, 'Photography'),
-%     hasPermission(App, 'LOCATION') = false,
-%     hasPermission(App, 'CAMERA') = true.
-% \end{lstlisting}
-% 
-% AppPAL is implemented as a library for 
-% The parser is implemented using ANTLR4.
-% AppPAL's basic syntax is inherited from SecPAL and (shown in \autoref{fig:assertion-grammar}).
-% 
-% \begin{figure}
-%   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
-%   \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
-%   \centering
-%     \begin{equation*}\small
-%       \begin{array}{r l}\footnotesize
-%         \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
-%         \smalltext{ says }\overbrace{\overbrace{\smalltext{ App }}^{\bracetext{subject}}\overbrace{\smalltext{ isRunnable}}^{\bracetext{predicate}}}^{\bracetext{fact}} \\
-%         & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}} \\
-%         & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
-%       \end{array}
-%     \end{equation*}
-%   \caption{Structure of an AppPAL assertion.}
-%   \label{fig:assertion-structure}
-% \end{figure}
-% 
-% \begin{figure}
-%   \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
-%   \newcommand{\terminal}[1]{\textbf{#1}}
-%   \begin{tabular}{r c l}
-%     \footnotesize
-%     \nonterminal{Assertion} & $\coloneqq$ & \nonterminal{E} \terminal{says} \nonterminal{Fact} \\
-%                             &             & \hspace{1em}(\terminal{if} (\nonterminal{Fact}\terminal{,})+)?\terminal{.} \\
-%                             &             & \hspace{1em}(\terminal{where} \nonterminal{Constraint})? \\
-%     \nonterminal{Fact}      & $\coloneqq$ & \nonterminal{E} (\terminal{isRunable} $\vert$ $\ldots$) \\
-%                             & $\vert$     & \nonterminal{E} \terminal{can-say} \terminal{inf}? \nonterminal{Fact} \\
-%                             & $\vert$     & \nonterminal{E} \terminal{can-act-as} \nonterminal{E} \\
-%     \nonterminal{E}         & $\coloneqq$ & \terminal{Variable} $\vert$ \terminal{`constant'}
-%   \end{tabular}
-%   \caption{Grammar of an AppPAL assertion.}
-%   \label{fig:assertion-grammar}
-% \end{figure}
-% 
-% \begin{figure}
-%   \centering
-%   \begin{eqnarray*}
-%     \infer[\textsf{\scriptsize cond}]{%
-%       AC, D \models A\textsf{~says~}fact\theta
-%     }{%
-%       \begin{array}[c]{c}
-%         \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
-%         \forall i \in [1\cdots k]. AC,D\models A\textsf{~says~}\textit{fact}_i\theta
-%       \end{array}
-%       & \models{c\theta}
-%       & \textsf{vars}(\textit{fact}\theta) = \emptyset)
-%     }\\
-%     \infer[\textsf{\scriptsize can say}]{%
-%       AC, \infty \models A\textsf{~says~}\textit{fact}
-%     }{%
-%       AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
-%       & AC, D \models B\textsf{~says~}\textit{fact}
-%     } \\
-%     \infer[\textsf{\scriptsize can act as}]{%
-%       AC, D \models A\textsf{~says~}B~\textit{verbphrase}
-%     }{%
-%       AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
-%       & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
-%     }
-%   \end{eqnarray*}
-%   \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
-%   evaluated in the context of a set of other assertions $AC$ as well as an
-%   allowed level of delegation $D$ which may be $0$ or $\infty$.}
-% \label{secpal:rules}
-% \end{figure}
