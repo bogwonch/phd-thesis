@@ -53,12 +53,29 @@ language that supported several key features; namely:
 \end{itemize}
 
 Additionally I also wanted a language that was readable and easy to extend.
-SecPAL was chosen as it met our requirements.
+SecPAL was chosen as it met my requirements.
+\todo{MORE! How did it meet my requirements? Why SecPAL over XACML/PolicyMaker/DKAL, for example}
 
 \section{Instantiating SecPAL for mobile ecosystems}
 \label{sec:instantiating}
 
-\subsection{Changes from SecPAL}
+SecPAL was designed as a generic, distributed, access control language.
+To apply it to a specific domain it is necessary to instantiate the language with the necessary predicates, constraints and entities relevant to the area it will be used in.
+Humphrey~\etal instantiated SecPAL with predicates for the GridFTP protocol to create a Grid access control policy language~\cite{humphrey_fine-grained_2007}.
+Aziz~\etal created SecPAL4DSA by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
+Becker~\etal added predicates for describing \ac{PII}-handling preferences and created SecPAL4P~\cite{becker_framework_????}.
+AppPAL continues in this tradition by instantiating SecPAL with predicates and constraints for mobile ecosystems, and describing app preferences.
+The name emphasises this: SecPAL is a \emph{security policy authorization language}, AppPAL is an \emph{app policy authorization language}.
+
+%\subsection{Changes from SecPAL}
+AppPAL differs from SecPAL in three areas:
+\begin{itemize}
+  \item AppPAL predicates are given specific meaning based on their names.  
+     A sugared notation is also added to aid readability, based on these conventions (\autoref{ssec:types}).
+  \item AppPAL is instantiated with predicates and constraints for describing policies about apps, as well as constraints specific to Android for which AppPAL is implemented (\autoref{ssec:instantiating}).
+  \item In Becker's SecPAL paper he describes an evaluation by first translating SecPAL into Datalog$^C$.
+	AppPAL is evaluated by an implementation based on SecPAL's inference rules directly, however (\autoref{ssec:evaluation-alg}). \todo{WHY DID I DO THIS? (which isn't that the alg Becker describes isn't complete, and Datalog$^C$ implementations dont actually exist.}
+\end{itemize}
 
 \subsection{Typed AppPAL and Predicate Conventions}
 \label{ssec:types}
@@ -117,7 +134,6 @@ def expand_types(a: Assertion) -> Assertion:
   return a
 \end{lstlisting}
 
-
 The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies. 
 By translating different policies into AppPAL four different kinds of decision were used~(\autoref{tab:predicate-prefixes}).
 
@@ -132,12 +148,10 @@ By translating different policies into AppPAL four different kinds of decision w
     \descPred{is}{Property}     & The property holds true for the subject.           \\
     \descPred{must}{Obligation} & The subject is required to satisfy the obligation. \\
     \bottomrule
-    \midrule
   \end{tabular}
   \caption{Standard prefixes used for AppPAL predicates.}
   \label{tab:predicate-prefixes}
 \end{table}
-
 
 An \emph{is} predicate is used as described earlier, to restrict variables to a given type.
 An \emph{can} predicate is used to describe permisible actions.  
@@ -178,6 +192,107 @@ When we need to describe the conditions for an action going ahead we use the can
   \end{lstlisting}
 \end{description}
 
+This differs slightly from the approach taken with the SecPAL4P and SecPAL4DSA~\cite{becker_framework_????,aziz_secpal4dsa:_2011} instantiations.
+Both these languages add additional special phrases to SecPAL's grammar.
+For example SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether a behavior could or will be carried out.
+If Alice, a policy author, wished to use SecPAL4P to say that someone can forget her email address she could write:\footnote{%
+  Example taken from~\cite{becker_framework_????}.  SecPAL4P also has relaxed safety rules, that permit the variables $x$ and $t$ to be in the head of the rule, but not the body.}
+\begin{lstlisting}
+Alice says x may delete Email within t
+\end{lstlisting}
+An analogous AppPAL rule would be:
+\begin{lstlisting}
+'alice' says User:X canDeleteWithin('email', Time:t)
+  where currentTime() < t.
+\end{lstlisting}
+The AppPAL is arguably slightly less readable, but more explicit than the SecPAL4DSA.
+Because AppPAL has less special cases the syntax is simpler also.
+
+\subsection{Instantiating for mobile ecosystems}
+\label{ssec:instantiating}
+
+\subsection{Evaluation}
+\label{ssec:evaluation-alg}
+
+To implement AppPAL I chose to implement the inference rules directly rather than rely on a translation to Datalog$^C$.
+This avoids the need to rely on a Datalog$^C$ implementation, which are not readily available.
+It also means the implementation can be optimized for AppPAL's specific evaluation rules.
+
+Given an \ac{AC}, a policy file containing AppPAL facts and rules, we extract three sets of constant.
+If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.  
+If the constant is used immediately after the \emph{says} or as the subject of a fact then it is marked as a \emph{subject}.
+We also make use of a results table to store partial results and previously established proofs.
+The table is indexed by queries and a delegation depth, partial results (i.e. that a query is being evaluated).
+This allows previous results to reused without recomputation or constraint re-evaluation, and when evaluation has entered a loop.
+All ground facts in the assertion context are automatically added to the results table.
+This results table is shared between evaluations of an \ac{AC}.
+Finally we take a list of all the predicates used in the \ac{AC}.
+If we have a statement that allows us to make a statement about an assertion then we mark it as \emph{derviable}.
+
+\begin{table}
+  \centering
+  \newcommand{\myset}[1]{\ensuremath{\text{\sffamily #1}}}
+  \begin{tabular}{r l c}
+    \toprule
+    $c \in \myset{Voiced} \impliedby$     & $\exists \left(c \text{~says~} \cdots\right) \in \text{AC}$                        & $\bigvee$ \\
+                                          & $\exists \left(\star \text{~says~} c \text{~can-say~} \cdots\right) \in \text{AC}$ &           \\
+    $c \in \myset{Subjects} \impliedby$   & $\exists \left(\star \text{~says~} c\cdots\right) \in \text{AC}$                   & $\bigvee$ \\
+                                          & $\exists \left(\cdots \text{~if~} \cdots,c~\star,\cdots\right) \in \text{AC},$     &           \\
+                                          & $c \in \myset{Constants}$                                                          &           \\
+    $p \in \myset{Derivable} \impliedby$  & $\exists \left( \cdots \star~p\left(\cdots\right) \cdots\right) \in \text{AC}$     &           \\
+    \bottomrule                          \\
+  \end{tabular}
+  \caption{Sets used in AppPAL evaluation.}
+\end{table}
+
+
+\todo{this is taken from the AppPAL for Android paper, but I don't like it.  Redo more abstractly.}
+\begin{lstlisting}[language=Python, float, caption={Pseudocode for evaluating AppPAL.}]
+def evaluate(ac, rt, q, d):
+  return rt[q, d] if rt.contains((q, d))
+  p = cond(ac, rt, q, d)
+  result = None
+  if p.isValid():
+    rt[q, d] = p 
+    result = Proven
+  else:
+    p = canSay_CanActAs(ac, rt, q, d)
+    if p.isValid():
+      rt[q, d] = p 
+      result = Proven
+    else:
+      rt[q, d] = Failure
+      result = Failure
+  return (result, rt)
+
+def cond(ac, rt, q, d):
+  ac.add(q.fetch()) if q.isFetchable()
+  for a in ac.assertion():
+    u = q.unify(a.consequent)
+    if u.isValid:
+      a = u.apply(a)
+      if (a.variables() == None):
+        return checkConditions(ac, rt, a, d)
+  return Failure
+
+def canSay_canActAs(ac, rt, q, d):
+  for c in ac.constants():
+    if ac.subject(c):
+      p = canActAs(ac, rt, q, d)
+      return Proven if p.isValid()
+    elif ac.speaker(c):
+      p = canSay(ac, rt, q, d)
+      return Proven if p.isValid
+  return Failure
+
+def checkConditions(ac, rt, a, d):
+  for s in getVarSubs(a, ac.constants()):
+    sa = s.apply(a)
+    if sa.body().all(lambda a: evaluate(ac, rt, a, d).isValid()):
+      p = evaluateConstraint(sa.constraint())
+      return Proven is p.isValid()
+  return Failure
+\end{lstlisting}
 
 \section{Examples of AppPAL}
 
@@ -190,8 +305,7 @@ which policy to enforce using a user's location, or the time of day:
 'alice' says App isRunnable
   if 'home-policy' isMetBy(App)
   where at('work') = false.
-\end{lstlisting}
-\begin{lstlisting}
+
 'alice' says App isRunnable
   if 'work-policy' isMetBy(App)
   where beforeHourOfDay('17') = true.
