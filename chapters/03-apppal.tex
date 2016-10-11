@@ -338,8 +338,57 @@ if the user doesn't want their photos geotagged.
 
 AppPAL is implemented as a library for Android and Java.
 The parser is implemented using ANTLR4.
-AppPAL's syntax is inherited from SecPAL~\cite{becker_secpal:_2010} (shown in \autoref{fig:assertion}).
 
+\subsection{Benchmarks}
+\label{ssec:benchmarks}
+
+If AppPAL were to run on a mobile phone, apps should be checked as they are installed.
+Since policy checks may involve inspecting many rules and constraints one may ask whether the checking will be acceptably fast.
+Downloading and installing an app takes about 30 seconds on a typical Android phone over wifi.
+If checking a policy delays this even further a user may become annoyed and disable AppPAL.
+
+To give a measure the performance of AppPAL a synthetic benchmark was developed.
+The policy checking procedure is at its slowest when having to delegate repeatedly;
+the depth of the delegation tree is the biggest factor for slowing the search.
+Synthetic benchmarks were created to check that the checking procedure performed acceptably.
+Each benchmark consisted of a chain of delegations.
+The \emph{1 to 1} benchmark consists of a repeated delegation between all the principals.
+In the \emph{1 to 2} benchmark each principal delegated to 2 others and in the \emph{1 to 3} benchmark each principal delegated to 3 others.
+These benchmarks are reasonable as they model the slowest kinds of policies to
+evaluate---though worse ones could be designed by delegating even more or triggering an expensive constraint check.o
+
+For each benchmark we controlled the number of principals in the policy file:
+as the number of principals increased so did the size of the policy.
+The results are shown in \autoref{tab:benchmarks}.
+Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
+I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligable, even on a power constrained device such as a mobile phone.
+
+\begin{table}
+  \centering\sffamily
+    \begin{tabular}{c c r@{.}l}
+      \toprule
+      Delegations & Principals & \multicolumn{2}{c}{Time (s)} \\
+      \midrule
+      1 to 1 & 10   &  0&01 \\
+      1 to 1 & 100  &  1&00 \\
+      1 to 1 & 500  & 20&90 \\
+      1 to 1 & 1000 & 88&73 \\
+      \midrule
+      1 to 2 & 10   &  0&01 \\
+      1 to 2 & 100  &  0&43 \\
+      1 to 2 & 500  &  7&36 \\
+      1 to 2 & 1000 & 27&47 \\
+      \midrule
+      1 to 3 & 10   &  0&01 \\
+      1 to 3 & 100  &  0&24 \\
+      1 to 3 & 500  &  3&99 \\
+      1 to 3 & 1000 & 15&28 \\
+      \bottomrule
+    \end{tabular}
+    \includegraphics[width=0.70\linewidth]{figures/benchmarks.pdf}
+  \caption{Benchmarking results on a Nexus 4 Android phone.}
+  \label{tab:benchmarks}
+\end{table}
 
 \end{document}
 
