@@ -4,7 +4,6 @@ LATEXMK_OPTS:=-pdf -quiet
 figures=$(patsubst %.eps,%.pdf,$(wildcard figures/*.eps))
 chapters=$(wildcard chapters/*.tex)
 
-
 all: figures thesis | tidy
 
 figures: ${figures}
@@ -26,3 +25,6 @@ tidy:
 %.pdf: %.eps
 	@echo "[INFO] converting " "${<}" " to pdf"
 	@epstopdf "${<}" >"${@}"
+
+%.pdf: %.tex ${figures} ${chapters} | tidy
+	@${LATEXMK} ${LATEXMK_OPTS} ${<}
