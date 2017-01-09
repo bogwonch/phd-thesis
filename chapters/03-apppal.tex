@@ -6,7 +6,7 @@
 % AppPAL is an instantiation of Becker et al.'s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
 % The language allows us to reason about apps using statements from third parties. AppPAL allows us to enforce the policies on a device.
 % I can express trust relationships amongst these parties and use constraints to do additional checks, such as using security checks.
-% This lets us enforce more complex policies than existing tools such as Kirin which are limited to permissions checks. 
+% This lets us enforce more complex policies than existing tools such as Kirin which are limited to permissions checks.
 % Policies can be enforced by the stores selling the apps, on the devices installing apps or by third-parties providing app vetting services.
 
 Mobile ecosystems contain a large number of entities interacting.
@@ -22,27 +22,66 @@ We can also use the formal policy to automate the policy enforcement process, if
 SecPAL is an authorization language designed by Becker et al{.} to make access control decisions in distributed systems~\cite{becker_secpal:_2009}.
 In particular it was designed to be expressive, clear, intuitive, decidable and extensible.
 The extensibility of SecPAL is especially important to us as we can apply the language to a new domain by instantiating it with predicates and constraints appropriate there.
+F
 
-\begin{figure}
-	\begin{grammar}
-		<e> ::= `Variable' \alt `"constant"'
+\newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
+\newcommand{\secpal}[1]{\texttt{#1}}
+\begin{figure}\footnotesize
+  \begin{tabular}{r r l c}
+    e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
+               & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
+    pred       & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
+    D          & $\Coloneqq$ & 0                                                & \bnfcomment{no delegation}     \\
+               & $\vert$     & $\infty$                                         & \bnfcomment{delegation}        \\
+    vp         & $\Coloneqq$ & pred e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
+               & $\vert$     & \secpal{can-say}$_D$ fact                       \\
+               & $\vert$     & \secpal{can-act-as}  e                          \\
+    f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
+    claim      & $\Coloneqq$ & f \secpal{if} f$_1$,\dots, f$_n$; c             \\
+    assert     & $\Coloneqq$ & e \secpal{says} claim.                          \\
+    AC         & $\Coloneqq$ & assert$_1$ \dots assert$_n$                      & \bnfcomment{assertion context} \\
+    c          & $\Coloneqq$ & $\top$                                           & \bnfcomment{no constraint}     \\
+               & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
+               & $\vert$     & \dots                                           \\
+    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
 
-		<D> ::= `0' \alt `inf'
-		
-		<verb> ::= <predicate>(<e$_1$> ... <e$_n$>)?
-		\alt `can-say' <D>? <fact>
-		\alt `can-act-as' <e>
 
-		<fact> ::= <e> <verb>
-
-		<claim> ::= <fact> `if' <fact$_1$> ... <fact$_n$> `where' <c>
-
-		<assertion> ::= <e> `says' <claim>
-
-		<AC> ::= <assertion$_1$> ... <assertion$_n$>
-	\end{grammar}
+  \end{tabular}
+  \caption{BNF description of SecPAL.}
+\label{fig:secpal-grammar}
 \end{figure}
 
+\begin{figure}
+  \centering
+  \begin{eqnarray*}
+    \infer[\textsf{\scriptsize cond}]{%
+      AC, D \models A\textsf{~says~}fact\theta
+    }{%
+      \begin{array}[c]{c}
+        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
+        AC,D\models A\textsf{~says~}\textit{fact}_i\theta \; \forall i \in \{1\cdots k\}
+      \end{array}
+      & \models{c\theta}
+      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
+    }\\
+    \infer[\textsf{\scriptsize can say}]{%
+      AC, \infty \models A\textsf{~says~}\textit{fact}
+    }{%
+      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
+      & AC, D \models B\textsf{~says~}\textit{fact}
+    } \\
+    \infer[\textsf{\scriptsize can act as}]{%
+      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
+    }{%
+      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
+      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
+    }
+  \end{eqnarray*}
+  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
+  evaluated in the context of a set of other assertions $AC$ as well as an
+  allowed level of delegation $D$ which may be $0$ or $\infty$.}
+\label{fig:secpal-rules}
+\end{figure}
 
 \section{Why SecPAL?}
 \label{sec:why-apppal}
@@ -66,7 +105,7 @@ language that supported several key features; namely:
     an explicit ``okay'' from the user, or some metadata about an app like
     its version number.  If I don't allow the ability to fetch this
     information on-the-fly then it will have to be requested before
-    checking the policy. 
+    checking the policy.
 
     I also want to be able to use static analysis tools as part of
     our policies.  These tools can infer complex properties of apps, but
@@ -80,7 +119,7 @@ language that supported several key features; namely:
 
   \item Delegation.  I want to make a decision based on information from an
     external source.  This suggest that a \emph{can-say} mechanism is required
-		b
+    b
     that will allow us to express how trust is distributed.   Since the
     relationship between app stores and devices is one where a user delegates
     trust to the store and the device uses the external store to obtain the app
@@ -95,73 +134,45 @@ SecPAL was chosen as it met my requirements.
 \section{Instantiating SecPAL for mobile ecosystems}
 \label{sec:instantiating}
 
-SecPAL was designed as a generic, distributed, access control language.
-To apply it to a specific domain it is necessary to instantiate the language with the necessary predicates, constraints and entities relevant to the area it will be used in.
+SecPAL is a generic language.
+In SecPAL's grammar~(\autoref{fig:secpal-grammar}) predicates and constraint functions that describe the decisions and checks done in a particular domain.
+The choice of predicates and constraints defines the decisions an \emph{instantiation} of SecPAL can talk about.
+In past work SecPAL has been instantiated for many other domains.
 Humphrey~\etal instantiated SecPAL with predicates for the GridFTP protocol to create a Grid access control policy language~\cite{humphrey_fine-grained_2007}.
 Aziz~\etal created SecPAL4DSA by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
 Becker~\etal added predicates for describing \ac{PII}-handling preferences and created SecPAL4P~\cite{becker_framework_????}.
-AppPAL continues in this tradition by instantiating SecPAL with predicates and constraints for mobile ecosystems, and describing app preferences.
-The name emphasises this: SecPAL is a \emph{security policy authorization language}, AppPAL is an \emph{app policy authorization language}.
 
-%\subsection{Changes from SecPAL}
-AppPAL differs from SecPAL in three areas:
-\begin{itemize}
-  \item AppPAL predicates are given specific meaning based on their names.  
-     A sugared notation is also added to aid readability, based on these conventions (\autoref{ssec:types}).
-  \item AppPAL is instantiated with predicates and constraints for describing policies about apps, as well as constraints specific to Android for which AppPAL is implemented (\autoref{ssec:instantiating}).
-  \item In Becker's SecPAL paper he describes an evaluation by first translating SecPAL into Datalog$^C$.
-	AppPAL is evaluated by an implementation based on SecPAL's inference rules directly, however (\autoref{ssec:evaluation-alg}). \todo{WHY DID I DO THIS? (which isn't that the alg Becker describes isn't complete, and Datalog$^C$ implementations dont actually exist.}
-\end{itemize}
+To describe policies in mobile ecosystems I developed an instantiation of SecPAL called AppPAL~\cite{hallett_apppal_2016}.
+AppPAL was initially focussed on describing app installation policies, however it was later extended further to describe SP4BYOD---a framework for describing BYOD policies using SecPAL.
+To further explore these areas an implementation of SecPAL was created (that is described in \autoref{sec:implementation}).
 
-\subsection{Typed AppPAL and Predicate Conventions}
-\label{ssec:types}
-
-SecPAL's safety condition requires all variables in an assertion's head to be
-used in the body. When trying to describe policies a common pattern is to say a
-variable in an assertion belongs to a certain domain. For example, Alice might
-be willing to let her friends say what apps are suitable for her children. This
-could be expressed in SecPAL as follows:
-
+When writing a policy it is common to use conditions in facts that limit the scope of a variable.
+For example \emph{Alice} might declare that \emph{Bob} is responsible for saying which apps she can install.
+This can be written in SecPAL as follows:
 \begin{lstlisting}
-'alice' says Friend can-say App isSuitableFor(Child)
-  if Friend isFriend, App isApp, Child isChild.
+'alice' says 'bob' can-say App isInstallable
+  if App isApp.
 \end{lstlisting}
+When writing this we added a condition \lstinline{if App isApp}, that Bob can only talk about Apps as being installable.
+Generalising this pattern we use predicates starting with \emph{is} to give types to their subjects.
+If a policy rule contains a lot of variables, however these typing conditions can become very verbose. 
+To simplify the policy rules, AppPAL adds a sugared notation for typing statements by extending SecPAL's grammar for variables:
 
-The conditionals in this assertion add unnecessary noise to the assertion. We
-know from the names of the variable what set of constants might be used
-to instantiate it (Alice's \emph{friends}, \emph{apps} or \emph{children}). To
-avoid this noise I added a sugared syntax to AppPAL that allows variables to
-declare their \emph{type}. Using the sugared notation the above statement
-becomes:
-
-\begin{lstlisting}
-'alice' says Friend:F can-say App:A isSuitableFor(Child:C).
-\end{lstlisting}
-
-\begin{figure}
+{
   \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
   \newcommand{\terminal}[1]{\textbf{#1}}
   \begin{tabular}{r c l}
     \footnotesize
     \nonterminal{E}         & $\coloneqq$ & \nonterminal{Variable} $\vert$ \terminal{'constant'} \\
-    \nonterminal{Variable}  & $\coloneqq$ & \new{(\terminal{Type}\terminal{:})?}\terminal{VariableName}
-  \end{tabular}
-  \caption{Changes to SecPAL's variable syntax.  Additions are shown in \new{red}.}
-  \label{fig:apppal-types}
-\end{figure}
+		\nonterminal{Variable}  & $\coloneqq$ & \new{\terminal{Type}\terminal{:}\terminal{Var}} $\vert$ \terminal{Var}
+	\end{tabular}
+}
 
-The changes to SecPAL's syntax is shown is \autoref{fig:apppal-types}.
-After an assertion has been parsed the variables with types are extracted for
-each variable a conditional is added that \texttt{VariableName \emph{is}Type},
-and the types are removed from the variables.
+We add a semantic rule to expand the AppPAL types into SecPAL conditions described in \autoref{lst:type-expansion}.
+Simply, if a variable in the head of an assertion has a type, then it is removed and a condition that the variable is that type is added to the body of the assertion. 
+If a variable in the body of an assertion has a type then it is an error.
 
-This gives a cleaner policy language however it also means that the predicates
-used start to have some intrinsic meaning.  A predicate starting with
-\emph{is} describes some property of the predicate's subject.
-SecPAL did not require predicates follow any naming conventions, however with
-AppPAL we have started to give predicates meaning based on their name.
-
-\begin{lstlisting}[language=Python, float, caption={Procedure used to expand types from AppPAL into SecPAL.}]
+\begin{lstlisting}[language=Python, float, caption={Procedure used to expand types from AppPAL into SecPAL.}, label={lst:type-expansion}]
 def expand_types(a: Assertion) -> Assertion:
   for v in a.head.vars():
     if v.type != None:
@@ -170,7 +181,32 @@ def expand_types(a: Assertion) -> Assertion:
   return a
 \end{lstlisting}
 
-The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies. 
+Using this sugared notation, the earlier example becomes:
+\begin{lstlisting}
+'alice' says 'bob' can-say App:A isInstallable
+\end{lstlisting}
+
+For a more complex example consider the following example taken from a BYOD policy.
+\begin{lstlisting}
+'company' says Device:D canConnectToAP(AP:X) 
+	if X isOwnedByCompany.
+\end{lstlisting}
+The rule states that the company will only allow devices to connect to company owned access points.
+The syntactic sugar is expanded into following equivalent policy.
+\begin{lstlisting}
+'company' says Device canConnectToAP(X) 
+  if X isOwnedByCompany,
+	   Device isDevice,
+		 X isAP.
+\end{lstlisting}
+I feel the first is easier to read.
+It also avoids hiding the condition that the access point must be company owned amongst typing statements aiding readability.
+
+
+\subsection{Predicate Conventions}
+\label{ssec:types}
+
+The \emph{is} predicates give types to AppPAL variables, but there are other kinds of decisions that are useful to make when writing policies.
 By translating different policies into AppPAL four different kinds of decision were used~(\autoref{tab:predicate-prefixes}).
 
 \newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#1}\emph{#2}}}
@@ -190,7 +226,7 @@ By translating different policies into AppPAL four different kinds of decision w
 \end{table}
 
 An \emph{is} predicate is used as described earlier, to restrict variables to a given type.
-An \emph{can} predicate is used to describe permisible actions.  
+An \emph{can} predicate is used to describe permisible actions.
 For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can access.
 A user might have a privacy preference describing what parts of their personal data an app can share.
 App stores have procedures to go through before a developer can submit an app. \todo{CITE}
@@ -207,7 +243,7 @@ When we need to describe the conditions for an action going ahead we use the can
   \lstinline!App:A hasRequestedPermission(Permission:P)!, if a device requires
   its owner to grant a permission we might write
   \begin{lstlisting}
-'device' says User:U can-say 
+'device' says User:U can-say
   App:A hasBeenGranted(Permission:P)
   if 'device' isOwnedBy(U).
   \end{lstlisting}
@@ -257,7 +293,7 @@ This avoids the need to rely on a Datalog$^C$ implementation, which are not read
 It also means the implementation can be optimized for AppPAL's specific evaluation rules.
 
 Given an \ac{AC}, a policy file containing AppPAL facts and rules, we extract three sets of constant.
-If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.  
+If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.
 If the constant is used immediately after the \emph{says} or as the subject of a fact then it is marked as a \emph{subject}.
 We also make use of a results table to store partial results and previously established proofs.
 The table is indexed by queries and a delegation depth, partial results (i.e. that a query is being evaluated).
@@ -291,12 +327,12 @@ def evaluate(ac, rt, q, d):
   p = cond(ac, rt, q, d)
   result = None
   if p.isValid():
-    rt[q, d] = p 
+    rt[q, d] = p
     result = Proven
   else:
     p = canSay_CanActAs(ac, rt, q, d)
     if p.isValid():
-      rt[q, d] = p 
+      Rt[q, d] = p
       result = Proven
     else:
       rt[q, d] = Failure
@@ -373,6 +409,7 @@ if the user doesn't want their photos geotagged.
 \end{lstlisting}
 
 \section{Implementation}
+\label{sec:implementation}
 
 AppPAL is implemented as a library for Android and Java.
 The parser is implemented using ANTLR4.
@@ -397,7 +434,7 @@ evaluate---though worse ones could be designed by delegating even more or trigge
 
 For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
-The results are shown in \autoref{tab:benchmarks}.
+The resUlts are shown in \autoref{tab:benchmarks}.
 Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
 I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligable, even on a power constrained device such as a mobile phone.
 
