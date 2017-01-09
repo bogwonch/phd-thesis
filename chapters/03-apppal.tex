@@ -1,13 +1,48 @@
 \documentclass[thesis.tex]{subfiles}
 \begin{document}
-\chapter{AppPAL}
+\chapter{Instantiating and Evaluating SecPAL}
 \label{chap:apppal}
 
-AppPAL is an instantiation of Becker et al.'s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
-The language allows us to reason about apps using statements from third parties. AppPAL allows us to enforce the policies on a device.
-I can express trust relationships amongst these parties and use constraints to do additional checks, such as using security checks.
-This lets us enforce more complex policies than existing tools such as Kirin which are limited to permissions checks. 
-Policies can be enforced by the stores selling the apps, on the devices installing apps or by third-parties providing app vetting services.
+% AppPAL is an instantiation of Becker et al.'s SecPAL\cite{becker_secpal:_2010} with constraints (statements checkable using information external to the language such as the time of day or static analysis tools) and predicates that allow us to decide which apps to run or install.
+% The language allows us to reason about apps using statements from third parties. AppPAL allows us to enforce the policies on a device.
+% I can express trust relationships amongst these parties and use constraints to do additional checks, such as using security checks.
+% This lets us enforce more complex policies than existing tools such as Kirin which are limited to permissions checks. 
+% Policies can be enforced by the stores selling the apps, on the devices installing apps or by third-parties providing app vetting services.
+
+Mobile ecosystems contain a large number of entities interacting.
+Devices interact with their users, as well as app stores, app developers, wireless access points, companies and networks.
+Each entity has their own policies; some formal and described in documents such as the agreement between an app store and a developer.
+Others are informal: a user may have preferences about which kinds of apps they want to install but may not go so far as to write these preferences down.
+The ecosystem is distributed in nature with each entity not necessarily knowing about other entities until they interact, and with decisions made between entities rather than being delegated to an arbiter who enforces an overarching policy.
+
+Formal languages are used to write such policies without ambiguity and describe precisely how decisions are made.
+Translating policies into formal language allows us to compare different policies, preferences and rules in mobile ecosystems rigorously.
+We can also use the formal policy to automate the policy enforcement process, if desired.
+
+SecPAL is an authorization language designed by Becker et al{.} to make access control decisions in distributed systems~\cite{becker_secpal:_2009}.
+In particular it was designed to be expressive, clear, intuitive, decidable and extensible.
+The extensibility of SecPAL is especially important to us as we can apply the language to a new domain by instantiating it with predicates and constraints appropriate there.
+
+\begin{figure}
+	\begin{grammar}
+		<e> ::= `Variable' \alt `"constant"'
+
+		<D> ::= `0' \alt `inf'
+		
+		<verb> ::= <predicate>(<e$_1$> ... <e$_n$>)?
+		\alt `can-say' <D>? <fact>
+		\alt `can-act-as' <e>
+
+		<fact> ::= <e> <verb>
+
+		<claim> ::= <fact> `if' <fact$_1$> ... <fact$_n$> `where' <c>
+
+		<assertion> ::= <e> `says' <claim>
+
+		<AC> ::= <assertion$_1$> ... <assertion$_n$>
+	\end{grammar}
+\end{figure}
+
 
 \section{Why SecPAL?}
 \label{sec:why-apppal}
@@ -45,6 +80,7 @@ language that supported several key features; namely:
 
   \item Delegation.  I want to make a decision based on information from an
     external source.  This suggest that a \emph{can-say} mechanism is required
+		b
     that will allow us to express how trust is distributed.   Since the
     relationship between app stores and devices is one where a user delegates
     trust to the store and the device uses the external store to obtain the app
