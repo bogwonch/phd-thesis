@@ -1,0 +1,32 @@
+digraph apppaleval {
+  //rankdir=LR;
+  compound=true;
+  graph [splines=ortho]
+
+  {
+    rank=same;
+    policy1 [shape=note label="Policy"];
+    policy2 [shape=note label="Policy"];
+    policy3 [shape=note label="Policy"];
+  }
+  {
+    rank=same;
+    query [shape=plaintext label="Query\n?- 'alice' says..."];
+    apppal [shape=invtrapezium label="AppPAL instance"];
+    db     [shape=cylinder label="Database\nStatic Analysis\nHost System"]; 
+  }
+
+  {
+    rank=same;
+    answer [shape=record label="{ Yes/No | Optional proof tree }"];
+  }
+
+  policy1 -> apppal;
+  policy2 -> apppal;
+  policy3 -> apppal;
+  query -> apppal;
+  apppal -> answer;
+
+  apppal -> db;
+  db     -> apppal;
+}
