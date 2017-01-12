@@ -339,12 +339,10 @@ This allows greater control over when AppPAL caches results, which is important 
 
 \begin{figure}
   \centering
-  \includegraphics{figures/apppal-evaluation.pdf}
+  \includegraphics[width=\linewidth]{figures/apppal-evaluation.pdf}
   \caption{AppPAL's inputs and outputs}
   \label{fig:apppal-inputs-outputs}
 \end{figure}
-
-
 
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
@@ -378,54 +376,99 @@ If we have a statement that allows us to make a statement about an assertion the
   \label{tab:apppal-sets}
 \end{table}
 
+\SetKwProg{Fn}{}{\string:}{}
+\SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}
+\SetKwFunction{FnEvaluate}{Evaluate}
+\SetKwFunction{FnContains}{Contains}
+\SetKwFunction{FnCheckConstraint}{Check Constraint}
+\SetKwFunction{FnCheckBody}{Check Body}
+\SetKwFunction{FnGet}{Get}
+\SetKwFunction{FnSet}{Set}
+\SetKwFunction{FnCond}{Cond}
+\SetKwFunction{FnConstraint}{Constraint}
+\SetKwFunction{FnCanSay}{CanSay}
+\SetKwFunction{FnCanActAs}{CanActAs}
+\SetKwFunction{FnCanSayCanActAs}{CanSay-CanActAs}
+\SetKwFunction{FnValid}{Is Valid?}
+\SetKwFunction{FnVarSubs}{Variable Substitutions}
+\SetKwFunction{FnAssertions}{Assertions}
+\SetKwFunction{FnConstants}{Constants}
+\SetKwFunction{FnSpeakers}{Speakers}
+\SetKwFunction{FnSubjects}{Subjects}
+\SetKwFunction{FnConstants}{Constants}
+\SetKwFunction{FnUnify}{Unify}
+\SetKwFunction{FnHead}{Head}
+\SetKwFunction{FnApply}{Apply}
+\SetKwFunction{FnBody}{Body}
+\SetKwFunction{FnVariables}{Variables}
 
-\todo{this is taken from the AppPAL for Android paper, but I don't like it.  Redo more abstractly.}
-\begin{lstlisting}[language=Python, float, caption={Pseudocode for evaluating AppPAL.}]
-def evaluate(ac, rt, q, d):
-  return rt[q, d] if rt.contains((q, d))
-  p = cond(ac, rt, q, d)
-  result = None
-  if p.isValid():
-    rt[q, d] = p
-    result = Proven
-  else:
-    p = canSay_CanActAs(ac, rt, q, d)
-    if p.isValid():
-      Rt[q, d] = p
-      result = Proven
-    else:
-      rt[q, d] = Failure
-      result = Failure
-  return (result, rt)
+\begin{algorithm}
+  \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
+    \If{Results Table.\FnContains{(Query, D)}}{
+      \Return{Results Table.\FnGet{(Query, D)}}\;
+    }
+    \Else{
+      p $\gets$ \FnCond{AC, Results Table, Query, D}\;
+      \If{p.\FnValid{}}{
+        Results Table.\FnSet{(Query, D), (Proven, p)}\;
+        \Return{(Proven, p)}\;
+      }
+      \Else{
+        p $\gets$ \FnCanSayCanActAs{AC, Results Table, Query, D}\;
+        \If{p.\FnValid{}}{
+          Results Table.\FnSet{(Query, D), (Proven, p)}\;
+          \Return{(Proven, p)}\;
+        }
+        \Else{
+          Results Table.\FnSet{(Query, D), Failure}\;
+          \Return{Failure}\;
+        }
+      }
+    }
+  }
+\end{algorithm}
+\begin{algorithm}
+  \Fn(){\FnCond{AC, Results Table, Query, D}}{
+    \For{a $\in$ \FnAssertions{AC}}{
+      u $\gets$ Query.\FnUnify{a.\FnHead{}}}\;
+      \If{u.\FnValid{}}{
+        a $\gets$ a.\FnApply{u} 
+        \If{\FnVariables{a} = $\emptyset$}{
+          \Return{\FnCheckBody{AC, Results Table, a, D}
+        }
+      }
+    }
+    \Return{Failure}
+  }
+\end{algorithm}
+\begin{algorithm}
+  \Fn(){\FnCanSayCanActAs{AC, Results Table, Query, D}}{
+    \For{c $\in$ \FnConstants{AC}}{
+      \If{c $\in$ \FnSubjects{AC}}{
+        p $\gets$ \FnCanActAs{AC, Results Table, Query, D}\;
+        \If{p.\FnValid{}}{\Return p}
+      }
+      \If{c $\in$ \FnSpeakers{AC}}{
+        p $\gets$ \FnCanSay{AC, Results Table, Query, D}\;
+        \If{p.\FnValid{}}{\Return p}
+      }
+    }
+    \Return{Failure}
+  }
+\end{algorithm}
+\begin{algorithm}
+  \Fn(){\FnCheckBody{AC, Results Table, Assertion, D}}{
+    \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
+      a $\gets$ Assertion.\FnApply{$\theta$}\;
+      \If{$\forall$ b $\in$ a.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
+        p $\gets$ \FnCheckConstraint{a.\FnConstraint{}}\;
+        \If{p.\FnValid{}}{\Return{p}}
+      }
+    }
+    \Return{Failure}
+  }
+\end{algorithm}
 
-def cond(ac, rt, q, d):
-  ac.add(q.fetch()) if q.isFetchable()
-  for a in ac.assertion():
-    u = q.unify(a.consequent)
-    if u.isValid:
-      a = u.apply(a)
-      if (a.variables() == None):
-        return checkConditions(ac, rt, a, d)
-  return Failure
-
-def canSay_canActAs(ac, rt, q, d):
-  for c in ac.constants():
-    if ac.subject(c):
-      p = canActAs(ac, rt, q, d)
-      return Proven if p.isValid()
-    elif ac.speaker(c):
-      p = canSay(ac, rt, q, d)
-      return Proven if p.isValid
-  return Failure
-
-def checkConditions(ac, rt, a, d):
-  for s in getVarSubs(a, ac.constants()):
-    sa = s.apply(a)
-    if sa.body().all(lambda a: evaluate(ac, rt, a, d).isValid()):
-      p = evaluateConstraint(sa.constraint())
-      return Proven is p.isValid()
-  return Failure
-\end{lstlisting}
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
