@@ -347,17 +347,23 @@ This allows greater control over when AppPAL caches results, which is important 
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-
-Given an \ac{AC}, a policy file containing AppPAL facts and rules, we extract three sets of constant.
+To make queries against a policy AppPAL is first given one or more policy files.
+These are parsed, and the assertions within them are added to the \ac{AC}.
+The AC is then preprocessed to extract additional information; summarized in \autoref{tab:apppal-sets}.
 If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.
 If the constant is used immediately after the \emph{says} or as the subject of a fact then it is marked as a \emph{subject}.
-We also make use of a results table to store partial results and previously established proofs.
+The predicates used in the policy are also extracted and marked as \emph{derivable}.
+This allows some queries to be decided automatically and some rules to be flagged as unusable in the assertion context.
+If a rule relies on un-Derivable predicates then it cannot be used to make decisions.
+
+A results table is also created.
+All ground facts in the assertion context are added to the results table as they are known to be true.
+The table stores partial results and previously established proofs.
 The table is indexed by queries and a delegation depth, partial results (i.e. that a query is being evaluated).
-This allows previous results to reused without re-computation or constraint re-evaluation, and when evaluation has entered a loop.
-All ground facts in the assertion context are automatically added to the results table.
+This allows previous results to reused without re-computation or constraint re-evaluation.
+It also prevents AppPAL proofs growing infinite in size (and the decision process not terminating).
+If when searching for a proof we encounter a query that we are currently evaluating, i.e.~one that exists higher in the current proof tree, we treat it as false. 
 This results table is shared between evaluations of an \ac{AC}.
-Finally we take a list of all the predicates used in the \ac{AC}.
-If we have a statement that allows us to make a statement about an assertion then we mark it as \emph{derviable}.
 
 \begin{table}
   \centering
@@ -401,7 +407,6 @@ If we have a statement that allows us to make a statement about an assertion the
 \SetKwFunction{FnApply}{Apply}
 \SetKwFunction{FnBody}{Body}
 \SetKwFunction{FnVariables}{Variables}
-
 \begin{algorithm}
   \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
     \If{Results Table.\FnContains{(Query, D)}}{
@@ -426,22 +431,26 @@ If we have a statement that allows us to make a statement about an assertion the
       }
     }
   }
+    \caption{Pseudocode for evaluating a query.}
 \end{algorithm}
 \begin{algorithm}
+  \ContinuedFloat
   \Fn(){\FnCond{AC, Results Table, Query, D}}{
     \For{a $\in$ \FnAssertions{AC}}{
-      u $\gets$ Query.\FnUnify{a.\FnHead{}}}\;
+      u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
       \If{u.\FnValid{}}{
         a $\gets$ a.\FnApply{u} 
         \If{\FnVariables{a} = $\emptyset$}{
-          \Return{\FnCheckBody{AC, Results Table, a, D}
+          \Return{\FnCheckBody{AC, Results Table, a, D}}
         }
       }
     }
     \Return{Failure}
   }
+    \caption{Pseudocode for using the cond-rule.}
 \end{algorithm}
 \begin{algorithm}
+  \ContinuedFloat
   \Fn(){\FnCanSayCanActAs{AC, Results Table, Query, D}}{
     \For{c $\in$ \FnConstants{AC}}{
       \If{c $\in$ \FnSubjects{AC}}{
@@ -455,8 +464,10 @@ If we have a statement that allows us to make a statement about an assertion the
     }
     \Return{Failure}
   }
+  \caption{Pseudocode for using the can-say and can-act-as rules.}
 \end{algorithm}
 \begin{algorithm}
+  \ContinuedFloat
   \Fn(){\FnCheckBody{AC, Results Table, Assertion, D}}{
     \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
       a $\gets$ Assertion.\FnApply{$\theta$}\;
@@ -467,7 +478,9 @@ If we have a statement that allows us to make a statement about an assertion the
     }
     \Return{Failure}
   }
+  \caption{Pseudocode for evaluating the body of an assertion, used by the cond-rule.}
 \end{algorithm}
+
 
 
 \subsection{Benchmarks}
