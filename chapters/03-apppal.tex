@@ -88,9 +88,44 @@ language that supported several key features; namely:
     more accurate policies.
 \end{itemize}
 
-Additionally I also wanted a language that was readable and easy to extend.
-SecPAL was chosen as it met my requirements.
+Additionally I also wanted a language that was readable and easy to extend; a stated goal of the SecPAL language~\cite{becker_secpal:_2010}.
+SecPAL 
 \todo{MORE! How did it meet my requirements? Why SecPAL over XACML/PolicyMaker/DKAL, for example}
+
+\subsection{Comparison to XACML}
+\todo{Make a comparison.  Show syntaxes, explain about XACML's semantics being poorly defined.}
+
+An alternative to SecPAL might be XACML.
+XACML is a powerful access control and policy language with a published standard~\cite{oasis_extensible_2013}.
+From XACML version 3.0 XACML can express delegation relationships~\cite{oasis_xacml_2010}.
+
+XACML does not have well defined semantics.
+The standards that describe the language are expressed in natural language, and are notoriously difficult to interpret\todo{CITATION}.
+There have been several attempts to describe XACML's semantics formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}.
+These help define XACML better but, the complexity of the language and the lack of a single accepted formal semantics make it less attractive.
+In contrast SecPAL's semantics are given by Becker with the description of the language.
+
+\begin{figure}\centering
+  \begin{tabular}{l p{0.7\linewidth}}
+    \toprule
+    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
+    $\epsilon$                               & The empty substitution.                                                                                                                              \\
+    \midrule
+    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
+    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
+    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
+    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
+    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
+    \bottomrule                             \\
+  \end{tabular}
+  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
+\end{figure}
+
+The complexity of XACML is not helped by its syntax which makes it difficult to read.
+XACML policies are verbose, and written in XML.
+To help developers write policies alternative notations are available that compile into XACML's XML notation.
+ALFA is one such version that is maintained by the XACML developers\footnote{Prior to 2014 it was maintained by Axiomatics.}~\cite{oasis_xacml_technical_comitee_abbreviated_????}, however many other's exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012}.
+In contrast SecPAL is designed for readability, and so avoids the need for wrapper languages to simplify it.
 
 \section{Instantiating SecPAL for mobile ecosystems}
 \label{sec:instantiating}
@@ -105,7 +140,7 @@ Becker~\etal added predicates for describing \ac{PII}-handling preferences and c
 
 To describe policies in mobile ecosystems I developed an instantiation of SecPAL called AppPAL~\cite{hallett_apppal_2016}.
 AppPAL was initially focussed on describing app installation policies, however it was later extended further to describe SP4BYOD---a framework for describing BYOD policies using SecPAL.
-To further explore these areas an implementation of SecPAL was created (that is described in \autoref{sec:implementation}).
+To further explore these areas an implementation of SecPAL was created and is described in \autoref{sec:implementation}.
 
 \subsection{Predicate Conventions}
 \label{ssec:types}
@@ -483,6 +518,8 @@ This results table is shared between evaluations of an \ac{AC}.
 
 
 
+\subsection{Correctness}
+\todo{You know you're going to have to do this.}
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
 
