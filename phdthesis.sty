@@ -19,6 +19,9 @@
 \acrodef{PUP}{potentially unwanted program}
 \acrodef{PII}{personally identifiable information}
 \acrodef{BYOD}{bring your own device}
+\acrodef{MDM}{mobile device management}
+\acrodef{VPP}{Volume Purchase Program}
+\acrodef{ADB}{Android Debug Bridge}
 
 \includepackage{graphicx}
 \includepackage[update,prepend]{epstopdf}
@@ -42,20 +45,48 @@
 \renewcommand*{\pageautorefname}{page}
 
 \includepackage{mathtools}
+\includepackage{cleveref}
 \includepackage{pxfonts}
 \includepackage{multicol}
-
 \includepackage{proof}
 %\includepackage{syntax}
 \includepackage{booktabs}
-\includepackage[boxed]{algorithm2e}
 \includepackage{tabulary}
-\includepackage{pifont}
 \includepackage{subfig}
+
+\includepackage{pifont}
 \newcommand{\xmark}{\ding{55}}
 \newcommand{\cmark}{\ding{51}}%
 
 \newcommand{\etal}[0]{et~al{.}\@}
+
+\includepackage[boxed,noend]{algorithm2e}
+\DontPrintSemicolon
+\SetKwProg{Fn}{}{\string:}{}
+\SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}
+\SetKwFunction{FnEvaluate}{Evaluate}
+\SetKwFunction{FnContains}{Contains}
+\SetKwFunction{FnCheckConstraint}{Check Constraint}
+\SetKwFunction{FnCheckBody}{Check Body}
+\SetKwFunction{FnGet}{Get}
+\SetKwFunction{FnSet}{Set}
+\SetKwFunction{FnCond}{Cond}
+\SetKwFunction{FnConstraint}{Constraint}
+\SetKwFunction{FnCanSay}{CanSay}
+\SetKwFunction{FnCanActAs}{CanActAs}
+\SetKwFunction{FnCanSayCanActAs}{CanSay-CanActAs}
+\SetKwFunction{FnValid}{Is Valid?}
+\SetKwFunction{FnVarSubs}{Variable Substitutions}
+\SetKwFunction{FnAssertions}{Assertions}
+\SetKwFunction{FnConstants}{Constants}
+\SetKwFunction{FnSpeakers}{Speakers}
+\SetKwFunction{FnSubjects}{Subjects}
+\SetKwFunction{FnConstants}{Constants}
+\SetKwFunction{FnUnify}{Unify}
+\SetKwFunction{FnHead}{Head}
+\SetKwFunction{FnApply}{Apply}
+\SetKwFunction{FnBody}{Body}
+\SetKwFunction{FnVariables}{Variables}
 
 %% Sectioning commands
 %\newcommand{\frontmatter}[0]{}

@@ -281,44 +281,163 @@ It also avoids hiding the condition that the access point must be company owned 
 
 
 \section{Examples of AppPAL}
+\todo{MORE! Take examples from third year report, essos papers!}
 
-Consider the following example: a user, Alice, may have rules she has to follow
-when using apps for work and her own policies when using apps at home in her
-private life. Using AppPAL I can write policies for work and home, and decide
-which policy to enforce using a user's location, or the time of day:
-
+AppPAL describes the policis in the mobile ecosystem.
+One example of this might be a user selecting which apps they might want to use on their phone.
+A user might decide that an individual app (Angry Birds, for example) is okay to use on their phone.
 \begin{lstlisting}
-'alice' says App isRunnable
-  if 'home-policy' isMetBy(App)
-  where at('work') = false.
+'user' says 'com.rovio.angrybirds' isInstallable.
+\end{lstlisting}
+Having decided the app is the one they wish to use they tell the device's package manager that they must install the app.
+The package manager might be an app store (such as the Play Store on Android; which is the \texttt{com.android.vending} APK file), a \ac{MDM} program such as iOS's \ac{VPP}, or an IT manager manually provisioning devices.
+The user may be entirely oblivious to who fills the role of the \emph{package manager} but most systems provide one nethertheless.
+\begin{lstlisting}
+'user' says 'package-manager' mustInstall('com.rovio.angrybirds').
+'user' says 'com.android.vending' can-act-as 'package-manager'.
+\end{lstlisting}
+Additionally the user may allow their workplace to dictate some apps that they must install (a delegation).
+\begin{lstlisting}
+'workplace' says 'user' mustInstall('com.microsoft.office.word').
+'user' says 'workplace' can-say 'user' mustInstall('com.microsoft.office.word').
+\end{lstlisting}
+So far the policy has been expressed in terms of single apps.
+A user has decided which apps to install and have stated the apps they decided upon.
+This is an accurate description of how user's currently interact with stores and their devices.
+Users may have more complex rules for deciding what to install, but following the rules is left to the user's own self discipline.
 
-'alice' says App isRunnable
-  if 'work-policy' isMetBy(App)
-  where beforeHourOfDay('17') = true.
+In contrast policy languages allow for greater generality.
+A cautious user may only install Android apps with certain permissions\footnote{Permissions are the access control mechanism for device features used by Android.}.
+\begin{lstlisting}
+'user' says App isInstallable
+  if App hasntPermission('CAMERA'),
+     App hasntPermission('INTERNET'),
+\end{lstlisting}
+Others may avoid apps that allow them to spend money within the app.
+\begin{lstlisting}
+'user' says App isInstallable
+  if App cannotMakeInAppPurchases.
+\end{lstlisting}
+Some may rely on an \ac{AV} program installed on their phone.
+Only apps which the program has checked may be installed.
+\begin{lstlisting}
+'user' says App:A isInstallable
+  where runAV(A) = 'safe'.
+\end{lstlisting}
+Alternatively they may say if two or more of their friends are willing to recommend the app to them.
+\begin{lstlisting}
+'user' says App isInstallable
+  if App isRecommendedBy(Friend1),
+	   App isRecommendedBy(Friend2)
+	where Friend1 != Friend2.
+
+'user' says Friend:F can-say
+  App:A isRecommendedBy(F).
 \end{lstlisting}
 
-I can delegate policy specification to third parties or roles, and assign principals to roles:
+AppPAL gives a language for describing these decision making processes.
+By writing down policies in formal language we not only start to allow machine-based decision making, avoiding the need for user's self control, but we also can compare different policies precisely.
 
+This goes beyond describing user's app preferences.
+Consider the two largest mobile operating systems: Apple's iOS and Google's Android.
+When comparing the systems Apple's is often described as a \emph{walled-garden} whereas Android is an \emph{open-platform}.\todo{Cite a bunch of papers for this. Just search google scholar}
+Language like this is informal.
+It hints at the differences without giving them precisely.
+
+Using AppPAL we can model the differences between the two systems and make more meaningful comparisons.
+The \emph{walled-garden} comments relate to their different app store models.
+Users of iOS can only install apps from the App Store\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an \emph{app store} is a generic term for an on-device store selling apps.}.
+If a user is willing to install a special certificate, from a developer or business, however they may be allowed to install additional apps through the browser or a computer connected to the device.
+These special certificates are controlled by Apple who issue and revoke them.
+They must also be authorized by the device's owner.
 \begin{lstlisting}
-'alice' says 'it-department' can-say 'work-policy' isMetBy(App).
-'alice' says 'alice' can-act-as 'it-department'.
+'device' says App isInstallable
+  if App hasBeenSignedBy(Cert),
+	   Cert hasIssuer('apple').
+
+'device' says App isInstallable
+  if App hasBeenSignedBy(Cert),
+	   Cert hasIssuer(X),
+		 'apple' hasAuthorized(X),
+		 'device' hasOwner(U),
+		 U hasAuthorized(Cert)
+	where validCertificate(App, Cert) = true.
+
+'device' says Authority:A can-say A hasAuthorized(Certificate:C).
 \end{lstlisting}
-
-I can write policies specifying which permissions an app must or must not have
-by its app store categorization. For example, it would be okay allowing a
-photography app access to the camera, but not to allow access to location data
-if the user doesn't want their photos geotagged.
-
+In contrast an Android user is free to install any signed app (though who signed it is not immediately important). 
+However, unless the user has enabled \emph{side-loading} through the settings app, the app must come from the Play Store, as opposed to a file that was downloaded through another app store or the internet.
+Alternatively if the user has enabled \emph{developer-mode}, again through the settings, then they may install apps through the \ac{ADB}.
 \begin{lstlisting}
-'alice' says App isRunnable
-  if 'permissions-policy' isMetBy(App).
-'alice' says 'permissions-policy' isMetBy(App)
-  if App isAnApp
-  where
-    category(App, 'Photography'),
-    hasPermission(App, 'LOCATION') = false,
-    hasPermission(App, 'CAMERA') = true.
+'device' says App isInstallable
+  if App hasSource('play-store'),
+	   App hasBeenSignedBy(Cert)
+	where validCertificate(App, Cert) = true.
+
+'device' says App isInstallable
+  if App hasSource('file')
+	   'device' hasOwner(U),
+		 U hasAuthorized('sideloading'),
+	   App hasBeenSignedBy(Cert)
+	where validCertificate(App, Cert) = true.
+
+'device' says 'settings-app' can-say
+  U hasAuthorized('sideloading').
+
+'device' says App isInstallable
+  if App hasSource('adb')
+	   'device' hasOwner(U),
+		 U hasAuthorized('developer-mode').
+
+'device' says 'settings-app' can-say
+  U hasAuthorized('developer-mode').
+
+'settings-app' says 'user' can-say 'user hasAuthorized(Setting:X).
 \end{lstlisting}
+This glosses over some of the details of certificate handling, and how app updates are performed but provides a far more precise version of the differences in app installation between the two platforms.
+For iOS Apple have to authorize, either by signing the app or the issuer, the app before it can be installed.
+In contrast for Android any app can be installed if the device owner is willing to enable the relevant setting.
+
+
+%\todo{Redo this}
+%Consider the following example: a user, Alice, may have rules she has to follow
+%when using apps for work and her own policies when using apps at home in her
+%private life. Using AppPAL I can write policies for work and home, and decide
+%which policy to enforce using a user's location, or the time of day:
+%
+%\begin{lstlisting}
+%'alice' says App isRunnable
+%  if 'home-policy' isMetBy(App)
+%  where at('work') = false.
+%
+%'alice' says App isRunnable
+%  if 'work-policy' isMetBy(App)
+%  where beforeHourOfDay('17') = true.
+%\end{lstlisting}
+%
+%I can delegate policy specification to third parties or roles, and assign principals to roles:
+%
+%\begin{lstlisting}
+%'alice' says 'it-department' can-say 'work-policy' isMetBy(App).
+%'alice' says 'alice' can-act-as 'it-department'.
+%\end{lstlisting}
+%
+%I can write policies specifying which permissions an app must or must not have
+%by its app store categorization. For example, it would be okay allowing a
+%photography app access to the camera, but not to allow access to location data
+%if the user doesn't want their photos geotagged.
+%
+%\begin{lstlisting}
+%'alice' says App isRunnable
+%  if 'permissions-policy' isMetBy(App).
+%'alice' says 'permissions-policy' isMetBy(App)
+%  if App isAnApp
+%  where
+%    category(App, 'Photography'),
+%    hasPermission(App, 'LOCATION') = false,
+%    hasPermission(App, 'CAMERA') = true.
+%\end{lstlisting}
+
 
 \section{Implementation}
 \label{sec:implementation}
@@ -382,6 +501,8 @@ This allows greater control over when AppPAL caches results, which is important 
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
+Pseudocode for AppPAL's evaluation algorithm is given in Algorithms~\cref{alg:eval1,alg:eval2,alg:eval3}.
+
 To make queries against a policy AppPAL is first given one or more policy files.
 These are parsed, and the assertions within them are added to the \ac{AC}.
 The AC is then preprocessed to extract additional information; summarized in \autoref{tab:apppal-sets}.
@@ -389,7 +510,7 @@ If a constant is used before a \emph{says} statement, or it is used as the subje
 If the constant is used immediately after the \emph{says} or as the subject of a fact then it is marked as a \emph{subject}.
 The predicates used in the policy are also extracted and marked as \emph{derivable}.
 This allows some queries to be decided automatically and some rules to be flagged as unusable in the assertion context.
-If a rule relies on un-Derivable predicates then it cannot be used to make decisions.
+If a rule relies on un-derivable predicates then it cannot be used to make decisions.
 
 A results table is also created.
 All ground facts in the assertion context are added to the results table as they are known to be true.
@@ -399,6 +520,11 @@ This allows previous results to reused without re-computation or constraint re-e
 It also prevents AppPAL proofs growing infinite in size (and the decision process not terminating).
 If when searching for a proof we encounter a query that we are currently evaluating, i.e.~one that exists higher in the current proof tree, we treat it as false. 
 This results table is shared between evaluations of an \ac{AC}.
+
+When evaluating the policy we also track which rules and predicates we have used.
+From this we can reconstruct a proof tree that shows how a decision was reached.
+The proof tree shows how any decision was made.
+This allows the decision making process to be audited and enables developers to see how decisions were made.
 
 \begin{table}
   \centering
@@ -417,37 +543,18 @@ This results table is shared between evaluations of an \ac{AC}.
   \label{tab:apppal-sets}
 \end{table}
 
-\SetKwProg{Fn}{}{\string:}{}
-\SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}
-\SetKwFunction{FnEvaluate}{Evaluate}
-\SetKwFunction{FnContains}{Contains}
-\SetKwFunction{FnCheckConstraint}{Check Constraint}
-\SetKwFunction{FnCheckBody}{Check Body}
-\SetKwFunction{FnGet}{Get}
-\SetKwFunction{FnSet}{Set}
-\SetKwFunction{FnCond}{Cond}
-\SetKwFunction{FnConstraint}{Constraint}
-\SetKwFunction{FnCanSay}{CanSay}
-\SetKwFunction{FnCanActAs}{CanActAs}
-\SetKwFunction{FnCanSayCanActAs}{CanSay-CanActAs}
-\SetKwFunction{FnValid}{Is Valid?}
-\SetKwFunction{FnVarSubs}{Variable Substitutions}
-\SetKwFunction{FnAssertions}{Assertions}
-\SetKwFunction{FnConstants}{Constants}
-\SetKwFunction{FnSpeakers}{Speakers}
-\SetKwFunction{FnSubjects}{Subjects}
-\SetKwFunction{FnConstants}{Constants}
-\SetKwFunction{FnUnify}{Unify}
-\SetKwFunction{FnHead}{Head}
-\SetKwFunction{FnApply}{Apply}
-\SetKwFunction{FnBody}{Body}
-\SetKwFunction{FnVariables}{Variables}
 \begin{algorithm}
   \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
     \If{Results Table.\FnContains{(Query, D)}}{
-      \Return{Results Table.\FnGet{(Query, D)}}\;
-    }
+      result $\gets$ {Results Table.\FnGet{(Query, D)}}\;
+      \If{result.\FnValid{}}{
+        \Return Result
+      }
+      \Else
+        \Return Failure
+      }
     \Else{
+      Results Table.\FnSet{(Query, D), (Inprogress, p)}\;
       p $\gets$ \FnCond{AC, Results Table, Query, D}\;
       \If{p.\FnValid{}}{
         Results Table.\FnSet{(Query, D), (Proven, p)}\;
@@ -466,23 +573,8 @@ This results table is shared between evaluations of an \ac{AC}.
       }
     }
   }
-    \caption{Pseudocode for evaluating a query.}
-\end{algorithm}
-\begin{algorithm}
-  \ContinuedFloat
-  \Fn(){\FnCond{AC, Results Table, Query, D}}{
-    \For{a $\in$ \FnAssertions{AC}}{
-      u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
-      \If{u.\FnValid{}}{
-        a $\gets$ a.\FnApply{u} 
-        \If{\FnVariables{a} = $\emptyset$}{
-          \Return{\FnCheckBody{AC, Results Table, a, D}}
-        }
-      }
-    }
-    \Return{Failure}
-  }
-    \caption{Pseudocode for using the cond-rule.}
+	\caption{Pseudocode for evaluating a query.}
+	\label{alg:eval1}
 \end{algorithm}
 \begin{algorithm}
   \ContinuedFloat
@@ -500,26 +592,36 @@ This results table is shared between evaluations of an \ac{AC}.
     \Return{Failure}
   }
   \caption{Pseudocode for using the can-say and can-act-as rules.}
+	\label{alg:eval2}
 \end{algorithm}
 \begin{algorithm}
   \ContinuedFloat
-  \Fn(){\FnCheckBody{AC, Results Table, Assertion, D}}{
-    \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
-      a $\gets$ Assertion.\FnApply{$\theta$}\;
-      \If{$\forall$ b $\in$ a.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
-        p $\gets$ \FnCheckConstraint{a.\FnConstraint{}}\;
-        \If{p.\FnValid{}}{\Return{p}}
+  \Fn(){\FnCond{AC, Results Table, Query, D}}{
+    \For{a $\in$ \FnAssertions{AC}}{
+      u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
+      \If{u.\FnValid{}}{
+        a $\gets$ a.\FnApply{u} 
+        \If{\FnVariables{a} = $\emptyset$}{
+          \Return{\FnCheckBody{AC, Results Table, a, D}}
+          \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
+            a$\prime$ $\gets$ a.\FnApply{$\theta$}\;
+            \If{$\forall$ b $\in$ a$\prime$.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
+              p $\gets$ \FnCheckConstraint{a$\prime$.\FnConstraint{}}\;
+              \If{p.\FnValid{}}{\Return{p}}
+            }
+          }
+        }
       }
     }
     \Return{Failure}
   }
-  \caption{Pseudocode for evaluating the body of an assertion, used by the cond-rule.}
+    \caption{Pseudocode for using the cond-rule.}
+    \label{alg:eval3}
 \end{algorithm}
-
-
 
 \subsection{Correctness}
 \todo{You know you're going to have to do this.}
+
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
 
