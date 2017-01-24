@@ -1,0 +1,51 @@
+digraph proof {
+  graph [fontname = "Latin Modern Mono"];
+  node [fontname = "Latin Modern Mono"];
+  edge [fontname = "Latin Modern Mono"];
+  node_6 [label="'bob' says\l  'com.microsoft.office' isApprovedFor('alices-device').\l", shape=underline];
+  node_10 [label="'igc' says\l  'com.microsoft.office' hasMet('final-app-approval').\l", shape=underline];
+  node_14 [label="'mig' says\l  'com.microsoft.office' hasMet('business-use-case').\l", shape=underline];
+  node_0 [label="'nhs-trust' says\l  'alices-device' canInstall('com.microsoft.office')\l  if 'com.microsoft.office' isInstallable,\l    'com.microsoft.office' isApprovedFor('alices-device').\l", shape=underline];
+  node_2 [label="'nhs-trust' says\l  'bob' can-say\l  'com.microsoft.office' isApprovedFor('alices-device')\l  if Manager isResponsibleFor('alices-device'),\l     A isApp,\l     Manager isEmployee.\l", shape=underline];
+  node_5 [label="'nhs-trust' says\l  'bob' isEmployee.\l", shape=underline];
+  node_3 [label="'nhs-trust' says\l  'bob' isResponsibleFor('alices-device').\l", shape=underline];
+  node_12 [label="'nhs-trust' says\l  'com.microsoft.office' hasMet('business-use-case').\l", shape=underline];
+  node_8 [label="'nhs-trust' says\l  'com.microsoft.office' hasMet('final-app-approval').\l", shape=underline];
+  node_4 [label="'nhs-trust' says\l  'com.microsoft.office' isApp.\l", shape=underline];
+  node_1 [label="'nhs-trust' says\l  'com.microsoft.office' isApprovedFor('alices-device').\l", shape=underline];
+  node_7 [label="'nhs-trust' says\l  'com.microsoft.office' isInstallable\l  if 'com.microsoft.office' hasMet('final-app-approval'),\l     'com.microsoft.office' isUsable.\l", shape=underline];
+  node_11 [label="'nhs-trust' says\l  'com.microsoft.office' isUsable\l  if 'com.microsoft.office' hasMet('business-use-case').\l", shape=underline];
+  node_9 [label="'nhs-trust' says\l  'igc' can-say\l  'com.microsoft.office' hasMet('final-app-approval').\l", shape=underline];
+  node_13 [label="'nhs-trust' says\l  'mig' can-say\l  'com.microsoft.office' hasMet('business-use-case')\l  if A isApp.\l", shape=underline];
+  proof_0 [shape=point]
+  proof_1 [shape=point]
+  proof_2 [shape=point]
+  proof_3 [shape=point]
+  proof_4 [shape=point]
+  proof_5 [shape=point]
+  proof_6 [shape=point]
+  proof_7 [shape=point]
+  node_0:s -> proof_0 [label="cond", arrowhead="none"];
+  node_1:s -> proof_1 [label="can-say", arrowhead="none"];
+  node_11:s -> proof_5 [label="cond", arrowhead="none"];
+  node_12:s -> proof_6 [label="can-say", arrowhead="none"];
+  node_13:s -> proof_7:e [label="cond", arrowhead="none"];
+  node_2:s -> proof_2 [label="cond", arrowhead="none"];
+  node_7:s -> proof_3 [label="cond", arrowhead="none"];
+  node_8:s -> proof_4 [label="can-say", arrowhead="none"];
+  proof_0 -> node_1;
+  proof_0 -> node_7;
+  proof_1 -> node_2;
+  proof_1 -> node_6;
+  proof_2 -> node_3;
+  proof_2 -> node_4;
+  proof_2 -> node_5;
+  proof_3 -> node_11;
+  proof_3 -> node_8;
+  proof_4 -> node_10;
+  proof_4 -> node_9;
+  proof_5 -> node_12;
+  proof_6 -> node_13;
+  proof_6 -> node_14;
+  proof_7 -> node_4;
+}

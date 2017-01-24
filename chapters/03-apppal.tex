@@ -37,8 +37,6 @@ The extensibility of SecPAL is especially important to us as we can apply the la
                & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
                & $\vert$     & \dots                                           \\
     e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
-
-
   \end{tabular}
   \caption{BNF description of SecPAL.}
 \label{fig:secpal-grammar}
@@ -47,50 +45,68 @@ The extensibility of SecPAL is especially important to us as we can apply the la
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
-For modelling and writing policies I want to start from a policy
-language that supported several key features; namely:
+There are many policy languages available.
+To describe policies surrounding mobile ecosystems I chose to use SecPAL.
+SecPAL has several features that make it an ideal policy basis for a policy language to describe mobile ecosystems.
 
-\begin{itemize}
-  \item Model decisions at separate locations.  Mobile ecosystems are
-    inherently distributed, and decisions made by one device may not be
-    the same as the decisions made by another device.  They may, however
-    wish to share information.  By opting for a distributed language we
-    can check the policies locally and make a decision based on that
-    user's information rather than by deferring to an all-seeing policy
-    enforcer.  This suits the problem better because individual devices
-    and stores have to make decisions on their own and may not have access
-    to all known information.
+\begin{description}
+  \item[Extensibility.]
+    SecPAL was originally intended to model and enforce access control policies in grid computing systems~\cite{becker_secpal:_2010}.
+    Part of the goals of the language however is to to be flexible.
+    At its core, SecPAL is a language with a simple grammar (\autoref{fig:secpal-grammar})and three evaluation rules (\autoref{fig:secpal-rules}).
+    The simplicity of the language makes it easy to apply to a new domain by instantiating it with predicates and constraints appropriate to the domain.
+    This simplicity does not come at the cost of its expressivity.
+    SecPAL supports delegation, and arbitrary constraints, as well as role and attribute based policies styles.
+    It has been applied successfully to other domains:
+    Humphrey~\etal instantiated SecPAL with predicates for the GridFTP protocol to create a Grid access control policy language~\cite{humphrey_fine-grained_2007}.
+    Aziz~\etal created SecPAL4DSA by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
+    Becker~\etal added predicates for describing \ac{PII}-handling preferences and created SecPAL4P~\cite{becker_framework_2009}
+    The flexibility of SecPAL makes it ideal to work with in mobile domains as the breadth of policies is large; ranging from stores, users, devices, companies and developers. 
+    Each with their own goals and idioms.
 
-  \item Calling external functions that can obtain extra information
-    about entities that may require special actions to fetch: for example
-    an explicit ``okay'' from the user, or some metadata about an app like
-    its version number.  If I don't allow the ability to fetch this
-    information on-the-fly then it will have to be requested before
-    checking the policy.
+  \item[Locality and Delegation.]
+    In the mobile ecosystem different devices can have very different policies.
+    Two users may disagree as to what makes an app \emph{installable}.
+    Equally the policies a store may wish to enforce are very different from the policies a user may wish to enforce.
+    Each entity in the ecosystem also expects to enforce their own policies---there is no overarching enforcer of policies, rather users enforce whatever preferences they have, stores enforce their own rules through whatever means they see fit.
+    Sometimes entities may wish to share information and policy excerpts.
+    A user might delegate to an expert user to help them decide what policies they want to use.
+    A store might use information from an app vetting firm to decide what apps to sell.
+    
+    SecPAL's requires that every assertion be made by an explicit speaker.
+    This allows us to model different decisions at different locations.
+    The speaker of the statement, the entity before the \emph{says} part, tells whose policy we are using to decide a fact.
+    If we wish to use another entities policy to judge if the first's statement holds true then we can use the \emph{can-say} statement to delegate to them.
 
-    I also want to be able to use static analysis tools as part of
-    our policies.  These tools can infer complex properties of apps, but
-    the low-level details they check for needn't be expressable in our
-    high level policies.  For example it is not necessary to encode how
-    data moves over intents in AppPAL policies, but it is necessary to be
-    able to say some app leaks information to another app.  A tool, such
-    as FlowDroid can check for this, and there is no need to replicate the
-    checking in AppPAL if I can simply call out to FlowDroid to give us a
-    decision.
+  \item[Constraint functions.]
+    As part of an assertion a SecPAL constraint can also contain a \emph{constraint}.
+    The constraint, which must be ground at the time of evaluation, can contain extra checks that use information from outside the logic.
+    A policy author could, for example, have a rule that is only valid in the afternoon.
+    To do this they might add a constraint which checks the time of day and is only valid after noon.
+    Constraints can contain equality checks, and logical operators such as \emph{and, or, \emph{or} not}.
+    Additionally it can call external functions, to bring in information from outside of the language.
 
-  \item Delegation.  I want to make a decision based on information from an
-    external source.  This suggest that a \emph{can-say} mechanism is required
-    b
-    that will allow us to express how trust is distributed.   Since the
-    relationship between app stores and devices is one where a user delegates
-    trust to the store and the device uses the external store to obtain the app
-    this would hint that being able to express delegation will allow us to write
-    more accurate policies.
-\end{itemize}
+    This external information is particularly useful for mobile ecosystems.
+    We can introduce a constraint function that dynamically prompts the user on their phone to okay an action.
+    We can start to create rules that depend on the user's current location, or time of day.
+    For example a company boss might want to check what time their employees get into work.
+    To do this the boss requires their employees install an app that gives him their location.
+    Employees may be happy to do this during the work day, but during the weekend and the evenings they'd rather their boss couldn't see where they were.
+    One way they might enforce their policy would be to remove the location permissions from the app once they leave work, and enable them again in the mornings.
+    This process is manual and error-prone: a user might forget.
+    Alternatively a phone that could use SecPAL as part of it's permission system, could be programmed to only allow that permission when the employee wishes it.
+
+    There have been many static tools developed that can infer complex properites about apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
+    We would want to be able to leverage these tools in any policy language to be able to make statements about the properties they can infer, without having to reimplement the functionality.
+    Despite the power of these tools it often isn't obvious how they should integrate with the policies surrounding the mobile ecosystem.
+    Each tool has to be run and configured differently.
+    It isn't apparent when each tool should run, or how they should be orchestrated in order to enforce policies.
+    By incorporating these tools into a policy language, such as SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem and the research into the properties of code.
+\end{description}
 
 Additionally I also wanted a language that was readable and easy to extend; a stated goal of the SecPAL language~\cite{becker_secpal:_2010}.
 SecPAL 
-\todo{MORE! How did it meet my requirements? Why SecPAL over XACML/PolicyMaker/DKAL, for example}
+%\todo{MORE! How did it meet my requirements? Why SecPAL over XACML/PolicyMaker/DKAL, for example}
 
 \subsection{Comparison to XACML}
 \todo{Make a comparison.  Show syntaxes, explain about XACML's semantics being poorly defined.}
@@ -133,10 +149,6 @@ In contrast SecPAL is designed for readability, and so avoids the need for wrapp
 SecPAL is a generic language.
 In SecPAL's grammar~(\autoref{fig:secpal-grammar}) predicates and constraint functions that describe the decisions and checks done in a particular domain.
 The choice of predicates and constraints defines the decisions an \emph{instantiation} of SecPAL can talk about.
-In past work SecPAL has been instantiated for many other domains.
-Humphrey~\etal instantiated SecPAL with predicates for the GridFTP protocol to create a Grid access control policy language~\cite{humphrey_fine-grained_2007}.
-Aziz~\etal created SecPAL4DSA by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
-Becker~\etal added predicates for describing \ac{PII}-handling preferences and created SecPAL4P~\cite{becker_framework_2009}
 
 To describe policies in mobile ecosystems I developed an instantiation of SecPAL called AppPAL~\cite{hallett_apppal_2016}.
 AppPAL was initially focussed on describing app installation policies, however it was later extended further to describe SP4BYOD---a framework for describing BYOD policies using SecPAL.
@@ -394,55 +406,99 @@ Alternatively if the user has enabled \emph{developer-mode}, again through the s
 
 'settings-app' says 'user' can-say 'user hasAuthorized(Setting:X).
 \end{lstlisting}
-This glosses over some of the details of certificate handling, and how app updates are performed but provides a far more precise version of the differences in app installation between the two platforms.
+This glosses over some of the details of certificate handling (though the example could be extended further), and how app updates are performed but provides a far more precise version of the differences in app installation between the two platforms.
 For iOS Apple have to authorize, either by signing the app or the issuer, the app before it can be installed.
 In contrast for Android any app can be installed if the device owner is willing to enable the relevant setting.
 
+\subsection{Checking a policy}
 
-%\todo{Redo this}
-%Consider the following example: a user, Alice, may have rules she has to follow
-%when using apps for work and her own policies when using apps at home in her
-%private life. Using AppPAL I can write policies for work and home, and decide
-%which policy to enforce using a user's location, or the time of day:
-%
-%\begin{lstlisting}
-%'alice' says App isRunnable
-%  if 'home-policy' isMetBy(App)
-%  where at('work') = false.
-%
-%'alice' says App isRunnable
-%  if 'work-policy' isMetBy(App)
-%  where beforeHourOfDay('17') = true.
-%\end{lstlisting}
-%
-%I can delegate policy specification to third parties or roles, and assign principals to roles:
-%
-%\begin{lstlisting}
-%'alice' says 'it-department' can-say 'work-policy' isMetBy(App).
-%'alice' says 'alice' can-act-as 'it-department'.
-%\end{lstlisting}
-%
-%I can write policies specifying which permissions an app must or must not have
-%by its app store categorization. For example, it would be okay allowing a
-%photography app access to the camera, but not to allow access to location data
-%if the user doesn't want their photos geotagged.
-%
-%\begin{lstlisting}
-%'alice' says App isRunnable
-%  if 'permissions-policy' isMetBy(App).
-%'alice' says 'permissions-policy' isMetBy(App)
-%  if App isAnApp
-%  where
-%    category(App, 'Photography'),
-%    hasPermission(App, 'LOCATION') = false,
-%    hasPermission(App, 'CAMERA') = true.
-%\end{lstlisting}
+As a worked example consider a user Alice, trying to install an app on her work phone.
+Alice works for a hospital trust: they have a published mobile device policy.%~\cite{kennington_mobiles_2014}.
+There policy states that if Alice wants to install an app she has to clear it with her immediate manager.
+If it is for clinical use then she also has to clear it with the \ac{CACPG}.
+If it is for business use then she also has to clear it with the \ac{MIG}.
+Finally the app should be cleared by the \ac{IGC}.
+This is a relatively complicated policy requiring, but it is also a realistic one.
+The rule itself is taken from an actual NHS trust's BYOD rules~\cite{kennington_mobiles_2014}.
 
+To implement the policy they publish the following policy:
+\begin{lstlisting}
+'nhs-trust' says App isUsable 
+  if App hasMet('clinical-use-case').
+
+'nhs-trust' says App isUsable 
+  if App hasMet('business-use-case').
+
+'nhs-trust' says 'cacpg' can-say 
+  App:A hasMet('clinical-use-case').
+
+'nhs-trust' says 'mig' can-say 
+  App:A hasMet('business-use-case').
+
+'nhs-trust' says App isInstallable
+  if App hasMet('final-app-approval'), App isUsable.
+
+'nhs-trust' says 'igc' can-say 
+  App hasMet('final-app-approval').
+
+'nhs-trust' says Device canInstall(App)
+  if App isInstallable, App isApprovedFor(Device).
+
+'nhs-trust' says Employee:Manager can-say
+  App:A isApprovedFor(Device)
+  if Manager isResponsibleFor(Device).
+\end{lstlisting}
+
+Alice wishes to install the app \emph{\ttfamily com.microsoft.office} for business purposes.
+To satisfy the policy and install the app she needs to collect the following statements.
+
+\begin{itemize}
+    %\newcommand{\weitemsize}[0]{\footnotesize}
+  \item {\lstinline{'nhs-trust' says 'com.microsoft.office' isInstallable.}\newline}
+    For this, she needs a statement from the Management of Information Group that it has a business use-case.
+    She also needs approval from the Integrated Governance Committee.
+    \begin{enumerate}\setcounter{enumi}{0}
+      \item {\lstinline{'mig' says 'com.microsoft.office' hasMet('business-use-case').}}
+      \item {\lstinline{'igc' says 'com.microsoft.office' hasMet('final-app-approval').}}
+    \end{enumerate}
+  \item {\lstinline{'nhs-trust' says 'com.microsoft.office' isApprovedFor('alices-device').}}
+    To get this she needs a statement from the manager responsible for Alice's device (\emph{Bob}) approving the app.
+    \begin{enumerate}\setcounter{enumi}{2}
+      \item {\lstinline{'bob' says 'com.microsoft.office' isApprovedFor('alices-device').}}
+      \item {\lstinline{'nhs-trust' says 'bob' isResponsibleFor('alices-device').}}
+    \end{enumerate}
+  \item Additionally, she needs the following typing statements.
+    \begin{enumerate}\setcounter{enumi}{4}
+      \item {\lstinline{'nhs-trust' says 'com.microsoft.office' isApp.}} \label{item:isapp}
+      \item {\lstinline{'nhs-trust' says 'bob' isEmployee.}}
+    \end{enumerate}
+\end{itemize}
+
+Alice obtains the statements by contacting each of the speakers. 
+Each may either give her the statement she needs or may give her additional rules.
+For example, the \ac{MIG} and \ac{IGC} may be happy to state their statements (after a review).
+When checking if the app is an App in \autoref{item:isapp}, the NHS trust may be instead inclined to delegate further.
+They could reply that if the App is in the Google Play store then they are convinced it is an app.
+Alice would then have to obtain additional statements if she wanted to prove this statement.
+%As with SecPAL, all statements should have a signature from their speaker proving they said the statement.
+Alternatively, the speaker could refuse to give the statement, either because they do not believe it to be true, or they cannot give an answer.
+In this case, Alice would have to look for an alternative means to prove the statement or accept that they cannot install the app.
+
+Once the statements have been collected she can use a SecPAL inference tool, such as AppPAL, to check whether she can install the app.
+Additional to the decision, if a proof can be found, a tool like AppPAL can output a proof tree to show how the decision was made (\autoref{fig:exemplar-proof}). 
+
+\begin{figure}
+  \centering
+  \includegraphics[width=1.0\textheight, angle=90]{figures/exemplar-proof.pdf}
+  \caption[Proof tree output by AppPAL]{Proof tree generated by AppPAL when checking whether to install Alice's app.}
+  \label{fig:exemplar-proof}
+\end{figure}
 
 \section{Implementation}
 \label{sec:implementation}
 
-AppPAL is implemented as a library.
+AppPAL is implemented as a Java library in roughly 5,000 lines of code.
+The implementation is available online\footnote{\url{https://github.com/apppal/libapppal}}.
 The library is used to create an instance of AppPAL that is given one or more policies to enforce (\autoref{fig:apppal-inputs-outputs}).
 The instance can be queried and will give decisions based on whether the queried assertion is valid according to the policy.
 As part of the constraint checking AppPAL can also be connected to external databases, systems, and static analysis tools.
@@ -451,13 +507,15 @@ These can provide AppPAL with additional information external to that provided b
 Implementing AppPAL as a library allows it to be embedded into a variety of situations.
 It can be part of an app store checking the apps sold against a policy.
 It can be used on a device (AppPAL is written in Java, and minimal changes are needed to let it run on Android), checking apps before they are installed by the package manager.
-There is also a command-line tool which is useful for testing and modelling policies.
+There is also a command-line version which is useful for testing and modelling policies.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown in~\autoref{fig:secpal-rules}) directly.
 This differs from Becker's original description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation through Datalog$^C$.
 Datalog$^C$ is a version of Datalog with support for constraints~\cite{li_datalog_2003}.
 Rather than implementing Datalog$^C$ and then AppPAL atop it (we could not find an existing implementation), AppPAL implements the evaluation rules directly.
 This allows greater control over when AppPAL caches results, which is important in memory-constrained mobile devices.
+
+
 
 \begin{figure}
   \centering
@@ -619,7 +677,7 @@ This allows the decision making process to be audited and enables developers to 
     \label{alg:eval3}
 \end{algorithm}
 
-\subsection{Correctness}
+\subsection{Correctness/Complexity}
 \todo{You know you're going to have to do this.}
 
 \subsection{Benchmarks}
@@ -644,7 +702,7 @@ For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
 The results are shown in \autoref{tab:benchmarks}.
 Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
-I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
+I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone~\cite{hallett_apppal_2016}.
 
 \begin{table}
   \centering\sffamily
@@ -668,7 +726,7 @@ I believe the policy checking performance of AppPAL is acceptable as unless a po
       1 to 3 & 1000 & 15&28 \\
       \bottomrule
     \end{tabular}
-    \includegraphics[width=0.70\linewidth]{figures/benchmarks.pdf}
+    \includegraphics[width=0.50\linewidth]{figures/benchmarks.pdf}
   \caption{Benchmarking results on a Nexus 4 Android phone.}
   \label{tab:benchmarks}
 \end{table}
