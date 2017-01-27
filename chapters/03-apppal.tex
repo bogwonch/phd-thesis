@@ -3,19 +3,26 @@
 \chapter{Instantiating and Evaluating SecPAL}
 \label{chap:apppal}
 
-Mobile ecosystems contain a large number of entities interacting.
+Mobile ecosystems contain many interacting entities.
 Devices interact with their users, as well as app stores, app developers, wireless access points, companies and networks.
 Each entity has their own policies; some formal and described in documents such as the agreement between an app store and a developer.
-Others are informal: a user may have preferences about which kinds of apps they want to install but may not go so far as to write these preferences down.
-The ecosystem is distributed in nature with each entity not necessarily knowing about other entities until they interact, and with decisions made between entities rather than being delegated to an arbiter who enforces an overarching policy.
+Others are informal: a user may have preferences about which kinds of apps they want to install but may not write these preferences down.
+The mobile ecosystem has a distributed structure.
+Phones, users and stores are not aware of each other until they interact with them.
+They must make policy decisions on their own without relying on a central authority.
+They can, if required, delegate to others for their policies and knowledge.
 
-Formal languages are used to write such policies without ambiguity and describe precisely how decisions are made.
-Translating policies into formal language allows us to compare different policies, preferences and rules in mobile ecosystems rigorously.
-We can also use the formal policy to automate the policy enforcement process, if desired.
+Formal languages let us write policies without ambiguity, and describe precisely how to make decisions.
+Translating policies into a formal language allows for rigorous comparisons of different policies, preferences and rules in mobile ecosystems.
+Writing the policy in a formal language allows for its automatic enforcement, as the language defines rules that describe to the computer how to enforce the policy.
 
-SecPAL is an authorization language designed by Becker et al{.} to make access control decisions in distributed systems~\cite{becker_secpal:_2010}.
-In particular it was designed to be expressive, clear, intuitive, decidable and extensible.
-The extensibility of SecPAL is especially important to us as we can apply the language to a new domain by instantiating it with predicates and constraints appropriate there.
+Becker~et~al{.} designed SecPAL to make access control decisions in distributed systems~\cite{becker_secpal:_2010}.
+SecPAL is expressive, has a clear and intuitive syntax, is decidable and extensible.
+That SecPAL is extensible is important as we can apply the language to a new domain by instantiating it with predicates and constraints.
+
+This chapter introduces how SecPAL is instantiated to describe the policies surrounding mobile ecosystems.
+I explain why I chose SecPAL to describe policies in the mobile ecosystem.
+I introduce AppPAL as an instantiation and implementation of SecPAL for mobile device policies.
 
 \newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
 \newcommand{\secpal}[1]{\texttt{#1}}
@@ -45,29 +52,29 @@ The extensibility of SecPAL is especially important to us as we can apply the la
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
-There are many policy languages available.
+There are many policy languages .
 To describe policies surrounding mobile ecosystems I chose to use SecPAL.
 SecPAL has several features that make it an ideal policy basis for a policy language to describe mobile ecosystems.
 
 \begin{description}
   \item[Extensibility.]
     SecPAL was originally intended to model and enforce access control policies in grid computing systems~\cite{becker_secpal:_2010}.
-    Part of the goals of the language however is to to be flexible.
+    Flexibility is part of SecPAL's goals, however.
     At its core, SecPAL is a language with a simple grammar (\autoref{fig:secpal-grammar})and three evaluation rules (\autoref{fig:secpal-rules}).
-    The simplicity of the language makes it easy to apply to a new domain by instantiating it with predicates and constraints appropriate to the domain.
+    The language's simplicity makes it easy to apply to a new domain by instantiating it with predicates and constraints that describe the domain.
     This simplicity does not come at the cost of its expressivity.
     SecPAL supports delegation, and arbitrary constraints, as well as role and attribute based policies styles.
-    It has been applied successfully to other domains:
+    Other domains have successfully used variants of SecPAL to describe their policies.
     Humphrey~\etal instantiated SecPAL with predicates for the GridFTP protocol to create a Grid access control policy language~\cite{humphrey_fine-grained_2007}.
     Aziz~\etal created SecPAL4DSA by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
     Becker~\etal added predicates for describing \ac{PII}-handling preferences and created SecPAL4P~\cite{becker_framework_2009}
-    The flexibility of SecPAL makes it ideal to work with in mobile domains as the breadth of policies is large; ranging from stores, users, devices, companies and developers. 
+    SecPAL's flexibility makes it ideal to work with in mobile domains as the breadth of policies is large; ranging from stores, users, devices, companies and developers. 
     Each with their own goals and idioms.
 
   \item[Locality and Delegation.]
     In the mobile ecosystem different devices can have very different policies.
-    Two users may disagree as to what makes an app \emph{installable}.
-    Equally the policies a store may wish to enforce are very different from the policies a user may wish to enforce.
+    Two users may disagree about what makes an app \emph{installable}.
+    Equally, the policies a store may wish to enforce are very different from the policies a user may wish to enforce.
     Each entity in the ecosystem also expects to enforce their own policies---there is no overarching enforcer of policies, rather users enforce whatever preferences they have, stores enforce their own rules through whatever means they see fit.
     Sometimes entities may wish to share information and policy excerpts.
     A user might delegate to an expert user to help them decide what policies they want to use.
@@ -76,36 +83,36 @@ SecPAL has several features that make it an ideal policy basis for a policy lang
     SecPAL's requires that every assertion be made by an explicit speaker.
     This allows us to model different decisions at different locations.
     The speaker of the statement, the entity before the \emph{says} part, tells whose policy we are using to decide a fact.
-    If we wish to use another entities policy to judge if the first's statement holds true then we can use the \emph{can-say} statement to delegate to them.
+    If we wish to use another entity's policy to judge if the first's statement holds true then we can use the \emph{can-say} statement to delegate to them.
 
   \item[Constraint functions.]
-    As part of an assertion a SecPAL constraint can also contain a \emph{constraint}.
-    The constraint, which must be ground at the time of evaluation, can contain extra checks that use information from outside the logic.
-    A policy author could, for example, have a rule that is only valid in the afternoon.
+    As part of an assertion, a SecPAL constraint can also contain a \emph{constraint}.
+    The constraint, which must contain no free variables at the time of evaluation, can contain extra checks that use information from outside the logic.
+    A policy author could have a rule that is only valid in the afternoon.
     To do this they might add a constraint which checks the time of day and is only valid after noon.
     Constraints can contain equality checks, and logical operators such as \emph{and, or, \emph{or} not}.
-    Additionally it can call external functions, to bring in information from outside of the language.
+    Additionally, it can call external functions, to bring in information from outside of the language.
 
     This external information is particularly useful for mobile ecosystems.
     We can introduce a constraint function that dynamically prompts the user on their phone to okay an action.
     We can start to create rules that depend on the user's current location, or time of day.
     For example a company boss might want to check what time their employees get into work.
     To do this the boss requires their employees install an app that gives him their location.
-    Employees may be happy to do this during the work day, but during the weekend and the evenings they'd rather their boss couldn't see where they were.
+    Employees might allow their boss to check on them during the work day, but during the weekend and the evenings they'd rather their boss could not see where they were.
     One way they might enforce their policy would be to remove the location permissions from the app once they leave work, and enable them again in the mornings.
     This process is manual and error-prone: a user might forget.
-    Alternatively a phone that could use SecPAL as part of it's permission system, could be programmed to only allow that permission when the employee wishes it.
+    Alternatively a phone that could use SecPAL as part of its permission system, could be programmed to only allow that permission when the employee wishes it.
 
-    There have been many static tools developed that can infer complex properites about apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
-    We would want to be able to leverage these tools in any policy language to be able to make statements about the properties they can infer, without having to reimplement the functionality.
-    Despite the power of these tools it often isn't obvious how they should integrate with the policies surrounding the mobile ecosystem.
-    Each tool has to be run and configured differently.
-    It isn't apparent when each tool should run, or how they should be orchestrated in order to enforce policies.
+    There have been many static tools developed that can infer complex properties about apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
+    Leveraging these tools in a policy language lets us make statements about the properties they can infer, without having to reimplement the functionality.
+    Despite the power of these tools it is not obvious how they should integrate with the policies surrounding the mobile ecosystem.
+    Running and configuring each 
+    It isn't clear when each tool should run, or how to configure them to enforce a policy rule.
     By incorporating these tools into a policy language, such as SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem and the research into the properties of code.
 \end{description}
 
-Additionally I also wanted a language that was readable and easy to extend; a stated goal of the SecPAL language~\cite{becker_secpal:_2010}.
-SecPAL 
+Additionally, I also wanted a language that was readable and easy to extend; a stated goal of the SecPAL language~\cite{becker_secpal:_2010}.
+
 %\todo{MORE! How did it meet my requirements? Why SecPAL over XACML/PolicyMaker/DKAL, for example}
 
 \subsection{Comparison to XACML}
@@ -115,11 +122,12 @@ An alternative to SecPAL might be XACML.
 XACML is a powerful access control and policy language with a published standard~\cite{oasis_extensible_2013}.
 From XACML version 3.0 XACML can express delegation relationships~\cite{oasis_xacml_2010}.
 
-XACML does not have well defined semantics.
-The standards that describe the language are expressed in natural language, and are notoriously difficult to interpret\todo{CITATION}.
+XACML does not have well-defined semantics.
+XACML's designers used natural language to describe the semantics of XACML.
+This has made the semantics notoriously difficult to interpret~\cite{ramli_detecting_2015}.
 There have been several attempts to describe XACML's semantics formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}.
-These help define XACML better but, the complexity of the language and the lack of a single accepted formal semantics make it less attractive.
-In contrast SecPAL's semantics are given by Becker with the description of the language.
+These help specify XACML but the lack of a single standard semantics make it less attractive to extend to a new domain.
+In contrast, SecPAL's semantics are given precisely by Becker~\cite{becker_secpal:_2010}
 
 \begin{figure}\centering
   \begin{tabular}{l p{0.7\linewidth}}
@@ -137,22 +145,27 @@ In contrast SecPAL's semantics are given by Becker with the description of the l
   \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
 \end{figure}
 
-The complexity of XACML is not helped by its syntax which makes it difficult to read.
+XACML's syntax is difficult to read.
 XACML policies are verbose, and written in XML.
 To help developers write policies alternative notations are available that compile into XACML's XML notation.
-ALFA is one such version that is maintained by the XACML developers\footnote{Prior to 2014 it was maintained by Axiomatics.}~\cite{oasis_xacml_technical_comitee_abbreviated_????}, however many other's exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012}.
-In contrast SecPAL is designed for readability, and so avoids the need for wrapper languages to simplify it.
+ALFA is an alternate notation for XACML~\cite{oasis_xacml_technical_comitee_abbreviated_????}.
+The XACML developers maintain ALFA\footnote{Prior to 2014 it was maintained by Axiomatics.}, however others notations exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012} which the XACML standards body does not maintain.
+
+Readability was a design goal for SecPAL.
+Its notation is similar to natural language.
+Alternate notations based on XML do exist (Becker hints at them in the SecPAL technical report~\cite{becker_secpal:_2010});
+  though these are to aid computerised parsing of SecPAL not human legibility.
 
 \section{Instantiating SecPAL for mobile ecosystems}
 \label{sec:instantiating}
 
 SecPAL is a generic language.
 In SecPAL's grammar~(\autoref{fig:secpal-grammar}) predicates and constraint functions that describe the decisions and checks done in a particular domain.
-The choice of predicates and constraints defines the decisions an \emph{instantiation} of SecPAL can talk about.
+The choice of predicates and constraints defines the decisions the SecPAL instantiation can talk about.
 
-To describe policies in mobile ecosystems I developed an instantiation of SecPAL called AppPAL~\cite{hallett_apppal_2016}.
-AppPAL was initially focussed on describing app installation policies, however it was later extended further to describe SP4BYOD---a framework for describing BYOD policies using SecPAL.
-To further explore these areas an implementation of SecPAL was created and is described in \autoref{sec:implementation}.
+AppPAL instantiates SecPAL to describe policies in mobile ecosystems~\cite{hallett_apppal_2016}.
+It was initially focussed on describing app installation policies, however it was later extended further to describe other policies, such as \ac{BYOD} policies in the mobile ecosystems.
+
 
 \subsection{Predicate Conventions}
 \label{ssec:types}
@@ -174,39 +187,35 @@ To further explore these areas an implementation of SecPAL was created and is de
 \end{table}
 
 When instantiating SecPAL we use predicates based on four verbs: \emph{can}, \emph{has}, \emph{is} and \emph{must}.
-These verbs describe facts common in many different policies.
-An \emph{is} predicate is used to restrict variables to a given type.
-An \emph{can} predicate is used to describe permissible actions.
-For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can access.
+These verbs describe facts common to many policies.
+An \emph{is} predicate restricts its subject to a given type.
+A \emph{can} predicate describes permissible actions.
+For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can get access to.
 A user might have a privacy preference describing what parts of their personal data an app can share.
-App stores have procedures to go through before a developer can submit an app. \todo{CITE}
+App stores have steps to go through before a developer can sell their app. \todo{CITE}
 When we need to describe the conditions for an action going ahead we use the can statement.
 
 \begin{description}
 \item[\bfseries\texttt{subject \emph{is}Type}]
-  A typing statement.  The \emph{subject} is an example of the \emph{type}.  An
-  example might be that \lstinline!'anrgry-birds' isApp! or that
-  \lstinline!'jennie' isEmployee!.
+  A typing statement.  
+  The \emph{subject} is an example of the \emph{type}. 
+  An example might be that \lstinline!'anrgry-birds' isApp! or that \lstinline!'jennie' isEmployee!.
 \item[\bfseries\texttt{subject \emph{has}Action}]
-  A statement of action.  The \emph{subject} has carried out an \emph{action} in
-  the past. For example if an app has requested a permission then we write
-  \lstinline!App:A hasRequestedPermission(Permission:P)!, if a device requires
-  its owner to grant a permission we might write
+  Describes actions the \emph{subject} has completed.  
+  For example if an app has requested a permission then we write \lstinline!App:A hasRequestedPermission(Permission:P)!.
+  If a device requires its owner to grant a permission we might write:
   \begin{lstlisting}
 'device' says User:U can-say
   App:A hasBeenGranted(Permission:P)
   if 'device' isOwnedBy(U).
   \end{lstlisting}
 \item[\bfseries\texttt{subject \emph{can}Action}]
-  An authorization. The \emph{subject} is permitted to carry out the \emph{action}.
-  For example \lstinline!Device:D canInstall(App:A)! to say what apps a device
-  can install or \lstinline!App:A canConnectTo(URL:U)! to describe a limitation
-  on app network abilities.
+  An authorization. 
+  The \emph{subject} may perform the \emph{action}.
+  For example \lstinline!Device:D canInstall(App:A)! to say what apps a device can install or \lstinline!App:A canConnectTo(URL:U)! to describe a limitation on app network abilities.
 \item[\bfseries\texttt{subject \emph{must}Action}]
-  An obligation.  The \emph{subject} should carry out the \emph{action} as soon
-  as possible.
-  An example might be requiring the device inform a company's IT department if
-  there have been three unsuccessful password attempts:
+  An obligation.  The \emph{subject} should carry out the \emph{action} as soon as possible.
+  An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
   \begin{lstlisting}
 'company' says Device:D mustInform('it', 'login-failure')
   if D hasUnsuccesfulLogins(N)
@@ -215,8 +224,8 @@ When we need to describe the conditions for an action going ahead we use the can
 \end{description}
 
 This differs slightly from the approach taken with the SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011} instantiations.
-Both these languages add additional special phrases to SecPAL's grammar.
-For example SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether a behavior could or will be carried out.
+Both these languages add extra phrases to SecPAL's grammar.
+For example SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether to carry out an action.
 If Alice, a policy author, wished to use SecPAL4P to say that someone can forget her email address she could write:\footnote{%
 Example taken from~\cite{becker_framework_2009}  SecPAL4P also has relaxed safety rules, that permit the variables $x$ and $t$ to be in the head of the rule, but not the body.}
 \begin{lstlisting}
@@ -232,7 +241,7 @@ The AppPAL is arguably slightly less succinct, but more explicit than the SecPAL
 
 \subsection{Type Notation}
 
-When writing a policy it is common to use conditions in facts that limit the scope of a variable.
+When writing a policy, it is common to use conditions in facts that limit the scope of a variable.
 To do this we use \emph{is}-predicates, that give their subject a type.
 For example \emph{Alice} might declare that \emph{Bob} is responsible for saying which apps she can install.
 This can be written in SecPAL as follows:
@@ -259,7 +268,7 @@ Expand the AppPAL types into SecPAL conditions is described in \autoref{lst:type
 This is run when parsing AppPAL code, and adds a semantic rule to AppPAL
   that if a variable in the head of an assertion has a type
   then it is removed and a condition that the variable is that type is added to the body of the assertion. 
-If a variable in the body of an assertion has a type then it is an error.
+If a variable in the body of an assertion has a type; then it is an error.
 
 \begin{lstlisting}[language=Python, float, caption={Procedure used to expand types from AppPAL into SecPAL.}, label={lst:type-expansion}]
 def expand_types(a: Assertion) -> Assertion:
@@ -281,7 +290,7 @@ For a more complex example consider the following example taken from a BYOD poli
   if X isOwnedByCompany.
 \end{lstlisting}
 The rule states that the company will only allow devices to connect to company owned access points.
-The syntactic sugar is expanded into following equivalent policy.
+The syntactic sugar expands into the following equivalent policy.
 \begin{lstlisting}
 'company' says Device canConnectToAP(X) 
   if X isOwnedByCompany,
@@ -289,21 +298,20 @@ The syntactic sugar is expanded into following equivalent policy.
      X isAP.
 \end{lstlisting}
 I feel the first is easier to read.
-It also avoids hiding the condition that the access point must be company owned amongst typing statements aiding readability.
-
+It also avoids hiding the condition that the company must own the access point amongst typing statements aiding readability.
 
 \section{Examples of AppPAL}
-\todo{MORE! Take examples from third year report, essos papers!}
+%\todo{MORE! Take examples from third year report, essos papers!}
 
-AppPAL describes the policis in the mobile ecosystem.
+AppPAL describes the policies in the mobile ecosystem.
 One example of this might be a user selecting which apps they might want to use on their phone.
 A user might decide that an individual app (Angry Birds, for example) is okay to use on their phone.
 \begin{lstlisting}
 'user' says 'com.rovio.angrybirds' isInstallable.
 \end{lstlisting}
 Having decided the app is the one they wish to use they tell the device's package manager that they must install the app.
-The package manager might be an app store (such as the Play Store on Android; which is the \texttt{com.android.vending} APK file), a \ac{MDM} program such as iOS's \ac{VPP}, or an IT manager manually provisioning devices.
-The user may be entirely oblivious to who fills the role of the \emph{package manager} but most systems provide one nethertheless.
+The package manager might be an app store (such as the Play Store on Android: the \texttt{com.android.vending} APK file), a \ac{MDM} program such as iOS's \ac{VPP}, or an IT manager manually provisioning devices.
+The user may not know who fills the role of the \emph{package manager} but most systems provide one nevertheless.
 \begin{lstlisting}
 'user' says 'package-manager' mustInstall('com.rovio.angrybirds').
 'user' says 'com.android.vending' can-act-as 'package-manager'.
@@ -313,10 +321,10 @@ Additionally the user may allow their workplace to dictate some apps that they m
 'workplace' says 'user' mustInstall('com.microsoft.office.word').
 'user' says 'workplace' can-say 'user' mustInstall('com.microsoft.office.word').
 \end{lstlisting}
-So far the policy has been expressed in terms of single apps.
+This policy works with single apps.
 A user has decided which apps to install and have stated the apps they decided upon.
 This is an accurate description of how user's currently interact with stores and their devices.
-Users may have more complex rules for deciding what to install, but following the rules is left to the user's own self discipline.
+Users may have more complex rules for deciding what to install, but following the rules is left to the user's own self-discipline.
 
 In contrast policy languages allow for greater generality.
 A cautious user may only install Android apps with certain permissions\footnote{Permissions are the access control mechanism for device features used by Android.}.
@@ -331,7 +339,7 @@ Others may avoid apps that allow them to spend money within the app.
   if App cannotMakeInAppPurchases.
 \end{lstlisting}
 Some may rely on an \ac{AV} program installed on their phone.
-Only apps which the program has checked may be installed.
+The phone can only install apps checked by the \ac{AV} program.
 \begin{lstlisting}
 'user' says App:A isInstallable
   where runAV(A) = 'safe'.
@@ -347,20 +355,20 @@ Alternatively they may say if two or more of their friends are willing to recomm
   App:A isRecommendedBy(F).
 \end{lstlisting}
 
-AppPAL gives a language for describing these decision making processes.
-By writing down policies in formal language we not only start to allow machine-based decision making, avoiding the need for user's self control, but we also can compare different policies precisely.
+AppPAL gives a language for describing these decision-making processes.
+  By writing down policies in formal language we not only start to allow machine-based decision-making, avoiding the need for user's self-control, but we also can compare different policies precisely.
 
 This goes beyond describing user's app preferences.
 Consider the two largest mobile operating systems: Apple's iOS and Google's Android.
-When comparing the systems Apple's is often described as a \emph{walled-garden} whereas Android is an \emph{open-platform}.\todo{Cite a bunch of papers for this. Just search google scholar}
+When comparing the systems Apple's is often described as a \emph{walled-garden} whereas Android is an \emph{open-platform}~\cite{barrera_secure_2011,enck_defending_2011}.
 Language like this is informal.
 It hints at the differences without giving them precisely.
 
 Using AppPAL we can model the differences between the two systems and make more meaningful comparisons.
 The \emph{walled-garden} comments relate to their different app store models.
 Users of iOS can only install apps from the App Store\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an \emph{app store} is a generic term for an on-device store selling apps.}.
-If a user is willing to install a special certificate, from a developer or business, however they may be allowed to install additional apps through the browser or a computer connected to the device.
-These special certificates are controlled by Apple who issue and revoke them.
+If a user is willing to install a special certificate, from a developer or business, however they may install apps through the browser or a computer connected to the device.
+Apple control these special certificates, issuing and revoking them.
 They must also be authorized by the device's owner.
 \begin{lstlisting}
 'device' says App isInstallable
@@ -378,7 +386,7 @@ They must also be authorized by the device's owner.
 'device' says Authority:A can-say A hasAuthorized(Certificate:C).
 \end{lstlisting}
 In contrast an Android user is free to install any signed app (though who signed it is not immediately important). 
-However, unless the user has enabled \emph{side-loading} through the settings app, the app must come from the Play Store, as opposed to a file that was downloaded through another app store or the internet.
+However, unless the user has enabled \emph{side-loading} through the settings app, the app must come from the Play Store, as opposed to a file downloaded through another app store or the internet.
 Alternatively if the user has enabled \emph{developer-mode}, again through the settings, then they may install apps through the \ac{ADB}.
 \begin{lstlisting}
 'device' says App isInstallable
@@ -406,9 +414,11 @@ Alternatively if the user has enabled \emph{developer-mode}, again through the s
 
 'settings-app' says 'user' can-say 'user hasAuthorized(Setting:X).
 \end{lstlisting}
-This glosses over some of the details of certificate handling (though the example could be extended further), and how app updates are performed but provides a far more precise version of the differences in app installation between the two platforms.
-For iOS Apple have to authorize, either by signing the app or the issuer, the app before it can be installed.
-In contrast for Android any app can be installed if the device owner is willing to enable the relevant setting.
+This glosses over some of the details of certificate handling (though the example could be extended further). 
+It also ignores how the system might update apps.
+It does, however, provide a far more precise version of the differences in app installation between the two platforms.
+For iOS, to install an app Apple have to authorize it, either by signing the app or the issuer.
+In contrast for Android, to the device can install any app if the device owner is willing to enable the relevant setting.
 
 \subsection{Checking a policy}
 
@@ -417,11 +427,11 @@ Alice works for a hospital trust: they have a published mobile device policy.%~\
 There policy states that if Alice wants to install an app she has to clear it with her immediate manager.
 If it is for clinical use then she also has to clear it with the \ac{CACPG}.
 If it is for business use then she also has to clear it with the \ac{MIG}.
-Finally the app should be cleared by the \ac{IGC}.
+Finally the \ac{IGC} should clear the app.
 This is a relatively complicated policy requiring, but it is also a realistic one.
-The rule itself is taken from an actual NHS trust's BYOD rules~\cite{kennington_mobiles_2014}.
+The rule itself comes from an actual NHS trust's BYOD rules~\cite{kennington_mobiles_2014}.
 
-To implement the policy they publish the following policy:
+To implement the policy they publish the following AppPAL rules:
 \begin{lstlisting}
 'nhs-trust' says App isUsable 
   if App hasMet('clinical-use-case').
@@ -455,7 +465,7 @@ To satisfy the policy and install the app she needs to collect the following sta
 \begin{itemize}
     %\newcommand{\weitemsize}[0]{\footnotesize}
   \item {\lstinline{'nhs-trust' says 'com.microsoft.office' isInstallable.}\newline}
-    For this, she needs a statement from the Management of Information Group that it has a business use-case.
+    For this, she needs the Management of Information Group to state that it has a business use-case.
     She also needs approval from the Integrated Governance Committee.
     \begin{enumerate}\setcounter{enumi}{0}
       \item {\lstinline{'mig' says 'com.microsoft.office' hasMet('business-use-case').}}
@@ -474,18 +484,18 @@ To satisfy the policy and install the app she needs to collect the following sta
     \end{enumerate}
 \end{itemize}
 
-Alice obtains the statements by contacting each of the speakers. 
-Each may either give her the statement she needs or may give her additional rules.
-For example, the \ac{MIG} and \ac{IGC} may be happy to state their statements (after a review).
-When checking if the app is an App in \autoref{item:isapp}, the NHS trust may be instead inclined to delegate further.
-They could reply that if the App is in the Google Play store then they are convinced it is an app.
-Alice would then have to obtain additional statements if she wanted to prove this statement.
+Alice obtains the statements by contacting the speakers. 
+Each may either give her the statement she needs or may give her more rules.
+For example, the \ac{MIG} and \ac{IGC} may authorize the app or they might give a list of additional checks they need before they agree to authorize the app.
+When checking if the app is an App in \autoref{item:isapp}, the NHS trust might delegate further.
+They could reply that if the App is in the Google Play store then they recognise it as a valid app.
+Alice would then have to get more assertions if she wanted to prove this statement.
 %As with SecPAL, all statements should have a signature from their speaker proving they said the statement.
-Alternatively, the speaker could refuse to give the statement, either because they do not believe it to be true, or they cannot give an answer.
-In this case, Alice would have to look for an alternative means to prove the statement or accept that they cannot install the app.
+Alternatively, the speaker could refuse to make the assertion, either because they do not believe it, or they cannot give an answer.
+In this case, Alice would have to look for an alternative means to prove the assertion or accept that they cannot install the app.
 
-Once the statements have been collected she can use a SecPAL inference tool, such as AppPAL, to check whether she can install the app.
-Additional to the decision, if a proof can be found, a tool like AppPAL can output a proof tree to show how the decision was made (\autoref{fig:exemplar-proof}). 
+Once she has collected the statements, she can use a SecPAL inference tool, such as AppPAL, to check whether she can install the app.
+Additional to the decision, if a proof is found, a tool like AppPAL can output a proof tree to show how it made the decision (\autoref{fig:exemplar-proof}). 
 
 \begin{figure}
   \centering
@@ -497,25 +507,24 @@ Additional to the decision, if a proof can be found, a tool like AppPAL can outp
 \section{Implementation}
 \label{sec:implementation}
 
-AppPAL is implemented as a Java library in roughly 5,000 lines of code.
+The AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available online\footnote{\url{https://github.com/apppal/libapppal}}.
-The library is used to create an instance of AppPAL that is given one or more policies to enforce (\autoref{fig:apppal-inputs-outputs}).
-The instance can be queried and will give decisions based on whether the queried assertion is valid according to the policy.
+The library creates an AppPAL instance.
+This instance can be given several policies to enforce (\autoref{fig:apppal-inputs-outputs}).
+The instance is queried and will give decisions based on whether the queried assertion is valid according to the policy.
 As part of the constraint checking AppPAL can also be connected to external databases, systems, and static analysis tools.
-These can provide AppPAL with additional information external to that provided by SecPAL at the time of checking.
+These can give AppPAL with more information external to that provided by SecPAL at the time of checking.
 
-Implementing AppPAL as a library allows it to be embedded into a variety of situations.
+Implementing AppPAL as a library allows us to embed into a variety of situations.
 It can be part of an app store checking the apps sold against a policy.
-It can be used on a device (AppPAL is written in Java, and minimal changes are needed to let it run on Android), checking apps before they are installed by the package manager.
+Running on a device it can check apps before installation by the package manager.
 There is also a command-line version which is useful for testing and modelling policies.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown in~\autoref{fig:secpal-rules}) directly.
 This differs from Becker's original description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation through Datalog$^C$.
-Datalog$^C$ is a version of Datalog with support for constraints~\cite{li_datalog_2003}.
+Datalog$^C$ is Datalog extended to support constraints~\cite{li_datalog_2003}.
 Rather than implementing Datalog$^C$ and then AppPAL atop it (we could not find an existing implementation), AppPAL implements the evaluation rules directly.
 This allows greater control over when AppPAL caches results, which is important in memory-constrained mobile devices.
-
-
 
 \begin{figure}
   \centering
@@ -562,27 +571,28 @@ This allows greater control over when AppPAL caches results, which is important 
 Pseudocode for AppPAL's evaluation algorithm is given in Algorithms~\cref{alg:eval1,alg:eval2,alg:eval3}.
 
 To make queries against a policy AppPAL is first given one or more policy files.
-These are parsed, and the assertions within them are added to the \ac{AC}.
-The AC is then preprocessed to extract additional information; summarized in \autoref{tab:apppal-sets}.
+AppPAL parses the files and adds the assertions within them to the \ac{AC}.
+The AC is then preprocessed to extract more information; summarized in \autoref{tab:apppal-sets}.
 If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.
-If the constant is used immediately after the \emph{says} or as the subject of a fact then it is marked as a \emph{subject}.
+A constant is \emph{voiced} if it is the speaker of a statement or it is the subject of a \emph{can-say} fact.
+A constant is a \emph{subject} is it is the subject of a fact.
 The predicates used in the policy are also extracted and marked as \emph{derivable}.
 This allows some queries to be decided automatically and some rules to be flagged as unusable in the assertion context.
+This lets AppPAL reject some queries quickly: if they have a speaker that isn't voiced then we cannot query what they say.
 If a rule relies on un-derivable predicates then it cannot be used to make decisions.
 
 A results table is also created.
-All ground facts in the assertion context are added to the results table as they are known to be true.
+All ground facts in the assertion context are added to the results table as proven facts.
 The table stores partial results and previously established proofs.
-The table is indexed by queries and a delegation depth, partial results (i.e. that a query is being evaluated).
+The table is indexed by queries and a delegation depth, partial results (i.e. that the evaluation of this query is ongoing).
 This allows previous results to reused without re-computation or constraint re-evaluation.
 It also prevents AppPAL proofs growing infinite in size (and the decision process not terminating).
-If when searching for a proof we encounter a query that we are currently evaluating, i.e.~one that exists higher in the current proof tree, we treat it as false. 
-This results table is shared between evaluations of an \ac{AC}.
+If when searching for a proof we meet a query that we are currently evaluating, i.e.~one that exists higher in the current proof tree, we treat it as false. 
+Multiple queries will share the same results table until the table is cleared, or the AppPAL instance is stopped.
 
 When evaluating the policy we also track which rules and predicates we have used.
-From this we can reconstruct a proof tree that shows how a decision was reached.
-The proof tree shows how any decision was made.
-This allows the decision making process to be audited and enables developers to see how decisions were made.
+From this we can reconstruct a proof tree that shows how AppPAL made a decision.
+This allows an auditor to check the decision-making process and aids AppPAL's developers with debugging.
 
 \begin{table}
   \centering
@@ -677,26 +687,25 @@ This allows the decision making process to be audited and enables developers to 
     \label{alg:eval3}
 \end{algorithm}
 
-\subsection{Correctness/Complexity}
-\todo{You know you're going to have to do this.}
+%\subsection{Correctness/Complexity}
+%\todo{You know you're going to have to do this.}
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
 
-If AppPAL were to run on a mobile phone, apps should be checked as they are installed.
+Someone using AppPAL might wish it to check apps before installation.
 Since policy checks may involve inspecting many rules and constraints one may ask whether the checking will be acceptably fast.
 Downloading and installing an app takes about 30 seconds on a typical Android phone over Wifi.
 If checking a policy delays this even further a user may become annoyed and disable AppPAL.
 
-To give a measure the performance of AppPAL a synthetic benchmark was developed.
+A synthetic benchmark is used to give a measure AppPAL's performance.
 The policy checking procedure is at its slowest when having to delegate repeatedly;
-the depth of the delegation tree is the biggest factor for slowing the search.
-Synthetic benchmarks were created to check that the checking procedure performed acceptably.
+  the depth of the delegation tree is the biggest reason for slowing the search.
+Synthetic benchmarks checks that the checking procedure performed acceptably.
 Each benchmark consisted of a chain of delegations.
 The \emph{1 to 1} benchmark consists of a repeated delegation between all the principals.
 In the \emph{1 to 2} benchmark each principal delegated to 2 others and in the \emph{1 to 3} benchmark each principal delegated to 3 others.
-These benchmarks are reasonable as they model the slowest kinds of policies to
-evaluate---though worse ones could be designed by delegating even more or triggering an expensive constraint check.
+These benchmarks are reasonable as they model the slowest kinds of policies to test---though worse ones could be designed by delegating even more or triggering an expensive constraint check.
 
 For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
@@ -726,14 +735,11 @@ I believe the policy checking performance of AppPAL is acceptable as unless a po
       1 to 3 & 1000 & 15&28 \\
       \bottomrule
     \end{tabular}
-    \includegraphics[width=0.50\linewidth]{figures/benchmarks.pdf}
+    \includegraphics[width=1.00\linewidth]{figures/benchmarks.pdf}
   \caption{Benchmarking results on a Nexus 4 Android phone.}
   \label{tab:benchmarks}
 \end{table}
 
 \end{document}
 
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "../thesis"
-%%% End:
+% vim: set makeprg=make\ ch3.pdf:

@@ -2,12 +2,13 @@
 @misc{center_for_history_and_new_media_zotero_????,
 	title = {Zotero {Quick} {Start} {Guide}},
 	url = {http://zotero.org/support/quick_start_guide},
-	author = {{Center for History and New Media}}
+	author = {{Center for History and New Media}},
+	annote = {Welcome to Zotero!View the Quick Start Guide to learn how to begin collecting, managing, citing, and sharing your research sources.Thanks for installing Zotero.}
 }
 
 @article{alon_levy_constraints_1992,
 	title = {Constraints and redundancy in datalog},
-	journal = {PODS},
+	journal = {Proceedings of the eleventh ACM SIGACT-SIGMOD-SIGART symposium on Principles of database systems},
 	author = {{Alon Levy} and {Yehoshua Sagiv}},
 	year = {1992}
 }
@@ -387,6 +388,7 @@ This has resulted in security implications for data leakage, data theft and regu
 	year = {2009},
 	keywords = {Android, citeme, malware, mobile phone security, readme},
 	pages = {235--245},
+	annote = {- Section 3.2 provides short comprehensive overview of Android Security.- Kirin: security service that is called by the Android Installer at install time of apps, either accepts or rejects the app- Methodology is security requirement engineering = they look closely at what functionality Android has and how that functionality is protected ={\textgreater} Assets are basically permissions and intents- Kirin security rules are conjunctions of permissions and intents. Kirin checks the rules by looking at the application manifest to see which permissions and intents the app needs / receives.- Out of 311 apps (top 20 out of 16 categories) from the 2009 Android store, 10 are flagged as potential Malware by Kirin. After closer (=manual) inspection, 5 turn out to be OK, 5 are highly suspicious.},
 	file = {Enck et al_2009_On lightweight mobile phone application certification.pdf:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/JDRBAPCV/Enck et al_2009_On lightweight mobile phone application certification.pdf:application/pdf}
 }
 
@@ -542,6 +544,9 @@ This has resulted in security implications for data leakage, data theft and regu
 	note = {Cited by 0024},
 	keywords = {Android, Privacy, Smartphone},
 	pages = {639--652},
+	annote = {Summary
+They evaluate several techniques for preventing data exfiltration on Android; namely: data shadowing (returning empty/fake data to apps which are taking info without asking for it) taint tracking of sensitive data out of the network stack (using TaintDroid) They created a tool called AppFence implementing this, and tried it on real data.  They accept that their are ways round it and that data-shadowing may be a good red pill, but that it seems to be working. To see what the impact of their system was they tried running 50 apps with it under an input simulator and taking visual diffs of the AppFence’d and normal apps.  Some complete breaks, but mostly no effect (except removing ads).  Biggest permission that did cause complete breaks when hidden from apps was the location, and device id (each breaking {\textasciitilde}40\% of apps which needed it). They conclude with a call for better permissions controls.
+-- JAH},
 	file = {ACM Full Text PDF:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/Q95PJFD9/Hornyack et al. - 2011 - These aren't the droids you're looking for retrof.pdf:application/pdf}
 }
 
@@ -589,7 +594,7 @@ This has resulted in security implications for data leakage, data theft and regu
 	language = {en},
 	number = {6},
 	urldate = {2016-11-07},
-	journal = {Bus Inf Syst Eng},
+	journal = {Business \& Information Systems Engineering},
 	author = {Köffer, Sebastian and Ortbach, Kevin and Junglas, Iris and Niehaves, Björn and Harris, Jeanne},
 	month = may,
 	year = {2015},
@@ -653,7 +658,7 @@ This has resulted in security implications for data leakage, data theft and regu
 @article{hao_effectiveness_2013,
 	title = {On the effectiveness of {API}-level access control using bytecode rewriting in {Android}},
 	abstract = {Bytecode rewriting on Android applications has been widely adopted to implement fine-grained access control. It endows more flexibility and convenience without modifying the Android platform. Bytecode rewriting uses static analysis to identify the usage of security-sensitive API methods, before it instruments the bytecode to control the access to these API calls. Due to the significance of this technique, the effectiveness of its performance in providing fine-grained access control is crucial. We have provided a systematic evaluation to assess the effectiveness of API-level access control using bytecode rewriting on Android Operating System. In our evaluation, we have identified a number of potential attacks targeted at incomplete implementations of bytecode rewriting on Android OS, which can be applied to bypass access control imposed by bytecode rewriter. These attacks can either bypass the API-level access control or make such access control difficult to implement, exposing weak links in the bytecode rewriting process. Recommendations on engineering secure bytecode rewriting tools are presented based on the identified attacks. This work is the first systematic study on the effectiveness of using bytecode rewriting for API-level access control.},
-	journal = {ASIA CCS},
+	journal = {Proceedings of the 8th ACM SIGSAC symposium on Information, computer and communications security},
 	author = {Hao, Hao and Singh, Vicky and Du, Wenliang},
 	year = {2013},
 	file = {Hao et al. - 2013 - On the effectiveness of API-level access control u.pdf:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/UJ87SMZB/Hao et al. - 2013 - On the effectiveness of API-level access control u.pdf:application/pdf}
@@ -681,7 +686,7 @@ This has resulted in security implications for data leakage, data theft and regu
 
 @article{alon_levy_equivalence_1993,
 	title = {Equivalence, query-reachability and satisfiability in {Datalog} extensions},
-	journal = {PODS},
+	journal = {Proceeding of the 12th ACM SIGACT-SIGMOD-SIGART symposium on Principles of Database Systems},
 	author = {{Alon Levy} and {Inderpal Singh Mumick} and {Yehoshua Sagiv} and {Oded Shmueli}},
 	year = {1993}
 }
@@ -1152,7 +1157,10 @@ DOI: 10.1007/978-3-642-28166-2\_7},
 	year = {2009},
 	note = {Cited by 0000},
 	keywords = {certified compilation, citeme, data-flow security, hybrid type system, mobile code},
-	pages = {1--7}
+	pages = {1--7},
+	annote = {Note from Wei:
+Shows a language-and-type-based formalisation of permission system in Android. It is interesting. However, I believe it is just another way to express data flow analysis and permission propagation. It might be useful for future.
+ }
 }
 
 @inproceedings{oliner_carat:_2013,
@@ -1369,6 +1377,12 @@ DOI: 10.1007/978-3-642-28166-2\_7},
 	note = {Cited by 0164},
 	keywords = {Android, constraints, mobile platforms, policy framework, readme},
 	pages = {328--332},
+	annote = {Summary (from Joseph)
+Created new way of writing Android usage policies (APEX) and new app installer (Poly) that allows users to add usage constraints to an app based on conditionals promoting more granular controls.  Focussed on being more usable than others.
+-- JAH},
+	annote = {Summary (from Wei)
+...
+ },
 	file = {Apex\: extending Android permission model and enforcement with user-defined runtime constraints - p328-nauman.pdf:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/QW6GSMXX/p328-nauman.pdf:application/pdf}
 }
 
@@ -1689,6 +1703,10 @@ Given the desire of workers to bring the devices they use at home into the workp
 In this paper, we present SCANDAL, a sound and automatic static analyzer for detecting privacy leaks in Android appli- cations. We analyzed 90 popular applications using SCANDAL from Android Market and detected privacy leaks in 11 ap- plications. We also analyzed 8 known malicious applications from third-party markets and detected privacy leaks in all 8 applications.},
 	author = {Kim, Jinyung and Yoon, Yongho and Yi, Kwangkeun and Shin, Junbum},
 	note = {Cited by 0010},
+	annote = {Summary
+They describe a static analysis tool called SCANDAL that can detect privacy leaks. Their tool is based off of the abstract interpretation framework, and Dalvik-core—a new IR format for Dalvik they have designed. They tried running their tool on 90 app sample and 8 malware samples.  They identified all the malware, and found some evidence of privacy-leaks in the app-store sample.
+-- JAH
+ },
 	file = {Kim et al. - SCANDAL Static Analyzer for Detecting Privacy Lea.pdf:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/IZ7FPBBS/Kim et al. - SCANDAL Static Analyzer for Detecting Privacy Lea.pdf:application/pdf}
 }
 
@@ -1820,6 +1838,16 @@ Brian Tokuyoshi of Palo Alto Networks shows how this use of personal devices hig
 	note = {Cited by 0000},
 	keywords = {Computer Communication Networks, Data Encryption, e-Commerce/e-business, Management of Computing and Information Systems, readme, Systems and Data Security},
 	pages = {775--792},
+	annote = {Summary
+
+They propose a DIFC-style (??) enforcement system for Android that lets them specify policies in greater detail.
+Develop a process-calculus model of Android and their enforcement model.
+Define non-interference for their system and prove it holds  with dynamically changing components.
+Implement it on Android 4.0.4.
+
+Their focus is on trying to prevent exfiltration.
+ Define label for applications of the form (s,i,∂) where ’s’ is the set of secrets managed by the app, ‘i’ is the set of integrity aspects things have (i.e. ability to write to files) and ‘∂’ is the set of things the app can lose or gain (i.e. can lose a secret). They go on to display and apparently prove some properties.  Do not really understand.
+-- JAH},
 	file = {Jia et al_2013_Run-Time Enforcement of Information-Flow Properties on Android.pdf:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/FEWGQSSN/Jia et al_2013_Run-Time Enforcement of Information-Flow Properties on Android.pdf:application/pdf;Snapshot:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/VWASKDRV/10.html:text/html}
 }
 
@@ -1889,7 +1917,7 @@ Brian Tokuyoshi of Palo Alto Networks shows how this use of personal devices hig
 	volume = {24},
 	url = {https://hal.inria.fr/hal-01403485/document},
 	urldate = {2017-01-20},
-	journal = {SANER},
+	journal = {IEEE Conference on Software Analysis, Evolution and Reengineering},
 	author = {{Antonin Carette} and {Mehdi Adel Ait Younes} and {Geoffrey Hecht} and {Naouel Moha} and {Romain Rouvoy}},
 	year = {2017},
 	file = {Investigating the Energy Impact of Android Smells - document:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/ZMSICJWU/document.pdf:application/pdf}
@@ -1941,4 +1969,58 @@ Brian Tokuyoshi of Palo Alto Networks shows how this use of personal devices hig
 	keywords = {Android security, malware detection, Static detection, Threat degree},
 	pages = {15--25},
 	file = {ScienceDirect Snapshot:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/JE3KJW2B/S1574119216000420.html:text/html}
+}
+
+@article{barrera_secure_2011,
+	title = {Secure {Software} {Installation} on {Smartphones}},
+	volume = {9},
+	issn = {1540-7993},
+	doi = {10.1109/MSP.2010.202},
+	abstract = {This overview of iOS, Android, BlackBerry, and Symbian security frameworks includes a novel classification of third-party-application installation models. It also discusses how controlled app marketplaces fit in the smartphone security ecosystem.},
+	number = {3},
+	journal = {IEEE Security Privacy},
+	author = {Barrera, D. and Oorschot, P. Van},
+	month = may,
+	year = {2011},
+	keywords = {Android, BlackBerry, Classification, controlled app marketplaces, Handheld computers, iOS, mobile computing, mobile radio, Operating Systems, secure software installation, Security, security of data, smart phones, smartphones, smartphone security ecosystem, software installation, Software protection, Symbian security frameworks, third-party-application installation models},
+	pages = {42--48},
+	file = {IEEE Xplore Abstract Record:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/TK5J5CQZ/5674007.html:text/html}
+}
+
+@inproceedings{enck_defending_2011,
+	series = {Lecture {Notes} in {Computer} {Science}},
+	title = {Defending {Users} against {Smartphone} {Apps}: {Techniques} and {Future} {Directions}},
+	copyright = {©2011 Springer-Verlag Berlin Heidelberg},
+	isbn = {978-3-642-25559-5 978-3-642-25560-1},
+	shorttitle = {Defending {Users} against {Smartphone} {Apps}},
+	url = {http://link.springer.com/chapter/10.1007/978-3-642-25560-1_3},
+	abstract = {Smartphone security research has become very popular in response to the rapid, worldwide adoption of new platforms such as Android and iOS. Smartphones are characterized by their ability to run third-party applications, and Android and iOS take this concept to the extreme, offering hundreds of thousands of “apps” through application markets. In response, smartphone security research has focused on protecting users from apps. In this paper, we discuss the current state of smartphone research, including efforts in designing new OS protection mechanisms, as well as performing security analysis of real apps. We offer insight into what works, what has clear limitations, and promising directions for future research.},
+	language = {en},
+	urldate = {2017-01-27},
+	booktitle = {Information {Systems} {Security}},
+	publisher = {Springer Berlin Heidelberg},
+	author = {Enck, William},
+	editor = {Jajodia, Sushil and Mazumdar, Chandan},
+	month = dec,
+	year = {2011},
+	note = {DOI: 10.1007/978-3-642-25560-1\_3},
+	keywords = {Computer Communication Networks, Data Encryption, Information Storage and Retrieval, Information Systems Applications (incl. Internet), Management of Computing and Information Systems, Smartphone security, Systems and Data Security},
+	pages = {49--70},
+	file = {Snapshot:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/66TV8GZG/10.html:text/html}
+}
+
+@article{barrera_secure_2011-1,
+	title = {Secure {Software} {Installation} on {Smartphones}},
+	volume = {9},
+	issn = {1540-7993},
+	doi = {10.1109/MSP.2010.202},
+	abstract = {This overview of iOS, Android, BlackBerry, and Symbian security frameworks includes a novel classification of third-party-application installation models. It also discusses how controlled app marketplaces fit in the smartphone security ecosystem.},
+	number = {3},
+	journal = {IEEE Security Privacy},
+	author = {Barrera, D. and Oorschot, P. Van},
+	month = may,
+	year = {2011},
+	keywords = {Android, BlackBerry, Classification, controlled app marketplaces, Handheld computers, iOS, mobile computing, mobile radio, Operating Systems, secure software installation, Security, security of data, smart phones, smartphones, smartphone security ecosystem, software installation, Software protection, Symbian security frameworks, third-party-application installation models},
+	pages = {42--48},
+	file = {IEEE Xplore Abstract Record:/home/bogwonch/.mozilla/firefox/q5n1rld0.default/zotero/storage/8AZKT5DB/5674007.html:text/html}
 }
