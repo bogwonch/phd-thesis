@@ -1,5 +1,7 @@
 \ProvidesPackage{phdthesis}
 
+\newcommand{\ignore}[1]{}
+
 % Use a package if it hasn't already been loaded
 \newcommand{\includepackage}[2][]{\@ifpackageloaded{#2}{}{\usepackage[#1]{#2}}}
 
@@ -87,6 +89,7 @@
 \SetKwFunction{FnConstants}{Constants}
 \SetKwFunction{FnUnify}{Unify}
 \SetKwFunction{FnHead}{Head}
+\SetKwFunction{FnType}{Type}
 \SetKwFunction{FnApply}{Apply}
 \SetKwFunction{FnBody}{Body}
 \SetKwFunction{FnVariables}{Variables}
@@ -156,4 +159,3 @@
 
 % PDF including
 %\includepackage{pdfpages}
-
