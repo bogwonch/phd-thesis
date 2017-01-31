@@ -177,9 +177,15 @@ in it.  Whilst XACML might seem like a suitable language to model mobile
 ecosystems\footnote{As some reviewers of our papers have suggested.}, it suffers
 from various issues.
 
-Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010}, earlier
-versions do not.  The XACML 3.0 standard was published in 2013, after deciding
-to start work with SecPAL.
+Readability was a design goal for SecPAL.
+Its notation is similar to natural language.
+Alternate notations based on XML do exist (Becker hints at them in the SecPAL technical report~\cite{becker_secpal:_2010});
+  though these are to aid computerised parsing of SecPAL not human legibility.
+In contrast, XACML's default syntax is difficult to read.
+XACML policies are verbose, and written in XML.
+To help developers write policies alternative notations are available that compile into XACML's XML notation.
+ALFA is an alternate notation for XACML~\cite{oasis_xacml_technical_comitee_abbreviated_????}.
+The XACML developers maintain ALFA\footnote{Prior to 2014 it was maintained by Axiomatics.}, however others notations exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012} which the XACML standards body does not maintain.
 
 XACML does not have well-defined semantics.
 XACML's designers used natural language to describe the semantics of XACML.
@@ -204,16 +210,10 @@ In contrast, SecPAL's semantics are given precisely by Becker~\cite{becker_secpa
   \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
 \end{figure}
 
-XACML's syntax is difficult to read.
-XACML policies are verbose, and written in XML.
-To help developers write policies alternative notations are available that compile into XACML's XML notation.
-ALFA is an alternate notation for XACML~\cite{oasis_xacml_technical_comitee_abbreviated_????}.
-The XACML developers maintain ALFA\footnote{Prior to 2014 it was maintained by Axiomatics.}, however others notations exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012} which the XACML standards body does not maintain.
+Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010}, earlier
+versions do not.  The XACML 3.0 standard was published in 2013, after deciding
+to start work with SecPAL.
 
-Readability was a design goal for SecPAL.
-Its notation is similar to natural language.
-Alternate notations based on XML do exist (Becker hints at them in the SecPAL technical report~\cite{becker_secpal:_2010});
-  though these are to aid computerised parsing of SecPAL not human legibility.
 
 \section{Instantiating SecPAL for mobile ecosystems}
 \label{sec:instantiating}
