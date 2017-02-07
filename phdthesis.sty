@@ -27,8 +27,10 @@
 \acrodef{MIG}{Management of Information Group}
 \acrodef{IGC}{Integrated Governance Comitee}
 \acrodef{CACPG}{Care and Clinical Policies Group}
+\acrodef{HiMSS}{Health information and Management Systems Society}
 
 \includepackage{graphicx}
+\newcommand{\rb}[1]{\rotatebox{90}{#1}}
 \includepackage[update,prepend]{epstopdf}
 
 \includepackage{hyperref}
@@ -53,6 +55,7 @@
 \includepackage{cleveref}
 \includepackage{pxfonts}
 \includepackage{multicol}
+\includepackage{multirow}
 \includepackage{proof}
 %\includepackage{syntax}
 \includepackage{booktabs}
@@ -64,6 +67,24 @@
 \newcommand{\cmark}{\ding{51}}%
 
 \newcommand{\etal}[0]{et~al{.}\@}
+
+\includepackage{mdframed}
+\mdfdefinestyle{supertight}{%
+  leftmargin=0pt,
+  rightmargin=0pt,
+  skipabove=1em,
+  skipbelow=1em,
+  innerleftmargin=2pt,
+  innerrightmargin=2pt,
+  innertopmargin=2pt,
+  innerbottommargin=2pt,
+}
+\newenvironment{policyrule}[1]{%
+  \begin{mdframed}[]\small
+      \noindent\textbf{\sffamily #1}:~\itshape%
+}{%
+  \end{mdframed}
+}
 
 \includepackage[boxed,noend]{algorithm2e}
 \DontPrintSemicolon
