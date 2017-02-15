@@ -16,10 +16,7 @@ Companies have a variety of means to implement their policies. Some companies
 may trust employees to follow the rules on their own. Alternatively \emph{Mobile
   Device Management} (MDM) software can implement part of the policies: packages
 such as IBM's MaaS360 and Blackberry's BES~\cite{_ibm_????,_secure_????} can
-configure devices to restrict functionality and manage apps. Research has looked
-at developing other tools such as UC-Droid~\cite{martinelli_enhancing_2016} or
-BYODroid~\cite{armando_enabling_2014} which was used to implement parts of a
-NATO BYOD policy~\cite{armando_developing_2016}.
+configure devices to restrict functionality and manage apps.
 
 Commercial tools are limited in what polices they can enforce. Some tools can
 only enable simple on-off configuration settings, and ban explicitly
@@ -65,7 +62,66 @@ concerns.
 \end{itemize}
 
 Each of the policies is split into a series of rules and requirements employees
-should follow.
+should follow. Typically the policy is written describing what employees should
+do and what will happen under certain circumstances. For example the NHS policy
+states that:
+
+\begin{policyrule}{NHS}
+  In the event of loss of the device, all data including apps will be wiped. The Trust
+  is not responsible for reimbursement of any costs for personally purchased apps.
+\end{policyrule}
+
+The Siren policy matches this style, stating what conditions will lead to the
+company wiping an employees device:
+
+\begin{policyrule}{Sirens}
+The employee’s device may be remotely wiped if: $\bullet$ The device is lost or
+stolen. $\bullet$ The employee terminates his or her employment. $\bullet$ IT
+detects a data or policy breach, a virus or similar threat to the security of
+the company’s data and technology infrastructure.
+\end{policyrule}
+
+In contrast the \ac{HiMSS} policy is written as a contract where the user states
+what they will do.
+
+\begin{policyrule}{HiMSS}
+  I agree that the PDA/Smartphone can be wiped by XYZ Health System upon the
+  decision of XYZ Health System management and understand that it will delete all
+  data including personal files.
+\end{policyrule}
+
+The SANS policy is mostly written in the same style as the NHS policy.  It is
+written as a hypothetical policy that a company might use as the basis for their
+own policy, however it sometimes says things that seem like advice to an IT
+department implementing the policy.  It also For example:
+
+\begin{policyrule}{SANS}
+   A corporate mobile device management solution SHALL feature remote device
+   wiping (or possibly only blocking) mechanism for all devices accessing
+   corporate internal networks.
+\end{policyrule}
+
+The SANS policy also distinguishes between rules that should always be followed (SHALL),
+and those that may depend on a specific business's situation (SHOULD).
+
+\begin{policyrule}{SANS}
+  Basically, sentences using the verb ``SHALL'' are mandatory requirements
+  applying to practices with high probability of putting the business at risk,
+  whereas ``SHOULD'' means that the policy needs to be applied according to the
+  business’s specific situation.
+\end{policyrule}
+
+The Edinburgh policy takes this even further. Rules are grouped by type of
+device, and are given a security marking.  High and mediu,m risk users are
+expected to follow everything, and low risk users are expected to at least
+consider following the rules marked with a nabla.  For example the
+rule for remote wiping devices is grouped with the rules specific to mobile
+devices and tablets, and is marked with a triangle.
+
+\begin{policyrule}{Edinburgh}
+  $\nabla$ Configure your device to enable you to remote-wipe it should it become lost.
+\end{policyrule}
+
 
 \subsection{Review of MDM software}
 
@@ -89,39 +145,51 @@ summarised in \autoref{tab:mdm-capabilities}~\cite{rob_smith_magic_2016}.  Most
 of the tools link to the report on their homepages as the report lists \emph{every} tool as
 either \emph{visionary}, \emph{leading}, or \emph{niche player}.\footnote{The
   table summarises the visionary and leading MDM packages.}  In practice all the
-tools are very similar with the chief difference being the UI.
+tools are very similar with the chief difference being the UI as well as some
+extra features only certain tools support.
 
 \begin{table}\centering\sffamily\footnotesize
-\begin{tabular}{l c c c c c c c c c}
-  \toprule
-  Feature                           & \rb{MaaS360} & \rb{Blackberry BES} & \rb{MobileIron} & \rb{Citrix XenMobile} & \rb{VMWare AirWatch} & \rb{Microsoft} & \rb{SOTI MobiControl} & \rb{Sophos} & \rb{Landdesk} \\
-  \midrule
-  Antivirus                         &              &                     &                 &                       &                      &                &                       & \cmark      &               \\
-  App selection/store/management    & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
-  App wrapping/modification         &              & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         &                       & 1           & \cmark        \\
-  Authentication                    & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             &               \\
-  Compliance reporting              & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
-  Device configuration              & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             & \cmark        \\
-  Email/Calendar/Contacts/Documents & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
-  Feature Restrictions              & \cmark       & \cmark              &                 &                       & \cmark               & \cmark         &                       &             &               \\
-  Licence distribution              &              & \cmark              &                 &                       &                      &                &                       &             &               \\
-  Location based settings           & \cmark       &                     &                 &                       & \cmark               &                &                       &             &               \\
-  Network configuration             & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             &               \\
-  Password/Encryption settings      & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
-  Remote wipe                       & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
-  Security auditing                 & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
-  Tracking/Spyware                  & \cmark       & \cmark              &                 &                       &                      & \cmark         & \cmark                &             & \cmark        \\
-  Watermarking                      &              &                     &                 &                       & \cmark               &                &                       &             &               \\
-  \bottomrule
-\end{tabular}
-\caption[Summary of different MDM capabilities]{%
-  Summary of different MDM software's capabilities.
-
-  \footnotesize
-  1: Supports Samsung Knox and iOS only.
-}
-\label{tab:mdm-capabilities}
+  \begin{tabular}{l c c c c c c c c c}
+    \toprule
+    Feature                           & \rb{MaaS360} & \rb{Blackberry BES} & \rb{MobileIron} & \rb{Citrix XenMobile} & \rb{VMWare AirWatch} & \rb{Microsoft} & \rb{SOTI MobiControl} & \rb{Sophos} & \rb{Landdesk} \\
+    \midrule
+    Antivirus                         &              &                     &                 &                       &                      &                &                       & \cmark      &               \\
+    App selection/store/management    & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
+    App wrapping/modification         &              & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         &                       & \cmark      & \cmark        \\
+    Authentication                    & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             &               \\
+    Compliance reporting              & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
+    Device configuration              & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             & \cmark        \\
+    Email/Calendar/Contacts/Documents & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
+    Feature Restrictions              & \cmark       & \cmark              &                 &                       & \cmark               & \cmark         &                       &             &               \\
+    Licence distribution              &              & \cmark              &                 &                       &                      &                &                       &             &               \\
+    Location based settings           & \cmark       &                     &                 &                       & \cmark               &                &                       &             &               \\
+    Network configuration             & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                &             &               \\
+    Password/Encryption settings      & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
+    Remote wipe                       & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      & \cmark        \\
+    Security auditing                 & \cmark       & \cmark              & \cmark          & \cmark                & \cmark               & \cmark         & \cmark                & \cmark      &               \\
+    Tracking/Spyware                  & \cmark       & \cmark              &                 &                       &                      & \cmark         & \cmark                &             & \cmark        \\
+    Watermarking                      &              &                     &                 &                       & \cmark               &                &                       &             &               \\
+    \bottomrule
+  \end{tabular}
+  \caption[Summary of different MDM capabilities]{%
+    Summary of different MDM software's capabilities built from information from
+    each of the tools sales pages.
+  }
+  \label{tab:mdm-capabilities}
 \end{table}
+
+Whilst MDM tools can configure devices, the policies they enforce are less
+sophisticated than what you can write with a policy language such as AppPAL. The
+policies of an MDM tool are essentially granular checkboxes (as shown in
+\autoref{fig:maas360-policy}) an administrator can manually enable or disable to
+configure a device for a group of users.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/maas360-policy.png}
+  \caption{Policy settings in the MaaS360 MDM tool.}
+  \label{fig:maas360-policy}
+\end{figure}
 
 As well as commercial \ac{MDM} tooling there are also research tools that look
 at MDM software. Martinelli~\etal{}'s work looks at creating a dynamic
@@ -151,13 +219,15 @@ look at where the checks or policies come from, however.
 
 \subsection{Modelling BYOD policies}
 
-Each of the policies are split into a series of rules.
-A simple example is the following example from the Sirens-company policy.
-The policy states that devices may access various company resources.
-For each resource we create a SecPAL assertion that states that a device can access it.
+Each of the policies are split into a series of rules. A simple example is the
+following example from the Sirens-company policy. The policy states that devices
+may access various company resources. For each resource we create a SecPAL
+assertion that states that a device can access it.
+
 \begin{policyrule}{Sirens}
   Employees may use their mobile device to access the following company-owned resources:
   \newline $\bullet$ Email $\bullet$ Calendars $\bullet$ Contacts $\bullet$ Documents $\bullet$ Etc.
+  \normalfont
   \begin{lstlisting}
 'department' says Device:D canAccess('email').
 'department' says Device:D canAccess('calendars').
@@ -166,15 +236,19 @@ For each resource we create a SecPAL assertion that states that a device can acc
   \end{lstlisting}
 \end{policyrule}
 
-A more complex example can be taken from the NHS policy.
-Employees are not allowed to call non-domestic, or premium rate numbers on
-company-owned phones~\footnote{The NHS policy doesn't distinguish between
-  company and privately owned phones and applies to both.}, however an exception can be made if approved by the appropriate manager.
-To implement this we have the default rule that international calls are banned, a second rule stating that it is allowed if an exemption is made, finally a third rule delegating the exemption making process to the employee's manager.
+A more complex example can be taken from the NHS policy. Employees are not
+allowed to call non-domestic, or premium rate numbers on company-owned
+phones~\footnote{The NHS policy doesn't distinguish between company and
+privately owned phones and applies to both.}, however an exception can be made
+if approved by the appropriate manager. To implement this we have the default
+rule that international calls are banned, a second rule stating that it is
+allowed if an exemption is made, finally a third rule delegating the exemption
+making process to the employee's manager.
+
 \begin{policyrule}{NHS}
   All mobile devices will be configured for national access only. Premium/international calls will be barred.
   International call barring and roaming arrangements can be lifted for specific periods, to be stipulated on request, on approval of the relevant manager/budget holder.
-  \upshape
+  \normalfont
   \begin{lstlisting}
 'nhs-trust' says Device canCall(TelephoneNumber:X)
   if Device isOwnedBy('nhs-trust'),
@@ -191,11 +265,15 @@ To implement this we have the default rule that international calls are banned, 
 \end{policyrule}
 
 The occurrence of different types of predicate is shown in \autoref{tab:prefix}.
-As before in \autoref{ssec:types} predicates
-The use of each is also split by whether the predicate is a \emph{decision} made by the policy, or a \emph{condition} for making that decision.
-\emph{Can} and \emph{must} decisions feature in all policies excepting \emph{can} decisions in the Edinburgh policy, in part due to the structure of the policy as discussed in \autoref{sec:byod_policies}.
-This is expected, these are access control decisions and reactions to events; both topics that existing MDM tools have focused on implementing.
-\emph{Has} and \emph{is} predicates are the majority of the conditions, but there are also decisions using them too.
+As before in \autoref{ssec:types} predicates The use of each is also split by
+whether the predicate is a \emph{decision} made by the policy, or a
+\emph{condition} for making that decision. \emph{Can} and \emph{must} decisions
+feature in all policies excepting \emph{can} decisions in the Edinburgh policy,
+in part due to the structure of the policy as discussed in
+\autoref{sec:byod_policies}. This is expected, these are access control
+decisions and reactions to events; both topics that existing MDM tools have
+focused on implementing. \emph{Has} and \emph{is} predicates are the majority of
+the conditions, but there are also decisions using them too.
 
 \begin{table}\sffamily\small\centering
   \newcommand{\zilch}[0]{\small 0}
@@ -213,7 +291,7 @@ Sirens       & \numpc{12}{27}               & \numpc{20}{45} & \numpc{5 }{11} & 
 Edinburgh    & \zilch                       & \numpc{2 }{18} & \numpc{9 }{82} & \zilch         && \numpc{2 }{7} & \numpc{2 }{7} & \numpc{15}{ 50} & \numpc{11}{37} \\
 \bottomrule \\
 \end{tabular}
-\caption{Occurrences of predicate-types in each policy.}
+\caption{Counts of predicate-types in each policy.}
 \label{tab:prefix}
 \end{table}
 
@@ -312,8 +390,6 @@ Delegation of responsibilities is an important part of BYOD policies.
 MDM software seems largely to ignore it, however.
 These tools instead allow IT staff to set fixed policies and push them to devices.
 No further requesting of information is typically needed or required.
-
-
 
 \begin{table}\centering\footnotesize\sffamily
   \begin{tabular}{c l l}
