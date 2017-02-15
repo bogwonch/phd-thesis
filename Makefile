@@ -1,10 +1,12 @@
 LATEXMK:=latexmk
-LATEXMK_OPTS:=-pdf -quiet
+LATEXMK_OPTS:=-pdf -quiet -bibtex
 
 figures=$(patsubst %.eps,%.pdf,$(wildcard figures/*.eps))
 chapters=$(wildcard chapters/*.tex)
 
 all: figures thesis | tidy
+
+chapters: $(patsubst %.tex,%.pdf,$(wildcard ch*.tex)) | tidy
 
 figures: ${figures}
 thesis: .thesis-timestamp
