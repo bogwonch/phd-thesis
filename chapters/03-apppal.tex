@@ -3,27 +3,39 @@
 \chapter{Instantiating and Evaluating SecPAL}
 \label{chap:apppal}
 
-The mobile ecosystem contains many interacting entities. Entities include
-devices interacting with their users, app stores selling software, developers
-building apps, wireless access points devices connect to, and companies and
-networks the devices and their users work within. Each entity has their own
-policies; some described in documents such as the contract between an app store
-and a developer to sell apps. Others are informal: a user may have preferences
-about which kinds of apps they want to install but may not write these
-preferences down. Instead the user might pick apps to install from a store based
-on their best guess as to whether it matches their preferences. The mobile
-ecosystem has a distributed structure. Phones, users and stores are not aware of
-each other until they interact---there is no list of every app store, every
-device and every user. They must make policy decisions on their own without
-relying on a central authority to make decisions for them. They can, if
-required, delegate to others for their policies and knowledge.
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/policies-ecosystem.pdf}
+  \caption[Entities in the mobile ecosystem]{Entities in the mobile ecosystem
+    and some of the policies surrounding them.}
+  \label{fig:ecosystem}
+\end{figure}
 
-Formal languages let us write policies without ambiguity and describe precisely
-how to make decisions. Translating policies into a formal language allows for
-rigorous comparisons of different policies, preferences and rules in mobile
-ecosystems. Writing the policy in a formal language allows for its automatic
-enforcement, as the language defines rules that describe to the computer how to
-enforce the policy.
+The mobile ecosystem; which we defined as the devices, users, stores, developers
+and policies surrounding the ways we use mobile devices; contains many
+interacting entities. Entities include devices interacting with their users, app
+stores selling software, developers building apps, wireless access points
+devices connect to, and companies and networks the devices and their users work
+within.
+
+Every entity in the ecosystem has its own policies. For example there is a
+contract between the store selling apps and the developer programmging them. Not
+all policies are as formal as a contract: a user may have preferences about
+which kinds of apps he wants to install but may not write these preferences
+down. Instead he might pick apps to install from a store based on his
+best guess as to whether it matches his preferences. The mobile ecosystem has
+a distributed structure. Phones, users and stores are not aware of each other
+until they interact---there is no list of every app store, every device and
+every user. They must make policy decisions on their own without relying on a
+central authority to make decisions for them. They can, if required, delegate to
+others for their policies and knowledge.
+
+Formal languages let us write policies without ambiguity and describes precisely
+the process behing making decisions. The policy written in the formal language
+describes what decisions can be made. Translating policies into a formal
+language allows for rigorous comparisons of different policies, preferences and
+rules in mobile ecosystems. Writing the policy in a formal language allows it to
+be checked automatically.
 
 Becker~et~al{.} designed SecPAL to make access control decisions in distributed
 systems~\cite{becker_secpal:_2010}. SecPAL is expressive, has a clear and
@@ -36,67 +48,23 @@ surrounding mobile ecosystems. I explain why I chose SecPAL to describe policies
 in the mobile ecosystem. I introduce AppPAL as an instantiation and
 implementation of SecPAL for mobile device policies.
 
-\newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
-\newcommand{\secpal}[1]{\texttt{#1}}
-\begin{figure}\footnotesize
-  \begin{tabular}{r r l c}
-    e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
-               & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
-    pred       & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
-    D          & $\Coloneqq$ & 0                                                & \bnfcomment{no delegation}     \\
-               & $\vert$     & $\infty$                                         & \bnfcomment{delegation}        \\
-    vp         & $\Coloneqq$ & pred e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
-               & $\vert$     & \secpal{can-say}$_D$ fact                       \\
-               & $\vert$     & \secpal{can-act-as}  e                          \\
-    f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
-    claim      & $\Coloneqq$ & f \secpal{if} f$_1$,\dots, f$_n$; c             \\
-    assert     & $\Coloneqq$ & e \secpal{says} claim.                          \\
-    AC         & $\Coloneqq$ & assert$_1$ \dots assert$_n$                      & \bnfcomment{assertion context} \\
-    c          & $\Coloneqq$ & $\top$                                           & \bnfcomment{no constraint}     \\
-               & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
-               & $\vert$     & \dots                                           \\
-    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
-  \end{tabular}
-  \caption{BNF description of SecPAL.}
-\label{fig:secpal-grammar}
-\end{figure}
-
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
-There are many policy languages.
-Some target specific domains: such as Ponder which targets firewalls, OS's and
-databases~\cite{damianou_ponder_2001}.  Others, such as Cassandra, focus on
-credential management~\cite{becker_cassandra:_2004}.  Some are general like XACML~\cite{oasis_extensible_2013}: designed
-to express access control decisions from a variety of domains.
-To describe policies surrounding mobile ecosystems I chose to use SecPAL~\cite{becker_secpal:_2010}.
-SecPAL has several features that make it an ideal policy basis for a policy language to describe mobile ecosystems.
+There are many policy languages. Some target specific domains: such as Ponder
+which targets firewalls, OS's and databases~\cite{damianou_ponder_2001}. Others,
+such as Cassandra, focus on credential management~\cite{becker_cassandra:_2004}.
+Some are general like XACML~\cite{oasis_extensible_2013}: designed to express
+access control decisions from a variety of domains. Different policy languages
+are descrbied in greater detail in \autoref{chap:related-work}; however to
+create a policy language to describe mobile ecosystems we chose to base the
+language on SecPAL~\cite{becker_secpal:_2010}.
+
+The mobile ecosystem as described in \autoref{sec:mobile-ecosystem} has specific
+requirements for a policy language to describe it's policies. Namely we need a
+policy language that can express:
 
 \begin{description}
-  \item[Extensibility.]
-    SecPAL was originally intended to model and enforce access control policies
-    in grid computing systems~\cite{becker_secpal:_2010}. Flexibility is part of
-    SecPAL's goals, however. At its core, SecPAL is a language with a simple grammar
-    (\autoref{fig:secpal-grammar}) and three evaluation rules
-    (\autoref{fig:secpal-rules}). The language's simplicity makes it easy to apply
-    to a new domain by instantiating it with predicates and constraints that
-    describe the domain. This simplicity does not come at the cost of its
-    expressiveness. SecPAL supports delegation, and arbitrary constraints, as well
-    as role and attribute based policies styles. Other domains have successfully
-    used variants of SecPAL to describe their policies. Humphrey~\etal{} instantiated
-    SecPAL with predicates for the GridFTP protocol to create a Grid access control
-    policy language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{} created SecPAL4DSA
-    by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
-    Becker~\etal{} added predicates for describing \ac{PII}-handling preferences and
-    created SecPAL4P~\cite{becker_framework_2009}. SecPAL's flexibility makes it
-    ideal to work with in mobile domains as the breadth of policies is large.
-    Users want to pick apps from stores, who in turn want to pick apps from
-    developers.  A user might want to restrict what data an app can have, and
-    might rely on the device to enable permissions.  Devices have different OS's
-    and different trust models with the servers they acquire information from
-    and their users.  A policy language must be able to describe rules in all
-    these domains to be suitable.
-
   \item[Locality and Delegation.]
     In the mobile ecosystem different devices can have very different policies.
     Two users may disagree about what makes an app \emph{installable}. Equally, the
@@ -109,22 +77,25 @@ SecPAL has several features that make it an ideal policy basis for a policy lang
     what policies they want to use. A store might use information from an app
     vetting firm to decide what apps to sell.
 
-    Every SecPAL assertion has an explicit speaker. This allows us to model
-    different decisions at different locations. The speaker of the statement, the
-    entity before the \emph{says} part, tells whose policy we are using to decide a
-    fact. If we wish to use another entity's policy to judge if the first's
-    statement holds true then we can use the \emph{can-say} statement to delegate to
-    them.
+  \item[Extensibility.]
+    SecPAL's flexibility makes it
+    ideal to work with in mobile domains as the breadth of policies is large.
+    Users want to pick apps from stores, who in turn want to pick apps from
+    developers.  A user might want to restrict what data an app can have, and
+    might rely on the device to enable permissions.  Devices have different OS's
+    and different trust models with the servers they acquire information from
+    and their users.  A policy language must be able to describe rules in all
+    these domains to be suitable.
 
-  \item[Constraint functions.]
-    As part of an assertion, a SecPAL constraint can also contain a
-    \emph{constraint}. The constraint, which must contain no free variables at the
-    time of evaluation, can contain extra checks that use information from outside
-    the logic. A policy author could have a rule that is only valid in the
-    afternoon. To do this they might add a constraint which checks the time of day
-    and is only valid after noon. Constraints can contain equality checks, and
-    logical operators such as \emph{and, or, \emph{or} not}. Additionally, it can
-    call external functions, to bring in information from outside of the language.
+  \item[Access external information]. As part of an assertion, a SecPAL
+    constraint can also contain a \emph{constraint}. The constraint can contain
+    extra checks that use information from outside the information contained in
+    SecPAL statements; for instance a policy author could have a rule that is only
+    valid in the afternoon. To do this they might add a constraint which checks the
+    time of day and is only valid after noon. Constraints can contain equality
+    checks, and logical operators such as \emph{and, or, \emph{or} not}.
+    Additionally, SecPAL can use constraints to refer to external functions, to
+    bring in information from outside of the language.
 
     This external information is particularly useful for mobile ecosystems. We
     can introduce a constraint function that dynamically prompts the user on their
@@ -140,17 +111,15 @@ SecPAL has several features that make it an ideal policy basis for a policy lang
     use SecPAL as part of its permission system, could be programmed to only allow
     that permission when the employee wishes it.
 
-    There have been many static tools developed that can infer complex
-    properties about
-    apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
-    Leveraging these tools in a policy language lets us make statements about the
-    properties they can infer, without having to reimplement the functionality.
-    Despite the power of these tools it is not obvious how they should integrate
-    with the policies surrounding the mobile ecosystem. Running and configuring each
-    It isn't clear when each tool should run, or how to configure them to enforce a
-    policy rule. By incorporating these tools into a policy language, such as
-    SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem
-    and the research into the properties of code.
+    As well as contextual information, such as the time of day or user's
+    location, and system information from the user's phone; constraints can be used to run and access
+    static analysis results.  These tools can infer complex app properties, but
+    it isn't always clear to users when they need to be run and how they should
+    be configured.  SecPAL's constraints give us a way where we can run and use
+    results from these tools automatically as part of the policy checking
+    process. SecPAL effectively acts as a \emph{glue layer} between the tools
+    and their invocation.
+
 \end{description}
 
 SecPAL was chosen as other languages lacked features that SecPAL supported.
@@ -166,53 +135,6 @@ Ultimately SecPAL was chosen because it fit our needs, had a natural syntax and
 semantics which could describe hypothetical policies surrounding the mobile
 ecosystem.
 
-\subsection{Why not XACML?}
-%\todo{Make a comparison.  Show syntaxes, explain about XACML's semantics being poorly defined.}
-
-One alternative to SecPAL might be XACML.
-XACML is a powerful access control and policy language with a published standard~\cite{oasis_extensible_2013}.
-It is generic and is used in industry as a policy language for access control
-decisions, and there are tools available to help policy authors write policies
-in it.  Whilst XACML might seem like a suitable language to model mobile
-ecosystems\footnote{As some reviewers of our papers have suggested.}, it suffers
-from various issues.
-
-Readability was a design goal for SecPAL.
-Its notation is similar to natural language.
-Alternate notations based on XML do exist (Becker hints at them in the SecPAL technical report~\cite{becker_secpal:_2010});
-  though these are to aid computerised parsing of SecPAL not human legibility.
-In contrast, XACML's default syntax is difficult to read.
-XACML policies are verbose, and written in XML.
-To help developers write policies alternative notations are available that compile into XACML's XML notation.
-ALFA is an alternate notation for XACML~\cite{oasis_xacml_technical_comitee_abbreviated_????}.
-The XACML developers maintain ALFA\footnote{Prior to 2014 it was maintained by Axiomatics.}, however others notations exist including graphical languages~\cite{henrik_nergaard_scratch-based_2015}, languages based off propositional logic~\cite{zhang_synthesising_2004} and answer set programming~\cite{ramli_xacml_2012} which the XACML standards body does not maintain.
-
-XACML does not have well-defined semantics.
-XACML's designers used natural language to describe the semantics of XACML.
-This has made the semantics notoriously difficult to interpret~\cite{ramli_detecting_2015}.
-There have been several attempts to describe XACML's semantics formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}.
-These help specify XACML but the lack of a single standard semantics make it less attractive to extend to a new domain.
-In contrast, SecPAL's semantics are given precisely by Becker~\cite{becker_secpal:_2010}
-
-\begin{figure}\centering
-  \begin{tabular}{l p{0.7\linewidth}}
-    \toprule
-    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
-    $\epsilon$                               & The empty substitution.                                                                                                                              \\
-    \midrule
-    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
-    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
-    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
-    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
-    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
-    \bottomrule                             \\
-  \end{tabular}
-  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
-\end{figure}
-
-Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010}, earlier
-versions do not.  The XACML 3.0 standard was published in 2013, after deciding
-to start work with SecPAL.
 
 
 \section{Instantiating SecPAL for mobile ecosystems}
@@ -223,8 +145,7 @@ In SecPAL's grammar~(\autoref{fig:secpal-grammar}) predicates and constraint fun
 The choice of predicates and constraints defines the decisions the SecPAL instantiation can talk about.
 
 AppPAL instantiates SecPAL to describe policies in mobile ecosystems~\cite{hallett_apppal_2016}.
-It was initially focussed on describing app installation policies, however it was later extended further to describe other policies, such as \ac{BYOD} policies in the mobile ecosystems.
-
+It was initially focussed on describing app installation policies, however it was later extended further to describe other policies, such as \ac{BYOD} policies.
 
 \subsection{Predicate Conventions}
 \label{ssec:types}
@@ -247,7 +168,7 @@ It was initially focussed on describing app installation policies, however it wa
 
 When instantiating SecPAL we use predicates based on four verbs: \emph{can}, \emph{has}, \emph{is} and \emph{must}.
 These verbs describe facts common to many policies.
-An \emph{is} predicate restricts its subject to a given type.
+An \emph{is} predicate states that its subject has a given propery.
 A \emph{can} predicate describes permissible actions.
 For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can get access to.
 A user might have a privacy preference describing what parts of their personal data an app can share.
@@ -255,10 +176,31 @@ App stores have steps to go through before a developer can sell their app~\cite{
 When we need to describe the conditions for an action going ahead we use the can statement.
 
 \begin{description}
-\item[\bfseries\texttt{subject \emph{is}Type}]
-  A typing statement.
-  The \emph{subject} is an example of the \emph{type}.
+\item[\bfseries\texttt{subject \emph{is}Propery}]
+  A statement that says the \emph{subject} has a given \emph{property}.
+  A~common example of this is to restrict variables to a given type.
   An example might be that \lstinline!'anrgry-birds' isApp! or that \lstinline!'jennie' isEmployee!.
+  Constants in SecPAL are untyped (they are in effect just symbols) so it is
+  often helpful to restrict their type to a given domain.  For example Alice
+  might trust Bob to describe what apps are good, but not what websites.
+  \begin{lstlisting}
+'alice' says 'bob' can-say X isGood if X isApp.
+  \end{lstlisting}
+  Additionally SecPAL requires that all variables in the head of a statement be
+  used in the body\footnote{The rule ensures that all queries terminate.}.
+  Assigning a type by using an \emph{is} statement is sufficient to satisfy this rule.
+
+  Not all constants or variables must have a property or type, but some may have multiple
+  ones, for example an app might have the \emph{good} property, the \emph{app}
+  type, and be \emph{installable}.  Each of these properties is expressed using
+  the \emph{is} statement.  There is no obligation to provide a type to
+  variables, but when writing policies we have found them helpful as they help
+  specify precisely the domain a rule should operate on.
+
+  \emph{Is} predicates are sometimes used as goals for queries, for example to test whether
+  an app \emph{isInstallable} or not.  They also often occur frequently inside
+  assertion bodies, as described.
+
 \item[\bfseries\texttt{subject \emph{has}Action}]
   Describes actions the \emph{subject} has completed.
   For example if an app has requested a permission then we write:
@@ -268,22 +210,65 @@ When we need to describe the conditions for an action going ahead we use the can
   If a device requires its owner to grant a permission we might write:
   \begin{lstlisting}
 'device' says User:U can-say
-  App:A hasBeenGranted(Permission:P)
+  App:A hasBeenGrantedPermission(Permission:P)
   if 'device' isOwnedBy(U).
   \end{lstlisting}
+
+  Often predicates fall into common patterns and groups, for example
+  \emph{hasRequested} and \emph{hasBeenGranted} here.  There is no requirement
+  for the predicates to be named in such a way---\emph{hasBeenGranted} could be
+  named \emph{canUseFeaturesAssociatedWith}.  In practice when describing
+  policies it is best to be consistent and use just one predicate for one action
+  or property to avoid confusion, redundant rules, and multiple ways of
+  satisfying a policy.  In \autoref{sec:lint} an early implementation of a tool
+  for checking for duplicated predicates is described.
+
+  \emph{Has} predicates are rarely used as queries as they describe actions
+  already taken.  They might be used as a goal if a policy needs to describe
+  actions occuring in a given order.  For example, a~company might require that
+  devices report if a user is using a company device unacceptably:
+
+  \begin{lstlisting}
+'company' says User:U hasBehavedUnacceptably
+  if U hasAccessedWebpage(W),
+     W isPornographic.
+  \end{lstlisting}
+
 \item[\bfseries\texttt{subject \emph{can}Action}]
   An authorization.
   The \emph{subject} may perform the \emph{action}.
   For example \lstinline!Device:D canInstall(App:A)! to say what apps a device can install or \lstinline!App:A canConnectTo(URL:U)! to describe a limitation on app network abilities.
+
+  \emph{Can} predicates are frequently used as goals in queries.  They can be
+  used to describe access control decisions, and as such are often the source of
+  a query whether a subject \emph{can do} some action.
+
 \item[\bfseries\texttt{subject \emph{must}Action}]
-  An obligation.  The \emph{subject} should carry out the \emph{action} as soon as possible.
+  An obligation.  The \emph{subject} should carry out the \emph{action}.
   An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
+
   \begin{lstlisting}
 'company' says Device:D mustInform('it', 'login-failure')
   if D hasUnsuccesfulLogins(N)
   where N >= 3.
   \end{lstlisting}
+
+  AppPAL does not state how quickly a user should complete their obligation, or
+  enforce that they even perform it.  These additional checks could be created
+  by using additional predicates:
+
+  \begin{lstlisting}
+'mum' says 'alice' hasSatisfiedObligationToCall
+  if 'alice' mustCall,
+     'alice' hasCalled.
+  \end{lstlisting}
+
+  \emph{Must} predicates are mostly goals, as they describe the conditions when
+  its subjct must do something.  There are exceptions, such as the example
+  above, but they are unusual.
 \end{description}
+
+\todo{Add table sumarising how often each type of predicate was used from BYOD paper}
 
 This differs from the approach taken with the SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}.
 Both these languages add extra phrases to SecPAL's grammar.
@@ -299,6 +284,47 @@ An analogous AppPAL rule would be:
   where currentTime() < t.
 \end{lstlisting}
 The AppPAL is arguably slightly less succinct, but more explicit than the SecPAL4DSA.
+
+\subsubsection{Patterns with predicates}
+
+Using the four predicate types we can start to build relationships between them.
+We showed how a policy author could check an obligation was completed when
+descrbing \emph{must} predicates.  Whilst a policy author could write these
+rules by hand, AppPAL has tools to automate creating rules like this.
+
+As well as automating creating the policy, we can also start to check other
+properties to check the policy is well formed. Using the example of installing
+an app; if \emph{Alice says Bob must install
+  an app}, then it implies that there should be a rule where \emph{Alice says
+Bob has installed that app}.  We might also expect there to be a rule that
+\emph{Alice says Bob can install the app}.
+
+This can be taken further: actions where Alice \emph{can} do something might
+naturally lead to assertions where Alice \emph{has} done something.  If a policy
+author wished to enforce this relationship then we can start to reason about how the
+assertion context has changed over time.
+
+\todo{
+  Prior's tense operators:
+
+  \url{https://plato.stanford.edu/entries/logic-temporal/}
+
+  - P ``It has at some time been the case that …''
+  - F ``It will at some time be the case that …''
+  - H ``It has always been the case that …''
+  - G ``It will always be the case that …''
+
+  AC, D |= A says B has X.
+  ----------------------------------------------------
+  P(\exists AC_past st. AC_past, D_past |= A says B can X.)
+
+  AC, D |= A says B must X.  F(AC, D |= A says B can X).
+  ------------------------------------------------------
+  F(\exist R in AC of the form A says B has X...)
+
+
+  Possible applications to conststency checking AC over time? Compression?
+}
 
 
 \subsection{Type Notation}

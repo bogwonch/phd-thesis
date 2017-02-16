@@ -1,9 +1,7 @@
 \documentclass[thesis.tex]{subfiles}
 \begin{document}
-\chapter{Reasoning about Policies}
+\chapter{The application of AppPAL to BYOD policies}
 \label{chap:byod}
-
-\section{BYOD Policies}
 
 Many employees bring their personal mobile devices to work. To control the
 access these devices have, 70\% of companies publish \emph{bring your own
@@ -27,7 +25,7 @@ companies with MDM software still had non-compliant devices in their
 networks~\cite{mobileiron_security_labs_q4_2015}. Whilst app wrapping can
 protect some apps, in general it is ineffective~\cite{hao_effectiveness_2013}.
 
-\subsection{Overview of five BYOD policies}
+\section{Overview of five BYOD policies}
 
 Five policies were selected from a variety of domains.
 These were chosen as they cover a range of different policy styles, and
@@ -123,7 +121,7 @@ devices and tablets, and is marked with a triangle.
 \end{policyrule}
 
 
-\subsection{Review of MDM software}
+\section{Review of MDM software}
 
 To implement policies companies can use \ac{MDM} software to try and implement
 their rules.  \ac{MDM} solutions are offered by a many companies, including IBM
@@ -217,7 +215,7 @@ sections of a BYOD policy can be check and enforced using tools. They did not
 look at where the checks or policies come from, however.
 
 
-\subsection{Modelling BYOD policies}
+\section{Modelling BYOD policies}
 
 Each of the policies are split into a series of rules. A simple example is the
 following example from the Sirens-company policy. The policy states that devices
@@ -295,7 +293,7 @@ Edinburgh    & \zilch                       & \numpc{2 }{18} & \numpc{9 }{82} & 
 \label{tab:prefix}
 \end{table}
 
-\subsection{Common Concerns and Checks}
+\section{Common Concerns and Checks}
 \label{sec:common_concerns}
 
 Analysing each of the policies common concerns become apparent.
@@ -357,7 +355,7 @@ Not all policies express rules about which apps to install, however.
 \end{table}
 
 
-\subsection{BYOD idioms in AppPAL}
+\section{BYOD idioms in AppPAL}
 
 When examining the policies, two particular idioms occur in many policies: acknowledgements and delegation.
 We describe both idioms in greater detail, and show how they can be implemented in AppPAL, below.
@@ -368,7 +366,7 @@ Only the SANS policy (which is configuration focussed) contained more rules that
 All the policies contained more rules featuring delegation relationships than functionality restrictions.
 Restricting device functionality is tricky and important, but other aspects of BYOD policies are also worth attention.
 
-\subsubsection{Delegation and Roles within Policies.}
+\subsection{Delegation and Roles within Policies.}
 
 Delegation is an important part of each of the policies.
 Each of the policies describes through rules how separate entities may be responsible for making some decisions.
@@ -439,7 +437,7 @@ If we wish to delegate to someone, we can add conditionals to the can-say statem
   if Employee hasManager(Manager).
 \end{lstlisting}
 
-\subsubsection{Acknowledgement.}
+\subsection{Acknowledgement.}
 
 All the policies we looked at require their subjects to be aware and acknowledge certain rules or policies,
   and that the company may perform certain actions.
@@ -511,8 +509,6 @@ To implement these in AppPAL, a policy author creates two rules:
 'company' says Employee:E can-say
   E hasAcknowledged('policy').
 \end{lstlisting}
-
-\section{Automatic identification of problems}
 
 %\comment{
 %  \bibliography{thesis}

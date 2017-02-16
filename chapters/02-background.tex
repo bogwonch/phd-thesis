@@ -2,70 +2,12 @@
 \begin{document}
 \chapter{Background}
 
-\todo{
-  \begin{itemize}
-  \item Describe Android in depth.
-  \item Describe App stores and the scale of their use.  Introduce
-    the idea that they're somewhat difficult to search and find appropriate
-    ones.
-  \item \emph{Thorough} review of authorization logics, and static analysis
-    results for Android.
-  \end{itemize}
-}
+\section{The mobile ecosystem}\label{sec:mobile-ecosystem}
+\todo{Describe the mobile ecosystem, and the requirements for a policy language
+  to be able to talk about it.  This is basically related work, but only the
+  \emph{really} pertinent stuff.}
 
-\section{Android and Mobile OSs}\label{android}
-
-Android is a mobile operating system developed, primarily, by Google. It
-is by far the most popular mobile operating system in use being
-installed on around 83\% of all mobile handsets\footnote{\url{http://www.idc.com/prodserv/smartphone-os-market-share.jsp}}
-with Apple's iOS being its only major competitor (Windows Phone,
-Blackberry OS and other mobile operating systems account for only 3\% of
-the marketshare in 2015).
-
-Despite the dominance of Android its ecosystem is rather fragmented. As
-shown in Figure \url{fig:android-versions}, in June 2016 only 10\% of
-devices used the latest version of Android, with around 5\% of devices
-still using a version released five years prior. The range of different
-Android versions is often blamed on the device manufacturers being
-unwilling to update their devices. Since the core of Android is open
-source this has lead to third parties (such as CyanogenMod\footnote{\url{http://www.cyanogenmod.org}})
-have started developing custom firmware for Android devices to allow
-older devices to be upgraded independently of their manufacturers.
-
-\begin{figure*}[htbp]
-\centering
-\includegraphics[width=\linewidth]{figures/android-versions.pdf}
-\caption[Historical Android version's distribution.]{Historical Android version's distribution. Figure by \emph{Erikrespo} taken from \url{https://en.wikipedia.org/wiki/Android_version_history}.}
-\end{figure*}
-
-When building an Android device the manufacturers are also able to make
-modifications to the Android firmware. This can be done to support any
-custom hardware their device may have, add any additional software or
-apps, or provide a custom look or theme to atheir device. Again this
-creates more variety in the ecosystem, with few guarantees that any two
-devices may contain similar features or hardware. In fact since the core
-of the Android is the Linux kernel (albeit without the Linux Standard
-Base\footnote{The \emph{Linux Standard Base} is a specification produced
-  by the Linux foundation that describes what a stardard Linux system
-  should contain and how it should be organised. Android uses its own
-  system which differs most noticably by the different filesystem
-  structures and the use of user IDs to separate apps rather than users.
-  \url{http://refspecs.linuxfoundation.org/lsb.shtml}}, and with
-additional patches) it can be ported to other architectures (such as X86
-and MIPS), and used in other devices (such as set-top boxes and TVs,
-watches, and cars) with relative ease.
-
-To give developers a somewhat stable base to develop for Google
-developed the \emph{Compatibility Test Suite} (CTS)\footnote{\url{https://source.android.com/compatibility/cts/index.html}},
-and \emph{Compatibility Definition Document} (CDD)\footnote{\url{https://source.android.com/compatibility/android-cdd.html}}.
-The CTS is a series of unit tests that check basic Android functionality
-and behavior. The CDD is a document that describes what hardware an
-Android device should have and how the device and it's software should
-be built. If a device manufacturer wishes their device to run Google's
-Play Store (the largest Android app marketplace), then they are required
-to show they can pass the CTS and are in compliance with the CDD.
-
-\section{App Stores}\label{app-stores}
+\subsection{App Stores}\label{app-stores}
 
 The Play Store is Google's marketplace for apps. It contains a large
 number of apps (around 2.2 million) uploaded by developers for users to
@@ -172,15 +114,28 @@ careful consideration of their advertising and terms and conditions.
   \caption{Summary of conditions in different stores.}
 \end{table*}
 
-\section{Authorization Logic}
-\label{sec:authorization-logic}
+\section{SecPAL}
 
-\subsection{SecPAL}
+SecPAL was originally intended to model and enforce access control policies
+    in grid computing systems~\cite{becker_secpal:_2010}. Flexibility is part of
+    SecPAL's goals, however. At its core, SecPAL is a language with a simple grammar
+    (\autoref{fig:secpal-grammar}) and three evaluation rules
+    (\autoref{fig:secpal-rules}). The language's simplicity makes it easy to apply
+    to a new domain by instantiating it with predicates and constraints that
+    describe the domain. This simplicity does not come at the cost of its
+    expressiveness. SecPAL supports delegation, and arbitrary constraints, as well
+    as role and attribute based policies styles. Other domains have successfully
+    used variants of SecPAL to describe their policies. Humphrey~\etal{} instantiated
+    SecPAL with predicates for the GridFTP protocol to create a Grid access control
+    policy language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{} created SecPAL4DSA
+    by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
+    Becker~\etal{} added predicates for describing \ac{PII}-handling preferences and
+    created SecPAL4P~\cite{becker_framework_2009}.
+
 \begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
   \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
   \centering
-  \begin{minipage}{0.49\linewidth}
     \begin{equation*}\small
       \begin{array}{r l}\footnotesize
         \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
@@ -189,85 +144,50 @@ careful consideration of their advertising and terms and conditions.
         & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
       \end{array}
     \end{equation*}
-  \end{minipage}
-  \begin{minipage}{0.49\linewidth}
-  \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
-  \newcommand{\terminal}[1]{\textbf{#1}}
-  \begin{tabular}{r c l}
-    \footnotesize
-    \nonterminal{Assertion} & $\coloneqq$ & \nonterminal{E} \terminal{says} \nonterminal{Fact} \\
-                            &             & \hspace{1em}(\terminal{if} (\nonterminal{Fact}\terminal{,})+)?\terminal{.} \\
-                            &             & \hspace{1em}(\terminal{where} \nonterminal{Constraint})? \\
-    \nonterminal{Fact}      & $\coloneqq$ & \nonterminal{E} (\terminal{isRunable} $\vert$ $\ldots$) \\
-                            & $\vert$     & \nonterminal{E} \terminal{can-say} \terminal{inf}? \nonterminal{Fact} \\
-                            & $\vert$     & \nonterminal{E} \terminal{can-act-as} \nonterminal{E} \\
-    \nonterminal{E}         & $\coloneqq$ & \terminal{Variable} $\vert$ \terminal{'constant'}
-  \end{tabular}
-  \vspace{2em}
-  \end{minipage}
-  \caption{Structure and simplified grammar of an AppPAL assertion.}
+  \caption{Structure of a SecPAL assertion.}
   \label{fig:assertion}
 \end{figure}
 
-\begin{figure}
-  \centering
-  \begin{eqnarray*}
-    \infer[\textsf{\scriptsize cond}]{%
-      AC, D \models A\textsf{~says~}fact\theta
-    }{%
-      \begin{array}[c]{c}
-        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
-        \forall i \in [1\cdots k]. AC,D\models A\textsf{~says~}\textit{fact}_i\theta
-      \end{array}
-      & \models{c\theta}
-      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
-    }\\
-    \infer[\textsf{\scriptsize can say}]{%
-      AC, \infty \models A\textsf{~says~}\textit{fact}
-    }{%
-      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
-      & AC, D \models B\textsf{~says~}\textit{fact}
-    } \\
-    \infer[\textsf{\scriptsize can act as}]{%
-      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
-    }{%
-      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
-      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
-    }
-  \end{eqnarray*}
-  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
-  evaluated in the context of a set of other assertions $AC$ as well as an
-  allowed level of delegation $D$ which may be $0$ or $\infty$.}
-\label{secpal:rules}
+\begin{figure}\centering
+  \begin{tabular}{l p{0.7\linewidth}}
+    \toprule
+    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
+    $\epsilon$                               & The empty substitution.                                                                                                                              \\
+    \midrule
+    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
+    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
+    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
+    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
+    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
+    \bottomrule                             \\
+  \end{tabular}
+  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
 \end{figure}
 
-\section{Why SecPAL?}
-\todo{This all needs rewriting and reorganising and is a mess.}
-
-Languages such as RT lacked the support for constraints.  Cassandra could not easily be distributed. 
-One alternative language could have been XACML.  
-XACML is a standardised policy language~\cite{oasis_extensible_2013} that can be extended to fit many scenarios.  
-It is an attribute based policy language, but can also describe role-based policies; and has industrial support from \emph{Oracle}.
-XACML policies are expressed as sets of \emph{rules} that describe whether a specific action should be allowed or denied.
-When making a \emph{request} if a rule's target matches the request then the appropriate action should be taken.
-Rules are combined into policies and may contain many rules which can contradict each other if multiple ones match a given request.
-To handle contraditions between rules a \emph{combining algorithm} may be used to decide how to proceed.
-Typical algorithms include:
-\begin{description}
-  \item[Permit-overrides] where if a single rule gives a permit result then the request is permitted.
-  \item[Deny-overrides] where if a single rule gives a deny result then then the request is denied.
-  \item[First-applicable] where the rules are given an order of precedence and the first rule in the order that gives a result decides the outcome.
-  \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
-\end{description}
-
-XACML does not have a formal semantics, and is described using natural language documents~\cite{oasis_extensible_2013}. This has led to many papers where they attempt to retrofit a formal semantics onto XACML~\cite{masi_formalisation_2012}.  Ramli~\etal~use answer set programming as the basis for their translation for XACML 2.0~\cite{ramli_xacml_2012} and 3.0~\cite{ramli_logic_2014}.  They go on to use it to infer when XACML policies may be incomplete, contain conflicts on unreachable rules and policies~\cite{ramli_detecting_2015}. Other approaches have used CSP~\cite{bryans_reasoning_2005}.  In contrast SecPAL has a formal semantics and has been proven to be decidable~\cite{becker_secpal:_2010} which motivated the use of SecPAL over XACML.  Additionally whilst SecPAL was designed to support delegation relationships, XACML did not gain them until version 3.0~\cite{oasis_xacml_2010} which was not released when we did the initial survey.  Like the main specification, XACML's delegation semantics are poorly defined using natural language.
-
-Another alternative was the Ponder policy specification language~\cite{damianou_ponder_2001}.
-Like SecPAL, Ponder is designed for describing access control, authorization and delegation policies.
-It supports constraints and additionally to SecPAL supports obligation policies; where if a policy is satisfied a program can be forced to be run.  It has a clean syntax, though 
-I ultimately chose SecPAL as the basis for the AppPAL language over Ponder I felt it was more readable.
-SecPAL's relative minimism over Ponder (SecPAL has only three inference rules as shown in \autoref{secpal:rules}) makes it easier to extend.
-
+\newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
+\newcommand{\secpal}[1]{\texttt{#1}}
+\begin{figure}\footnotesize
+  \begin{tabular}{r r l c}
+    e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
+               & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
+    pred       & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
+    D          & $\Coloneqq$ & 0                                                & \bnfcomment{no delegation}     \\
+               & $\vert$     & $\infty$                                         & \bnfcomment{delegation}        \\
+    vp         & $\Coloneqq$ & pred e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
+               & $\vert$     & \secpal{can-say}$_D$ fact                       \\
+               & $\vert$     & \secpal{can-act-as}  e                          \\
+    f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
+    claim      & $\Coloneqq$ & f \secpal{if} f$_1$,\dots, f$_n$; c             \\
+    assert     & $\Coloneqq$ & e \secpal{says} claim.                          \\
+    AC         & $\Coloneqq$ & assert$_1$ \dots assert$_n$                      & \bnfcomment{assertion context} \\
+    c          & $\Coloneqq$ & $\top$                                           & \bnfcomment{no constraint}     \\
+               & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
+               & $\vert$     & \dots                                           \\
+    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
+  \end{tabular}
+  \caption{BNF description of SecPAL.}
+\label{fig:secpal-grammar}
+\end{figure}
 \end{document}
 
 %%% Local Variables:
