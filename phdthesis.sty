@@ -12,6 +12,14 @@
 
 % Formatting commands
 \newcommand{\todo}[1]{{\Large\sffamily\color{BrickRed} #1}}
+\newenvironment{todolist}{%
+  \begin{minipage}{\textwidth}
+  \Large\sffamily\color{BrickRed}
+  \begin{itemize}
+}{%
+  \end{itemize}
+  \end{minipage}
+}
 
 \includepackage{acronym}
 \acrodef{AC}{assertion context}

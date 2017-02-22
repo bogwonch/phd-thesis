@@ -1,0 +1,64 @@
+digraph mdmoverview {
+  splines="true";
+  overlap="false";
+  remincross="true";
+  rankdir=LR;
+  graph [fontname="helvetica"];
+  node [fontname="helvetica"];
+  edge [fontname="helvetica"];
+  
+  
+  cso [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>CSO</TD></TR></TABLE>>];
+  mdm_policy [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>BYOD Policy</TD></TR></TABLE>>];
+
+  subgraph cluster_it {
+    color=white;
+    //label="IT"
+    
+    it_head [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>IT Head</TD></TR></TABLE>>];
+    it_policy [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>IT Policy</TD></TR></TABLE>>];
+    it_admin [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>IT Admin</TD></TR></TABLE>>];
+    it_network [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/server.png"/></TD></TR><TR><TD>Company Network</TD></TR></TABLE>>];
+    
+    it_head -> it_policy [label="<writes>"];
+    it_policy -> it_admin [label="<delegates>"];
+  }
+
+
+  subgraph cluster_hr {
+    color=white;
+    //label="HR"
+    
+    hr_head [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>HR Head</TD></TR></TABLE>>];
+    hr_policy [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>HR Policy</TD></TR></TABLE>>];
+    hr_db [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/database.png"/></TD></TR><TR><TD>HR Database</TD></TR></TABLE>>];
+    
+    hr_head -> hr_policy [label="<writes>"];
+    hr_policy -> hr_db [label="<configures>"];
+  }
+
+  device [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Device</TD></TR></TABLE>>];
+  mdm [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/cog.png"/></TD></TR><TR><TD>MDM package</TD></TR></TABLE>>];
+  user [shape=plaintext label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>Employee</TD></TR></TABLE>>];
+
+  {rank=same cso};
+  {rank=same mdm_policy};
+  {rank=same mdm};
+  {rank=sink device user};
+
+  cso -> mdm_policy [label="<writes>"];
+  device -> mdm;
+  hr_policy -> user [label="<obliges>"]
+  hr_policy -> user [label="<reads>" dir=back];
+  it_admin -> mdm [label="<configures>"];
+  it_network -> device [label="<accesses>" dir=back];
+  it_policy -> device [label="<reads>" dir=back];
+  it_policy -> hr_db [label="<delegates>"];
+  it_policy -> it_network [label="<configures>"];
+  mdm -> device;
+  mdm_policy -> device [label="<reads>" dir=back];
+  mdm_policy -> hr_head [label="<delegates>"];
+  mdm_policy -> it_head [label="<delegates>"];
+  mdm_policy -> user [label="<reads>" dir=back];
+  user -> device [label="<uses>"]
+}
