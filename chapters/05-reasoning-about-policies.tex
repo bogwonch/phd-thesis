@@ -278,6 +278,7 @@ focused on implementing. \emph{Has} and \emph{is} predicates are often used in
 the conditions, but there are also decisions using them too.
 
 \begin{table}\sffamily\small\centering
+  \todo{Check numbers}
   \newcommand{\zilch}[0]{\small 0}
   \newcommand{\numpc}[2]{\small #2\% {\small(#2)}}
   \setlength{\tabcolsep}{1pt}
@@ -286,21 +287,21 @@ the conditions, but there are also decisions using them too.
              & \multicolumn{4}{c}{Decision}                                                    && \multicolumn{4}{c}{Condition} \\
 Policy       & \rb{Can}                     & \rb{Must}      & \rb{Has}       & \rb{Is}        && \rb{Can}      & \rb{Must}     & \rb{Has}        & \rb{Is}        \\
 \midrule
-SANS         & \numpc{26}{35}               & \numpc{22}{29} & \numpc{7 }{9 } & \numpc{20}{27} && \numpc{2 }{2} & \numpc{2 }{2} & \numpc{8 }{8}   & \numpc{81}{87} \\
+SANS         & \numpc{26}{35}               & \numpc{22}{29} & \numpc{8 }{9 } & \numpc{20}{27} && \numpc{2 }{2} & \numpc{2 }{2} & \numpc{9 }{8}   & \numpc{82}{87} \\
 HiMSS        & \numpc{6 }{21}               & \numpc{12}{41} & \numpc{9 }{31} & \numpc{2 }{7 } && \zilch        & \zilch        & \numpc{3 }{13}  & \numpc{20}{87} \\
 NHS          & \numpc{13}{19}               & \numpc{18}{26} & \numpc{23}{33} & \numpc{16}{23} && \numpc{2 }{2} & \zilch        & \numpc{20}{19}  & \numpc{83}{83} \\
 Sirens       & \numpc{12}{27}               & \numpc{20}{45} & \numpc{5 }{11} & \numpc{7 }{16} && \numpc{1 }{2} & \numpc{4 }{7} & \numpc{1 }{2}   & \numpc{50}{89} \\
-Edinburgh    & \zilch                       & \numpc{2 }{18} & \numpc{9 }{82} & \zilch         && \numpc{2 }{7} & \numpc{2 }{7} & \numpc{15}{ 50} & \numpc{11}{37} \\
+Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & \zilch         && \numpc{2 }{7} & \numpc{2 }{7} & \numpc{15}{ 50} & \numpc{13}{37} \\
 \bottomrule \\
 \end{tabular}
 \caption{Counts of predicate-types in each policy.}
 \label{tab:prefix}
 \end{table}
 
-\section{Common Concerns and Checks}
+\section{BYOD idioms in AppPAL}
 \label{sec:common_concerns}
 
-Analysing each of the policies common concerns become clear.
+When examining the policies, there are some concern concerns shared between the different policies
 A summary of predicates, with the same meaning, used in multiple policies by our translation is given in \autoref{tab:common}.
 
 Acknowledgements, where the policy requests people acknowledge other policies, and predicates linking devices to owners feature in all policies.
@@ -312,58 +313,10 @@ This is surprising as a common feature of \ac{MDM} tools is controlling how devi
 Users have privacy preferences about apps~\cite{lin_modeling_2014}, but not all companies try to control what apps employees install.
 Providing curated app stores and blacklisting apps is a feature common to many \ac{MDM} programs.
 Not all policies express rules about which apps to install, however.
-All policies had rules describing when to erase the device for security reasons (as shown in~\autoref{sec:overview-of-five-byod-policies}).
-Many \ac{MDM} programs let an administrator remotely erase a device~(\autoref{tab:mdm-capabilities}).
+All policies talked about remotely wiping a device for security reasons (as shown in~\autoref{sec:overview-of-five-byod-policies});
+and most \ac{MDM} programs implemented this by allowing an administrator remotely erase a device~(\autoref{tab:mdm-capabilities}).
 
-\begin{table}\sffamily\footnotesize\centering
-  \begin{tabular}{c c c c c c}
-    \toprule                        \\
-    Predicate                       & \rb{SANS} & \rb{HiMSS} & \rb{NHS} & \rb{Sirens} & \rb{Edinburgh} \\
-    \midrule
-    mustAcknowledged    &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    hasAcknowledged     &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    isOwnedBy           &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    isDevice            &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    mustDisable         &    \cmark &            &   \cmark & \cmark      &         \cmark \\
-    isLost              &    \cmark & \cmark     &   \cmark & \cmark      &                \\
-    isEmployee          &    \cmark &            &   \cmark & \cmark      &         \cmark \\
-    isApp               &    \cmark & \cmark     &   \cmark & \cmark      &                \\
-    isActivated         &    \cmark & \cmark     &   \cmark &             &         \cmark \\
-    mustEnable          &    \cmark & \cmark     &          & \cmark      &                \\
-    mustWipe            &           & \cmark     &   \cmark & \cmark      &                \\
-    isEncrypted         &    \cmark &            &   \cmark &             &         \cmark \\
-    hasMet              &    \cmark &            &   \cmark &             &         \cmark \\
-    canMonitor          &    \cmark &            &   \cmark & \cmark      &                \\
-    mustInform          &    \cmark &            &   \cmark &             &                \\
-    isTelephoneNumber   &    \cmark &            &   \cmark &             &                \\
-    isString            &           &            &   \cmark & \cmark      &                \\
-    isSecurityLevel     &    \cmark & \cmark     &          &             &                \\
-    isInstallable       &    \cmark &            &   \cmark &             &                \\
-    isFeature           &    \cmark &            &          & \cmark      &                \\
-    isData              &    \cmark &            &          & \cmark      &                \\
-    isApprovedFor       &           & \cmark     &   \cmark &             &                \\
-    isApproved          &    \cmark & \cmark     &          &             &                \\
-    hasFeature          &           &            &   \cmark &             &         \cmark \\
-    hasDevice           &           & \cmark     &   \cmark &             &                \\
-    hasDepartment       &           & \cmark     &          &             &         \cmark \\
-    canUse              &    \cmark &            &   \cmark &             &                \\
-    canStore            &    \cmark & \cmark     &          &             &                \\
-    canInstall          &    \cmark &            &   \cmark &             &                \\
-    canConnectToServer  &    \cmark &            &   \cmark &             &                \\
-    canConnectToNetwork &    \cmark &            &          & \cmark      &                \\
-    canConnectToAP      &    \cmark & \cmark     &          &             &                \\
-    canCall             &    \cmark &            &   \cmark &             &                \\
-    canBackupTo         &           & \cmark     &          &             &         \cmark \\
-    \bottomrule                     \\
-  \end{tabular}
-  \caption{Occurrences of predicates common to multiple policies.}
-  \label{tab:common}
-\end{table}
-
-
-\section{BYOD idioms in AppPAL}
-
-When examining the policies, two particular idioms occur in many policies: acknowledgements and delegation.
+Two particular idioms occur in many policies: acknowledgements and delegation.
 We describe both idioms in greater detail, and show how to describe them in AppPAL, below.
 MDM tools and research have focussed so far on implementing restrictions on apps and devices~\cite{_ibm_????,armando_formal_2014,martinelli_enhancing_2016}.
 Implementing these controls is a vital aspect of BYOD policies and all 5 of the policies we looked at had rules that described restrictions~(\autoref{tab:summary}).
@@ -371,6 +324,52 @@ Every policy also contained rules that required employees acknowledgements, howe
 Only the SANS policy (which is configuration focussed) contained more rules that required restrictions than acknowledgements.
 All the policies contained more rules featuring delegation relationships than functionality restrictions.
 Restricting device functionality is tricky and important, but other aspects of BYOD policies are also worth attention.
+
+
+\begin{table}\sffamily\footnotesize\centering
+  \begin{tabular}{c c c c c c}
+    \toprule                        \\
+    Predicate            & \rb{SANS} & \rb{HiMSS} & \rb{NHS} & \rb{Sirens} & \rb{Edinburgh} \\
+    \midrule
+    mustAcknowledge      &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
+    hasAcknowledged      &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
+    isOwnedBy            &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
+    isDevice             &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
+    mustDisable          &    \cmark &            &   \cmark & \cmark      &         \cmark \\
+    mustWipe             &           & \cmark     &   \cmark & \cmark      &         \cmark \\
+    isLost               &    \cmark & \cmark     &   \cmark & \cmark      &                \\
+    isEmployee           &    \cmark &            &   \cmark & \cmark      &         \cmark \\
+    isApp                &    \cmark & \cmark     &   \cmark & \cmark      &                \\
+    isActivated          &    \cmark & \cmark     &   \cmark &             &         \cmark \\
+    mustEnable           &    \cmark & \cmark     &          & \cmark      &                \\
+    isEncrypted          &    \cmark &            &   \cmark &             &         \cmark \\
+    hasFeature           &    \cmark &            &   \cmark &             &         \cmark \\
+    hasMet               &    \cmark &            &   \cmark &             &         \cmark \\
+    canMonitor           &    \cmark &            &   \cmark & \cmark      &                \\
+    mustInform           &    \cmark &            &   \cmark &             &                \\
+    isTelephoneNumber    &    \cmark &            &   \cmark &             &                \\
+    isString             &           &            &   \cmark & \cmark      &                \\
+    isSecurityLevel      &    \cmark & \cmark     &          &             &                \\
+    isInstallable        &    \cmark &            &   \cmark &             &                \\
+    isFeature            &    \cmark &            &          & \cmark      &                \\
+    isData               &    \cmark &            &          & \cmark      &                \\
+    isApprovedFor        &           & \cmark     &   \cmark &             &                \\
+    isApproved           &    \cmark & \cmark     &          &             &                \\
+    hasDevice            &           & \cmark     &   \cmark &             &                \\
+    hasDepartment        &           & \cmark     &          &             &         \cmark \\
+    canUse               &    \cmark &            &   \cmark &             &                \\
+    canStore             &    \cmark & \cmark     &          &             &                \\
+    canInstall           &    \cmark &            &   \cmark &             &                \\
+    canConnectToServer   &    \cmark &            &   \cmark &             &                \\
+    canConnectToNetwork  &    \cmark &            &          & \cmark      &                \\
+    canConnectToAP       &    \cmark & \cmark     &          &             &                \\
+    canCall              &    \cmark &            &   \cmark &             &                \\
+    canBackupTo          &           & \cmark     &          &             &         \cmark \\
+    \bottomrule                     \\
+  \end{tabular}
+  \caption{Occurrences of predicates common to multiple policies.}
+  \label{tab:common}
+\end{table}
 
 \subsection{Delegation and Roles within Policies.}
 
@@ -462,7 +461,7 @@ The employee is required to be aware of this, and in the case of the \ac{HiMSS} 
       related to XYZ Health System, its patients, members or partners.
       \normalfont
       \begin{lstlisting}
-'xyz-health-system' says 'user' mustAcknowledged('data-loss-policy').
+'xyz-health-system' says 'user' mustAcknowledge('data-loss-policy').
       \end{lstlisting}
     \end{policyrule}
   %\end{minipage}
@@ -475,7 +474,7 @@ The employee is required to be aware of this, and in the case of the \ac{HiMSS} 
       \begin{lstlisting}
 'nhs-trust' says Staff:S can-say
   S hasAcknowledged('data-loss-policy').
-'nhs-trust' says Staff:S mustAcknowledged('data-loss-policy').
+'nhs-trust' says Staff:S mustAcknowledge('data-loss-policy').
       \end{lstlisting}
     \end{policyrule}
   %\end{minipage}
@@ -489,15 +488,15 @@ The Sirens policy expects an employee to use their devices ethically and abide b
 \begin{policyrule}{SANS}
   Users MUST agree to the email security/acceptable use policy and eventually to the eCommerce security policy.
   \begin{lstlisting}
-'company' says Employee:U mustAcknowledged('email-security').
-'company' says Employee:U mustAcknowledged('acceptable-use').
-'company' says Employee:U mustAcknowledged('ecommerce-security').
+'company' says Employee:U mustAcknowledge('email-security').
+'company' says Employee:U mustAcknowledge('acceptable-use').
+'company' says Employee:U mustAcknowledge('ecommerce-security').
   \end{lstlisting}
 \end{policyrule}
 \begin{policyrule}{Sirens}
   The employee is expected to use his or her devices in an ethical manner at all times and adhere to the company's acceptable use policy.
   \begin{lstlisting}
-'department' says Employee:E mustAcknowledged('acceptable-use').
+'department' says Employee:E mustAcknowledge('acceptable-use').
   \end{lstlisting}
 \end{policyrule}
 
@@ -511,7 +510,7 @@ To implement these in AppPAL, a policy author creates two rules:
   the first stating their employees must have acknowledged the policy,
   the second delegating the acceptance of the policy to the employee themselves.
 \begin{lstlisting}
-'company' says Employee:E mustAcknowledged('policy').
+'company' says Employee:E mustAcknowledge('policy').
 'company' says Employee:E can-say
   E hasAcknowledged('policy').
 \end{lstlisting}
@@ -551,13 +550,16 @@ to perform the necessary steps.  If AppPAL were to discover that an employee
 hadn't satisfied the obligation to sign a contract, then the company might want
 to email a reminder to the employee.
 
-AppPAL doesn't remove the need for
-\ac{MDM} software.  Much of an \ac{MDM} package's functionality could be
-re-implemented as part of AppPAL, but this is a massive duplication of work.
-AppPAL works best when acting as a glue between existing tools.  It tells you
+AppPAL doesn't remove the need for \ac{MDM} software.  Much of an \ac{MDM} package's functionality could be
+re-implemented as part of AppPAL, but this is an unnecessary duplication of work.
+Rather AppPAL should be used to configure other, existing tools.  An \ac{MDM} package could enfore a password policy, and enable remote wipe (for example).
+Google's \emph{For Work} tools can enforce access control policies for a company's documents, as can Microsoft's Office Suite.
+The settings on an Android app con control what permissions an app can have.
+
+AppPAL works as a glue between existing tools.  It tells you
 what configuration changes need to be made to satisfy a policy, if these can be
 automated then so much the better.  In this respect AppPAL is similar to a
-configuration language, but it also gives you more.  Giving employees a means to
+configuration language.  Giving employees a means to
 make AppPAL statements (for example a dialog box that says \emph{``type your password to
 acknowledge the following policy.''}) lets us track what people have done and
 make decisions on the basis of their actions.  
