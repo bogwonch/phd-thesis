@@ -160,7 +160,7 @@ Additionally Alice may allow her workplace to dictate some apps that they must i
 This policy works with single apps.
 Alice has decided which apps to install and has stated the apps she decided upon.
 This is an accurate description of how user's currently interact with stores and their devices.
-Users may have more complex rules for deciding what to install, but following the rules is left to the user's own self-discipline.
+Users may have more complex rules for deciding what to install, but following the rules is, most likely, left to the user's own self-discipline.
 
 In contrast policy languages allow for greater generality.
 A cautious user may only install Android apps with certain permissions\footnote{Permissions are the access control mechanism for device features used by Android.}.
@@ -259,7 +259,7 @@ It does, however, provide a far more precise version of the differences in app i
 For iOS, to install an app Apple have to authorize it, either by signing the app or the issuer.
 In contrast for Android, to the device can install any app if the device owner is willing to enable the relevant setting.
 
-\todo{How do we know this is correct?}
+%\todo{How do we know this is correct?}
 
 \subsection{Worked Example}
 
@@ -335,8 +335,32 @@ Alice would then have to get more assertions if she wanted to prove this stateme
 Alternatively, the speaker could refuse to make the assertion, either because they do not believe it, or they cannot give an answer.
 In this case, Alice would have to look for an alternative means to prove the assertion or accept that they cannot install the app.
 
-Once she has collected the statements, she can use a SecPAL inference tool, such as AppPAL, to check whether she can install the app.
-Additional to the decision, if a proof is found, a tool like AppPAL can output a proof tree to show how it made the decision (\autoref{fig:exemplar-proof}).
+Once she has collected the statements, she can use a SecPAL inference tool,
+such as AppPAL, to check whether she can install the app.  Additional to the
+decision, if a proof is found, a tool like AppPAL can output a proof
+tree\footnote{Technically a DAG.} to show how it made the decision
+(\autoref{fig:exemplar-proof}).  The proof tree shows the AppPAL assertions
+used to prove each statement at varying levels of the tree: from the the top
+level goal which, in this case, used the \emph{cond} rule.
+
+\begin{center}
+  \includegraphics[]{figures/exemplar-proof-1.png}
+\end{center}
+
+To later nodes which might use SecPAL's other rules to be proved (\emph{can-say} in this case).
+
+\begin{center}
+  \includegraphics[]{figures/exemplar-proof-2.png}
+\end{center}
+
+If two nodes depend on the same sub-goals then the proof will be reused.
+
+\begin{center}
+  \includegraphics[]{figures/exemplar-proof-3.png}
+\end{center}
+
+
+
 
 \begin{figure}
   \centering
@@ -576,7 +600,7 @@ but if either statement in red was removed the interpreter would report an error
   \begin{tabular}{c c l}
     \toprule
     $\vdots$ & $\vdots$ \\
-    At $T_i$:   & $AC_i, D \models \mathtt{A~says~B~must~\phi.} & \\
+    At $T_i$:   & $AC_i, D \models \mathtt{A~says~B~must~\phi.}$ & \\
     $\vdots$ & $\vdots$ \\
     At $T_j$:   & \textcolor{BrickRed}{$AC_i, D \models \mathtt{A~says~B~can~\phi.}$} & \\
     $\vdots$ & $\vdots$ \\
@@ -692,24 +716,33 @@ in policies caused by the policy author forgetting to give a type to a variable.
 \section{Implementation}
 \label{sec:implementation}
 
-The AppPAL implementation is a Java library, with roughly 5,000 lines of code.
+Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available online\footnote{\url{https://github.com/apppal/libapppal}}.
 The library creates an AppPAL instance.
-This instance can be given several policies to enforce (\autoref{fig:apppal-inputs-outputs}).
+This instance can be given several policies to enforce. 
+The architecture is shown in \autoref{fig:apppal-inputs-outputs}.
 The instance is queried and will give decisions based on whether the queried assertion is valid according to the policy.
 As part of the constraint checking AppPAL can also be connected to external databases, systems, and static analysis tools.
-These can give AppPAL with more information external to that provided by SecPAL at the time of checking.
+These can give AppPAL with more information external to that provided by SecPAL at the time of checking, and connect AppPAL to tools to enforce the policies.
 
-Implementing AppPAL as a library allows us to embed into a variety of situations.
-It can be part of an app store checking the apps sold against a policy.
-Running on a device it can check apps before installation by the package manager.
-There is also a command-line version which is useful for testing and modelling policies.
+Implementing AppPAL as a library allows us to embed into a variety of
+situations.  AppPAL can be part of an app store checking the apps sold against
+a policy.  Running on a device, AppPAL can check apps before installation by
+the package manager.  There is also a command-line version which is useful for
+testing and modelling policies.  Our implementation can make the inferences, on
+an Android device or on a command line but it is not integrated into Android.
+It is future work to evaluate how AppPAL policies mgiht work in practice and be
+tied into a mobile operating system to enforce policies in practice.  This work
+looks primarily and moddeling the policies and preference and providing a
+framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown in~\autoref{fig:secpal-rules}) directly.
 This differs from Becker's original description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation through Datalog$^C$.
 Datalog$^C$ is Datalog extended to support constraints~\cite{li_datalog_2003}.
 Rather than implementing Datalog$^C$ and then AppPAL atop it (we could not find an existing implementation), AppPAL implements the evaluation rules directly.
-This allows greater control over when AppPAL caches results, which is important in memory-constrained mobile devices.
+Our implementation is na\"ive and not the optimal method for evaluating queries.
+Faster solutions might use answer-set programming and an SMT solver to answer queries.
+For all policies we tried though our implementation was fast enough---answering all but the most queries in seconds~\cite{hallett_apppal_2016}.  An app takes about 30 seconds to download and install\footnote{The time taken to download and install the YouTube app on iOS over Wifi.}. An extra second to check a policy seems reasonable, though future work could check what user's find acceptable.
 
 \begin{figure}
   \centering
@@ -763,7 +796,7 @@ A constant is \emph{voiced} if it is the speaker of a statement or it is the sub
 A constant is a \emph{subject} is it is the subject of a fact.
 The predicates used in the policy are also extracted and marked as \emph{derivable}.
 This allows some queries to be decided automatically and some rules to be flagged as unusable in the assertion context.
-This lets AppPAL reject some queries quickly: if they have a speaker that isn't voiced then we cannot query what they say.
+This lets AppPAL reject some queries quickly: if a query has a speaker that isn't voiced then we cannot query what the speaker says.
 If a rule relies on un-derivable predicates then it cannot be used to make decisions.
 
 A results table is also created.
@@ -873,8 +906,8 @@ This allows an auditor to check the decision-making process and aids AppPAL's de
     \label{alg:eval3}
 \end{algorithm}
 
-%\subsection{Correctness/Complexity}
-%\todo{You know you're going to have to do this.}
+\subsection{Soundness o decision procedure}
+\todo{You know you're going to have to do this.}
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
