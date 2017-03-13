@@ -1,0 +1,23 @@
+digraph genstore {
+  rankdir=LR;
+
+  app_pool [shape=folder, label="Available Apps"];
+  policies [shape=note, label="Policies"];
+  genstore [shape=box, label="AppPAL GenStore"];
+  app_selection [shape=folder, label="Selected Apps"];
+  proof_trees [shape=signature, label="Proof trees"];
+  database [shape=cylinder, label="Database"];
+  html_css [shape=box3d, label="Web app store"];
+
+  {rank=same; genstore policies}
+  {rank=same; app_selection database html_css proof_trees}
+
+  app_pool -> genstore;
+  policies -> genstore;
+  genstore -> app_selection;
+  genstore -> database;
+  genstore -> html_css;
+  genstore -> proof_trees [style=dotted, label="[optionally]"];
+
+}
+
