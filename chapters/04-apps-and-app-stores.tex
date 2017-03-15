@@ -6,6 +6,73 @@
 \section{App Stores}
 \todo{The differences in terms and conditions between stores formalized in AppPAL}.
 
+App stores are the primary mechanism for distributing software on smart phones.
+Whilst iOS is limited to just one store (Apple's App store), the Android ecosystem is more diverse with multiple stores available for multiple different purposes.
+The dominant app store on Android is Google Play. 
+Unlike iOS, Google isn't the sole app vendor however.
+Some device vendors add their own stores to their devices as a feature.
+Amazon, for example, do this with their Kindle Fire tablets, where Kindle owners can download discounted apps.
+Some vendors, such as Samsung, add their own store this to highlight apps that use features specific to their phones (KNOX in Samsung's case).
+In some regions (most notably China), using Google products can be problematic and local app stores are offered instead (such as QiHoo360, and Yandex).
+
+Precise numbers of apps in different stores is hard to obtain, but rough numbers for some of the largest stores are reported occasionally~(\autoref{fig:app-store-apps}).
+Google and Apple's stores have (as of the end of 2016) around 2.5 million apps, with Amazon's store having considerably less.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figures/app-store-apps.pdf}
+  \caption[Reported numbers of different apps on various App marketplaces.]{%
+    Reported numbers of different apps on various App marketplaces. Data taken from~\cite{statista_google_nodate,statista_apple_nodate,statista_amazon_nodate}.}
+  \label{fig:app-store-apps}
+\end{figure}
+
+\todo{Little more discussion of other stores, but leave most of it for the background.}
+
+\subsection{The other iOS stores}
+
+Apple's devices are limited normally only have access to Apple's App Store; however there is a second, unofficial, method of installing apps.
+Jay Freeman's \emph{Cydia} is an alternative method for installing apps on jailbroken devices.
+When a jailbreak is released they usually install the Cydia store as well.
+Cydia itself is build atop of Debian's \emph{dpkg} framework and relies on various \emph{repositories} for hosting and distributing the apps.
+
+Anyone is free to host their own repository but often the de facto \emph{``official''} repository is \emph{BigBoss}.
+BigBoss is further split into three stores: free, CydiaStore with purchases handled by the Cydia store, and CydiaStore with purchases handled by the app and their own payment mechanisms.  To host an app in their store they list the following conditions~\cite{bigboss_host_2014}.
+
+\begin{quotation}
+  \begin{enumerate}
+    \item You must own the app and be the developer of the content
+
+    \item No porn or adult apps. No swagbucks style apps where user makes you money by shopping with your ID.
+
+    \item You can only use one Cydia repository. If you submit here do not submit this to another major host elsewhere or it will have to be removed from one of the repositories. (You can host this in your own, private repository still just not any other major community source). There is no benefit to having duplicate packages in major sources as you get the same exposure by using just one.
+
+    \item Screenshots for any GUI app are required. If you don’t provide screenshots, your submission will be delayed.
+
+    \item Make sure your app is signed with ldid and properly built. We recommend you build with Theos but you can use whatever you want as long as you test in a jailbroken iOS enviornment. Thie means you should not be submitting xcode generated IPA files as this is a dead giveaway that you did not test properly.
+  \end{enumerate}
+\end{quotation}
+
+The Cydia based stores are considerably less formal than the Android marketplaces, and they require less information and have less terms.
+In part this may be because they are unofficial, and rely upon a jailbreak to be installed.  They are not backed by companies but instead are hosted and maintained by the jailbreaking community.  In this thesis we are not going to consider these stores as they are, by necessity, outside of the scope of the standard mobile ecosystems.  They are, howeverworth mentioning for the sake of completeness.
+
+The other iOS stores worth mentioning (though again we will not consider them) are the piracy stores.
+These exist to allow users to download pirated paid apps from the App Store for free.
+Perhaps the most notable of these was the \emph{Installous} Cydia repo which hosted pirated apps for many years.
+These stores come and go as they are shutdown; some working through Cydia, and some offering the pirated \emph{IPA} (Apple's app package format) for installation through iTunes.
+Again, we will not cover these stores (in part because they are so transient) but they are worth mentioning.
+
+\subsection{Expressing differences between markets using AppPAL}.
+
+With the various different app stores available, a user or developer might be interested in the differences between them.
+Different stores require different amounts of identification from their users to buy and sell apps, or offer different terms and conditions.
+Some stores may modify apps sold in them.  For Android users this can be particularly important as it changes the trust relationships around who can provide updates and who developed the app.
+
+The precise terms for using these stores are hidden in user and developer agreements.
+These hide within pages of legalese what the stores are \emph{contractually} allowed to do with a user's data and a developer's app.
+To compare some of the different policies in the stores we read and described parts of these policies using SecPAL.
+This allows for a more precise comparison between the different stores.
+
+
+\todo{DO THIS}
 
 \section{Finding the Right Apps}
 
@@ -188,14 +255,14 @@ It shows an example of how AppPAL can be used to help make decisions, in this ca
 For a company seeking to enforce a policy about which apps are installable they could use it to offer their employees choice about apps, without having to remove the default store entirely.
 If an AV vendor integrated their own checks into AppPAL then they could trivially create a \emph{safe} app store where all apps have been demonstrably vetted by their software and engineers.
 
-\begin{figure}
-  \includegraphics[width=\textwidth]{figures/genstore-schema.png}
+\begin{figure}\centering
+  \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
   \caption{GenStore database schema.}
   \label{fig:genstore-schema}
 \end{figure}
 
 \begin{figure}\centering
-  \framebox[\textwidth]{TODO: ADD SCREENSHOT WHEN I FIX THE BUGS}
+  \framebox[\textwidth]{TODO: ADD SCREENSHOT WHEN I FIX THE BUGS\vspace{3in}}
   \caption{Screenshot of a generated store.}
   \label{fig:genstore-screenshot}
 \end{figure}
