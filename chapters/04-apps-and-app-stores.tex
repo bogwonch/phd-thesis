@@ -60,7 +60,7 @@ Perhaps the most notable of these was the \emph{Installous} Cydia repo which hos
 These stores come and go as they are shutdown; some working through Cydia, and some offering the pirated \emph{IPA} (Apple's app package format) for installation through iTunes.
 Again, we will not cover these stores (in part because they are so transient) but they are worth mentioning.
 
-\subsection{Expressing differences between markets using AppPAL}.
+\subsection{Exploring differences in terms between markets}.
 
 With the various different app stores available, a user or developer might be interested in the differences between them.
 Different stores require different amounts of identification from their users to buy and sell apps, or offer different terms and conditions.
@@ -68,9 +68,116 @@ Some stores may modify apps sold in them.  For Android users this can be particu
 
 The precise terms for using these stores are hidden in user and developer agreements.
 These hide within pages of legalese what the stores are \emph{contractually} allowed to do with a user's data and a developer's app.
-To compare some of the different policies in the stores we read and described parts of these policies using SecPAL.
-This allows for a more precise comparison between the different stores.
+To explore the differences we took user and developer from five different markets: Google Play, Amazon App Store, Apple's App Store, Yandex and Aptoide.
+These five were chosen as they represent the biggest app marketplaces (Apple and Google Play) as well as some of the larger third party market places (Amazon and Yandex).
+Yandex and Aptoide are market places that are often installed on Android devices that do not meet Google's criteria for the Play Store.
 
+These five seem to cover many of the different use cases and terms for a store, though unfortunately they do not include a Chinese store.
+The Chinese Android app markets are interesting as, unlike the rest of the world, they have grown without ever being in competition with Google's store.
+Many of the apps featured on the front page of the \emph{Baidu} marketplace (China's largest), are unfamiliar, with only the games having recognisable icons (\autoref{fig:storefronts}).
+Apps like WhatsApp Facebook and Candy Crush, that are featured on nearly every other app market are absent.
+Unfortunately for a non-Chinese speaker the markets can be impenetrable, making finding and comparing terms of use difficult to impossible.
+Future work should explore these markets further as they represent an important part of the mobile ecosystem largely unexamined by this dissertation.
+
+\begin{figure}\centering
+  \begin{minipage}{\linewidth}
+    \begin{minipage}{0.48\linewidth}
+      \includegraphics[width=\linewidth]{figures/google-storefront.png}
+    \end{minipage}
+    \begin{minipage}{0.48\linewidth}
+      \includegraphics[width=\linewidth]{figures/baidu-storefront.png}
+    \end{minipage}
+  \end{minipage}
+  \caption{Different storefronts for Google Play and Baidu app stores.}
+  \label{fig:storefronts}
+\end{figure}
+
+A comparison of the terms and conditions is given in \autoref{tab:terms-and-conditions}.
+It is also worthwhile comparing the forms the terms and conditions themselves take.
+For most of the stores the terms are single files or webpages written in English easily accessible from the store homepages~\cite{noauthor_yandex.store_nodate,noauthor_aptoide_nodate,noauthor_google_nodate,noauthor_amazon.co.uk_nodate}.  Apple's terms and conditions, however, are notoriously complex and have been adapted into a comic book~\cite{r._sikoryak_terms_2017}.  
+
+\afterpage{{\tiny\sffamily\centering\raggedright
+  \newcolumntype{R}{>{\raggedright\arraybackslash}p{0.13\linewidth}}
+  %\begin{longtable}{p{0.10\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}p{0.14\linewidth}}
+  \begin{longtable}{RRRRRR}
+    \toprule
+    & Apple & Amazon & Aptoide & Google & Yandex \\
+    \midrule
+    User identification 
+      & Apple ID.
+      & Amazon account.
+      & An ID and contact details.  User agrees not to provide false ID. 
+      & Name address and billing details.
+      & For free apps no ID is needed, For paid apps they mus be an \emph{authorized user} and provide payment details
+      \\
+    Taken information
+      & Technical data about the device, system, software and peripherals; which the Application Provider may use provided it is in a form that does not personally identify the user.
+      & Device info, network connectivity, download info, location, usage info.  They will not access information unrelated to the app store.
+      & Transaction information, which may be shared with developers.
+      & App installation data (for malware identification), which may be opted out of.  Device ID, URLs and cookies.
+      & Device info, OS info, device content, apps and services.  Mobile and SIM information.  Location (which can be denied), search queries and technical information.
+      \\
+    Payment info
+      & Credit card or gift card.
+      & Through Amazon.
+      & Through an approved partner's payment processor.
+      & Google Wallet, others at Google's discretion.
+      & Through an approved processor provided by Yandex.
+      \\
+    Who pays whom?
+      & The purchasing user pays Apple.  If \emph{family sharing} is used then the family organiser pays Apple.
+      & User pays Amazon.
+      & User pays the store owner through Aptoide.
+      & User pays Google Commerce or the provider where Google is acting as an agent.
+      & User pays the app supplier.
+      \\
+    Pricing
+      & Apple sets price tiers which a developer may chose from.
+      & Amazon, based on a minimum or suggested price from the developer.
+      & The developer and store owners. Aptoide may round prices.
+      & The developer.  Google may round prices.  If the developer makes an app free they may not charge later.
+      & The supplier. The supplier agrees that Yandex may limit the exact amount of money and may convert to other currencies.
+      \\
+    Refunds
+      & 14 days.
+      & No.
+      & 24 hours.
+      & Only for defective or removed content.  A user may request a refund for 2 hours.  For an amount less than 10 USD a refund may be issued up to 48 hours later.  For amounts above 10 USD it depends on who processed the payment.
+      & 15 minutes.
+      \\
+    Age of use
+      & 13 or older to create an Apple ID.  Parents or guardians can create an ID through family sharing.  Educational institutions can create IDs for students.
+      & Bellow 18 with consent of parent or guardian.  No alcohol content for under 21s.
+      & A legal age within the user's country.
+      & At least 13.  Bellow 18 with parent or guardian's consent.
+      & At least 14.  Bellow 18 with parent or guardian's consent.
+      \\
+    Updates
+      & No obligation to provide or install.
+      & By default they will be installed.
+      & Aptoide can check for apps and they will receive them.
+      & Google will check for apps and they will receive them.
+      & Yandex may update content on devices for security and bugfixing reasons.
+      \\
+    Moderation
+      & Not mentioned, but they do have a stringent review process.
+      & Publisher is obliged to provide information which may be used to give ratings.  Amazon cannot check these ratings are accurate.
+      & Aptoide may review, screen, modify and review apps but are not obliged to.  The Aptoide \emph{trusted app} sign indicates an automatic anti-virus checker checked the app and does not imply Aptoide checked it.
+      & No obligation but Google may.
+      & They may moderate and filter but are not obliged to.
+      \\
+    Rights to content
+      & Apps are licensed to a user and not sold.  The user may use content on Apple devices.  If the device is later sold the user must remove the content.  The user may not distribute, copy, reverse engineer, disassemble, modify or create derivative works with the licensed application or part thereof.
+      &
+      & The user may not modify, rent, lease, loan, sell distribute or create derivative works based on the content.  The user may use the content.
+      & The user cannot use apps as part of a public performance.  You may transfer apps between linked Google accounts.  You may not use content for dangerous activities, such as nuclear plants, life supporting, emergency communications, aircraft control or similar activities where failure might lead to death, injury and environmental damage.
+      &
+      \\
+    \bottomrule
+    \caption{Comparison of terms and conditions from five app stores.}
+    \label{tab:terms-and-conditions}
+  \end{longtable}
+}}
 
 \todo{DO THIS}
 
