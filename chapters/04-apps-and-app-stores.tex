@@ -64,6 +64,7 @@ Again, we will not cover these stores (in part because they are so transient) bu
 
 With the various different app stores available, a user or developer might be interested in the differences between them.
 Different stores require different amounts of identification from their users to buy and sell apps, or offer different terms and conditions.
+
 Some stores may modify apps sold in them.  For Android users this can be particularly important as it changes the trust relationships around who can provide updates and who developed the app.
 
 The precise terms for using these stores are hidden in user and developer agreements.
@@ -94,7 +95,14 @@ Future work should explore these markets further as they represent an important 
 
 A comparison of the terms and conditions is given in \autoref{tab:terms-and-conditions}.
 It is also worthwhile comparing the forms the terms and conditions themselves take.
-For most of the stores the terms are single files or webpages written in English easily accessible from the store homepages~\cite{noauthor_yandex.store_nodate,noauthor_aptoide_nodate,noauthor_google_nodate,noauthor_amazon.co.uk_nodate}.  Apple's terms and conditions, however, are notoriously complex and have been adapted into a comic book~\cite{r._sikoryak_terms_2017}.  
+For most of the stores the terms are single files or webpages written in English easily accessible from the store homepages~\cite{noauthor_yandex.store_nodate,noauthor_aptoide_nodate,noauthor_google_nodate,noauthor_amazon.co.uk_nodate}.  
+
+Apple's terms and conditions, however, are said to be more complex; they have even been adapted into a comic book~\cite{r._sikoryak_terms_2017}. 
+Reviewing the policies themselves we found they were no more complex than any other, however they were split into a larger number of files and websites.
+The user agreements for all app software and hardware are kept on one site in hierarchical menus with each product, version of a product, and for each country appearing to have a separate terms document.  In practice many of the linked contracts are shared by many other products for the same country.
+One example of this is the warantees for Apple's various watches.  The \emph{Apple Watch} and \emph{Apple Watch Sport} share the same one year warantee in the UK and Ireland~\cite{noauthor_apple_nodate}.
+The \emph{Apple Watch Edition}, however, has a two year warantee~\cite{noauthor_apple_nodate-1}.  Looking at the documents they are mostly identical, with \emph{one year} in the first replaced with \emph{two years}.  This suggests these documents could be generated from templates based on the desired terms of the policy.  Intriguingly slight differences between the contracts suggests Apple do not do this and each document is maintained separately.  For example the one year warantee has a section heading called ``IMPORTANT RESTRICTIONS" but in the two year warantee it is ``IMPORTANT RESTRICTION".  We would not expect to see these, and other, differences if the documents were generated from a common source.
+Developer terms and agreements are kept in a different website and presented as a list of eleven policies.
 
 \afterpage{{\tiny\sffamily\centering\raggedright
   \newcolumntype{R}{>{\raggedright\arraybackslash}p{0.13\linewidth}}
@@ -108,70 +116,141 @@ For most of the stores the terms are single files or webpages written in English
       & Amazon account.
       & An ID and contact details.  User agrees not to provide false ID. 
       & Name address and billing details.
-      & For free apps no ID is needed, For paid apps they mus be an \emph{authorized user} and provide payment details
-      \\
+      & For free apps no ID is needed, For paid apps they must be an \emph{authorized user} and provide payment details
+      \\\midrule
     Taken information
       & Technical data about the device, system, software and peripherals; which the Application Provider may use provided it is in a form that does not personally identify the user.
       & Device info, network connectivity, download info, location, usage info.  They will not access information unrelated to the app store.
       & Transaction information, which may be shared with developers.
       & App installation data (for malware identification), which may be opted out of.  Device ID, URLs and cookies.
       & Device info, OS info, device content, apps and services.  Mobile and SIM information.  Location (which can be denied), search queries and technical information.
-      \\
+      \\\midrule
     Payment info
       & Credit card or gift card.
       & Through Amazon.
       & Through an approved partner's payment processor.
       & Google Wallet, others at Google's discretion.
       & Through an approved processor provided by Yandex.
-      \\
+      \\\midrule
     Who pays whom?
       & The purchasing user pays Apple.  If \emph{family sharing} is used then the family organiser pays Apple.
       & User pays Amazon.
       & User pays the store owner through Aptoide.
       & User pays Google Commerce or the provider where Google is acting as an agent.
       & User pays the app supplier.
-      \\
+      \\\midrule
     Pricing
       & Apple sets price tiers which a developer may chose from.
       & Amazon, based on a minimum or suggested price from the developer.
       & The developer and store owners. Aptoide may round prices.
       & The developer.  Google may round prices.  If the developer makes an app free they may not charge later.
       & The supplier. The supplier agrees that Yandex may limit the exact amount of money and may convert to other currencies.
-      \\
+      \\\midrule
     Refunds
       & 14 days.
       & No.
       & 24 hours.
       & Only for defective or removed content.  A user may request a refund for 2 hours.  For an amount less than 10 USD a refund may be issued up to 48 hours later.  For amounts above 10 USD it depends on who processed the payment.
       & 15 minutes.
-      \\
+      \\\midrule
     Age of use
       & 13 or older to create an Apple ID.  Parents or guardians can create an ID through family sharing.  Educational institutions can create IDs for students.
       & Bellow 18 with consent of parent or guardian.  No alcohol content for under 21s.
       & A legal age within the user's country.
       & At least 13.  Bellow 18 with parent or guardian's consent.
       & At least 14.  Bellow 18 with parent or guardian's consent.
-      \\
+      \\\midrule
     Updates
       & No obligation to provide or install.
       & By default they will be installed.
       & Aptoide can check for apps and they will receive them.
       & Google will check for apps and they will receive them.
       & Yandex may update content on devices for security and bugfixing reasons.
-      \\
+      \\\midrule
     Moderation
       & Not mentioned, but they do have a stringent review process.
       & Publisher is obliged to provide information which may be used to give ratings.  Amazon cannot check these ratings are accurate.
       & Aptoide may review, screen, modify and review apps but are not obliged to.  The Aptoide \emph{trusted app} sign indicates an automatic anti-virus checker checked the app and does not imply Aptoide checked it.
       & No obligation but Google may.
       & They may moderate and filter but are not obliged to.
-      \\
+      \\\midrule
     Rights to content
       & Apps are licensed to a user and not sold.  The user may use content on Apple devices.  If the device is later sold the user must remove the content.  The user may not distribute, copy, reverse engineer, disassemble, modify or create derivative works with the licensed application or part thereof.
       &
-      & The user may not modify, rent, lease, loan, sell distribute or create derivative works based on the content.  The user may use the content.
+      & The user may not modify, rent, lease, loan, sell, distribute or create derivative works based on the content.  The user may use the content.
       & The user cannot use apps as part of a public performance.  You may transfer apps between linked Google accounts.  You may not use content for dangerous activities, such as nuclear plants, life supporting, emergency communications, aircraft control or similar activities where failure might lead to death, injury and environmental damage.
       &
+      \\\midrule
+      % Apple Amazon Aptoide Google Yandex
+    What can the store do with the app?
+      &
+      & Irrevocable royalty-free right to distribute through all electronic means.  Amazon can evaluate, test and store the app.  Amazon may modify and add to the app for analytics, policy enforcement, to add metadata and to improve compatibility with Amazon devices.  They may, if requested by the developer add DRM.  Amazon may use the app to promote and advertise their services, and may make limited time promotions or \emph{test drive} versions of the app.  They may claim other rights.
+      & Sell and make available to third party stores.  They may modify the app.
+      & Google can reproduce, perform and display the app for marketing purposes.  Google may delegate this right to a third party.
+      & Yandex may use the app and developer's marks, logos and images of the app and its content worldwide.  Yandex may delegate or sub-licence this right.
+      \\\midrule
+    How quickly will they remove an app at a developer's request?
+      & 
+      & 10 days generally.  5 days if due to a loss or third-party claim to rights.  ASAP if it is due to breaking the law.
+      & No time period specified, but the developer may request they do it.
+      & No time period specified, but the developer may request they do it.  If it is due to IP or breaking the law then users who downloaded within a year are entitled to a refund.
+      & 90 days, though Yandex may keep an archive copy.
+      \\\midrule
+    Additional EULAs
+      &
+      & The developer may provide one if it doesn't interfere with Amazon's own terms.
+      & Aptoide provide a default one, but they suggest developers provide one that supercedes it.
+      & Developer may provide one, else the user is granted the worldwide perpetual right to perform, display and use the product.
+      & Developer must provide one and it must include the right to the content worldwide (except for trials).
+      \\\midrule
+    Developer identification
+      & Apple Developer ID.
+      & Amazon account.
+      & Email address.  Using the same email as used for a Google Play developer account may help speed the app review process.
+      & Google account and payment info.
+      & Email, companyi name, tax ID, addresses, country of residence, website, order email address, user support email address, urgent Yandex support email address, payment information, other \emph{reasonable information}.
+      \\\midrule
+    Content restrictions
+      &
+      & No offensive content, pornography, illegality, gambling with real currency, IP infringing, privacy infringing, copyright infringing, or content that would be illegal in the country the app would be sold.
+      & Nothing that displays or links to: illegal content, invasions of privacy, content that interferes with the services of others, hate or violence, IP infringement. Nothing that harms devices or personal data.  Nothing that has unpredictable network usage or has an adverse impact on a user's service charges or a carrier's network.  Nothing that creates a \emph{spammy user experience}.
+      & No alternate stores. No sex or violence, bullying, hate, impersonation, IP infringing, PII publishing (specifically credit or ID card information, or non-public contacts), illegal content, gambling, dangerous (malware or spyware), self-modifying or system interfering content. No unpredictible network use.
+      & Content must be safe, free of defects, and described accurately.  Nothing disruptive to Yandex or malware.  Nothing illegal such as: child pornography, obscenity, nudity, sex, extremist, hatred, violent, discriminatory, defamatory, gambling, copyright infringing or other forbidden material.  Nothing that steals private information nothing that mimics system functionality.  Nothing that would require Yandex to open-source anything via copy-left.  No alternative marketplaces.
+      \\\midrule
+    Who describes the apps
+      &
+      & Developer but Amazon may edit it.
+      & Developer.
+      & Developer.
+      & Developer but Yandex may edit it.
+      \\\midrule
+    Who can distribute apps?
+      &
+      & Amazon, and regional subsidiaries.
+      & Aptoide and third-party partners using Aptoide to create their own store.
+      & Google.
+      & Yandex and partners.
+      \\\midrule
+    What support must a developer provide?
+      & 
+      & Must respond to users within 5 days.  Must respond to Amazon within 24 hours if Amazon deem issue \emph{critical}.
+      & Aptoide will provide users with the developer's contact information.
+      & Developer must support their app and handle complaints.  Developer must respond within 3 days and to issues deemed urgent by Google within 24 hours.  Failure to do so will result in Google lowering your app's ranking, review scores, and removal.
+      & Must provide user with support via email or phone.  Must respond to users within 5 days.
+      \\\midrule
+    When do developers get paid?
+      & 
+      & Roughly 30 days after app was sold.
+      & Roughly 30 days after the end-of-the-month of the purchase.
+      & On the 15th of the following month via Google Wallet.  Minimum earned balance for local currency payout is 1 USD. 100 USD for wire transfer payouts.
+      & 30 days after the end-of-the-month of the purchase.  Minimum earned balance for payout is 100 USD.  If less is earnt in a month Yandex will accrue it without interest.
+      \\\midrule
+    What do developers get paid?
+      &
+      & 70\% of list price (minus card processing fees).
+      & 75\% of revenue share after deduction of all transaction fees.  Other rates subject to agreement with Aptoide.
+      & 70\% of payment by user.
+      & 70\% of net revenue (minus transaction fees).
       \\
     \bottomrule
     \caption{Comparison of terms and conditions from five app stores.}
@@ -179,7 +258,7 @@ For most of the stores the terms are single files or webpages written in English
   \end{longtable}
 }}
 
-\todo{DO THIS}
+
 
 \section{Finding the Right Apps}
 
