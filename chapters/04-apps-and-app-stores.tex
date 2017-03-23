@@ -168,7 +168,7 @@ Developer terms and agreements are kept in a different website and presented as 
       & Yandex may update content on devices for security and bugfixing reasons.
       \\\midrule
     Moderation
-      & Not mentioned, but they do have a stringent review process.
+    & Apple will moderate based on their own opinion (
       & Publisher is obliged to provide information which may be used to give ratings.  Amazon cannot check these ratings are accurate.
       & Aptoide may review, screen, modify and review apps but are not obliged to.  The Aptoide \emph{trusted app} sign indicates an automatic anti-virus checker checked the app and does not imply Aptoide checked it.
       & No obligation but Google may.
@@ -184,7 +184,7 @@ Developer terms and agreements are kept in a different website and presented as 
       % Apple Amazon Aptoide Google Yandex
     What can the store do with the app?
       &
-      & Irrevocable royalty-free right to distribute through all electronic means.  Amazon can evaluate, test and store the app.  Amazon may modify and add to the app for analytics, policy enforcement, to add metadata and to improve compatibility with Amazon devices.  They may, if requested by the developer add DRM.  Amazon may use the app to promote and advertise their services, and may make limited time promotions or \emph{test drive} versions of the app.  They may claim other rights.
+        & Irrevocable royalty-free right to distribute through all electronic means.  Amazon can evaluate, test and store the app.  Amazon may modify and add to the app for analytics, policy enforcement, to add metadata and to improve compatibility with Amazon devices.  They may, if requested by the developer add DRM.  Amazon may use the app to promote and advertise their services, and may make limited time promotions or \emph{test drive} versions of the app.  They may claim other rights.
       & Sell and make available to third party stores.  They may modify the app.
       & Google can reproduce, perform and display the app for marketing purposes.  Google may delegate this right to a third party.
       & Yandex may use the app and developer's marks, logos and images of the app and its content worldwide.  Yandex may delegate or sub-licence this right.
@@ -208,10 +208,10 @@ Developer terms and agreements are kept in a different website and presented as 
       & Amazon account.
       & Email address.  Using the same email as used for a Google Play developer account may help speed the app review process.
       & Google account and payment info.
-      & Email, companyi name, tax ID, addresses, country of residence, website, order email address, user support email address, urgent Yandex support email address, payment information, other \emph{reasonable information}.
+      & Email, company name, tax ID, addresses, country of residence, website, order email address, user support email address, urgent Yandex support email address, payment information, other \emph{reasonable information}.
       \\\midrule
     Content restrictions
-      &
+    & Described by a \emph{living document}~\cite{apple_app_nodate}, which Apple will change as apps are submitted.  Broadly they look for safety, performance, business, design and legal issues. They also are aware \emph{kids} use their store and want developers to think about.  They will reject amateurish, cobbled together apps.  Apps that they believe to have content that is \emph{over the line} (they will know it when they see it).  Attempts to cheat the system will lead to developers being banned. 
       & No offensive content, pornography, illegality, gambling with real currency, IP infringing, privacy infringing, copyright infringing, or content that would be illegal in the country the app would be sold.
       & Nothing that displays or links to: illegal content, invasions of privacy, content that interferes with the services of others, hate or violence, IP infringement. Nothing that harms devices or personal data.  Nothing that has unpredictable network usage or has an adverse impact on a user's service charges or a carrier's network.  Nothing that creates a \emph{spammy user experience}.
       & No alternate stores. No sex or violence, bullying, hate, impersonation, IP infringing, PII publishing (specifically credit or ID card information, or non-public contacts), illegal content, gambling, dangerous (malware or spyware), self-modifying or system interfering content. No unpredictible network use.
@@ -258,9 +258,31 @@ Developer terms and agreements are kept in a different website and presented as 
   \end{longtable}
 }}
 
+Comparing the terms and conditions in \autoref{tab:terms-and-conditions}, the stores are for the most part rather similar.
+Stores pay their developers a month in lieu.  A user must be over 18 to use the store, unless their guardian permits it. 
+No store is okay with developers selling illegal or sexually explicit material.
+Most stores are going to record information about the user's who bought software from them.
+One area where the stores do differ is in terms of refunds---only Apple has a return period longer than a few hours.
+In the case of Amazon there is no right to a refund, and for Yandex only 15 minutes.
 
+Another area where they differ is the rights a store has to the apps they sell.
+Amazon and Aptoide both have the right to modify apps.
+This is important because it changes the trust model for apps on Android.
+In Android the developer who signs the app is responsible for updates and identified as the developer of the app.  If an app is unsigned then Android will not let a user install it\footnote{Normally. There are exceptions for development.}.  In order to modify an app, Aptoide and Amazon must be able to re-sign the code.  Where as an app from Google's marketplace would be signed by the developer who made it, apps from Amazon are signed by the store.
+In theory, an app originally purchased in the Google Play store could be updated by an app from the Yandex store (if signed by the same key and the app was a later version).
+With Amazon's model this is not possible as the app will be signed by a different key.
+In Amazon's case this may be especially confusing as Amazon manufacture their own Android tablets.
+To access certain \emph{system} permissions Android requires that an app be signed by the same key that signed the OS installation.
+In the Play store model Google no third party developer in their store would have access to that key, but in the Amazon model they could (if they desired) distribute system apps for their Kindle devices.
+Having a different signing model isn't necessarily bad, but it changes the trust assumptions associated with Android; which a user may not necessarily be aware of.
 
-\section{Finding the Right Apps}
+\todo{
+  Describe how a developer may have preferences about which app store to submit to, and state these differences could be encoded in apppal.
+  Mention how that would allow greater clarity in determining differences in stores as apppal is clearer than natural language.
+}
+
+  \section{Finding the Right Apps}
+\todo{Rewrite as WE}
 
 For a user finding the right apps can be tricky.
 Users need to discover which are not going to abuse their data.
