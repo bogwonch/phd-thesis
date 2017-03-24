@@ -41,24 +41,14 @@ Amazon's app store, Aptoide, Google Play and Yandex.  Apple's App Store is for i
 but the rest are for Android operating systems.  
 Amazon's app store was opened in 2011 and was the primary app store for Amazon's
 Kindle tablets released later that year.  Like Apple and Google's stores it is a
-store controlled by a device manufacturer, primarily for their own devices.
+store controlled by a device manufacturer.
 
 Yandex is a store primarily aimed at
 the Russian and eastern European markets and it features a large number of
 Russian language apps.  Some manufacturers, such as Nokia, installed Yandex over
 Google's app store on devices sold in Russia. 
 
-Aptoide is an open-source app marketplace.  Its code and content has been used as the basis for
-other app stores including F-Droid, an app store for open-source only apps.
-Unlike other app stores which have one source for apps, Aptoide can use multiple
-\emph{repositories}, which users are free to host themselves.  Because of it's
-configurable nature it has been used as an app store for some smart devices,
-including Samsung and Sony's range of Android-based TVs.
 
-We chose these stores as they represent a range of different app store roles
-within mobile ecosystems.  The largest stores, run by manufacturers for specific
-devices.  A store for a specific market, and a store for embedding in
-third-party devices.
 
 
 \paragraph{The other iOS stores}
@@ -371,18 +361,18 @@ The \emph{Conservative} (C) users were uncomfortable allowing an app access to a
 The \emph{Unconcerned} (U) users felt okay allowing access to most data for almost any reason.
 The \emph{Advanced} (A) users were comfortable allowing apps access to location data but not if it was for advertising.
 Opinions in the largest cluster, \emph{Fencesitters} (F), varied but were broadly against collection of personal data for advertising.
-I wrote AppPAL policies to describe each of these behaviours as sets of prohibited permissions, shown in \autoref{tab:lin_perms}.
-These simplify the privacy policies identified by Lin~\etal~as I do not take into account the reason each app might have been collecting each permission
-(I could write more precise rules if I could determine why each permission was requested).
+We wrote AppPAL policies to describe each of these behaviours as sets of prohibited permissions, shown in \autoref{tab:lin_perms}.
+These simplify the privacy policies identified by Lin~\etal~as we do not take into account the reason each app might have been collecting each permission
+(we could write more precise rules if we could determine why each permission was requested).
 Lin~\etal~used Androguard~\cite{andrew_desnos_androguard_2012} as well as manual analysis to determine the precise reasons for each permission~\cite{lin_modeling_2014}.
 
-To test the extent users were following the policies I took installation from a partially anonymized database of installed apps captured by Carat~\cite{oliner_carat:_2013}.
-By calculating the hashes of known package names, mostly taken from the Android Observatory, I could discover who had installed certain apps.
+To test the extent users were following the policies we took installation from a partially anonymized database of installed apps captured by Carat~\cite{oliner_carat:_2013}.
+By calculating the hashes of known package names, mostly taken from the Android Observatory, we could discover who had installed certain apps.
 The initial database has over 90,000 apps and 55,000 users.
 On average each Carat user installed around 90 apps each; 4,300 apps have known names.
-Disregarding system apps (such as \texttt{com.android.vending}) and very common apps (Facebook, Dropbox, Whatsapp, and Twitter) I reduced the set to an average of 20 known apps per user.
-To see some variation in app type, I considered only the 44,000 users who had more than 20 known apps.
-Using this data, and the apps themselves taken from the Google Play Store and Android Observatory~\cite{barrera_understanding_2012}, I checked which apps satisfied which policies.
+Disregarding system apps (such as \texttt{com.android.vending}) and very common apps (Facebook, Dropbox, Whatsapp, and Twitter) we reduced the set to an average of 20 known apps per user.
+To see some variation in app type, we considered only the 44,000 users who had more than 20 known apps.
+Using this data, and the apps themselves taken from the Google Play Store and Android Observatory~\cite{barrera_understanding_2012}, we checked which apps satisfied which policies.
 
 \begin{figure*}
   \centering
@@ -414,7 +404,7 @@ It is also interesting to discover when people install apps classified as malwar
 McAfee classify malware into several categories, and provided us with a dataset of apps classified as malware and \acp{PUP}.
 The \emph{malicious} and \emph{trojan} categories describe traditional malware.
 Other categories classify \ac{PUP} such as aggressive adware.
-Using AppPAL I can write policies to differentiate characterising users who allow dangerous apps and those who install poor quality ones.
+Using AppPAL we can write policies to differentiate characterising users who allow dangerous apps and those who install poor quality ones.
 \begin{lstlisting}
 'user' says 'mcafee' can-say
   'malware' isKindOf(App).
@@ -435,7 +425,7 @@ We can check this by using AppPAL policies to measure the number of malwares eac
   \caption{Malware installation numbers in the Carat dataset.}
   \label{fig:malware}
 \end{marginfigure}
-I found that 1\% of the users had a \ac{PUP} or malicious app installed.
+We found that 1\% of the users had a \ac{PUP} or malicious app installed.
 Figure~\ref{fig:malware} shows that infection rates for \acp{PUP} and malware is low;
 though a user is 3 times more likely to have a \ac{PUP} installed than malware.
 It is interesting to compare a user's compliance to the Lin~\etal~policies with the amount of malware each had installed (Figure \autoref{fig:lin_malware_graphs}).
