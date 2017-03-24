@@ -4,7 +4,6 @@
 \label{chap:apps-and-stores}
 
 \section{App Stores}
-\todo{The differences in terms and conditions between stores formalized in AppPAL}.
 
 App stores are the primary mechanism for distributing software on smart phones.
 Whilst iOS is limited to just one store (Apple's App store), the Android ecosystem is more diverse with multiple stores available for multiple different purposes.
@@ -14,6 +13,18 @@ Some device vendors add their own stores to their devices as a feature.
 Amazon, for example, do this with their Kindle Fire tablets, where Kindle owners can download discounted apps.
 Some vendors, such as Samsung, add their own store this to highlight apps that use features specific to their phones (KNOX in Samsung's case).
 In some regions (most notably China), using Google products can be problematic and local app stores are offered instead (such as QiHoo360, and Yandex).
+
+For a manufacturer to install Google's store they must
+comply with the Android \ac{CDD}~\cite{???}.  The \ac{CDD} describes how the
+Android operating system should be configured and what features a device must
+have to run Android.  If a manufacturer cannot pass the \ac{CTS} that tests
+conformance with the \ac{CDD} then they cannot install the Play Store.
+
+For manufacturers like \emph{Jolla} whose devices do not run
+Android\footnote{They run Sailfish, which is based off of the Linux Foundation's
+Mer operating system.}, but can emulate some parts of the Dalvik virtual machine
+enough to run Android apps, third party stores like Yandex and Aptoide allow the
+device to still benefit from apps designed for the Android ecosystem.
 
 Precise numbers of apps in different stores is hard to obtain, but rough numbers for some of the largest stores are reported occasionally~(\autoref{fig:app-store-apps}).
 Google and Apple's stores have (as of the end of 2016) around 2.5 million apps, with Amazon's store having considerably less.
@@ -25,9 +36,33 @@ Google and Apple's stores have (as of the end of 2016) around 2.5 million apps, 
   \label{fig:app-store-apps}
 \end{figure}
 
-\todo{Little more discussion of other stores, but leave most of it for the background.}
+In this section we will focus on five different app stores: Apple's App Store,
+Amazon's app store, Aptoide, Google Play and Yandex.  Apple's App Store is for iOS,
+but the rest are for Android operating systems.  
+Amazon's app store was opened in 2011 and was the primary app store for Amazon's
+Kindle tablets released later that year.  Like Apple and Google's stores it is a
+store controlled by a device manufacturer, primarily for their own devices.
 
-\subsection{The other iOS stores}
+Yandex is a store primarily aimed at
+the Russian and eastern European markets and it features a large number of
+Russian language apps.  Some manufacturers, such as Nokia, installed Yandex over
+Google's app store on devices sold in Russia. 
+
+Aptoide is an open-source app marketplace.  Its code and content has been used as the basis for
+other app stores including F-Droid, an app store for open-source only apps.
+Unlike other app stores which have one source for apps, Aptoide can use multiple
+\emph{repositories}, which users are free to host themselves.  Because of it's
+configurable nature it has been used as an app store for some smart devices,
+including Samsung and Sony's range of Android-based TVs.
+
+We chose these stores as they represent a range of different app store roles
+within mobile ecosystems.  The largest stores, run by manufacturers for specific
+devices.  A store for a specific market, and a store for embedding in
+third-party devices.
+
+
+\paragraph{The other iOS stores}
+\todo{Move to background?}
 
 Apple's devices are limited normally only have access to Apple's App Store; however there is a second, unofficial, method of installing apps.
 Jay Freeman's \emph{Cydia} is an alternative method for installing apps on jailbroken devices.
