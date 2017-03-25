@@ -43,16 +43,44 @@ Amazon's app store was opened in 2011 and was the primary app store for Amazon's
 Kindle tablets released later that year.  Like Apple and Google's stores it is a
 store controlled by a device manufacturer.
 
-Yandex is a store primarily aimed at
-the Russian and eastern European markets and it features a large number of
-Russian language apps.  Some manufacturers, such as Nokia, installed Yandex over
-Google's app store on devices sold in Russia. 
+Yandex is a store primarily aimed at the Russian and eastern European markets
+and it features a large number of Russian language apps. Some manufacturers,
+such as Nokia, installed Yandex over Google's app store on devices sold in
+Russia.
 
+Aptoide is a an open-source app store.  Unlike many other app stores they
+provide app stores targeted at Android based Smart TVs (Aptiode TV), and for
+users with slow internet connections (Aptoide Lite).  Unlike other app stores
+Aptoide doesn't provide access to just one set of apps.  Any user, or developer,
+is free to create their own \emph{curated} repository of apps, and point Aptoide
+to it.  Aptoide claim over 220,000 stores have been created using Aptoide (the
+majority by users), though more notably the F-Droid app store which sells only
+open source apps was created from a fork of Aptoide's code.
+For apps selected from their own repositories Aptoide try and detect malware
+(\autoref{fig:aptoide-malware}), identifying it to their customers if not
+removing it.
 
+We chose these stores to focus on as they represent a range of different app
+stores.  From the largest of marketplaces from Apple and Google, to smaller
+markets for specific devices like Amazon, specific regions like Yandex, and for
+companies and users looking to create their own stores for their own devices
+like Aptoide.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/aptoide-malware.png}
+  \caption{Adware infested and pirated app from Aptoide.}
+  \label{fig:aptoide-malware}
+\end{figure}
 
-\paragraph{The other iOS stores}
-\todo{Move to background?}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/aptoide-malware.png}
+  \caption{Adware infested and pirated app from Aptoide.}
+  \label{fig:aptoide-malware}
+\end{figure}
+
+\subsubsection{The other iOS stores}
 
 Apple's devices are limited normally only have access to Apple's App Store; however there is a second, unofficial, method of installing apps.
 Jay Freeman's \emph{Cydia} is an alternative method for installing apps on jailbroken devices.
@@ -463,9 +491,7 @@ apps that a user might find acceptable.
 Curated app stores are a similar idea, used inside companies to help employees
 install apps for work that satisfy company policies (as will be expanded upon
 in \autoref{chap:byod}).  With these corporate stores the apps are handselected
-by IT staff.  Other stores, such as \emph{F-Droid}, effectively act as public
-curated stores by only accepting apps that meet their requirements for an Open
-Source licence.
+by IT staff.  
 
 \begin{figure}\centering
   \includegraphics[width=\textwidth]{figures/genstore.pdf}
@@ -505,5 +531,5 @@ If an AV vendor integrated their own checks into AppPAL then they could triviall
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../../thesis"
+%%% TeX-master: "../ch4"
 %%% End
