@@ -3,64 +3,76 @@
 \chapter{Applying AppPAL to BYOD policies}
 \label{chap:byod}
 
-Many employees bring their personal mobile devices to work. To control the
-access these devices have, 70\% of companies publish \emph{bring your own
-  device} (BYOD) policies~\cite{schulze_byod_2016}. These BYOD policies are
-written documents for employees to read and follow. They describe steps to take
-to secure devices in the workplace. The policies say how employees
-should get access to data, and who should authorise decisions.
+Many employees bring their personal mobile devices to work. To control
+the access these devices have to company resources, an estimated 72\%
+of companies publish \ac{BYOD} policies.\footnote{According to survey
+  of companies by LinkedIn~\cite{schulze_byod_2016}. 40\% made \ac{BYOD}
+  available to all employees, 32\% made it available to select
+  employees.} These \ac{BYOD} policies are natural language documents
+that employees should read and obey. They describe steps to take to
+secure devices in the workplace. The policies say how employees should
+get access to data, and who should authorise decisions.
 
-Companies can carry out their policies in many ways. Some companies
-may trust employees to follow the rules on their own. Alternatively \ac{MDM}
-software can implement part of the policies: packages such as IBM's MaaS360 and
-Blackberry's BES~\cite{_ibm_????,_secure_????} can configure devices to
-restrict functionality and manage apps.
+Companies can use their policies in varying ways. Some companies may
+trust employees to follow the rules on their own. Alternatively
+\ac{MDM} software can implement part of the policies: packages such as
+IBM's MaaS360 and Blackberry's BES~\cite{_ibm_????,_secure_????} can
+configure devices to restrict functionality and manage apps.
 
-Commercial tools have limits to what they can enforce. Some tools can
-only enable simple on-off configuration settings, and ban explicitly
-black-listed apps. More advanced systems can use app-rewriting to recompile
-apps to tunnel traffic through a VPN, or geofencing to apply policies in
-predefined areas. These tools are not infallible. One survey found that 50\% of
-companies with \ac{MDM} software still had non-compliant devices in their
-networks~\cite{mobileiron_security_labs_q4_2015}. Whilst app wrapping can
-protect some apps, in general it is ineffective~\cite{hao_effectiveness_2013}.
+Commercial tools have limits to what they currently enforce. Some
+tools can only enable simple on-off configuration settings, and ban
+explicitly black-listed apps. More advanced systems can use
+app-rewriting to recompile apps to tunnel traffic through a VPN, or
+geofencing to apply policies in predefined areas. These tools are not
+infallible. One survey found that 50\% of companies with \ac{MDM}
+software still had non-compliant devices in their
+networks~\cite{mobileiron_security_labs_q4_2015}. Whilst app wrapping
+can protect some apps, in general it is
+ineffective~\cite{hao_effectiveness_2013}.
 
 \section{Overview of five BYOD policies}
 \label{sec:overview-of-five-byod-policies}
 
-Through out this chapter, we will explore how we can AppPAL to BYOD policies through the analysis of five \emph{real-world} policies.
-We chose the policies from a variety of domains.
-They cover a range of different policy styles, and concerns.
-Two are example policies a company might want to base their own BYOD policy on; published by companies who produce advice for other companies.
-The remaining three are BYOD policies used inside companies.
+Through out this chapter, we will explore how we can apply AppPAL to
+BYOD policies through the analysis of five \emph{real-world} policies.
+We chose the policies from a variety of domains.  They cover a range
+of different policy styles and concerns.  Two are example policy
+templates a company might want to base its own BYOD policy on,
+published by security advice organizations.  The remaining three are
+BYOD policies used inside companies.
 
-\begin{itemize}
-\item The first is the \emph{Security Policy Template: Use of Handheld Devices
+\begin{enumerate}
+\item Is the \emph{Security Policy Template: Use of Handheld Devices
     in a Corporate Environment}, published by the SANS
   Institute~\cite{nicholas_r._c._guerin_security_2008}. This policy is a
-  hypothetical policy published to help companies mitigate the threats to
-  corporate assets caused by mobile devices. Companies change the
-  document to suit their needs and BYOD requirements. The policy is general; not specific to any
-  particular industry, device, or country's legislation.
-\item The second is from the
+  hypothetical policy published to help companies mitigate the threats
+  to corporate assets caused by mobile devices. Companies change the
+  document to suit their needs and BYOD requirements. The policy is
+  general; not specific to any particular industry, device, or country's
+  legislation.
+\item Is from the
   \ac{HiMSS}~\cite{healthcare_information_and_management_systems_society_mobile_2012};
   a US non-profit company trying to improve healthcare through IT. The
-  \ac{HiMSS} policy is relatively short and has concerns specific to healthcare
-  scenarios. The policy is a contract the users follow. The police has a
-  different style to other policies: in the other policies the company states
-  what users should do, here the user states what they will do.  The policy is
-  designed as a sample agreement for a system trying to manage personal mobile
-  devices in a healthcare environment.
-\item The third is from a British hospital
-  trust~\cite{kennington_mobiles_2014} and describes the BYOD scheme used in
-  practice at the hospital.  The policy is broad and covers rules for
-  corporately owned devices.  This policy also briefly describes how devices
-  should interact with patients.
-\item Finally, we looked at two simpler policies from The University of
-  Edinburgh~\cite{williamson_bring_2015} and a company specialising in emergency
-  sirens~\cite{code3pse.org_sample_????}. These policies are simpler, shorter,
-  and more general than the other policies we looked at. 
-\end{itemize}
+  \ac{HiMSS} policy is relatively short and has concerns specific to
+  healthcare scenarios. The policy is a contract the users follow. The
+  police has a different style to other policies: in the other policies
+  the company states what users should do, here the user states what
+  they will do.  The policy is designed as a sample agreement for a
+  system trying to manage personal mobile devices in a healthcare
+  environment.
+\item Is from a British hospital trust~\cite{kennington_mobiles_2014}
+  and describes the BYOD scheme used in practice at the hospital.  The
+  policy is broad and covers rules for corporately owned devices.  This
+  policy also briefly describes how devices should interact with
+  patients.
+\item Is a relatively simple policy from The University of
+  Edinburgh~\cite{williamson_bring_2015}. It is briefer, and groups
+  rules into sections for high and low risk users, unlike the other
+  policies.
+\item Is by a company specialising in emergency
+  sirens~\cite{code3pse.org_sample_????}. Again this policy is simpler,
+  and more general than the other policies we looked at.
+\end{enumerate}
 
 Each of the policies is split into a series of rules and requirements employees
 should follow. Typically the policy is describing what employees should
