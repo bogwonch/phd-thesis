@@ -329,12 +329,54 @@ To access certain \emph{system} permissions Android requires that an app be sign
 In the Play store model Google no third party developer in their store would have access to that key, but in the Amazon model they could (if they desired) distribute system apps for their Kindle devices.
 Having a different signing model isn't necessarily bad, but it changes the trust assumptions associated with Android; which a user may not necessarily be aware of.
 
-\todo{
-  Describe how a developer may have preferences about which app store to submit to, and state these differences could be encoded in apppal.
-  Mention how that would allow greater clarity in determining differences in stores as apppal is clearer than natural language.
-}
+%\todo{
+%  Describe how a developer may have preferences about which app store to submit to, and state these differences could be encoded in apppal.
+%  Mention how that would allow greater clarity in determining differences in stores as apppal is clearer than natural language.
+%}
 
-  \section{Finding the Right Apps}
+The terms and conditions are dense technical documents.
+Yet despite their intimidating nature, the differences between different app store agreements are often small.
+By encoding the key differences into a formal language (such as SecPAL) we can start to clarify the small distinctions, a developer or user can choose the app stores they are happy to submit to based on their policies, and a company could automate the enforcement of the policy.
+The longer terms could even be generated from the formal version.
+For example in the case of refunds the differences in policy could be written as:
+
+%   Refunds
+% Apple    & 14 days.
+% Amazon    & No.
+% Aptoide    & 24 hours.
+% Google    & Only for defective or removed content.  A user may request a refund for 2 hours.  For an amount less than 10 USD a refund may be issued up to 48 hours later.  For amounts above 10 USD it depends on who processed the payment.
+% Yandex    & 15 minutes.
+\begin{lstlisting}
+'apple' says 'maximum-purchase-age' is(336).
+'apple' says User:U canRequestRefund(Purchase:P)
+  if U hasCompletedPurchase(P),
+     'maximum-purchase-age' is(N)
+  where age(P) < N.
+
+'aptoide' says 'maximum-purchase-age' is(24).
+'aptoide' says User:U canRequestRefund(Purchase:P)
+  if U hasCompletedPurchase(P),
+     'maximum-purchase-age' is(N)
+  where age(P) < N.
+
+'google' says 'maximum-purchase-age' is(2).
+'google' says User:U canRequestRefund(Purchase:P)
+  if P isFor(App:A),
+     A isDefective,
+     'maximum-purchase-age' is(N)
+  where age(P) < N.
+
+'yandex' says 'maximum-purchase-age' is(0.25).
+'yandex' says User:U canRequestRefund(Purchase:P)
+  if U hasCompletedPurchase(P),
+     'maximum-purchase-age' is(N)
+  where age(P) < N.
+\end{lstlisting}
+
+Writing policies out in this manner allows decisions to be made accurately, and the policy to be understood unambiguously.  We will return to this idea in \autoref{chap:byod} when we examine BYOD policies.
+For now consider that we can describe the terms and conditions of the stores that form the principle method of distributing software in the mobile ecosystem in a formal language; and start to make decisions based on them.
+
+\section{Finding the Right Apps}
 \todo{Rewrite as WE}
 
 For a user finding the right apps can be tricky.
