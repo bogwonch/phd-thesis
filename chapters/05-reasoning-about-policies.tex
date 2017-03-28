@@ -76,10 +76,10 @@ The Siren policy matches this style, stating what conditions will lead to the
 company wiping an employees device:
 
 \begin{policyrule}{Sirens}
-The employee’s device may be remotely wiped if: $\bullet$ The device is lost or
+The employee's device may be remotely wiped if: $\bullet$ The device is lost or
 stolen. $\bullet$ The employee terminates his or her employment. $\bullet$ IT
 detects a data or policy breach, a virus or similar threat to the security of
-the company’s data and technology infrastructure.
+the company's data and technology infrastructure.
 \end{policyrule}
 
 As mentioned before the \ac{HiMSS} policy has a different style.  This is shown
@@ -93,9 +93,9 @@ by the equivalent rule being phrased from the perspective of the policy subject
 \end{policyrule}
 
 The SANS policy is mostly written in the same style as the NHS policy.  It is
-written as a hypothetical policy that a company might use as the basis for their
+proposed as a template policy that a company might use as the basis for their
 own policy, however it sometimes says things that seem like advice to an IT
-department implementing the policy.  It also For example:
+department implementing the policy.  For example:
 
 \begin{policyrule}{SANS}
    A corporate mobile device management solution SHALL feature remote device
@@ -110,7 +110,7 @@ and those that may depend on a specific business's situation (SHOULD).
   Basically, sentences using the verb ``SHALL'' are mandatory requirements
   applying to practices with high probability of putting the business at risk,
   whereas ``SHOULD'' means that the policy needs to be applied according to the
-  business’s specific situation.
+  business's specific situation.
 \end{policyrule}
 
 The Edinburgh policy takes this even further. The policy groups rules by device type
@@ -124,31 +124,41 @@ devices and tablets.
   $\nabla$ Configure your device to enable you to remote-wipe it should it become lost.
 \end{policyrule}
 
+We present a version of each policy that presents the policy text
+alongside the AppPAL translation in \autoref{appendix:byod}.  The
+remainder of this chapter looks at what we discovered from the
+translation process, and comments on \ac{MDM} policies in general.
 
 \section{Review of \ac{MDM} software}
 
-A company might use \ac{MDM} software to enforce
-their rules.   Many companies offer an \ac{MDM} solutions, including IBM
-(MaaS360), VMware (AirWatch) and MobileIron; however they all offer a
-comparable set of features, namely:
+A company might use \ac{MDM} software to enforce their rules.  Many
+companies offer an \ac{MDM} solutions, including IBM (with their tool
+\emph{MaaS360}), VMware (\emph{AirWatch}) and MobileIron (whose tool
+has the same name as the company). They offer a comparable set of
+features, namely:
 \begin{enumerate}
-\item App wrapping; where an app is modified to offer some additional features
-  or network properties. This is often limited to routing all the app's
-  network traffic through a VPN.
-\item Basic security configuration; allows an administrator to turn on and
-  off security settings. They might do this to enable encryption on a device.
+\item App wrapping; where an app is modified to offer some additional
+  features or network properties. This is often limited to routing all
+  the app's network traffic through a VPN.
+\item Basic security configuration; allows an administrator to turn on
+  and off various device settings and security features. This might
+  include wifi settings, passcodes, encryption and Bluetooth.  These
+  features could be used to reduce the attack surface of a device by
+  disabling features, or enforce policies that require a user's location
+  to always be accessible by turning on the GPS.
 \item Provisioning; where IT departments can install and update apps and
   their configuration files. Email and LDAP configuration is common.
-\item A curated app store; where IT departments can white or black list apps.
+\item A curated app store; where IT departments can white-or-black-list apps.
 \end{enumerate}
 
-The features of 9 competing \ac{MDM} packages identified by a Gartner report are
-summarised in \autoref{tab:mdm-capabilities}~\cite{rob_smith_magic_2016}.  Most
-of the tools link to the report on their homepages as the report lists \emph{every} tool as
-either \emph{visionary}, \emph{leading}, or \emph{niche player}.\footnote{The
-  table summarises the visionary and leading \ac{MDM} packages.}  In practice all the
-tools are very similar with the chief difference being the UI as well as some
-extra features only certain tools support.
+The features of 9 competing \ac{MDM} packages identified by a Gartner
+report are summarised in
+\autoref{tab:mdm-capabilities}~\cite{rob_smith_magic_2016}.  Most of
+the tools link to the report on their homepages as the report lists
+\emph{every} tool as either \emph{visionary}, \emph{leading}, or
+\emph{niche player}, though the precise differences between them is unclear.\footnote{Table~\ref{tab:mdm-capabilities}
+  summarises the visionary and leading \ac{MDM} packages.}  The tools are very similar with the chief difference being the UI
+as well as some extra features only certain tools support.
 
 \begin{table}\centering\sffamily\footnotesize
   \begin{tabular}{l c c c c c c c c c}
@@ -193,18 +203,22 @@ configure a device for a group of users.
   \label{fig:maas360-policy}
 \end{figure}
 
-As well as commercial \ac{MDM} tooling there are also research tools that look
-at \ac{MDM} software. Martinelli~\etal{}'s work looks at creating a dynamic
-permissions manager, called UC-Droid. Their tool can alter what an app's Android
-permissions are at run time based on policies~\cite{martinelli_enhancing_2016}.
-The tool allows companies to reconfigure their apps depending on whether the
-employee is at work, in a secret lab, or working out-of-hours. These kinds of
-policies are more configurable than the geofenced based policies some \ac{MDM}
-tools offer. Other work has looked at enforcing different policies based on
-what roles an employee holds~\cite{costantino_towards_2013}. The work allowed a
-company to verify the devices within their network and what servers and services
-they could reach. It also describes a mechanism for providing different users
-with different policies.
+\subsection{Related BYOD Work}
+
+As well as commercial \ac{MDM} products there are also research tools
+that are similar to \ac{MDM} software. Martinelli~\etal{}'s work
+creates a dynamic permissions manager, called UC-Droid. Their tool can
+alter what an app's Android permissions are at run time, based on
+policies~\cite{martinelli_enhancing_2016}.  The tool allows companies
+to reconfigure their apps depending on whether the employee is at
+work, in a secret lab, or working out-of-hours. These kinds of
+policies are more configurable than the geofenced based policies some
+\ac{MDM} tools offer. Other work has looked at enforcing different
+policies based on what roles an employee
+holds~\cite{costantino_towards_2013}. The work allowed a company to
+verify the devices within their network and what servers and services
+they could reach. It also describes a mechanism for providing
+different users with different policies.
 
 Armando~\etal~developed BYODroid as a tool for enforcing BYOD policies through a
 secure marketplace~\cite{armando_bring_2013}. Their tool allows companies to
@@ -221,9 +235,15 @@ look at where the checks or policies come from, however.
 
 \section{Modelling BYOD policies}
 
+Because the policies are written using natural language, which can be ambiguous.
+Comparing policies written in different styles from different sources is tricky as the relationships between different entities, and the exact decisions being made can become confused.
+To make comparisons precisely we first model the natural language policy's rules in a formal language, namely AppPAL.
+We take care to use the same predicates between different policies to create a standard set of decisions between \ac{BYOD} policies~\cite{joseph_hallett_common_2017}.
+
 Each of the policies are split into a series of rules. A simple example is the
-following example from the Sirens-company policy. The policy states that devices
-may get access to various company resources. For each resource we create an AppPAL
+following example from the Sirens-company policy. The rule states that devices
+may get access to various company resources.
+For each resource we create an AppPAL
 assertion that states that a device may access the resource.
 
 \begin{policyrule}{Sirens}
@@ -240,8 +260,7 @@ assertion that states that a device may access the resource.
 
 The NHS policy has a more complex example. Employees are not
 allowed to call non-domestic, or premium rate numbers on company-owned
-phones~\footnote{The NHS policy doesn't distinguish between company and
-privately owned phones and applies to both.}, however an employee's manage can make an exception.
+phones , however an employee's manager can make an exception.
 To write the AppPAL version of this rule we initially have the default
 rule that bans international calls, then we add a second rule stating that it is
 allowed if someone makes an exemption, finally a third rule states that an employee's manager 
@@ -277,26 +296,6 @@ decisions and reactions to events; both topics that existing \ac{MDM} tools have
 focused on implementing. \emph{Has} and \emph{is} predicates are often used in
 the conditions, but there are also decisions using them too.
 
-\begin{table}\sffamily\small\centering
-  \todo{Check numbers}
-  \newcommand{\zilch}[0]{\small 0}
-  \newcommand{\numpc}[2]{\small #2\% {\small(#2)}}
-  \setlength{\tabcolsep}{1pt}
-\begin{tabular}{ c  c c c c c c c c c }
-\toprule
-             & \multicolumn{4}{c}{Decision}                                                    && \multicolumn{4}{c}{Condition} \\
-Policy       & \rb{Can}                     & \rb{Must}      & \rb{Has}       & \rb{Is}        && \rb{Can}      & \rb{Must}     & \rb{Has}        & \rb{Is}        \\
-\midrule
-SANS         & \numpc{26}{35}               & \numpc{22}{29} & \numpc{8 }{9 } & \numpc{20}{27} && \numpc{2 }{2} & \numpc{2 }{2} & \numpc{9 }{8}   & \numpc{82}{87} \\
-HiMSS        & \numpc{6 }{21}               & \numpc{12}{41} & \numpc{9 }{31} & \numpc{2 }{7 } && \zilch        & \zilch        & \numpc{3 }{13}  & \numpc{20}{87} \\
-NHS          & \numpc{13}{19}               & \numpc{18}{26} & \numpc{23}{33} & \numpc{16}{23} && \numpc{2 }{2} & \zilch        & \numpc{20}{19}  & \numpc{83}{83} \\
-Sirens       & \numpc{12}{27}               & \numpc{20}{45} & \numpc{5 }{11} & \numpc{7 }{16} && \numpc{1 }{2} & \numpc{4 }{7} & \numpc{1 }{2}   & \numpc{50}{89} \\
-Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & \zilch         && \numpc{2 }{7} & \numpc{2 }{7} & \numpc{15}{ 50} & \numpc{13}{37} \\
-\bottomrule \\
-\end{tabular}
-\caption{Counts of predicate-types in each policy.}
-\label{tab:prefix}
-\end{table}
 
 \section{BYOD idioms in AppPAL}
 \label{sec:common_concerns}
@@ -325,6 +324,25 @@ Only the SANS policy (which is configuration focussed) contained more rules that
 All the policies contained more rules featuring delegation relationships than functionality restrictions.
 Restricting device functionality is tricky and important, but other aspects of BYOD policies are also worth attention.
 
+\begin{table}\sffamily\small\centering
+  \newcommand{\zilch}[0]{\small 0}
+  \newcommand{\numpc}[2]{\small #2\% {\small(#2)}}
+  \setlength{\tabcolsep}{1pt}
+\begin{tabular}{ c  c c c c c c c c c }
+\toprule
+             & \multicolumn{4}{c}{Decision}                                                    && \multicolumn{4}{c}{Condition} \\
+Policy       & \rb{Can}                     & \rb{Must}      & \rb{Has}       & \rb{Is}        && \rb{Can}      & \rb{Must}     & \rb{Has}        & \rb{Is}        \\
+\midrule
+SANS         & \numpc{26}{35}               & \numpc{22}{29} & \numpc{8 }{9 } & \numpc{20}{27} && \numpc{2 }{2} & \numpc{2 }{2} & \numpc{9 }{8}   & \numpc{82}{87} \\
+HiMSS        & \numpc{6 }{21}               & \numpc{12}{41} & \numpc{9 }{31} & \numpc{2 }{7 } && \zilch        & \zilch        & \numpc{3 }{13}  & \numpc{20}{87} \\
+NHS          & \numpc{13}{19}               & \numpc{18}{26} & \numpc{23}{33} & \numpc{16}{23} && \numpc{2 }{2} & \zilch        & \numpc{20}{19}  & \numpc{83}{83} \\
+Sirens       & \numpc{12}{27}               & \numpc{20}{45} & \numpc{5 }{11} & \numpc{7 }{16} && \numpc{1 }{2} & \numpc{4 }{7} & \numpc{1 }{2}   & \numpc{50}{89} \\
+Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & \zilch         && \numpc{2 }{7} & \numpc{2 }{7} & \numpc{15}{ 50} & \numpc{13}{37} \\
+\bottomrule \\
+\end{tabular}
+\caption{Counts of predicate-types in each policy.}
+\label{tab:prefix}
+\end{table}
 
 \begin{table}\sffamily\footnotesize\centering
   \begin{tabular}{c c c c c c}
