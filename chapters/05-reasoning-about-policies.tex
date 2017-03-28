@@ -297,44 +297,62 @@ can make the exemption.
   \end{lstlisting}
 \end{policyrule}
 
-Table~\ref{tab:prefix} shows a count of the different types of predicate in the policies.
-As before in \autoref{ssec:types} predicates The use of each is also split by
-whether the predicate is a \emph{decision} made by the policy, or a
-\emph{condition} for making that decision. \emph{Can} and \emph{must} decisions
-feature in all policies excepting \emph{can} decisions in the Edinburgh policy,
-in part due to the structure of the policy as discussed in
-\autoref{sec:byod_policies}. We would expect this: these are access control
-decisions and reactions to events; both topics that existing \ac{MDM} tools have
-focused on implementing. \emph{Has} and \emph{is} predicates are often used in
-the conditions, but there are also decisions using them too.
-
+Table~\ref{tab:prefix} shows a count of the different types of
+predicate used in the policies.  As before in \autoref{chap:apppal}
+predicates, we use common prefixes to distinguish different kinds of
+predicate.  The use of each is also split by whether the predicate is
+a \emph{decision} made by the policy, or a \emph{condition} for making
+that decision. \emph{Can} and \emph{must} decisions feature in all
+policies excepting \emph{can} decisions in the Edinburgh policy, in
+part due to the structure of the policy as discussed in
+\autoref{sec:byod_policies}. We would expect this: these are access
+control decisions and reactions to events both topics that existing
+\ac{MDM} tools have focused on implementing. \emph{Has} and \emph{is}
+predicates are often used in the conditions, but there are also
+decisions using them too.
 
 \section{BYOD idioms in AppPAL}
 \label{sec:common_concerns}
 
-When examining the policies, there are some concern concerns shared between the different policies
-A summary of predicates, with the same meaning, used in multiple policies by our translation is given in \autoref{tab:common}.
+When examining the policies, there are some concern concerns shared
+between the different policies A summary of predicates, with the same
+meaning, used in multiple policies by our translation is given in
+\autoref{tab:common}.
 
-Acknowledgements, where the policy requests people acknowledge other policies, and predicates linking devices to owners feature in all policies.
-Most policies describe rules for when to enable and disable device features.
-Configuring device features is a common feature to many \ac{MDM} packages, but tracking what a user agrees to is not seen in leading \ac{MDM} packages like MaaS360 or BES~\cite{rob_smith_magic_2016}.
-Only 2 of the 5 policies had rules limiting access to networks, servers, or access points.
-  and only the two most complex policies had rules limiting what apps could be installed.
-This is surprising as a common feature of \ac{MDM} tools is controlling how devices and apps access networks.
-Users have privacy preferences about apps~\cite{lin_modeling_2014}, but not all companies try to control what apps employees install.
-Providing curated app stores and blacklisting apps is a feature common to many \ac{MDM} programs.
-Not all policies express rules about which apps to install, however.
-All policies talked about remotely wiping a device for security reasons (as shown in~\autoref{sec:overview-of-five-byod-policies});
-and most \ac{MDM} programs implemented this by allowing an administrator remotely erase a device~(\autoref{tab:mdm-capabilities}).
+Acknowledgements, where the policy requests people acknowledge other
+policies, and predicates linking devices to owners feature in all
+policies.  Most policies describe rules for when to enable and disable
+device features.  Configuring device features is a common feature to
+many \ac{MDM} packages, but tracking what a user agrees to is not seen
+in leading \ac{MDM} packages like MaaS360 or
+BES~\cite{rob_smith_magic_2016}.  Only two of the five policies had
+rules limiting access to networks, servers, or access points. This is
+surprising as a common feature of \ac{MDM} tools is controlling how
+devices and apps access networks.  Users have privacy preferences
+about apps~\cite{lin_modeling_2014}, but not all companies try to
+control what apps employees install.  Providing curated app stores and
+blacklisting apps is a feature common to many \ac{MDM} programs.  Not
+all policies express rules about which apps to install, however.  All
+policies talked about remotely wiping a device for security reasons
+(as shown in~\autoref{sec:overview-of-five-byod-policies}); and most
+\ac{MDM} programs implemented this by allowing an administrator
+remotely erase a device~(\autoref{tab:mdm-capabilities}).
 
-Two particular idioms occur in many policies: acknowledgements and delegation.
-We describe both idioms in greater detail, and show how to describe them in AppPAL, below.
-MDM tools and research have focussed so far on implementing restrictions on apps and devices~\cite{_ibm_????,armando_formal_2014,martinelli_enhancing_2016}.
-Implementing these controls is a vital aspect of BYOD policies and all 5 of the policies we looked at had rules that described restrictions~(\autoref{tab:summary}).
-Every policy also contained rules that required employees acknowledgements, however.
-Only the SANS policy (which is configuration focussed) contained more rules that required restrictions than acknowledgements.
-All the policies contained more rules featuring delegation relationships than functionality restrictions.
-Restricting device functionality is tricky and important, but other aspects of BYOD policies are also worth attention.
+Two particular idioms occur in many policies: acknowledgements and
+delegation.  We describe both idioms in greater detail, and show how
+to describe them in AppPAL, below.  MDM tools and research have
+focussed so far on implementing restrictions on apps and
+devices~\cite{_ibm_????,armando_formal_2014,martinelli_enhancing_2016}.
+Implementing these controls is a vital aspect of BYOD policies and all
+5 of the policies we looked at had rules that described
+restrictions~(\autoref{tab:common}).  Every policy also contained
+rules that required employees acknowledgements, however.  Only the
+SANS policy (which is configuration focussed) contained more rules
+that required restrictions than acknowledgements.  All the policies
+contained more rules featuring delegation relationships than
+functionality restrictions.  Restricting device functionality is
+tricky and important, but other aspects of BYOD policies are also
+worth attention.
 
 \begin{table}\sffamily\small\centering
   \newcommand{\zilch}[0]{\small 0}
@@ -357,45 +375,47 @@ Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & 
 \end{table}
 
 \begin{table}\sffamily\footnotesize\centering
+  \todo{EXPLAIN THIS TABLE}
+  \newcommand{\expred}[3]{\textit{#2} #1\textit{#3}}
   \begin{tabular}{c c c c c c}
-    \toprule                        \\
-    Predicate            & \rb{SANS} & \rb{HiMSS} & \rb{NHS} & \rb{Sirens} & \rb{Edinburgh} \\
+    \toprule                                                                                                           \\
+    Predicate                                       & \rb{SANS} & \rb{HiMSS} & \rb{NHS} & \rb{Sirens} & \rb{Edinburgh} \\
     \midrule
-    mustAcknowledge      &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    hasAcknowledged      &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    isOwnedBy            &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    isDevice             &    \cmark & \cmark     &   \cmark & \cmark      &         \cmark \\
-    mustDisable          &    \cmark &            &   \cmark & \cmark      &         \cmark \\
-    mustWipe             &           & \cmark     &   \cmark & \cmark      &         \cmark \\
-    isLost               &    \cmark & \cmark     &   \cmark & \cmark      &                \\
-    isEmployee           &    \cmark &            &   \cmark & \cmark      &         \cmark \\
-    isApp                &    \cmark & \cmark     &   \cmark & \cmark      &                \\
-    isActivated          &    \cmark & \cmark     &   \cmark &             &         \cmark \\
-    mustEnable           &    \cmark & \cmark     &          & \cmark      &                \\
-    isEncrypted          &    \cmark &            &   \cmark &             &         \cmark \\
-    hasFeature           &    \cmark &            &   \cmark &             &         \cmark \\
-    hasMet               &    \cmark &            &   \cmark &             &         \cmark \\
-    canMonitor           &    \cmark &            &   \cmark & \cmark      &                \\
-    mustInform           &    \cmark &            &   \cmark &             &                \\
-    isTelephoneNumber    &    \cmark &            &   \cmark &             &                \\
-    isString             &           &            &   \cmark & \cmark      &                \\
-    isSecurityLevel      &    \cmark & \cmark     &          &             &                \\
-    isInstallable        &    \cmark &            &   \cmark &             &                \\
-    isFeature            &    \cmark &            &          & \cmark      &                \\
-    isData               &    \cmark &            &          & \cmark      &                \\
-    isApprovedFor        &           & \cmark     &   \cmark &             &                \\
-    isApproved           &    \cmark & \cmark     &          &             &                \\
-    hasDevice            &           & \cmark     &   \cmark &             &                \\
-    hasDepartment        &           & \cmark     &          &             &         \cmark \\
-    canUse               &    \cmark &            &   \cmark &             &                \\
-    canStore             &    \cmark & \cmark     &          &             &                \\
-    canInstall           &    \cmark &            &   \cmark &             &                \\
-    canConnectToServer   &    \cmark &            &   \cmark &             &                \\
-    canConnectToNetwork  &    \cmark &            &          & \cmark      &                \\
-    canConnectToAP       &    \cmark & \cmark     &          &             &                \\
-    canCall              &    \cmark &            &   \cmark &             &                \\
-    canBackupTo          &           & \cmark     &          &             &         \cmark \\
-    \bottomrule                     \\
+    \expred{mustAcknowledge}{person}{(policy)}      & \cmark    & \cmark     & \cmark   & \cmark      & \cmark         \\
+    \expred{hasAcknowledged}{person}{(policy)}      & \cmark    & \cmark     & \cmark   & \cmark      & \cmark         \\
+    \expred{isOwnedBy}{device}{(person)}            & \cmark    & \cmark     & \cmark   & \cmark      & \cmark         \\
+    \expred{isDevice}{thing}{}                      & \cmark    & \cmark     & \cmark   & \cmark      & \cmark         \\
+    \expred{mustDisable}{device}{(feature)}         & \cmark    &            & \cmark   & \cmark      & \cmark         \\
+    \expred{mustWipe}{device}{}                     &           & \cmark     & \cmark   & \cmark      & \cmark         \\
+    \expred{isLost}{device}{}                       & \cmark    & \cmark     & \cmark   & \cmark      &                \\
+    \expred{isEmployee}{thing}{}                    & \cmark    &            & \cmark   & \cmark      & \cmark         \\
+    \expred{isApp}{thing}{}                         & \cmark    & \cmark     & \cmark   & \cmark      &                \\
+    \expred{isActivated}{device}{}                  & \cmark    & \cmark     & \cmark   &             & \cmark         \\
+    \expred{mustEnable}{device}{(feature)}          & \cmark    & \cmark     &          & \cmark      &                \\
+    \expred{isEncrypted}{device}{}                  & \cmark    &            & \cmark   &             & \cmark         \\
+    \expred{hasFeature}{device}{(feature)}          & \cmark    &            & \cmark   &             & \cmark         \\
+    \expred{hasMet}{device}{(policy)}               & \cmark    &            & \cmark   &             & \cmark         \\
+    \expred{canMonitor}{person}{(device)}           & \cmark    &            & \cmark   & \cmark      &                \\
+    \expred{mustInform}{person}{(person)}           & \cmark    &            & \cmark   &             &                \\
+    \expred{isTelephoneNumber}{thing}{}             & \cmark    &            & \cmark   &             &                \\
+    \expred{isString}{thing}{}                      &           &            & \cmark   & \cmark      &                \\
+    \expred{isSecurityLevel}{thing}{}               & \cmark    & \cmark     &          &             &                \\
+    \expred{isInstallable}{app}{}                   & \cmark    &            & \cmark   &             &                \\
+    \expred{isFeature}{thing}{}                     & \cmark    &            &          & \cmark      &                \\
+    \expred{isData}{thing}{}                        & \cmark    &            &          & \cmark      &                \\
+    \expred{isApprovedFor}{application}{person}     &           & \cmark     & \cmark   &             &                \\
+    \expred{isApproved}{application}{}              & \cmark    & \cmark     &          &             &                \\
+    \expred{hasDevice}{person}{(device)}            &           & \cmark     & \cmark   &             &                \\
+    \expred{hasDepartment}{person}{(department)}    &           & \cmark     &          &             & \cmark         \\
+    \expred{canUse}{person}{device}                 & \cmark    &            & \cmark   &             &                \\
+    \expred{canStore}{device}{(file)}               & \cmark    & \cmark     &          &             &                \\
+    \expred{canInstall}{device}{(app)}              & \cmark    &            & \cmark   &             &                \\
+    \expred{canConnectToServer}{device}{(server)}   & \cmark    &            & \cmark   &             &                \\
+    \expred{canConnectToNetwork}{device}{(network)} & \cmark    &            &          & \cmark      &                \\
+    \expred{canConnectToAP}{device}{(access-point)} & \cmark    & \cmark     &          &             &                \\
+    \expred{canCall}{device}{(number)}              & \cmark    &            & \cmark   &             &                \\
+    \expred{canBackupTo}{device}{(server)}          &           & \cmark     &          &             & \cmark         \\
+    \bottomrule                                                                                                        \\
   \end{tabular}
   \caption{Occurrences of predicates common to multiple policies.}
   \label{tab:common}
