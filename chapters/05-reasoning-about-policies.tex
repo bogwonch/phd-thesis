@@ -506,7 +506,8 @@ policy, agree not to sue.
       related to XYZ Health System, its patients, members or partners.
       \normalfont
       \begin{lstlisting}
-'xyz-health-system' says 'user' mustAcknowledge('data-loss-policy').
+'xyz-health-system' says
+  'user' mustAcknowledge('data-loss-policy').
       \end{lstlisting}
     \end{policyrule}
   %\end{minipage}
@@ -519,7 +520,8 @@ policy, agree not to sue.
       \begin{lstlisting}
 'nhs-trust' says Staff:S can-say
   S hasAcknowledged('data-loss-policy').
-'nhs-trust' says Staff:S mustAcknowledge('data-loss-policy').
+'nhs-trust' says
+  Staff:S mustAcknowledge('data-loss-policy').
       \end{lstlisting}
     \end{policyrule}
   %\end{minipage}
@@ -538,15 +540,19 @@ policy.
 \begin{policyrule}{SANS}
   Users MUST agree to the email security/acceptable use policy and eventually to the eCommerce security policy.
   \begin{lstlisting}
-'company' says Employee:U mustAcknowledge('email-security').
-'company' says Employee:U mustAcknowledge('acceptable-use').
-'company' says Employee:U mustAcknowledge('ecommerce-security').
+'company' says
+  Employee:U mustAcknowledge('email-security').
+'company' says
+  Employee:U mustAcknowledge('acceptable-use').
+'company' says
+  Employee:U mustAcknowledge('ecommerce-security').
   \end{lstlisting}
 \end{policyrule}
 \begin{policyrule}{Sirens}
   The employee is expected to use his or her devices in an ethical manner at all times and adhere to the company's acceptable use policy.
   \begin{lstlisting}
-'department' says Employee:E mustAcknowledge('acceptable-use').
+'department' says
+  Employee:E mustAcknowledge('acceptable-use').
   \end{lstlisting}
 \end{policyrule}
 
