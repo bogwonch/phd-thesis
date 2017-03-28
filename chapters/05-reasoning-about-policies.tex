@@ -421,57 +421,46 @@ Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & 
   \label{tab:common}
 \end{table}
 
-\subsection{Delegation and Roles within Policies.}
+\subsection{Delegation and Roles within Policies}
 
-Delegation is an important part of the policies.
-Each of the policies describes through rules how separate entities are responsible for making some decisions.
-These rules could be a delegation to an employee's manager to authorize a decision (as in the NHS policy).
-It could be to technical staff to decide what apps are part of a standard install (as in the sirens and SANS policies).
+Delegation is an important part of the policies.  Each of the policies
+describes through rules how separate entities are responsible for
+making some decisions.  These rules could be a delegation to an
+employee's manager to authorize a decision (as in the NHS policy).  It
+could be to technical staff to decide what apps are part of a standard
+install (as in the sirens and SANS policies).
 
-When translating the policies, the author of the policy is the primary speaker of the policy's rule.
-This is typically the company; except in the \ac{HiMSS} case where it is the user (\autoref{tab:summary}).
-All the policies describe multiple entities that might make statements and delegate.
+When translating the policies, the author of the policy is the primary
+speaker of the policy's rule.  This is typically the company; except
+in the \ac{HiMSS} case where it is the user (\autoref{tab:summary}).
+All the policies describe multiple entities that might make statements
+and delegate.
 
-Some policies have more authorities, than others (\autoref{tab:principals}).
-The NHS policy has various managers that approve decisions for their staff.
-There are different groups that make decisions for the clinical and business halves of the business.
-If a clinical user wishes to use an app with a patient they must seek approval from two policy groups, as well as their line manager.
-Others make less use of different authorities.
-In the Edinburgh policy, the records-management office states how to configure a low or high risk device.
-There is no delegation to others to further specify aspects of the policy.
-Delegation of responsibilities is an important part of BYOD policies.
-MDM software seems largely to ignore it, however.
-These tools instead allow IT staff to set fixed policies and push them to devices.
-No further requesting of information is typically needed or required.
+Some policies have more authorities, than others
+(\autoref{tab:principals}).  The NHS policy has various managers that
+approve decisions for their staff.  There are different groups that
+make decisions for the clinical and business halves of the business.
+If a clinical user wishes to use an app with a patient they must seek
+approval from two policy groups, as well as their line manager.
+Others make less use of different authorities.  In the Edinburgh
+policy, the records-management office states how to configure a low or
+high risk device.  There is no delegation to others to further specify
+aspects of the policy.  Delegation of responsibilities is an important
+part of BYOD policies.  MDM software seems largely to ignore it,
+however.  These tools instead allow IT staff to set fixed policies and
+push them to devices.  No further requesting of information is
+typically needed or required.
 
 \begin{table}\centering\footnotesize\sffamily
-  \begin{tabular}{c l l}
+  \begin{tabular}{lllll}
     \toprule
-    \multirow{4}{*}{\rb{SANS}}       & Authorities         & 10                \\
-                                     & Primary Authority   & company           \\
-                                     & Technical Authority & it-department     \\
-                                     & User Authority      & user              \\
+              & Authorities & Primary Authority  & Technical Authority & User Authority \\
     \midrule
-    \multirow{4}{*}{\rb{HiMSS}}      & Authorities         & 3                 \\
-                                     & Primary Authority   & user              \\
-                                     & Technical Authority & xyz-health-system \\
-                                     & User Authority      & department        \\
-    \midrule
-    \multirow{4}{*}{\rb{NHS}}        & Authorities         & 11                \\
-                                     & Primary Authority   & nhs-trust         \\
-                                     & Technical Authority & it-department     \\
-                                     & User Authority      & staff             \\
-    \midrule
-    \multirow{4}{*}{\rb{Sirens}}     & Authorities         & 4                 \\
-                                     & Primary Authority   & department        \\
-                                     & Technical Authority & it-department     \\
-                                     & User Authority      & employee          \\
-    \midrule
-    \multirow{4}{*}{\rb{Edinburgh}}  & Authorities         & 2                 \\
-                                     & Primary Authority   & records-management\\
-                                     & Technical Authority &                   \\
-                                     & User Authority      & employee          \\
-    \bottomrule                     \\
+    SANS      & 10          & company            & it-department       & user           \\
+    HiMSS     & 3           & user               & xyz-health-system   & department     \\
+    NHS       & 11          & nhs-trust          & it-department       & employee       \\
+    Edinburgh & 2           & records-management &                     & employee       \\
+    \bottomrule
   \end{tabular}
   \caption{Summary of different authorities in BYOD policies.}
   \label{tab:principals}
@@ -481,24 +470,30 @@ When a policy decision requires input from a third-party delegation is used.
 For example, an employee's manager has to authorise an app install.
 The SecPAL \emph{can-say} statement is the basis for a delegation.
 We can ask the HR department to state who is someone's manager.
+If we wish to delegate, we can add conditionals to the can-say
+statement that enforces any relationship between the delegating and
+delegated parties.
+
 \begin{lstlisting}
 'company' says 'hr-department' can-say
   Employee:E hasManager(Employee:M).
-\end{lstlisting}
-If we wish to delegate to someone, we can add conditionals to the can-say statement that enforces any relationship between the delegating and delegated parties.
-\begin{lstlisting}
+
 'company' says Manager can-say
   Employee canInstall(App:A)
   if Employee hasManager(Manager).
 \end{lstlisting}
 
-\subsection{Acknowledgement.}
+\subsection{Acknowledgement}
 
-All the policies we looked at require their subjects to be aware and acknowledge certain rules or policies,
-  and that the company may perform certain actions.
-For example, the NHS and \ac{HiMSS} policies state that the organisation will wipe devices remotely to protect confidential information a user loses their device.
-Both policies also say that employees would lose personal information if they had it on the device and the company needed to erase it.
-The employee is required to be aware of this, and in the case of the \ac{HiMSS} policy, agree to hold the company harmless for the loss.
+All the policies we looked at require their subjects to be aware and
+acknowledge certain rules or policies, and that the company may
+perform certain actions.  For example, the NHS and \ac{HiMSS} policies
+state that the organisation will wipe devices remotely to protect
+confidential information if a user loses their device.  Both policies
+also say that employees would lose personal information if they had it
+on the device and the company needed to erase it.  The employee is
+required to be aware of this, and in the case of the \ac{HiMSS}
+policy, agree not to sue.
 
 \begin{center}
   \noindent
@@ -530,10 +525,15 @@ The employee is required to be aware of this, and in the case of the \ac{HiMSS} 
   %\end{minipage}
 \end{center}
 
-Both the SANS and the siren-company policies use acknowledgements to link to other sets of rules that employees should follow.
-These policies are not further specified, and in the case of an acceptable use policy may be hard to enforce automatically.
-The SANS policy requires that all employees follow an email security, acceptable use, and an eCommerce-security policy.
-The Sirens policy expects an employee to use their devices ethically and abide by an acceptable use policy.
+The SANS, NHS and the siren-company policies use acknowledgments to
+link to other sets of rules that employees should follow, for example
+the \emph{acceptable-use} policy in the SANS example bellow.  These
+policies are not further specified, and in the case of an acceptable
+use policy may be hard to enforce automatically.  The SANS policy
+requires that all employees follow an email security, acceptable use,
+and an eCommerce-security policy.  The Sirens policy expects an
+employee to use their devices ethically and abide by an acceptable use
+policy.
 
 \begin{policyrule}{SANS}
   Users MUST agree to the email security/acceptable use policy and eventually to the eCommerce security policy.
