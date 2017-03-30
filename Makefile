@@ -1,6 +1,5 @@
-LATEXMK:=latexmk
-LATEXMK_OPTS:=-pdf -quiet -bibtex
-
+LATEXMK:=./latexrun
+LATEXMK_OPTS:=--color auto
 figures=$(patsubst %.eps,%.pdf,$(wildcard figures/*.eps))
 chapters=$(wildcard chapters/*.tex)
 
@@ -12,12 +11,12 @@ figures: ${figures}
 thesis: .thesis-timestamp
 
 clean: tidy
-	@${LATEXMK} -C
+	@${LATEXMK} --clean-all
 	@rm -f .thesis-timestamp
 
 tidy:
 	@echo "[INFO] tidying up"
-	@${LATEXMK} -c
+	@${LATEXMK} --clean
 
 .thesis-timestamp: thesis.tex phdthesis.sty ${figures} ${chapters}
 	@echo "[INFO] compiling"
