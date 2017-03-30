@@ -1,5 +1,5 @@
 LATEXMK:=./latexrun
-LATEXMK_OPTS:=--color auto
+LATEXMK_OPTS:=--color auto -Wall
 figures=$(patsubst %.eps,%.pdf,$(wildcard figures/*.eps))
 chapters=$(wildcard chapters/*.tex)
 
