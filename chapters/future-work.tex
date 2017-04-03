@@ -5,12 +5,447 @@
 \section{Automatic Analysis of AppPAL policies}
 \label{sec:lint}
 
-\section{Probabilistic AppPAL}
+\section{Plausible AppPAL}
 
+\todo{Edit this, it's still the draft note you wrote originally.  Make
+sure you use \emph{we} instead of \emph{I}.  Explain whats still left
+to do.}
+
+\newcommand{\secpalmath}[1]{\ensuremath\texttt{#1}}
+\newcommand{\AC}[0]{\ensuremath\text{AC}}
+\newcommand{\says}[1]{\ensuremath~\secpalmath{says}^{\new{#1}}~}
+\newcommand{\canSay}[1]{\secpalmath{can-say}_{#1}}
+\newcommand{\canActAs}[0]{\secpalmath{can-act-as}}
+\newcommand{\spif}[0]{\secpalmath{if}}
+\newcommand{\where}[0]{\secpalmath{where}}
+
+The SecPAL authorization language, and the AppPAL instantiation, allow
+policy authors to make use of static analysis tools to make decisions,
+and allow principals to make statements about apps through delegation.
+When these decisions are made they are made with certainty.  If a
+principal says an app is safe to access the network then we believe
+that that principal definitely believes the app is safe on a network.
+When a static analysis tool finds that an app isn't malware then we
+believe that app to not be malware.  This isn't realistic.  Static
+analysis tools can produce false results.  A principal might be merely
+fairly confident that an app can access the network but not absolutely
+certain.
+
+With current authorization languages, such as AppPAL and XACML, there
+is no way to quantify the belief a principal has in any statement.  A
+principal cannot say how plausable they think any statement is.
+
+\subsection{Why do we need this?}
+
+SecPAL was designed for making access control decisions.  The decision
+whether to install allow a user access to a file or not is a binary
+one: either they can access it or they cannot.  Similarly the decision
+process for these decisions is also binary: a user is either logged in
+or not, a network address is either in the network or outside it,
+someone can act as someone else's manager or they can not.
+
+AppPAL, however, is primarily for deciding what apps you want to use.
+Whether you want to install an app or not is less binary than an
+access control decision, because it is ultimately an opinion.
+Consider a really simple policy that says \emph{``do not install
+malware''}: you could try using a malware scanner to check apps, but
+there opinions on apps can change rapidly and often.  You could use a
+meta-scanning tool like \emph{VirusTotal}, but then you'd only get the
+percentage of antivirus tools that flagged the app as malicious.
+Without plausability we cannot represent the doubt and confidence in
+any assertion.
+
+For another example consider a policy you only want to install apps
+that are made by \emph{reputable} developers and that are \emph{safe}.
+Both reputable and safe are poorly defined, and badly represented by a
+binary decision.  A developer may be reputable if they are a large
+developer with a lot of staff like Google or Facebook, they might be
+reputable if their apps have been well reviewed, but what about a
+developer like \emph{King} who produce a large number of games with
+in-app-purchases, TV adverts, and sketchy privacy records.  They are
+probably more reputable than a malware author but you might have less
+confidence that they are producing good apps than Google.  Similarly
+an app might be seen as safe if it doesn't request any permissions and
+has no native code, but if it starts requesting more permissions and
+the amount of native code grows then the plausability it is safe
+should fall.  When combined into the policy as a whole Google may be
+able to get away with a lot more permissions than other developers
+simply because we trust them more not to be evil.  Again, without
+plausability it is difficult to represent these decisions.
+
+Probabilistic versions of Datalog are not a new idea.  Various papers proposed
+probabilistic variants of Datalog~\cite{fuhr_probabilistic_1995} or explored the
+semantics of probabilistic logics~\cite{halpern_analysis_1990}.  Role-based
+access control languages have incorporated ideas about risk into their
+schemes~\cite{josang_analysing_2004,dimmock_using_2004,salim_approach_2011},
+which is a similar notion to plausability and trust.  These schemes do not seem
+to deal with delegation in the same manner as SecPAL however so incorporating
+similar ideas here may be interesting and allow SecPAL and AppPAL greater
+expressiveness.  Part of the work toward this this year has included modifying Becker's
+evaluation and translation-to-Datalog algorithms~\cite{becker_secpal:_2010} to
+include a plausability value, and for giving rules to query on the basis of
+them, using Datalog$^C$~\cite{li_datalog_2003}.
+
+\subsection{Bending the Rules}
+
+SecPAL has three rules for evaluation: \emph{cond}, \emph{can-say},
+and \emph{can-act-as}.  We modify the language so that the \emph{says}
+keyword has an an annotation $0 \geq p \geq 1$ denoting a statements
+\emph{plausability}.  If the annotation is missing then it is assumed
+to be $1$ We also assume a plausability combining function $\oplus$
+which combines plausability.  The SecPAL inference rules then become
+as follows, with additions highlighted in \new{red}.
+
+{\footnotesize\centering
+\begin{eqnarray}
+  \infer[\text{cond\new{$\leq$}}]{
+    \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta
+  }{
+    \begin{matrix}{
+      \left(A~\says{\text{at least}~p_{lim}}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
+    }\\{
+      \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
+    }\\\new{
+      0 < p_{lim} \leq \bigoplus_{i=1}^n p_i
+    }
+    \end{matrix}&
+    \vdash c\theta &
+    vars\left(f\theta\right) = \emptyset
+  }
+  \\
+  \infer[\text{cond\new{=}}]{
+    \AC{}, D \models A~\says{p_{lim}}~f\theta
+  }{
+    \begin{matrix}{
+      \left(A~\says{\text{is}~p_{lim}}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
+    }\\{
+      \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
+    }\\\new{
+      0 < p_{lim} \leq \bigoplus_{i=1}^n p_i
+    }
+    \end{matrix}&
+    \vdash c\theta &
+    vars\left(f\theta\right) = \emptyset
+  }
+  \\
+  \infer[\text{can-say}]{
+    \AC{}, \infty \models A~\says{p_1 \oplus p_2}~f
+  }{
+    \AC{}, \infty \models A~\says{p_1}~B~\canSay{D}~f &
+    \AC{}, D \models B~\says{p_2}~f
+  }
+  \\
+  \infer[\text{can-act-as}]{
+    \AC{}, D \models A~\says{p_1 \oplus p_2}~x~vp
+  }{
+    \AC{}, D \models A~\says{p_1}~x~\canActAs~y &
+    \AC{}, D \models B~\says{p_2}~y~vp
+  }
+  \\
+  \new{
+    \infer[\text{reduce}]{
+        \AC{}, D \models A~\says{p}~f
+    }{
+        \AC{}, D \models A~\says{p^\prime}~f & p \leq p^\prime
+    }
+  }
+\end{eqnarray}
+}
+
+In general any derived statement is at most as plausible as the
+combination of the statements that went into deriving it.  We split
+the \emph{cond} rule into two variants.  The \emph{cond$\leq$} rule
+allows us to specify a minimum plausability required by combining all
+the conditional statements and if that limit is exceeded we take the
+combined probability in the plausability of the outcome.  The
+\emph{cond=} rule allows us again to set a minimum plausability but
+this time we take the stated plausability if the rule is satisfied.
+These two \emph{cond} rules serve different purposes.  The
+\emph{cond=} variant is useful when we want to set a limit on the
+plausability: for instance when we have a tool with a known confidence
+rate we want to run, or a fact which we know how plausible it is.  The
+\emph{cond$eq$} rule is useful for when you want to ensure that a
+decision is made with a certain least-confidence, for instance if you
+want to be at least 80\% sure that an app is safe to use before doing
+anything with it.  In this case we would want the combined
+plausability to trickle through the proof not the lower limit.
+
+We also add a plausability reduction rule that allows us to reduce the
+plausability of an assertion, this allows us to phrase a policy query
+as \emph{``is it at least 50\% plausable that...''} rather than having
+to discover the plausabilities precisely.
+
+\subsubsection{Plausability Combination}
+
+How should the plausability combination operator be defined?  One
+simplistic approach might be to take the least plauable assertion as
+the final value.  This however is too simple. Consider the case where
+an app needs to be safe and from a reputable developer.  Say we're
+50\% sure the app is safe but we are unsure of the developer. We are
+90\% sure Google is reputable and only 60\% sure King is.  No matter
+who the developer is the combined probability is the same (50\%) so
+the distinction is lost.
+
+\begin{equation}
+  p_a~\oplus_{\text{min}}~p_b~\gets~\text{min}~p_a~p_b
+\end{equation}
+
+If we are sure the plausabilities are independent we could multiply
+them together to get the final plausability. This is appealing in that
+if we take the example above if Google is the developer we're 45\%
+sure the app is usable, but only 30\% if King is.  If however there
+are a lot of combinations to be made the probabilities may get very
+small and be difficult to distinguish.
+
+\begin{equation}
+  p_a~\oplus_{\text{ind}}~p_b~\gets~p_a\times p_b
+\end{equation}
+
+What we \emph{probably} want is some form of \emph{Dempster-Shafer}
+belief combination algorithm.  Seems to be a fair bit of work here
+from the Expert Systems perople but I can't see them being applied to
+authorizatin logics before.
+
+\textbf{TODO Learn more about them}
+
+\subsection{What Guarantees Do We Want?} 
+
+\begin{itemize}
+\item If all statements have a plausability of $1$, then this is
+  equivalent to standard SecPAL.
+\item If a statement has a plauability of $0$, then it is equivalent
+  to the statement not existing in the assertion context.
+\item No statement should be more certain than the conditionals used
+  to derive it.
+\end{itemize}
+
+Point 1 is true since if $p_{\text{lim}} = 1$ then no statement will
+be accepted unless its plausability is also 1.  If we combine the
+plausability of two events this will also be 1 (using either method
+described so far): hence the restriction on the plausability in the
+cond rule is always true since all statements have a plausability of
+one.  Rewriting the rules with this in mind we get the original SecPAL
+inference rules, so if all statements have a plausability of 1, then
+this must be equivalent to standard SecPAL.
+
+Point 2 is also true by the restriction on probabilities in the cond
+rule.  Since $p_{\text{lim}}$ must be greater than 0, if a statement
+has a plausability of 0 then it will not be accepted.  Similarly when
+combining plausabilities if a statement is completely inplausible then
+the plausibility of it happening with another event must also be
+implausible.  Hence the combination should always be 0, and no
+statement combined with an implausible statement will be derivable.
+
+Point 3 is important as we don't want a means to make a statement more
+certain by repeatedly applying a rule.  For example imagine we had a
+combination operator that took the sum (or 1 if the combination was
+greater than 1), and a rule such as:
+
+\begin{lstlisting} 
+'x' says 'y' p if 'y' p, 'y' p.
+\end{lstlisting}
+
+If we also have statement that $x \says{0.2} y p$,
+then we could apply this rule to get $x \says{0.4} y p$, and so on
+until we're certain.
+
+Similarly if we had statements  such as:
+\begin{lstlisting} 
+'x' says 'y' p 
+  if 'y' p,
+     'z' p.
+\end{lstlisting}
+
+If we knew, with certainty, that \lstinline!'x' says 'z' p!, then if
+we used a plausibility combination function that averaged the
+plausibilities we would increase the overall plausibility that
+\lstinline!'x' says 'y' p.!
+
+The multiplication and minimum plausability rules won't allow you to
+increase plausability like this (minimum is trivial: if it is always
+the plausability of the least plausible statement then plausabilities
+will never increase; multiplication works because if all
+plausabilities are between 1 and 0, then the product will also never
+increase).
+
+\subsection{Examples}
+
+\subsubsection{Tools with Confidences}
+
+Suppose we have a static analysis tool with a false positive rate of
+10\%, (i.e.~one app in ten it will falsely flag as having issues when
+infact it is fine).
+
+\begin{lstlisting}
+'user' says App isSafe
+  if App isAnApp
+  where staticAnalyisTool(App) = true
+  with plausability is 0.9.
+\end{lstlisting}
+
+This is useful because we might want to treat static analysis results,
+along with other information, as more reliable.  For instance we might
+say an app which isn't malware is good, but an app that isn't malware
+and is recommended by a friend is even better!
+
+\begin{lstlisting}
+'user' says App isGood
+  if App isntMalware
+  with plausability is 0.5.
+
+'user' says app isGood
+  if App isntMalware,
+     App isRecommended
+  with plausability is 0.8.
+\end{lstlisting}
+
+\subsubsection{Review scores}
+
+When picking games we may rely on expert reviewers to suggest apps to
+us.  It is very common to give reviewed items a score at the end of
+the review.
+
+\begin{lstlisting}
+'less-trusted-reviewer' says 'angry-birds' isGood
+  with plausability is 0.8.
+
+'trusted-reviewer' says 'angry-birds' isGood
+  with plausability is 0.9.
+\end{lstlisting}
+
+We might also trust some reviewers more than others, again we can
+express this screnario with plausability and attempt to normalize
+their scores somewhat.
+
+\begin{lstlisting}
+'user' says 'trusted-reviewer' can-say App isGood
+  if App isAnApp
+  with plausability is 1.0.
+
+'user' says 'less-trusted-reviewer' can-say App isGood
+  if App isAnApp
+  with plausability is 0.5.
+\end{lstlisting}
+
+When we come to picking an app though we might like to rely on
+multiple bits of information however.
+
+\begin{lstlisting}
+'user' says App isInstallable
+  if App isGood,
+     App isSafe
+  with plausability at least 0.75.
+\end{lstlisting}
+
+\subsection{Translation to Datalog\textsuperscript{C}}
+
+To evaluate this, it would be nice to show, (as Becker did) that these
+rules are reducible to some form of Datalog.  This would show we
+haven't mucked about with the decidability of SecPAL.  To do this I
+show an updated form of Becker's Algorithm 5.2 from the SecPAL
+reference document:
+
+\subsubsection{A Plausible Algorithm 5.2}
+
+We now describe an algorithm for translating an assertion context into
+an equivalent constrained Datalog program. We treat expressions of the
+form $e_1 says_k fact$ as Datalog literals, where $k$ is either a
+variable or 0 or $\infty$. This can be seen as a sugared notation for
+a literal where the predicate name is the string concatenation of all
+infix operators (\textsf{says}, \textsf{can-say}, \textsf{can-act-as},
+and predicates) occurring in the expression, including subscripts for
+\textsf{can-say}. The arguments of the literal are the collected
+expressions between these infix operators. For example, the expression
+$A~says_k^{\new{p}}~x~can say_\infty~y~can say_0~B~can act as~z$ is
+shorthand for
+\texttt{says\_cansay\_infinity\_cansay\_zero\_canactas(A, \new{p}, k,
+x, y, B, z)}.
+
+Given an assertion: 
+
+\begin{center} \lstinline!$A$ says $f_0$ if $f_1\cdots f_n$ where $c$ with plausability $p$.! \end{center}
+
+\begin{enumerate}
+\item 
+  If $f_0$ is flat (it isn't a can-say statement), then the assertion is translated into the clause:
+  \begin{lstlisting}[language=Prolog]
+$A$ says$_k^{\new{p_*}}$ $f_0$ :- 
+    $A$ says$_k^{\new{p_1}}$ $f_1$ $\cdots$ $A$ says$_k^{\new{p_n}}$ $f_n$, c, 
+    $\new{p_\Sigma \text{ is } p_1 \oplus \cdots \oplus p_n}$, 
+    $\new{0 < p_{lim} \leq p_\Sigma}$.
+  \end{lstlisting}
+  Where $k$ is a fresh variable \new{and $p_*$ is $p_{lim}$ if the plausability is \texttt{is}, and $p_\Sigma$ is it is \texttt{at least}}.
+  
+\item 
+  Otherwise $f_0$ is of the form:
+
+  \lstinline!$e_0$ can-say $D_0$ $\cdots$ $e_{n-1}$ can-say $D_{n-1}$ $f$!
+
+  Where $f$ is flat. Let:
+
+  $f^\prime_n \equiv f$ and \lstinline!$f^\prime_i \equiv e_i$ can-say $D_i$ $f^\prime_{i+1}$!, for $i\in\left\{0\cdots n-1\right\}$.
+
+  Note that $f_0 = f^\prime_0$.  
+
+  Then the assertion \lstinline!$A$ says $f_0$ if $f_1\cdots f_m$, c, with plausability $p$! is translated into a set of $n+1$ Datalog rules as follows.
+  
+  \begin{enumerate}
+  \item 
+    We add the Datalog rule:
+    \begin{lstlisting}[language=Prolog]
+$A$ says$_k^{\new{p_*}}$ $f^\prime_0$ :-
+    $x$ says$_k^{\new{p_1}}$ $f_1\cdots$ $A$ says$_k^{\new{p_m}}$ $f_m$, c,
+    $\new{p_\Sigma \text{ is } p_1 \oplus \cdots \oplus p_n}$, 
+    $\new{0 < p_{lim} \leq p_\Sigma}$.
+    \end{lstlisting}
+    Where $k$ is a fresh variable, \new{and $p_*$ is $p_{lim}$ if the plausability is \texttt{is}, and $p_\Sigma$ is it is \texttt{at least}}.
+
+  \item
+    For each $i\in\left\{1\cdots n\right\}$, we add a Datalog rule
+    \begin{lstlisting}[language=Prolog]
+$A$ says$_\infty^{\new{p_*}}$ $f^\prime_i$ :-
+    $x$ says$_{D_{i-1}}^{\new{p_1}}$ $f^\prime_i$,
+    $A$ says$_{\infty}^{\new{p_2}}$ $x$ can-say $D_{i-1}$ $f^\prime_i$,
+    $\new{p_* \text{ is } p_1\oplus p_2}$, 
+    $\new{0 < p_* \leq 1}$.
+    \end{lstlisting}
+    Where $x$ is a fresh variable.
+  \end{enumerate}
+  
+  \item
+    For each Datalog rule created above of the form:
+    \begin{lstlisting}[language=Prolog]
+      $A$ says$_k^p$ $e$ $v$ :- $\cdots$
+    \end{lstlisting}
+    we add a rule:
+
+    \begin{lstlisting}[language=Prolog]
+$A$ says$_\infty^{\new{p_*}}$ $e$ $v$ :-
+    $x$ says$_{k}^{\new{p_1}}$ $x$ can-act-as $e$,
+    $A$ says$_{k}^{\new{p_2}}$ $e$ $v$,
+    $\new{p_* \text{ is } p_1\oplus p_2}$, 
+    $\new{0 < p_* \leq 1}$.
+    \end{lstlisting} Where $x$ is a fresh variable.  Note that $k$ is
+not a fresh variable, but either a constant or a variable taken from
+the original rule.
+    
+
+    \new{
+      We also add an additional rule (to account for the reduce rule)
+      that should not be used in general, but only when trying to reduce the
+      plausability to account for a lower bound on plausability in a query:
+      }
+      
+      \begin{lstlisting}[basicstyle=\color{BrickRed}\ttfamily]
+$A$ says$_k^{p_\downarrow}$ $e$ $v$ :- 
+    $A$ says$_k^p$ $e$ $v$,
+    $p_\downarrow \leq p$.
+      \end{lstlisting}
+\end{enumerate}
 \end{document}
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../../thesis"
+%%% TeX-master: "../ch6.tex"
 %%% End:
