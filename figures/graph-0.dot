@@ -1,0 +1,36 @@
+digraph graphname {
+  "'x' says 'y' can-say 'z' p." [shape=box color=green];
+  "'x' says 'z' p." [shape=box];
+  "'x' says 'z' q." [shape=box color=green];
+  "'y' says 'x' can-say 'z' p." [shape=box color=green];
+  "'y' says 'z' p." [shape=box];
+  "'y' says 'z' q." [shape=box color=green];
+
+  "'x' says 'y' can-say 'z' p.__0" [shape=plaintext label="[0]"];
+  "'x' says 'y' can-say 'z' p.__0" [shape=point label=""];
+  "'x' says 'y' can-say 'z' p." -> "'x' says 'y' can-say 'z' p.__0";
+  "'x' says 'z' p." -> "'x' says 'y' can-say 'z' p."[style=dotted dir=back];
+  "'x' says 'z' p.__0" [shape=plaintext label="[0]"];
+  "'x' says 'z' p." -> "'x' says 'z' p.__0";
+  "'x' says 'z' p.__0" -> "'x' says 'z' q.";
+  "'x' says 'z' p.__1" [shape=plaintext label="[1]"];
+  "'x' says 'z' p." -> "'x' says 'z' p.__1";
+  "'x' says 'z' p.__1" -> "'x' says 'y' can-say 'z' p.";
+  "'x' says 'z' p.__1" -> "'y' says 'z' p.";
+  "'y' says 'z' p." -> "'x' says 'z' p."[style=dotted dir=back];
+  "'x' says 'z' p." -> "'x' says 'z' q."[style=dotted dir=back];
+  "'y' says 'x' can-say 'z' p.__0" [shape=plaintext label="[0]"];
+  "'y' says 'x' can-say 'z' p.__0" [shape=point label=""];
+  "'y' says 'x' can-say 'z' p." -> "'y' says 'x' can-say 'z' p.__0";
+  "'y' says 'z' p." -> "'y' says 'x' can-say 'z' p."[style=dotted dir=back];
+  "'y' says 'z' p.__0" [shape=plaintext label="[0]"];
+  "'y' says 'z' p." -> "'y' says 'z' p.__0";
+  "'y' says 'z' p.__0" -> "'y' says 'z' q.";
+  "'y' says 'z' p.__1" [shape=plaintext label="[1]"];
+  "'y' says 'z' p." -> "'y' says 'z' p.__1";
+  "'y' says 'z' p.__1" -> "'x' says 'z' p.";
+  "'y' says 'z' p.__1" -> "'y' says 'x' can-say 'z' p.";
+  "'x' says 'z' p." -> "'y' says 'z' p."[style=dotted dir=back];
+  "'y' says 'z' p." -> "'y' says 'z' q."[style=dotted dir=back];
+
+}
