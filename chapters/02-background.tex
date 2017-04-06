@@ -7,130 +7,110 @@
   to be able to talk about it.  This is basically related work, but only the
   \emph{really} pertinent stuff.}
 
-% \subsection{App Stores}\label{app-stores}
-% 
-% The Play Store is Google's marketplace for apps. It contains a large
-% number of apps (around 2.2 million) uploaded by developers for users to
-% buy. To use the market places user's can login with a Google account
-% which is then used to sync purchases to their devices. Developers pay a
-% small fee (currently \$25) to submit an app to the store.
-% 
-% Google publish guidelines for developers wanting to publish
-% apps\footnote{\url{https://play.google.com/about/developer-content-policy/}}.
-% These guidelines describe what content is acceptable, how developers may
-% publicise their app and request feedback as well as what kinds of
-% advertising is acceptable. Apps are inspected by Google before
-% publication; a somewhat secretive process that includes static analysis
-% as well as dynamic analysis using their \emph{Bouncer} tool
-% \cite{oberheide_dissecting_2012}.
-% 
-% Whilst the Play store may be the \emph{official} Android app marketplace
-% it is not the only way to install apps. Apps can be sideloaded
-% (installed) by asking the operating system to install the APK file (the
-% file format of an Android app) directly. Alternatively a third-party
-% store can be installed which will allow users to buy and sideload apps.
-% 
-% These third-party stores exist for a variety of reasons. Some such as
-% \emph{Qihoo 360 Mobile Assistant} and \emph{Baidu App Store} exist to cater to
-% the Chinese market, which has not traditionally had access to Google's services
-% for political reasons. Others such as the \emph{Amazon Appstore}\footnote{The
-% Amazon app store is also available to all devices, and aims to be similar to the
-% Google Play store, but with a more stringent review process.}, \emph{Sony Xperia
-% Apps} or \emph{Samsung Galaxy Apps} exist as curated app stores featuring apps
-% highlighting a particular device's features. There are app stores for open
-% source apps like \emph{F-Droid}. There are app stores for devices that can't (or
-% don't want to) pass the CTS and CDD like \emph{Yandex} and \emph{Aptoide}.
-% 
-% Each store comes with its own terms and conditions, some of which are
-% summarised in Table \url{tab:store-summary}. A user who does not wish to
-% be given updates might wish to use the Amazon store as it does not force
-% them to be installed. A developer who wishes to sell pornographic apps,
-% might want to use Yandex's store as many others prohibit them.
-% 
-% The only way to distinguish between these app stores is by
-% careful consideration of their advertising and terms and conditions.
-% 
-% \begin{table*}\footnotesize
-%   \begin{tabulary}{\linewidth}{lLLLL}
-%     \toprule
-%     & Google Play & Amazon & Yandex & Aptoide\\
-%     \midrule
-%     User ID & Name address and billing details. & Amazon ID. & None for free
-%     apps, payment details for paid. & Contact details. No verification but
-%     agreement not to lie.\\
-%     Client info taken & Installation data, device ID, browsing history,
-%     cookies. Can opt out. & Device ID, network info, location, usage data. &
-%     Device ID, SIM number, Device content, System data, browsing history. &
-%     Transaction history. They may share it with developers.\\
-%     Customer Payments & Google Wallet and others at Google's discretion. &
-%     Amazon. & Approved processor by Yandex or store operator. & Approved
-%     processor by Aptoide.\\
-%     Who is paid? & Google Commerce. & Amazon. & Developer. & Store
-%     owner.\\
-%     Prices set by & Developer. & Amazon. & Developer (but Yandex may
-%     restrict to set values). & Developer and store owner.\\
-%     Refunds & Only for defective or removed content. A refund may be
-%     requested for two hours after purchase. & No. & Up to 15 minutes after
-%     purchase. No for IAP. & Up to 24 hours after purchase.\\
-%     Age of use & At least 13. & Any age (with consent of guardian). No
-%     alcohol related content below 21. & At least 14. & A legal age to form a
-%     contract with Aptoide.\\
-%     Update provision & You agree to receive updates. & By default. & Yes for
-%     security and bug-fixes. & Yes agree to receive updates.\\
-%     Moderation & No obligation (but they may). & Publisher obliged to
-%     provide info which may be used to give ratings. Amazon will not check
-%     these ratings are accurate. & No obligation (but they may). & No
-%     obligation (but they may). Trusted app mark does not indicate
-%     moderation.\\
-%     Acceptable use & No use as part of a public performance, or for
-%     dangerous activities where failure may lead to death. & & & No
-%     modification, rental, distribution or derivative works. You may use the
-%     software.\\
-%     Store rights to app & Marketing and optimising Android. & Distribution,
-%     evaluation, modification, advertising, and creating derivatives for
-%     promotion. & Advertising. & Modification and re-selling.\\
-%     Withdrawal from sale & Immediate. & 10 days, or 5 days if for copy-write
-%     reasons. & 90 days. A copy will be retained. & You may.\\
-%     Developer ID & Google account and billing details. & Amazon ID. & Email,
-%     company name, tax-id. & Email (preferably a Google developer
-%     one).\\
-%     EULA & Default offered. & Only if it doesn't interfere with Amazon's
-%     terms. & Must be provided. & Default offered\\
-%     Content restrictions & No alternate stores, sexual, violence, IP
-%     infringing, PII publishing, illegal, gambling, malware, self-modifying
-%     or system modifying content. No unpredictable network use. & No
-%     offensive, pornography, illegal, IP infringing or gambling content. & No
-%     defects. No illegal, disruptive, sexual, IP infringing, PII stealing,
-%     alternative stores, or open-source content. & No displaying or linking
-%     to illegal, privacy interfering, violent, PII stealing, IP infringing
-%     content. Nothing \emph{spammy} or with unpredictable network
-%     use.\\
-%     Payout rates & 70\% of the user's payment. & 70\% list price (minus card
-%     fees). & 70\% net-revenue (minus card fees). & 75\% revenue share (minus
-%     card fees).\\
-%     \bottomrule
-%   \end{tabulary}
-%   \label{tab:store-tandcs}
-%   \caption{Summary of conditions in different stores.}
-% \end{table*}
+This dissertation talks about the policies surrounding \emph{mobile
+ecosystems}; but what, precisely, do we mean by the \emph{mobile
+ecosystem}?  A cow after all is both mobile and has an ecosystem of
+grass, farmers, and other cows surrounding it.  Succinctly when we
+refer to the mobile ecosystem we are referring to \textbf{the
+interactions surrounding the use of smart phones and tablet
+computers}.  To fully understand the scale of the ecosystem however,
+it is best to describe some of the history surrounding it.
+
+\subsection{Mobile devices: the story so far}
+
+Some of the earliest mobile devices were the \acp{PDA} devices of the
+early 90s.  The earliest devices, such as Apple's Newton, were
+portable miniature computers designed to store personal information,
+calendars and notes.  Developers could even program additional apps
+for them (in the case of the Newton using Apple's Dylan language).  At
+the time mobile phones were just portable telephones, but starting
+with the IBM Simon in 1994 these devices started to have some of the
+functionality of the \ac{PDA}, becoming what would later be called a
+\emph{smart phone}.  The big advantage of these early smart phones
+over the \ac{PDA} was they had a telephone connection.  The earliest
+devices allowed their users to access email and fax, as well as
+managing personal information.  The early smart phones were somewhat
+underpowered compared to the \ac{PDA} devices so both continued to
+develop alongside one another, and started to become more affordable.
+
+In 1998 the Symbian OS was released.  Developed by Psion (who made
+\acp{PDA}), and Motorola, Ericsson and Nokia (all phone
+manufacturers).  By the early 2000s it would start to become the
+dominant smart phone OS.  These devices could install apps, written in
+C++ or Java (if the phone supported JME). They had cameras, could play
+music. They even had early malware which would illicitly send texts to
+premium rate numbers.  They were the forebears of the \emph{modern}
+smart phone.
+They were also starting to become affordable, with the lowest end
+models starting to being affordable by children and
+teenagers\footnote{If you saved up for what seemed like
+  forever$\ldots$}.  Devices like Nokia's N-Gage were marketed directly
+towards these younger users and featured games users could buy for
+their devices.
+
+At this point in the mid-2000s we first start to see the mobile
+ecosystem proper.  We have users with different devices, downloading
+apps from different sources (not all legitimate).  These devices
+contained personal information of the \acp{PDA}, but also photographs
+and music.  User's could browse the web, and send each other pictures.
+With increasing amounts of personal information malware authors
+started to take note.  In a blog post from 2006 for Symantec, Chien
+noted~\cite{eric_chien_spyware_2006}:
+
+\begin{quote}
+  ``While threats exist and are actively spreading, we are probably
+  still years away from the situation we have with the Microsoft Windows
+  [$\cdots$] We have already seen spyware applications for mobile devices
+  (e.g. Spyware.Flexispy) that can monitor activities on the mobile
+  device and then send them to a remote server. [$\cdots$] Just as
+  worrying is the fact that the adware market is just beginning to take
+  notice of mobile devices. Already some Bluetooth advertising schemes
+  have been tested, where a bus stop is outfitted with a device that
+  just spams out messages via Bluetooth.''
+\end{quote}
+
+Chien concluded his article saying:
+
+\begin{quote}
+  ``So, while worms and Trojans already exist for the mobile
+  platforms, spyware and adware applications are just now gaining a
+  foothold in the mobile device space. Spyware and adware pose a
+  potentially large security issue in the near future, as the companies
+  that produce such applications are less affected by the natural
+  limiting factors.''
+\end{quote}
+
+This would turn out to be extremely prescient.
+
+
+In 2008 Apple released the first iPhone, and shortly after Google
+released the Android OS.  Symbian would release its final version in
+2012, with Android becoming the dominant OS on most manufacturer's
+devices.
+
+\todo{Go on to talk about how users became increasingly aware of personal information being taken.}
+
 
 \section{SecPAL}
 
-SecPAL was originally intended to model and enforce access control policies
-    in grid computing systems~\cite{becker_secpal:_2010}. Flexibility is part of
-    SecPAL's goals, however. At its core, SecPAL is a language with a simple grammar
-    (\autoref{fig:secpal-grammar}) and three evaluation rules
-    (\autoref{fig:secpal-rules}). The language's simplicity makes it easy to apply
-    to a new domain by instantiating it with predicates and constraints that
-    describe the domain. This simplicity does not come at the cost of its
-    expressiveness. SecPAL supports delegation, and arbitrary constraints, as well
-    as role and attribute based policies styles. Other domains have successfully
-    used variants of SecPAL to describe their policies. Humphrey~\etal{} instantiated
-    SecPAL with predicates for the GridFTP protocol to create a Grid access control
-    policy language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{} created SecPAL4DSA
-    by adding predicates for data-sharing agreements~\cite{aziz_secpal4dsa:_2011}.
-    Becker~\etal{} added predicates for describing \ac{PII}-handling preferences and
-    created SecPAL4P~\cite{becker_framework_2009}.
+SecPAL was originally intended to model and enforce access control
+policies in grid computing
+systems~\cite{becker_secpal:_2010}. Flexibility is part of SecPAL's
+goals, however. At its core, SecPAL is a language with a simple
+grammar (\autoref{fig:secpal-grammar}) and three evaluation rules
+(\autoref{fig:secpal-rules}). The language's simplicity makes it easy
+to apply to a new domain by instantiating it with predicates and
+constraints that describe the domain. This simplicity does not come at
+the cost of its expressiveness. SecPAL supports delegation, and
+arbitrary constraints, as well as role and attribute based policies
+styles. Other domains have successfully used variants of SecPAL to
+describe their policies. Humphrey~\etal{} instantiated SecPAL with
+predicates for the GridFTP protocol to create a Grid access control
+policy language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{}
+created SecPAL4DSA by adding predicates for data-sharing
+agreements~\cite{aziz_secpal4dsa:_2011}.  Becker~\etal{} added
+predicates for describing \ac{PII}-handling preferences and created
+SecPAL4P~\cite{becker_framework_2009}.
 
 \begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
