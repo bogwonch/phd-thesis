@@ -48,7 +48,7 @@ teenagers\footnote{If you saved up for what seemed like
 towards these younger users and featured games users could buy for
 their devices.
 
-At this point in the mid-2000s we first start to see the mobile
+In the mid-2000s we first start to see the mobile
 ecosystem proper.  We have users with different devices, downloading
 apps from different sources (not all legitimate).  These devices
 contained personal information of the \acp{PDA}, but also photographs
@@ -66,13 +66,11 @@ noted~\cite{eric_chien_spyware_2006}:
   worrying is the fact that the adware market is just beginning to take
   notice of mobile devices. Already some Bluetooth advertising schemes
   have been tested, where a bus stop is outfitted with a device that
-  just spams out messages via Bluetooth.''
-\end{quote}
+  just spams out messages via Bluetooth.
 
-Chien concluded his article saying:
-
-\begin{quote}
-  ``So, while worms and Trojans already exist for the mobile
+  [$\cdots$]
+  
+  So, while worms and Trojans already exist for the mobile
   platforms, spyware and adware applications are just now gaining a
   foothold in the mobile device space. Spyware and adware pose a
   potentially large security issue in the near future, as the companies
@@ -80,16 +78,68 @@ Chien concluded his article saying:
   limiting factors.''
 \end{quote}
 
-This would turn out to be extremely prescient.
-
-
 In 2008 Apple released the first iPhone, and shortly after Google
 released the Android OS.  Symbian would release its final version in
-2012, with Android becoming the dominant OS on most manufacturer's
-devices.
+2012, with Android as the dominant OS on most devices.  These
+operating systems differed from past efforts, and conventional desktop
+OS, in that they were far more controlled than previous systems.
+Apple's devices cannot run un-vetted code or install software from
+outside of its App Store, which Apple controlled.  Android devices
+offered a similar, though less heavily vetted, app
+marketplace~\cite{oberheide_dissecting_2012}. Whilst Android users
+could install software from other sources, the option was hidden by
+default.  As well as restrictions to software, these devices were also
+better protected.  Devices no longer had an all powerful \emph{root}
+account.  APIs were provided that restricted malicious behaviors.
+One example was stopping SMSs being sent programatically to premium
+rate accounts; essentially ending a monetization technique that had
+been prevelent in malware before.
 
-\todo{Go on to talk about how users became increasingly aware of personal information being taken.}
+With iOS and Android user's became more aware about privacy on their
+devices.  A survey in 2012 by Chin~et~al{.} found that users were more
+concerned about privacy on their mobile devices, than on their
+laptops~\cite{chin_measuring_2012}. Users of a smartphone are more
+likely to install an app that came recommended from a friend, was
+popular or was free.  The drive for ever cheaper apps, particularly on
+Android where users were even less likely to pay for software, lead to
+many developers adding adware and tracking libraries into their apps.
+These libraries accomplished a variety of tasks ranging from crash and
+error tracking, to collecting personal data to be sold to advertisers
+to subsidize the app's price~\cite{seungyeop_han_study_2012}.
 
+This dynamic between users who were increasingly concerned about their
+privacy and apps which were increasingly privacy invading, lead many
+to argue that the mobile device operating systems needed better
+controls for what data and permissions an app could
+have~\cite{leontiadis_dont_2012}.  Many different schemes were
+suggested to fix this and provide finer privacy
+controls~\cite{jeon_dr._2012,beresford_mockdroid:_2011,conti_crepe:2010,backes_appguard_2013}
+(some of which will be described further in
+\autoref{chap:related-work}).  In general, however, users did not
+really understand the how app permissions
+worked~\cite{felt_android_2012}.  By 2017 (and the present day) iOS
+and Android had settled on a model where user's were asked by their
+devices if an app could access certain data when it first requested it
+and then the user could revoke that decision later if they wished.
+
+Mobile devices became more ubiquitous, and \ac{PDAs} reappeared now
+called \emph{tablets} or \emph{iPads}.  These devices were identical
+to the smart phones, but larger and they generally did not have a
+cellular data connection instead using wifi. They couldn't send
+texts or make phone calls but a shift away from traditional SMS and
+cellular phone calls to internet backed communications such as
+WhatsApp, iMessage, Skype and FaceTime meant these devices were
+essentially interchangeable with smart phones.
+
+Advances in secure co-processors meant that mobile devices were even
+more capable.  Banks started allowing users to link their devices to
+their bank accounts and use their device, or even the new \emph{smart
+watches} as a debit card.  This would become a common and ubiquitous
+payment method quickly with even street vendors, who hadn't taken
+cards previously, accepting contactless payment via a mobile device.
+
+People started to use their mobile devices to record increasingly personal information.
+Smart watches record and share a user's pulse with others.
 
 \section{SecPAL}
 
@@ -172,5 +222,5 @@ SecPAL4P~\cite{becker_framework_2009}.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../../thesis"
+%%% TeX-master: "../ch2"
 %%% End:
