@@ -3,9 +3,6 @@
 \chapter{Background}
 
 \section{The mobile ecosystem}\label{sec:mobile-ecosystem}
-\todo{Describe the mobile ecosystem, and the requirements for a policy language
-  to be able to talk about it.  This is basically related work, but only the
-  \emph{really} pertinent stuff.}
 
 This dissertation talks about the policies surrounding \emph{mobile
 ecosystems}; but what, precisely, do we mean by the \emph{mobile
@@ -113,7 +110,7 @@ to argue that the mobile device operating systems needed better
 controls for what data and permissions an app could
 have~\cite{leontiadis_dont_2012}.  Many different schemes were
 suggested to fix this and provide finer privacy
-controls~\cite{jeon_dr._2012,beresford_mockdroid:_2011,conti_crepe:2010,backes_appguard_2013}
+controls~\cite{jeon_dr._2012,beresford_mockdroid:_2011,conti_crepe:_2010,backes_appguard_2013}
 (some of which will be described further in
 \autoref{chap:related-work}).  In general, however, users did not
 really understand the how app permissions
@@ -122,7 +119,7 @@ and Android had settled on a model where user's were asked by their
 devices if an app could access certain data when it first requested it
 and then the user could revoke that decision later if they wished.
 
-Mobile devices became more ubiquitous, and \ac{PDAs} reappeared now
+Mobile devices became more ubiquitous, and \acp{PDA} reappeared now
 called \emph{tablets} or \emph{iPads}.  These devices were identical
 to the smart phones, but larger and they generally did not have a
 cellular data connection instead using wifi. They couldn't send
@@ -131,17 +128,86 @@ cellular phone calls to internet backed communications such as
 WhatsApp, iMessage, Skype and FaceTime meant these devices were
 essentially interchangeable with smart phones.
 
-Advances in secure co-processors meant that mobile devices were even
-more capable.  Banks started allowing users to link their devices to
+Advances in secure co-processors meant that mobile devices are even
+more capable.  Banks allow users to link their devices to
 their bank accounts and use their device, or even the new \emph{smart
-watches} as a debit card.  This would become a common and ubiquitous
+  watches} as a debit card.  This quickly became a common and ubiquitous
 payment method quickly with even street vendors, who hadn't taken
 cards previously, accepting contactless payment via a mobile device.
 
-People started to use their mobile devices to record increasingly personal information.
-Smart watches record and share a user's pulse with others.
+Mobile devices now record increasingly personal information.  Smart
+watches record and share a user's pulse with others. Mobile health
+apps are made to track and monitor medical conditions. In the US, the
+\ac{HIPAA} requires that healthcare providers transmit medical
+information securely, but many apps have basic security
+problems~\cite{fahl_why_2012}, and many of the healthcare apps do not
+handle the medical information securely~\cite{knorr_privacy_2015}.
+
+\subsection{The Mobile Ecosystem and the need for Policies}
+
+With mobile devices becoming increasingly capable and managing ever
+increasing amounts of information there is a need to manage how the
+devices behave.  As users become aware of the privacy implications of
+their devices, they express preferences about which apps they want to
+install~\cite{sadeh_understanding_2009}, even if they do not follow
+through on their preferences~\cite{hallett_apppal_2016}.  Employees
+now bring their mobile devices to work and use them to access company
+email and documents.  In response to this companies publish mobile
+device policies that describe how the devices should be used within
+the company.  They may also use \ac{MDM} software to enforce the
+policies.  If a company wishes to use an app for business purposes
+there may be regulation they need to follow, such as \ac{HIPAA}.
+
+These policies vary in terms of formality.  A user may never write
+their privacy preferences in a formal language, but they may make
+decisions guided by them.  For example which apps to install and which
+to avoid.  They may make decisions based on what their friends have
+told them, or what a review said about the app.  By describing the
+policy in a formal language we can start to express the policy more
+rigorously.  We can start to make comparisons between users, and with
+rules for checking the policy start to help the user to make decisions
+more accurately, or measure the extent a user follows their stated
+policy~\cite{hallett_apppal_2016}.  
+
+A company looking to control the mobile devices their employees bring
+to work might write a \ac{BYOD} policy.  They might also use \ac{MDM}
+software to control some aspects of their devices.  The company might
+write these with varying degrees of formality but often they are
+written using natural language.  This adds vagueness and can lead to
+confusion as to how a policy should be implemented.  Using formal
+languages we can model the policies precisely, helping clarify their
+meanings and make precise comparisons between different policies.  We
+can tie the rules in the \ac{BYOD} policies to the \ac{MDM} tools used
+to implement them.
+
+If a company needs to use apps which conform with a policy such as
+\ac{HIPAA} they could use static analysis tools to check for some
+aspects of the policy.  Perhaps the company might use
+Mallodroid~\cite{fahl_why_2012} to detect when data is sent
+unencrypted.  It is important, however, not to confuse the tools and
+techniques we might use to implement parts of a policy with the end
+goal of ensuring that the policy is followed.  A formal language that
+lets us tie the policy to its implementation can help show how the
+policy is checked.  It lets us see what rules from the policy are
+checked for by which tools, and identify gaps where the policy is not
+being checked.
+
+When describing how mobile phones had evolved, we described how we
+arrived with two main operating systems for mobile devices: iOS and
+Android.  The trust models in the systems differ, as do the
+assumptions about what an app can do when running on each system.
+There are also similarities.  iOS and Android (from Android M) have a
+similar permissions system for apps.  When people make comparisons
+between them, however, the differences are often vague.  iOS is a
+\emph{walled garden}.  Android is \emph{more open}.  Again, by using
+formal languages we can start to make comparisons that are precise and
+show the differences clearly.
+
+We need an authorization logic for mobile ecosystems.
 
 \section{SecPAL}
+
+\todo{Give the briefest of overviews of SecPAL.  Explain what it was designed for, but leave most of the description for the AppPAL chapter.}
 
 SecPAL was originally intended to model and enforce access control
 policies in grid computing
@@ -166,14 +232,14 @@ SecPAL4P~\cite{becker_framework_2009}.
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
   \newcommand{\smalltext}[1]{\text{\ttfamily\small #1}}
   \centering
-    \begin{equation*}
-      \begin{array}{r l}
-        \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
-        \smalltext{ says }\overbrace{\overbrace{\smalltext{ App }}^{\bracetext{subject}}\overbrace{\smalltext{ isRunnable}}^{\bracetext{predicate}}}^{\bracetext{fact}} \\
-        & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}} \\
-        & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
-      \end{array}
-    \end{equation*}
+  \begin{equation*}
+    \begin{array}{r l}
+      \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
+                                                             \smalltext{ says }\overbrace{\overbrace{\smalltext{ App }}^{\bracetext{subject}}\overbrace{\smalltext{ isRunnable}}^{\bracetext{predicate}}}^{\bracetext{fact}} \\
+                                                           & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}} \\
+                                                           & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
+    \end{array}
+  \end{equation*}
   \caption{Structure of a SecPAL assertion.}
   \label{fig:assertion}
 \end{figure}
@@ -216,7 +282,7 @@ SecPAL4P~\cite{becker_framework_2009}.
     e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
   \end{tabular}
   \caption{BNF description of SecPAL.}
-\label{fig:secpal-grammar}
+  \label{fig:secpal-grammar}
 \end{figure}
 \end{document}
 
