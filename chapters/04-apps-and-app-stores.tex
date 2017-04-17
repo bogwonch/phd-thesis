@@ -1,7 +1,19 @@
 \documentclass[thesis.tex]{subfiles}
 \begin{document}
-\chapter{Apps and App Stores}
+\chapter{App Stores and App Preferences}
 \label{chap:apps-and-stores}
+
+Apps and app stores are a key part of the mobile ecosystem; an app
+being the key form of software and the app store as their primary mode
+of distribution.  In this chapter we explore the stores and the
+policies surrounding them.  We compare the differences in terms and
+conditions between the various marketplaces and make comparisons
+between them.  We look at how users have privacy preferences about the
+which apps they want to use, but by using AppPAL versions of common
+user privacy preferences show how they do not seem to follow them in
+practice.  Finally we describe how AppPAL can be used to create new
+app stores by checking for apps that can be shown to follow a policy,
+and offering them in a web app-based store.
 
 \section{App Stores}
 
@@ -410,7 +422,7 @@ be aware of.
 The terms and conditions are dense technical documents.  Yet despite
 their intimidating nature, the differences between different app store
 agreements are often small.  By encoding the key differences into a
-formal language (such as SecPAL) we can start to clarify the small
+formal language (such as AppPAL) we can start to clarify the small
 distinctions then a developer or user can choose the app stores they
 are happy to submit to based on the store's policies, and a company
 could automate the enforcement of the policy.  The longer terms could
@@ -455,10 +467,7 @@ Writing policies out in this way describes the informal terms and
 conditions unambiguously.  A computer could check compliance with the
 terms by evaluating the policy in this form (assuming it was given
 sufficient information). We will return to this idea in
-\autoref{chap:byod} when we look at BYOD policies.  For now consider
-that we can describe the terms and conditions of the stores that form
-the principal method of distributing software in the mobile ecosystem
-in a formal language; and we can start to make decisions based on them.
+\autoref{chap:byod} when we look further explore BYOD policies using AppPAL.
 
 \section{Finding the Right Apps}
 
@@ -537,13 +546,34 @@ Androguard~\cite{andrew_desnos_androguard_2012} as well as manual
 analysis to find the precise reasons the app requested each
 permission~\cite{lin_modeling_2014}.
 
-To test the extent users were following the policies we took installation from a partially anonymized database of installed apps captured by Carat~\cite{oliner_carat:_2013}.
-By calculating the hashes of known package names, mostly taken from the Android Observatory, we could discover who had installed certain apps.
-The database has over 90,000 apps and 55,000 users.
-On average each Carat user installed around 90 apps each; 4,300 apps have known names.
-Disregarding system apps (such as \texttt{com.android.vending}) and very common apps (Facebook, Dropbox, Whatsapp, and Twitter) we reduced the set to an average of 20 known apps per user.
-To see some variation in app type, we considered only the 44,000 users who had more than 20 known apps.
-Using this data, and the apps themselves taken from the Google Play Store and Android Observatory~\cite{barrera_understanding_2012}, we checked which apps satisfied which policies.
+To test the extent that users were following the policies we took
+installation from a partially anonymized database of installed apps
+captured by Carat~\cite{oliner_carat:_2013}.
+
+The Carat dataset was collected as part of a UC~Berkley and University
+of Helsinki experiment to measure the energy usage of apps.  As part
+of the experiment users of the Carat app allowed the app to collect
+which apps were installed on their device.  The dataset was anonymized
+by replacing the app names with hashes of the apps package identifier,
+and usernames with an increasing integer key.
+
+We used John the Ripper~\cite{solar_designer_john_2013}, with a
+database of known package names and hashes, mostly derived from the
+Android observatory~\cite{barrera_understanding_2012}.  Using these
+hashes we can discover which users have installed which apps, by
+comparing the hashes in the Carat dataset to the hashes of apps we
+knew we can discover which apps users had installed.
+
+The database has over 90,000 apps and 55,000 users.  On average each
+Carat user installed around 90 apps each; 4,300 apps have known names.
+Disregarding system apps (such as \texttt{com.android.vending}) and
+very common apps (Facebook, Dropbox, Whatsapp, and Twitter) we reduced
+the set to an average of 20 known apps per user.  To see some
+variation in app type, we considered only the 44,000 users who had
+more than 20 known apps.  Using this data, and the apps themselves
+taken from the Google Play Store and Android
+Observatory~\cite{barrera_understanding_2012}, we checked which apps
+satisfied which policies.
 
 \begin{figure*}
   \centering
@@ -564,26 +594,51 @@ Using this data, and the apps themselves taken from the Google Play Store and An
   \label{fig:lin_uptake_graphs}
 \end{figure*}
 
-The charts shown in \autoref{fig:lin_uptake_graphs} show that very few users seem to follow Lin~\etal's policies most of the time~\cite{hallett_apppal_2016}.  Even for the least onourus unconcerned policy most users did not seem to follow the policy most of the time.
-This suggests that there is a disconnect between user's privacy preferences and their behavior (reminiscent of the \emph{privacy paradox}\footnote{The privacy paradox is that whilst people will say they are very concerned about their privacy, they do not alter their behaviour to protect it.  It was first noticed by psychologists looking at how people use social network; though has appeared in many other areas since.}); assuming the user population studied by Lin~\etal~was similar to the data in the Carat study.
+The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
+users seem to follow Lin~\etal's policies most of the
+time~\cite{hallett_apppal_2016}.  Even for the least onourus policy,
+the \emph{unconcerned} policy, most users did not seem to follow the
+policy most of the time.  This suggests that there is a disconnect
+between user's privacy preferences and their behavior (reminiscent of
+the \emph{privacy paradox}\footnote{The privacy paradox is that whilst
+people will say they are very concerned about their privacy, they do
+not alter their behaviour to protect it.  It was first noticed by
+psychologists looking at how people use social networks; though has
+appeared in many other areas since.}); assuming the user population
+studied by Lin~\etal~was similar to the data in the Carat study.
 
-A few users, however, did seem to install apps meeting these policies most of the time.
-This suggests that while users may have privacy preferences most are not attempting to enforce them.
-Policy enforcement tools, like AppPAL, can help users enforce their own policies which they cannot do easily using the current ad hoc, manual means available to them.
+A few users, however, did seem to install apps meeting one of these
+policies most of the time.  This suggests that while users may have
+privacy preferences most are not attempting to enforce them.  This
+suggests that policy enforcement tools, like AppPAL, may help users
+enforce their personally desirable policies which they cannot do
+easily using the current ad hoc, manual means available.
 
-It is also interesting to discover when people install apps classified as malware.
-McAfee classify malware into several categories, and provided us with a dataset of apps classified as malware and \acp{PUP}.
-The \emph{malicious} and \emph{trojan} categories describe traditional malware.
-Other categories classify \ac{PUP} such as aggressive adware.
-Using AppPAL we can write policies to differentiate characterising users who allow dangerous apps and those who install poor quality ones.
+It is also interesting to discover when people install apps classified
+as malware.  McAfee classify malware into several categories, and
+provided us with a dataset of apps classified as malware and
+\acp{PUP}. Using these package IDs we calculated the package hashes
+and looked to find users in the Carat dataset who had installed any of
+these apps.  The McAfee data classified the data into several
+categories based on the purpose of the malware.  The \emph{malicious}
+and \emph{trojan} categories describe traditional malware.  Other
+categories classify \acp{PUP} such as aggressive adware.  Using AppPAL
+we can write policies to differentiate characterising users who allow
+dangerous apps and those who install poor quality ones.
+
 \begin{lstlisting}
 'user' says 'mcafee' can-say
   'malware' isKindOf(App).
 'mcafee' says 'trojan' can-act-as 'malware'.
 'mcafee' says 'pup' can-act-as 'malware'.
 \end{lstlisting}
-If a user is enforcing a privacy policy we might also expect them to install less malware.
-We can check this by using AppPAL policies to measure the number of malwares each user had installed.
+
+If a user is enforcing a privacy policy we might also expect them to
+be more selective about the apps they install.  If a user is being
+selective we might expect them to install less malware and \acp{PUP},
+as they often request many permissions. We can check this by using
+AppPAL policies to measure the number of malwares each user had
+installed.
 
 \begin{marginfigure}
   \centering
@@ -596,13 +651,20 @@ We can check this by using AppPAL policies to measure the number of malwares eac
   \caption{Malware installation numbers in the Carat dataset.}
   \label{fig:malware}
 \end{marginfigure}
-We found that 1\% of the users had a \ac{PUP} or malicious app installed.
-Figure~\ref{fig:malware} shows that infection rates for \acp{PUP} and malware is low;
-though a user is 3 times more likely to have a \ac{PUP} installed than malware.
-It is interesting to compare a user's compliance to the Lin~\etal~policies with the amount of malware each had installed (Figure \autoref{fig:lin_malware_graphs}).
-Users who were complying more than half the time with the conservative or advanced policies complied with the malware or \ac{PUP} policies fully.
-This suggests that policy enforcement is worthwhile: users who do enforce policies about their apps experience less malware.
-This could also be attributed to the users selecting their apps more carefully to enforce their policy: a careful user is unlikely to install malware generally.
+
+We found that 1\% of the users had a \ac{PUP} or malicious app
+installed.  Figure~\ref{fig:malware} shows that infection rates for
+\acp{PUP} and malware is low; though a user is 3 times more likely to
+have a \ac{PUP} installed than malware.  It is interesting to compare
+a user's compliance to the Lin~\etal~policies with the amount of
+malware each had installed (Figure \autoref{fig:lin_malware_graphs}).
+Users who were complying more than half the time with the conservative
+or advanced policies complied with the malware or \ac{PUP} policies
+fully.  This suggests that policy enforcement is worthwhile: users who
+do enforce policies about their apps experience less malware.  This
+could also be attributed to the users selecting their apps more
+carefully to enforce their policy: a careful user is unlikely to
+install malware generally.
 
 
 \begin{figure*}
@@ -620,14 +682,14 @@ This could also be attributed to the users selecting their apps more carefully t
     \includegraphics[width=0.45\linewidth]{figures/unconcerned-v-pup.pdf}
   }\\
   \vspace{2em}
-  \caption[Plots of compliance with the Lin policies versus malware installation.]{Graphs plotting a users conformance with the Lin~\etal~policies against the amount of malware they had installed on their device.  Each dot represents a user.}
+  \caption[Plots of compliance with the Lin policies versus malware installation.]{Graphs plotting a user's conformance with the Lin~\etal~policies against the amount of malware they had installed on their device.  Each dot represents a user.}
   \label{fig:lin_malware_graphs}
 \end{figure*}
 
 
 \section{An AppPAL Enhanced Store}
 
-Using AppPAL we can describe user's preferences for apps, and we can describe
+Using AppPAL we can describe users preferences for apps, and we can describe
 the differences between some of the stores.  A natural continuation of this is
 to start to generate new app stores, based on a user's policy, that only sell
 apps that a user might find acceptable.
@@ -642,7 +704,7 @@ by IT staff.
   \label{fig:genstore-architecture}
 \end{figure}
 
-AppPAL's \emph{GenStore} tool automates this process for Android app stores.  The architecture is shown in \autoref{fig:genstore-architecture}, though we summarize it as:
+AppPAL's \emph{GenStore} tool automates this process for Android app stores.  The architecture is shown in \autoref{fig:genstore-architecture}. We summarize it as:
 
 \begin{enumerate}
 \item The developer provides a pool of apps to GenStore. GenStore will select from among these apps to create the curated store.
