@@ -209,9 +209,29 @@ We need an authorization logic for mobile ecosystems.
 
 \todo{Give the briefest of overviews of SecPAL.  Explain what it was designed for, but leave most of the description for the AppPAL chapter.}
 
-SecPAL was originally intended to model and enforce access control
-policies in grid computing
-systems~\cite{becker_secpal:_2010}. Flexibility is part of SecPAL's
+SecPAL is an authorization language developed by Becker~\etal~to
+describe policies and delegation chains surrounding distributed
+services.  It was designed as a high-level human-readable language
+that allowed the policy specification and maintenance to be separated
+from the implementation mechanisms.
+
+\todo{CITE CITE CITE}
+SecPAL was designed to improve over previous high-level languages in
+several areas.  It was designed to be more expressive than XrML,
+SPKI/SDSI and Delegation Logic. More readable than XACML and other
+XML-based policy languages.  Furthermore it was designed to be
+intuitive and unambiguous with its semantics unlike other languages
+(most notably XACML) which had natural language descriptions with
+ambiguous and inconsistent specifications that had been retrofitted to
+the language instead of being designed with the language in the first
+place.
+
+Its original application was to model and enforce access control
+policies in grid computing systems~\cite{becker_secpal:_2010}.  In
+this dissertation we describe how the language can be extended to
+describe the policies surrounding the mobile ecosystem.
+
+Flexibility is part of SecPAL's
 goals, however. At its core, SecPAL is a language with a simple
 grammar (\autoref{fig:secpal-grammar}) and three evaluation rules
 (\autoref{fig:secpal-rules}). The language's simplicity makes it easy
