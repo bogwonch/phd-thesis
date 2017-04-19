@@ -11,12 +11,12 @@ figures: ${figures}
 thesis: .thesis-timestamp
 
 clean: tidy
-	@latexmk --clean-all
+	@latexmk -C
 	@rm -f .thesis-timestamp
 
 tidy:
 	@echo "[INFO] tidying up"
-	@latexmk --clean
+	@latexmk -c
 
 .thesis-timestamp: thesis.tex phdthesis.sty ${figures} ${chapters}
 	@echo "[INFO] compiling"

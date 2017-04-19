@@ -135,7 +135,7 @@ their bank accounts and use their device, or even the new \emph{smart
 payment method quickly with even street vendors, who hadn't taken
 cards previously, accepting contactless payment via a mobile device.
 
-Mobile devices now record increasingly personal information.  Smart
+Mobile devices record increasingly personal information.  Smart
 watches record and share a user's pulse with others. Mobile health
 apps are made to track and monitor medical conditions. In the US, the
 \ac{HIPAA} requires that healthcare providers transmit medical
@@ -207,46 +207,38 @@ We need an authorization logic for mobile ecosystems.
 
 \section{SecPAL}
 
-\todo{Give the briefest of overviews of SecPAL.  Explain what it was designed for, but leave most of the description for the AppPAL chapter.}
-
 SecPAL is an authorization language developed by Becker~\etal~to
 describe policies and delegation chains surrounding distributed
-services.  It was designed as a high-level human-readable language
-that allowed the policy specification and maintenance to be separated
-from the implementation mechanisms.
+services~\cite{becker_secpal:_2010}. It was designed as a high-level
+human-readable language that allowed the policy specification and
+maintenance to be separated from the implementation mechanisms.
 
-\todo{CITE CITE CITE}
 SecPAL was designed to improve over previous high-level languages in
-several areas.  It was designed to be more expressive than XrML,
-SPKI/SDSI and Delegation Logic. More readable than XACML and other
-XML-based policy languages.  Furthermore it was designed to be
-intuitive and unambiguous with its semantics unlike other languages
-(most notably XACML) which had natural language descriptions with
-ambiguous and inconsistent specifications that had been retrofitted to
-the language instead of being designed with the language in the first
-place.
+several areas.  It was designed to be more expressive than
+XrML~\cite{kolovski_logic-based_2007},
+SPKI/SDSI~\cite{ellison_spki_1999}, and Delegation
+Logic~\cite{li_delegation_2003}. More readable than
+XACML~\cite{oasis_extensible_2013} and other XML-based policy
+languages.  Furthermore it was designed to be intuitive and
+unambiguous with its semantics unlike other languages (most notably
+XACML) which had natural language descriptions with ambiguous and
+inconsistent specifications that had been retrofitted to the language
+instead of being designed with the language in the first
+place~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
 
 Its original application was to model and enforce access control
 policies in grid computing systems~\cite{becker_secpal:_2010}.  In
 this dissertation we describe how the language can be extended to
 describe the policies surrounding the mobile ecosystem.
 
-Flexibility is part of SecPAL's
-goals, however. At its core, SecPAL is a language with a simple
-grammar (\autoref{fig:secpal-grammar}) and three evaluation rules
+At its core, SecPAL is a language with a simple grammar
+(\autoref{fig:secpal-grammar}) and three evaluation rules
 (\autoref{fig:secpal-rules}). The language's simplicity makes it easy
 to apply to a new domain by instantiating it with predicates and
 constraints that describe the domain. This simplicity does not come at
-the cost of its expressiveness. SecPAL supports delegation, and
-arbitrary constraints, as well as role and attribute based policies
-styles. Other domains have successfully used variants of SecPAL to
-describe their policies. Humphrey~\etal{} instantiated SecPAL with
-predicates for the GridFTP protocol to create a Grid access control
-policy language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{}
-created SecPAL4DSA by adding predicates for data-sharing
-agreements~\cite{aziz_secpal4dsa:_2011}.  Becker~\etal{} added
-predicates for describing \ac{PII}-handling preferences and created
-SecPAL4P~\cite{becker_framework_2009}.
+the cost of its expressiveness. SecPAL supports delegation (by using
+\emph{can-say} verbs), role and attribute based policies (by using
+\emph{can-act-as} verbs) and arbitrary constraints.
 
 \begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
@@ -262,22 +254,6 @@ SecPAL4P~\cite{becker_framework_2009}.
   \end{equation*}
   \caption{Structure of a SecPAL assertion.}
   \label{fig:assertion}
-\end{figure}
-
-\begin{figure}\centering
-  \begin{tabular}{l p{0.7\linewidth}}
-    \toprule
-    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
-    $\epsilon$                               & The empty substitution.                                                                                                                              \\
-    \midrule
-    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
-    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
-    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
-    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
-    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
-    \bottomrule                             \\
-  \end{tabular}
-  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
 \end{figure}
 
 \newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
@@ -304,6 +280,104 @@ SecPAL4P~\cite{becker_framework_2009}.
   \caption{BNF description of SecPAL.}
   \label{fig:secpal-grammar}
 \end{figure}
+
+%Other domains have successfully used
+%variants of SecPAL to describe their policies. Humphrey~\etal{}
+%instantiated SecPAL with predicates for the GridFTP protocol to create
+%a Grid access control policy
+%language~\cite{humphrey_fine-grained_2007}. Aziz~\etal{} created
+%SecPAL4DSA by adding predicates for data-sharing
+%agreements~\cite{aziz_secpal4dsa:_2011}.  Becker~\etal{} added
+%predicates for describing \ac{PII}-handling preferences and created
+%SecPAL4P~\cite{becker_framework_2009}.
+
+
+\begin{figure}
+  \footnotesize\centering
+  \newcommand{\says}[1]{\text{says}}
+  \newcommand{\AC}[0]{\text{AC}}
+  \newcommand{\canSay}[1]{\text{can-say}_{\text{#1}}}
+  \newcommand{\canActAs}[0]{\text{can-act-as}}
+  \newcommand{\where}[0]{\text{where}}
+  \begin{equation*}
+    \infer[\text{cond}]{
+      \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta
+    }{
+      \begin{matrix}{
+          \left(A~\says{}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
+        }\\{
+          \forall i \in [1\cdots n]. \AC{}, D \models A~\says{}~f_i\theta
+        }
+      \end{matrix}&
+      \vdash c\theta &
+      vars\left(f\theta\right) = \emptyset
+    }
+  \end{equation*}
+  \begin{equation*}
+    \infer[\text{can-say}]{
+      \AC{}, \infty \models A~\says{p_1 \oplus p_2}~f
+    }{
+      \AC{}, \infty \models A~\says{p_1}~B~\canSay{D}~f &
+      \AC{}, D \models B~\says{p_2}~f
+    }
+  \end{equation*}
+  \begin{equation*}
+    \infer[\text{can-act-as}]{
+      \AC{}, D \models A~\says{p_1 \oplus p_2}~x~vp
+    }{
+      \AC{}, D \models A~\says{p_1}~x~\canActAs~y &
+      \AC{}, D \models B~\says{p_2}~y~vp
+    }
+  \end{equation*}
+  \caption{SecPAL's evaluation rules.}
+  \label{fig:secpal-rules}
+\end{figure}
+
+
+\begin{figure}\centering
+  \begin{tabular}{l p{0.7\linewidth}}
+    \toprule
+    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
+    $\epsilon$                               & The empty substitution.                                                                                                                              \\
+    \midrule
+    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
+    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
+    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
+    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
+    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
+    \bottomrule                             \\
+  \end{tabular}
+  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
+  \label{fig:secpal-semantics}
+\end{figure}
+
+SecPAL's semantics are given in \autoref{fig:secpal-semantics}.  A
+query ($q$) to a SecPAL program (a collection of facts and
+relationships called the \emph{assertion context} or \emph{AC}) asks
+if there exists a renaming ($\theta$) such that the rules of SecPAL
+can be used to derive the, possibly renamed, query ($AC,\infty \models
+q\theta$).  The renaming must be specific and talk only of the
+variables contained in the query (third statement in
+\autoref{fig:secpal-semantics}), conjunction and disjunction work as
+would be expected (fourth and fifth statements).  Negation is only
+allowed in an extremely limited form (sixth statement): a query can be
+not true if it contains no variables and there is no way to show that
+the AC supports the query.  This limited form means that queries
+remain decidable: the rules inside the AC are not permitted to use
+negation.
+
+SecPAL was later extended to add universal quantification, and the
+possibility of dynamic assertion retrieval (they define a safety
+condition, but don't describe a protocol for retrieving
+assertions)~\cite{moritz_y_becker_secpal:_2009}.  These ideas would be
+expanded to create a new language called
+DKAL~\cite{gurevich_dkal:_2008}.  Gruevich~\etal~showed how SecPAL
+policies could be translated into DKAL
+policies~\cite{gurevich_dkal:_2008} so any SecPAL-based policies could
+be updated to DKAL.  We don't use these additional features in this
+thesis as we did not need the additional expressiveness they provide
+to adequately describe the policies in the mobile ecosystem.
+
 \end{document}
 
 %%% Local Variables:
