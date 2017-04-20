@@ -40,12 +40,17 @@ though they are undertested.  The code is included with AppPAL.
 
 \subsection{Checking Satisfiability}
 
-Inference in AppPAL happens by collecting ground facts and constraints
-that satisfy rules. These rules are combined to form a policy. When a
-rule is satisfiable there is a combination of facts that could satisfy
-its conditionals. If there are no facts that could satisfy the rule
-then the policy may be incomplete as there are rules that can never be
-used.  For any goal $G$:
+If an assertion is \emph{satisfiable} then there are sufficient facts
+such that the assertion's conditions could be met.  We care about this
+property when writing policies as it means that our assertions affect
+something.  If an assertion is \emph{unsatisfiable} then this may
+indicate that we have failed to specify one of the conditions it
+depends upon.
+
+When an assertion is satisfiable there is a combination of facts that
+could satisfy its conditionals. If there are no facts that could
+satisfy the rule then the policy may be unsatisfiable as there are
+rules that can never be used.  For any goal $G$:
 
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
@@ -63,21 +68,12 @@ as~\cite{alon_levy_equivalence_1993}:
   non-empty relationship for $s$.
 \end{quote}
 
-SecPAL does not necessarily\footnote{It is implementation dependant. If a
-  translation to Datalog$^C$ was used as suggested by
-  Becker~\cite{becker_secpal:_2010} then it might.} split it's assertion
-  context into an EDB (extensional database, essentially the ground facts) and
-  IDB (intensional database, relations defined by rules).  If a Datalog
-  predicate is taken as a SecPAL goal, a Datalog program is taken as a number
-  of SecPAL assertions, and the EDB is taken as AppPAL ground facts (i.e.
-  assertions with no conditionals) then the definition is equivalent.
-
-For an example of satisfiability, consider the following snippet taken from the
-NHS policy described in \autoref{chap:byod}.  The rule described in the policy
-is that an app must be approved by the \emph{integrated governance commitee} as
-well as by either the \emph{care and clinical policies group} as well as the
-\emph{management of information group} depending on whether it is for clinical
-or business use. We can describe this in AppPAL as follows:
+For an example of satisfiability, consider the following snippet taken
+from the NHS policy described in \autoref{chap:byod}.  The rule
+described in the policy is that an app must be approved by the
+\ac{IGC} as well as by either the \ac{CACPG} as well as the \ac{MIG}
+depending on whether it is for clinical or business use. We describe
+this in AppPAL as:
 
 \begin{lstlisting}
 'nhs-trust' says App isInstallable
@@ -89,14 +85,15 @@ or business use. We can describe this in AppPAL as follows:
 'nhs-trust' says 'mig' can-say App:A isUsableNonClinically.
 \end{lstlisting}
 
-This is all very well, but what apps in practice are approved for use.
+What apps in practice are approved for use?
 As the policy document notes, none of the groups or committees have ever
-approved an app in practice.  When we run the satisfiability checker on this policy
+approved an app in practice.
+When we run the satisfiability checker on this policy
 it reports that (amongst other information) no app is installable.
 
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
-[I]: loaded 1/1 files of 6 assertions
+[INFO]: loaded 1/1 files of 6 assertions
 Issues identified when checking satisfiability.
 The following decisions may be unsatisfiable by their speakers:
 'nhs-trust' says * isUsableClinically
@@ -116,11 +113,9 @@ lack any statements to that effect from the delegated party:
 \end{lstlisting}
 
 As well as reporting which decisions it cannot make, it also reports the
-specific assertions as well as which decisions could be reached, but rely on
-delegation, and we have no information from the delegated speakers.  This could
-be because the delegated parties do not believe any app is approved, or it could
-be because we haven't asked them yet and imported their statements.
+specific assertions as well.
 
+Using AppPAL we can describe policies using delegation. As well as looking for assertions that are unsatisfiable it also looks for examples where we have a \emph{can-say} statement, but lack any statements from the delegated party to that effect.  This may indicate that we need to collect additional statements from the delegated person, or that the \emph{can-say} statement can be removed as it will not be used.
 This check is somewhat simple and we don't take into account dependencies
 between variables.  If we add, for example, the statements:
 
@@ -130,21 +125,21 @@ between variables.  If we add, for example, the statements:
 'mig' says 'instagram' isUsableNonClinically.
 \end{lstlisting}
 
-Then we will still never find any installable apps, as the IGC, CACPG and MIG
-need to agree on the same app to find it installable.  When we run the
-satisfiability checker however, we find no problems as all the decisions are now
-satisfiable as there is a decision about \emph{some} variable; even if that
-variable isn't useful in practice.
+Then we will still never find any installable apps, as the \ac{IGC},
+\ac{CACPG} and \ac{MIG} need to agree on the same app to find it
+installable.  When we run the satisfiability checker however, we find
+no problems as all the decisions are now satisfiable as there is a
+decision about \emph{some} variable; even if that variable isn't
+useful in practice.
 
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
 [I]: loaded 1/1 files of 11 assertions
-[I]: no completeness problems
+[I]: no satisfiability problems
 \end{lstlisting}
 
 The satisfiability checker acts as a quick sanity checker that a policy contains
-enough facts and rules to use all of the rules in the policy; unlike AppPAL
-proper which can check any specific decision.
+enough facts and assertions. unlike AppPAL-proper which can check how and whether a specific statement would be be made.
 
 %The code in \autoref{alg:reachable} produces a set of pairs of predicates and
 %speakers where the pair of a speaker and a predicate indicates that that
@@ -179,7 +174,8 @@ proper which can check any specific decision.
 
 \subsection{Checking Redundancy}
 
-In logic programming there are two types of redundancy~\cite{alon_levy_constraints_1992}:
+If unsatisfiability can be caused when we lack sufficient facts and assertions to make a decision then redundancy occurs when we have too many.  Specifically there are two types of redundancy~\cite{alon_levy_constraints_1992} that we care about here:
+
 \begin{itemize}
 \item \emph{Unreachability} occurs if a predicate does not take part in the
   minimal deverivation tree of a fact.
@@ -200,15 +196,18 @@ following AppPAL policy:
 \end{lstlisting}
 
 Alice checks that the app is not malware when checking the app is
-installable and when checking that the app is recommended.  The check in
-\texttt{isInstallable} is irrelevant.  When writing AppPAL policies this kind of
-irrelevance commonly occurs when using the typed-syntax described in
-\autoref{ssec:types}. For example, in this excerpt from a SANS BYOD policy there
-is a check that \emph{U} is a user in both assertions.  In the first there is
-irrelevance because \emph{U} is stated as being a user twice, where once would
-have been sufficient.  In the second there is a single check that \emph{U} is a
-user but it is irrelevant as the check had already been done when checking is
-\emph{U} had lost the device (since only users can lose devices in the first assertion).
+installable and when checking that the app is recommended.  The check
+in \texttt{isInstallable} is irrelevant as it depends on the app being
+recommended which also checks this property.  When writing AppPAL
+policies this kind of irrelevance commonly occurs when using the
+typed-syntax described in \autoref{ssec:types}. For example, in this
+excerpt from a SANS BYOD policy there is a check that \emph{U} is a
+user in both assertions.  In the first there is irrelevance because
+\emph{U} is stated as being a user twice, where once would have been
+sufficient.  In the second there is a single check that \emph{U} is a
+user but it is irrelevant as the check had already been done when
+checking is \emph{U} had lost the device (since only users can lose
+devices in the first assertion).
 
 \begin{lstlisting}
 'company' says User:U can-say User:U hasLost(Device:D)
@@ -274,20 +273,25 @@ java -jar Lint.jar --redundancy unreachable.policy
   \label{fig:unreachability}
 \end{figure}
 
-Redundancy occurs when there are multiple rules that result in the same decision being
-made.  Rules may depend on other rules, or ground facts.  One proof ($A$) is made
-redundant by another proof ($B$) if the set of ground facts used in $B$ is a
-subset of the ground facts used in $A$. Whenever $A$ is satisfied $B$ will also
-be, but when $B$ is satisfied $A$ may not be: consequently $A$ is redundant as
-$B$ can be used to prove its goal with fewer facts.
-Formally for any goal $G$.
+Redundancy can occur when there are multiple rules that result in the
+same decision being made.  Rules may depend on other rules, or ground
+facts.  One proof ($A$) is made redundant by another proof ($B$) if
+the set of ground facts used in $B$ is a subset of the ground facts
+used in $A$. Whenever $A$ is satisfied $B$ will also be, but when $B$
+is satisfied $A$ may not be: consequently $A$ is redundant as $B$ can
+be used to prove its goal with fewer facts.  For any goal
+$G$.
+
 \begin{align*}
   \exists p_1 \in \text{proofs}(G).~\exists p_2 \in \text{proofs}(G).        & \\
-  p_1 \not= p_2~\wedge~\text{facts}(p_1) \subset \text{facts}(p_2)           & \implies G\text{ has redundant proofs.} \\
+  p_1 \not= p_2~\wedge~\text{facts}(p_1) \subset \text{facts}(p_2)           & \implies G\text{ has unreachable proofs.} \\
   p_1 \not= p_2~\wedge~\text{facts}(p_1) = \text{facts}(p_2)                 & \implies G\text{ has equivalent proofs.}
 \end{align*}
-Additionally if two different goals ($G$ and $G^\prime$) have equivalent proofs, then we report this
-as it implies the two statements may not be independent.
+
+Additionally if two different goals ($G$ and $G^\prime$) have
+equivalent proofs, then we report this as it implies the two
+statements may not be independent.
+
 \begin{align*}
   \exists p_1 \in \text{proofs}(G).~\exists p_2 \in \text{proofs}(G^\prime). & \\
   \text{facts}(p_1) = \text{facts}(p_2)                                      & \implies \text{$G$ and $G^\prime$ have equivalent proofs.}
@@ -322,7 +326,7 @@ latter fact.
   \label{fig:redundancy-graph-simple}
 \end{figure}
 
-A more complex example is shown bellow:
+A more complex example is shown below:
 
 \begin{lstlisting}
 'x' says 'z' p if 'z' q.
@@ -331,7 +335,7 @@ A more complex example is shown bellow:
 'y' says 'x' can-say 'z' q.
 \end{lstlisting}
 
-Representing this policy as a graph we find it is more complex. Goals that
+Representing this policy as the graph in \autoref{fig:redundancy-complex} we can see it is more complex. Goals that
 depend on more than just green facts, are shown as black rectangles.  If a goal
 is used to prove another goal, and it itself only depends on green, ground,
 facts, then the node is marked to be flattened (red rectangle).  Its proofs are
@@ -413,10 +417,6 @@ equivalent policies).
 
 \section{Plausible AppPAL}
 
-\todo{Edit this, it's still the draft note you wrote originally.  Make
-sure you use \emph{we} instead of \emph{I}.  Explain whats still left
-to do.}
-
 \newcommand{\secpalmath}[1]{\ensuremath\texttt{#1}}
 \newcommand{\AC}[0]{\ensuremath\text{AC}}
 \newcommand{\says}[1]{\ensuremath~\secpalmath{says}^{\new{#1}}~}
@@ -441,9 +441,9 @@ With current authorization languages, such as AppPAL and XACML, there
 is no way to quantify the belief a principal has in any statement.  A
 principal cannot say how plausable they think any statement is.
 
-\subsection{Why do we need this?}
+\subsection{Examples of Plausability}
 
-SecPAL was designed for making access control decisions.  The decision
+SecPAL was designed to make access control decisions.  The decision
 whether to install allow a user access to a file or not is a binary
 one: either they can access it or they cannot.  Similarly the decision
 process for these decisions is also binary: a user is either logged in
