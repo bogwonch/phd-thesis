@@ -2,25 +2,51 @@
 \begin{document}
 \chapter{Future Work}
 
+Throughout this thesis we have described the policies of the mobile
+ecosystem and how AppPAL can be used to describe them.  We have argued
+that AppPAL is a good language for describing these policies, however
+there are also areas where AppPAL could be improved to further to
+describe more kinds of policies and to aid policy authors.  This
+chapter looks at two areas in particular and describes our
+\emph{preliminary} explorations.  We describe how AppPAL policies can
+be analyzed automatically and describe an early prototype to check
+policies for common problems.  We also describe preliminary thoughts
+about how plausibility, quantified doubt, could be used to express
+confidence in a statement.
+
 \section{Automatic Analysis of AppPAL policies}
 \label{sec:lint}
 
-When examining an AppPAL policy it is natural to wonder whether the policy is
-as optimal (in terms of the rules and facts required to decide a query, with
-respect to the number of rules in the policy) as it could be, or whether a
-decision is even reachable given the rules and facts contained in the policy.
-Does an assertion context (i.e.~the assumptions available to prove a statement) contain enough statements to use a given rule? If
-there are multiple ways of deciding whether some statement is true or not does
-one rule require fewer statements than any other? Does one rule require only a
-subset of the facts of another rule, implying the second is redundant?
+When examining an AppPAL policy it is natural to wonder whether the
+policy is as optimal, in terms of the rules and facts required to
+decide a query and the number of rules in the policy, as it could
+be. Is a decision reachable given the rules and facts contained in the
+policy?  Does an assertion context contain enough statements to use a
+given rule? If there are multiple ways of deciding whether some
+statement is true or not does one rule require fewer statements than
+any other? Does one rule require only a subset of the facts of another
+rule, implying the second is redundant?
+
+Many authorization and logic-programming languages, such as
+XACML~\cite{ramli_detecting_2015} and
+Datalog~\cite{alon_levy_equivalence_1993,alon_levy_constraints_1992}, have
+thought about how policies can be checked for various properties
+similar to those described here.  The properties we seek to check
+AppPAL (or SecPAL) for are not novel, but rather the application of
+them to SecPAL is.
+
+We have implemented preliminary checkers for some of these properties,
+though they are undertested.  The code is included with AppPAL.
 
 \subsection{Checking Satisfiability}
 
-Inference in AppPAL happens by collecting ground facts and constraints that
-satisfy rules. These rules are combined to form a policy. When a rule is
-satisfiable there is a combination of facts that could satisfy
-its conditionals. If there are no facts that could satisfy the rule then the policy may be incomplete as there are rules that can never be
-used.  Formally for any goal $G$:
+Inference in AppPAL happens by collecting ground facts and constraints
+that satisfy rules. These rules are combined to form a policy. When a
+rule is satisfiable there is a combination of facts that could satisfy
+its conditionals. If there are no facts that could satisfy the rule
+then the policy may be incomplete as there are rules that can never be
+used.  For any goal $G$:
+
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
                                                               \wedge~ & (\text{conditionals}(A) = \emptyset \\
