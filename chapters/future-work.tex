@@ -457,9 +457,31 @@ Consider a really simple policy that says \emph{``do not install
 malware''}: you could try using a malware scanner to check apps, but
 there opinions on apps can change rapidly and often.  You could use a
 meta-scanning tool like \emph{VirusTotal}, but then you'd only get the
-percentage of antivirus tools that flagged the app as malicious.
+percentage of antivirus tools that flagged the app as
+malicious~(\autoref{fig:android-malware}).  The scan in
+\autoref{fig:android-malware} was for a sample of the
+\emph{BaseBridge} malware, taken from the \emph{Android Malware Genome
+Project}~\cite{zhou_dissecting_2012}.  Even for this relatively old
+malware sample (from 2012) 15 antivirus programs, including McAfee and
+Yandex's programs, did not flag it as dangerous.  In contrast a scan
+of the \emph{towelroot}
+app~\cite{george_geohot_hotz_towelroot_nodate}, an app which will
+grant root access to a device but is not \emph{in itself} malicious, 3
+out of 64 antivirus checkers reported the download source as
+dangerous.  If the app were to be installed on a device then a further
+warning would be displayed by Google's own built-in antivirus.  This
+last app is not technically malicious, but it is certainly dangerous.
+The assertion that an \emph{app is safe} is not a binary decision.
 Without plausability we cannot represent the doubt and confidence in
 any assertion.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/android-malware.png}
+  \includegraphics[width=\linewidth]{figures/towelroot.png}
+  \caption[VirusTotal results for two Android apps.]{VirusTotal results for 57 antivirus packages scanning a sample of the BaseBridge Android malware, and 64 antivirus packages analyzing a download of the Towelroot rootkit.}
+  \label{fig:android-malware}
+\end{figure}
 
 For another example consider a policy you only want to install apps
 that are made by \emph{reputable} developers and that are \emph{safe}.
@@ -467,16 +489,16 @@ Both reputable and safe are poorly defined, and badly represented by a
 binary decision.  A developer may be reputable if they are a large
 developer with a lot of staff like Google or Facebook, they might be
 reputable if their apps have been well reviewed, but what about a
-developer like \emph{King} who produce a large number of games with
+developer who produces a large number of games with
 in-app-purchases, TV adverts, and sketchy privacy records.  They are
 probably more reputable than a malware author but you might have less
-confidence that they are producing good apps than Google.  Similarly
-an app might be seen as safe if it doesn't request any permissions and
+confidence that they are producing good apps than Google.
+An app might be seen as safe if it doesn't request any permissions and
 has no native code, but if it starts requesting more permissions and
-the amount of native code grows then the plausability it is safe
-should fall.  When combined into the policy as a whole Google may be
+the amount of native code grows then a user's confidence that it is safe
+might fall.  When combined into the policy as a whole Google may be
 able to get away with a lot more permissions than other developers
-simply because we trust them more not to be evil.  Again, without
+simply because users trust them more not to be evil.  Again, without
 plausability it is difficult to represent these decisions.
 
 Probabilistic versions of Datalog are not a new idea.  Various papers proposed
@@ -492,23 +514,23 @@ evaluation and translation-to-Datalog algorithms~\cite{becker_secpal:_2010} to
 include a plausability value, and for giving rules to query on the basis of
 them, using Datalog$^C$~\cite{li_datalog_2003}.
 
-\subsection{Bending the Rules}
+\subsection{Modifying AppPAL for Plausability}
 
-SecPAL has three rules for evaluation: \emph{cond}, \emph{can-say},
+AppPAL has three rules for evaluation: \emph{cond}, \emph{can-say},
 and \emph{can-act-as}.  We modify the language so that the \emph{says}
 keyword has an an annotation $0 \geq p \geq 1$ denoting a statements
 \emph{plausability}.  If the annotation is missing then it is assumed
 to be $1$ We also assume a plausability combining function $\oplus$
-which combines plausability.  The SecPAL inference rules then become
+which combines plausability.  The AppPAL inference rules then become
 as follows, with additions highlighted in \new{red}.
 
 {\footnotesize\centering
-\begin{eqnarray}
+\begin{equation*}
   \infer[\text{cond\new{$\leq$}}]{
     \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta
   }{
     \begin{matrix}{
-      \left(A~\says{\text{at least}~p_{lim}}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
+      \left(A~\says{}~f~if~f_1\cdots f_n~\where~c~\new{\text{with plausability at least}~p_{lim}}\right) \in \AC{}
     }\\{
       \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
     }\\\new{
@@ -518,12 +540,13 @@ as follows, with additions highlighted in \new{red}.
     \vdash c\theta &
     vars\left(f\theta\right) = \emptyset
   }
-  \\
+\end{equation*}
+\begin{equation*}
   \infer[\text{cond\new{=}}]{
     \AC{}, D \models A~\says{p_{lim}}~f\theta
   }{
     \begin{matrix}{
-      \left(A~\says{\text{is}~p_{lim}}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
+      \left(A~\says{}~f~if~f_1\cdots f_n~\where~c~\new{\text{with plausibility is}~p_{lim}}\right) \in \AC{}
     }\\{
       \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
     }\\\new{
@@ -533,21 +556,24 @@ as follows, with additions highlighted in \new{red}.
     \vdash c\theta &
     vars\left(f\theta\right) = \emptyset
   }
-  \\
+\end{equation*}
+\begin{equation*}
   \infer[\text{can-say}]{
     \AC{}, \infty \models A~\says{p_1 \oplus p_2}~f
   }{
     \AC{}, \infty \models A~\says{p_1}~B~\canSay{D}~f &
     \AC{}, D \models B~\says{p_2}~f
   }
-  \\
+\end{equation*}
+\begin{equation*}
   \infer[\text{can-act-as}]{
     \AC{}, D \models A~\says{p_1 \oplus p_2}~x~vp
   }{
     \AC{}, D \models A~\says{p_1}~x~\canActAs~y &
     \AC{}, D \models B~\says{p_2}~y~vp
   }
-  \\
+\end{equation*}
+\begin{equation*}
   \new{
     \infer[\text{reduce}]{
         \AC{}, D \models A~\says{p}~f
@@ -555,7 +581,7 @@ as follows, with additions highlighted in \new{red}.
         \AC{}, D \models A~\says{p^\prime}~f & p \leq p^\prime
     }
   }
-\end{eqnarray}
+\end{equation*}
 }
 
 In general any derived statement is at most as plausible as the
@@ -570,7 +596,7 @@ These two \emph{cond} rules serve different purposes.  The
 \emph{cond=} variant is useful when we want to set a limit on the
 plausability: for instance when we have a tool with a known confidence
 rate we want to run, or a fact which we know how plausible it is.  The
-\emph{cond$eq$} rule is useful for when you want to ensure that a
+\emph{cond=} rule is useful for when you want to ensure that a
 decision is made with a certain least-confidence, for instance if you
 want to be at least 80\% sure that an app is safe to use before doing
 anything with it.  In this case we would want the combined
@@ -588,24 +614,24 @@ simplistic approach might be to take the least plauable assertion as
 the final value.  This however is too simple. Consider the case where
 an app needs to be safe and from a reputable developer.  Say we're
 50\% sure the app is safe but we are unsure of the developer. We are
-90\% sure Google is reputable and only 60\% sure King is.  No matter
+90\% sure Google is reputable and only 60\% sure Rovio is.  No matter
 who the developer is the combined probability is the same (50\%) so
 the distinction is lost.
 
-\begin{equation}
+\begin{equation*}
   p_a~\oplus_{\text{min}}~p_b~\gets~\text{min}~p_a~p_b
-\end{equation}
+\end{equation*}
 
 If we are sure the plausabilities are independent we could multiply
 them together to get the final plausability. This is appealing in that
 if we take the example above if Google is the developer we're 45\%
-sure the app is usable, but only 30\% if King is.  If however there
+sure the app is usable, but only 30\% if Rovio is.  If however there
 are a lot of combinations to be made the probabilities may get very
 small and be difficult to distinguish.
 
-\begin{equation}
+\begin{equation*}
   p_a~\oplus_{\text{ind}}~p_b~\gets~p_a\times p_b
-\end{equation}
+\end{equation*}
 
 What we \emph{probably} want is some form of \emph{Dempster-Shafer}
 belief combination algorithm.  Seems to be a fair bit of work here
@@ -614,11 +640,11 @@ authorizatin logics before.
 
 \textbf{TODO Learn more about them}
 
-\subsection{What Guarantees Do We Want?} 
+\subsection{Guarantees for Plausible AppPAL} 
 
 \begin{itemize}
 \item If all statements have a plausability of $1$, then this is
-  equivalent to standard SecPAL.
+  equivalent to standard AppPAL.
 \item If a statement has a plauability of $0$, then it is equivalent
   to the statement not existing in the assertion context.
 \item No statement should be more certain than the conditionals used
@@ -630,9 +656,9 @@ be accepted unless its plausability is also 1.  If we combine the
 plausability of two events this will also be 1 (using either method
 described so far): hence the restriction on the plausability in the
 cond rule is always true since all statements have a plausability of
-one.  Rewriting the rules with this in mind we get the original SecPAL
+one.  Rewriting the rules with this in mind we get the original AppPAL
 inference rules, so if all statements have a plausability of 1, then
-this must be equivalent to standard SecPAL.
+this must be equivalent to standard AppPAL.
 
 Point 2 is also true by the restriction on probabilities in the cond
 rule.  Since $p_{\text{lim}}$ must be greater than 0, if a statement
@@ -674,7 +700,7 @@ will never increase; multiplication works because if all
 plausabilities are between 1 and 0, then the product will also never
 increase).
 
-\subsection{Examples}
+\subsection{Worked Examples}
 
 \subsubsection{Tools with Confidences}
 
