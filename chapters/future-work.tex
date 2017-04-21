@@ -633,19 +633,32 @@ small and be difficult to distinguish.
   p_a~\oplus_{\text{ind}}~p_b~\gets~p_a\times p_b
 \end{equation*}
 
-What we \emph{probably} want is some form of \emph{Dempster-Shafer}
-belief combination algorithm.  Seems to be a fair bit of work here
-from the Expert Systems perople but I can't see them being applied to
-authorizatin logics before.
-
-\textbf{TODO Learn more about them}
+Both the two previous suggestions are na\"ive in their approach.  The
+first is unnecessarily conservative, the second assumes independence.
+A better scheme may be to incorporate a more sophisticated reasoning
+system.  One system might be Dempster-Schafer
+theory~\cite{dempster_upper_1967,glenn_shafer_mathematical_1976} which
+is designed to reason about the probability of provability of any
+statement. It can also be used to give a value to how close evidence
+comes to rendering a proposition
+provable~\cite{pearl_probabilistic_2014}. Other schemes, and working
+out how to implement and integrate this into AppPAL is left to future work.
 
 \subsection{Guarantees for Plausible AppPAL} 
+
+However plausibility combination is implemented some thought should be
+given to what properties and guarantees AppPAL ought to offer.  One
+guarantee might be that if all statements are perfectly plausible then
+this ought to be equivalent to standard AppPAL.  Another might be that
+if a statement is perfectly implausible then it ought to be equivalent
+to the statement not existing at all. A third rule should be that we
+can't make a statement more plausible by combining less plausible
+statements.  To summarize:
 
 \begin{itemize}
 \item If all statements have a plausability of $1$, then this is
   equivalent to standard AppPAL.
-\item If a statement has a plauability of $0$, then it is equivalent
+\item If a statement has a plausability of $0$, then it is equivalent
   to the statement not existing in the assertion context.
 \item No statement should be more certain than the conditionals used
   to derive it.
@@ -771,14 +784,16 @@ multiple bits of information however.
 
 \subsection{Translation to Datalog\textsuperscript{C}}
 
-To evaluate this, it would be nice to show, (as Becker did) that these
-rules are reducible to some form of Datalog.  This would show we
-haven't mucked about with the decidability of SecPAL.  To do this I
-show an updated form of Becker's Algorithm 5.2 from the SecPAL
-reference document:
+When describing SecPAL Becker showed that it could be translated into
+Datalog\textsuperscript{C} in order to show that the language was
+tractable could be evaluated in polynomial
+time~\cite{becker_secpal:_2010}.  Becker~\etal~gave in their technical report an algorithm (5.2) translating SecPAL into Datalog\textsuperscript{C}.  By modifying this algorithm to add the plausibility annotations described in this chapter, we can show the Plausible AppPAL is also tractable.  The remainder of this chapter presents Becker~\etal{}'s Algorithm~5.2 \textsf{as described by Becker \new{with additions for plausability}}.
 
 \subsubsection{A Plausible Algorithm 5.2}
 
+\begin{quotation}
+  \sffamily
+  
 We now describe an algorithm for translating an assertion context into
 an equivalent constrained Datalog program. We treat expressions of the
 form $e_1 says_k fact$ as Datalog literals, where $k$ is either a
@@ -788,10 +803,11 @@ infix operators (\textsf{says}, \textsf{can-say}, \textsf{can-act-as},
 and predicates) occurring in the expression, including subscripts for
 \textsf{can-say}. The arguments of the literal are the collected
 expressions between these infix operators. For example, the expression
-$A~says_k^{\new{p}}~x~can say_\infty~y~can say_0~B~can act as~z$ is
-shorthand for
-\texttt{says\_cansay\_infinity\_cansay\_zero\_canactas(A, \new{p}, k,
-x, y, B, z)}.
+$$A~says_k^{\new{p}}~x~can say_\infty~y~can say_0~B~can act as~z$$
+is shorthand for:
+\begin{center}
+\texttt{says\_cansay\_infinity\_cansay\_zero\_canactas(A,\new{p},k,x,y,B,z)}.
+\end{center}
 
 Given an assertion: 
 
@@ -874,6 +890,8 @@ $A$ says$_k^{p_\downarrow}$ $e$ $v$ :-
     $p_\downarrow \leq p$.
       \end{lstlisting}
 \end{enumerate}
+\end{quotation}
+
 \end{document}
 
 
