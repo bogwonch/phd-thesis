@@ -19,17 +19,16 @@ Figure \url{fig:android-versions}, in June 2016 only 10\% of devices used the
 latest version of Android, with around 5\% of devices still using a version
 released five years prior. The range of different Android versions is often
 blamed on the device manufacturers being unwilling to update their devices.
-Since the core of Android is open source this has lead to third parties (such as
-CyanogenMod\footnote{\url{http://www.cyanogenmod.org}}) have started developing
+Since the core of Android is open source this has lead to third parties (such as the now-depreciated
+CyanogenMod\footnote{\url{http://www.cyanogenmod.org}} and LineageOS~\cite{lineageos_lineageos_2017}) have started developed
 custom firmware for Android devices to allow older devices to be upgraded
 independently of their manufacturers.
 
-\begin{figure*}[htbp]
+\begin{figure*}
 \centering
 \includegraphics[width=\linewidth]{figures/android-versions.pdf}
 \caption[Historical Android version's distribution.]{Historical Android
-  version's distribution. Figure by \emph{Erikrespo} taken from
-  \url{https://en.wikipedia.org/wiki/Android_version_history}.}
+  version's distribution~\cite{erikrespo_android_2017}.}
 \end{figure*}
 
 When building an Android device the manufacturers are also able to make
@@ -42,28 +41,89 @@ without the Linux Standard Base\footnote{The \emph{Linux Standard Base} is a
   specification produced by the Linux foundation that describes what a stardard
   Linux system should contain and how it should be organised. Android uses its own
   system which differs most noticably by the different filesystem structures and
-  the use of user IDs to separate apps rather than users.
-  \url{http://refspecs.linuxfoundation.org/lsb.shtml}}, and with additional
+  the use of user IDs to separate apps rather than users~\cite{linux_foundation_lsb_2015}.}, and with additional
 patches) it can be ported to other architectures (such as X86 and MIPS), and
 used in other devices (such as set-top boxes and TVs, watches, and cars) with
 relative ease.
 
 To give developers a somewhat stable base to develop for Google developed the
-\emph{Compatibility Test Suite}
-(CTS)\footnote{\url{https://source.android.com/compatibility/cts/index.html}},
-and \emph{Compatibility Definition Document}
-(CDD)\footnote{\url{https://source.android.com/compatibility/android-cdd.html}}.
-The CTS is a series of unit tests that check basic Android functionality and
-behavior. The CDD is a document that describes what hardware an Android device
+\ac{CTS}\footnote{\url{https://source.android.com/compatibility/cts/index.html}},
+and \ac{CDD}\footnote{\url{https://source.android.com/compatibility/android-cdd.html}}.
+The \ac{CTS} is a series of unit tests that check basic Android functionality and
+behavior. The \ac{CDD} is a document that describes what hardware an Android device
 should have and how the device and it's software should be built. If a device
 manufacturer wishes their device to run Google's Play Store (the largest Android
-app marketplace), then they are required to show they can pass the CTS and are
-in compliance with the CDD.
+app marketplace), then they are required to show they can pass the \ac{CTS} and are
+in compliance with the \ac{CDD}.
 
 \section{Authorization Logic and Fine Grained Permission Systems}
 \label{sec:authorization-logic}
 
+\todo{Introduce the subject and show the evolution from policymaker.}
+
 \subsection{PolicyMaker and Keynote}
+
+PolicyMaker~\cite{blaze_decentralized_1996} was created to give a
+language for permitted actions.  X.509 and PGP certificates had given
+a mechanism for identifying users; at the time however, they did not
+give any means to link the users to what users were allowed to do.
+
+To describe the authorizations trust information is contained within
+assertions.  A collection of assertions form the policy.  An assertion
+has a source (either the local policy document or a public key). The
+source \emph{asserts} that a key (or more complex arrangements such as
+three of four keys) is permitted to perform any action that matches
+the \emph{filter}.  The filter itself is essentially an arbitrary
+program that can decide if an action is permitted.
+Blaze~\etal~provide examples using regular expressions and a reduced
+version of AWK~\cite{aho_awk-pattern_1979} they call \emph{AWKWARD},
+though they note that any programming language could be used.  The
+collection of these authorizations on a machine forms the policy for
+the device which can be queried by a PolicyMaker key \emph{requesting}
+a given action.
+
+Blaze~\etal~give an example of this scheme being used as part of an
+email server.  A user, Alice, identified by key \texttt{0x12345678} is
+permitted to send emails with the from header set to Alice and the
+organisation set to Bob Labs.
+
+A PolicyMaker instance is installed on a server and allowed to receive queries and give answers.
+The policy is installed on the server as follows:
+
+\begin{lstlisting}
+policy ASSERTS
+  pgp:'0x12345678'
+  WHERE PREDICATE=regexp:'(From: Alice) &&
+    (Organization: Bob Labs)';
+\end{lstlisting}
+
+When Alice tries to send an email using a PolicyMaker enhanced SMTP
+client she signs and sends her message using her key.  The mailserver
+checks the signature and queries the policy server with her message:
+
+\begin{lstlisting}
+  pgp:'0x12345678'
+  REQUESTS  'From: Alice
+             Organization: Bob Labs
+
+             Hello World!';
+\end{lstlisting}
+
+If Alice's request is accepted then the SMTP server will send the
+message.  If it doesn't match the policy then it won't.
+
+PolicyMaker was used as the basis for the KeyNote Trust Management
+System~\cite{blaze_role_1999,blaze_keynote:_1998} which simplified the
+filter languages from any arbitrary language to a purpose built one
+based on C that always returned a boolean answer, allowed the policy
+server to do the signature verification instead of the querying
+application, and tweaked the syntax for readability.  It was designed
+to trade some of the generality of PolicyMaker for a more realistic
+scenario using public-key infrastructure.
+
+\todo{Go on to talk about how whilst these languages were general that was ultimately their downfall as policy filters were inevitable undecidable and could have unbounded complexity.  Contrast with secpal.}
+
+\subsection{Binder}
 \subsection{SPKI/SDSI}
 \subsection{RT}
 \subsection{DKAL}
