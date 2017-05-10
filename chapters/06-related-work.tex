@@ -29,6 +29,7 @@ independently of their manufacturers.
 \includegraphics[width=\linewidth]{figures/android-versions.pdf}
 \caption[Historical Android version's distribution.]{Historical Android
   version's distribution~\cite{erikrespo_android_2017}.}
+\label{fig:android-versions}
 \end{figure*}
 
 When building an Android device the manufacturers are also able to make
@@ -405,19 +406,20 @@ start work with SecPAL.
 \subsubsection{Kirin}
 \subsubsection{SEAndroid}
 
-\section{Static analysis tools}
-
-There have been many static tools developed that can infer complex
-properties about
-apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
-Leveraging these tools in a policy language lets us make statements about the
-properties they can infer, without having to reimplement the functionality.
-Despite the power of these tools it is not obvious how they should integrate
-with the policies surrounding the mobile ecosystem. Running and configuring each
-It isn't clear when each tool should run, or how to configure them to enforce a
-policy rule. By incorporating these tools into a policy language, such as
-SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem
-and the research into the properties of code.
+%% I'm not sure about this
+%\section{Static analysis tools}
+%
+%There have been many static tools developed that can infer complex
+%properties about
+%apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
+%Leveraging these tools in a policy language lets us make statements about the
+%properties they can infer, without having to reimplement the functionality.
+%Despite the power of these tools it is not obvious how they should integrate
+%with the policies surrounding the mobile ecosystem. Running and configuring each
+%It isn't clear when each tool should run, or how to configure them to enforce a
+%policy rule. By incorporating these tools into a policy language, such as
+%SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem
+%and the research into the properties of code.
 
 \section{Datalog}
 \label{ssec:datalog}
@@ -447,17 +449,22 @@ facts. The \ac{IDB} contains rules for deriving more facts.
 
 \subsection{Evaluation Strategies}
 
-The bottom-up or Gauss-Seidel method is a simple evaluation strategy~\cite{???}. Given a
-Datalog program we try every constant with every rule from the IDB. When a rule is
-found to be true we add it to the set of facts. Repeat until a fixed point (or the required fact) is known. If a queried fact is still unknown when the search terminates then it is
-false; as Datalog assumes the CWA. The strategy is complete and will always terminate.
-Querying the database is fast once all facts have been inferred and large joins are quick.
-This strategy ends up computing all known facts. It is less useful when only a subset are
-interesting. The magic sets~\cite{???} rewriting rule avoids this problem. Interesting constants
-are marked as magic. The knowledge base is a graph: nodes related to a magic one are
-also magic. Rules in the IDB are rewritten to check constants used in the inference are
-also be magic. This cuts down on irrelevant results: anything that isn't interesting will
-not be in the magic set.
+The bottom-up or Gauss-Seidel method is a simple evaluation
+strategy~\cite{ceri_what_1989}. Given a Datalog program we try every
+constant with every rule from the IDB. When a rule is found to be true
+we add it to the set of facts. Repeat until a fixed point (or the
+required fact) is known. If a queried fact is still unknown when the
+search terminates then it is false; as Datalog assumes the CWA. The
+strategy is complete and will always terminate.  Querying the database
+is fast once all facts have been inferred and large joins are quick.
+This strategy ends up computing all known facts. It is less useful
+when only a subset are interesting. The magic
+sets~\cite{bancilhon_magic_1986} rewriting rule avoids this
+problem. Interesting constants are marked as magic. The knowledge base
+is a graph: nodes related to a magic one are also magic. Rules in the
+IDB are rewritten to check constants used in the inference are also be
+magic. This cuts down on irrelevant results: anything that isn't
+interesting will not be in the magic set.
 
 The SLD-resolution algorithm works top down. It starts with a goal and
 then constructs a proof tree. Transitions are applications of rules
@@ -488,7 +495,7 @@ an app is safe to run if it is not malware.  Whilst this extension to Datalog is
 not strictly required (the \ac{CWA} can be used) it makes programs clearer.
 
 A version of Datalog with negation called
-\emph{Datalog$^\lnot$}~\cite{Ceri:1989ff} is made by allowing negation in clause
+\emph{Datalog$^\lnot$}~\cite{ceri_what_1989} is made by allowing negation in clause
 bodies. Two sets of known facts are defined: those that are true and those that
 are false.  When deciding if a fact is satisfied by a Datalog program if the
 fact is not negated then it must be inferable by the rules of the program; if
@@ -496,14 +503,14 @@ the fact is negated then it must not be satisfiable.
 
 In unmodified Datalog if the bottom-up strategy
 is used all possible facts are inferred. These facts form a single, minimal
-model of the Datalog program.  In Datalog$^\lnot$ the program \textsf{safe(game)
+model of the Datalog program.  In Datalog$^\lnot$ the program \texttt{safe(game)
 :- $\mathsf\lnot$ malware(game).} has two minimal models that are inconsistent
 with each other: \code{safe(game)} and \code{malware(game)}.  This can make
 analysis problematic as the \ac{CWA} is broken. A further variant called
 \emph{Stratified Datalog$^\lnot$} avoids this by further restricting what can be
-negated and defining an evaluation order~\cite{Apt:1986vj}.
+negated and defining an evaluation order~\cite{minker_foundations_2014}.
 
-Constraint Datalog (Datalog$^C$~\cite{Li:2003ix}) is based
+Constraint Datalog (Datalog$^C$~\cite{li_datalog_2003}) is based
 on constraint logic programming.  Constraint logic programming allows
 relationships to be defined with general relationships (ordering by time
 for example)\footnote{Full logic programming languages like Prolog often
@@ -518,11 +525,20 @@ While some constraints applied to domains are tractable (such as
 trees, ordering and discrete domains) Li~\etal{}~could not show
 all were.  Policy languages that use constraint Datalog often apply
 additional restrictions on how constraints can be used.  Variable independence
-conditions~\cite{Chomicki:2000tz} have been suggested as a \emph{middle-ground}
+conditions~\cite{chomicki_variable_2003} have been suggested as a \emph{middle-ground}
 as they can simplify the query evaluation while still keeping the extra
 expressiveness Datalog with constraints allows.
 
-\todo{Add a bit on probabilistic datalog by N Fuhr!}
+Probabilistic Datalog
+(Datalog\textsubscript{P}~\cite{fuhr_probabilistic_1995}) is a variant
+of Datalog for handling uncertain knowledge.  It differs from regular
+Datalog in that ground facts can be tagged with a probability that
+they are true.  If multiple proofs could be found to support an
+inference from a rule then the probabilities would be combined to
+account for the multiple proofs and adjust the probability
+appropriately. This enabled Datalog\textsubscript{P} to reason about
+uncertain data, but was somewhat limited as rules themselves could not
+also have a probability associated with them.
 
 \end{document}
 
