@@ -3060,3 +3060,68 @@ A version of Android KitKat exclusive to Android Wear devices was released on Ju
 	year = {1999},
 	file = {A Logic for SDSI&#39\;s Linked Local Name Spaces - Semantic Scholar:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/IZ2Q39XR/53f0cf943694ca1dc944065781b1ab2a99fd227b.html:text/html;arXiv\:cs/0001026v1 [cs.CR] 28 Jan 2000 - f9d9e8d1a290746fc3d70f2be19426bff180.pdf:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/4WC8DRK3/f9d9e8d1a290746fc3d70f2be19426bff180.pdf:application/pdf}
 }
+
+@inproceedings{becker_cassandra:_2004-1,
+	title = {Cassandra: distributed access control policies with tunable expressiveness},
+	shorttitle = {Cassandra},
+	doi = {10.1109/POLICY.2004.1309162},
+	abstract = {We study the specification of access control policy in large-scale distributed systems. Our work on real-world policies has shown that standard policy idioms such as role hierarchy or role delegation occur in practice in many subtle variants. A policy specification language should therefore be able to express this variety of features smoothly, rather than add them as specific features in an ad hoc way, as is the case in many existing languages. We present Cassandra, a role-based trust management system with an elegant and readable policy specification language based on Datalog with constraints. The expressiveness (and computational complexity) of the language can be adjusted by choosing an appropriate constraint domain. With just five special predicates, we can easily express a wide range of policies including role hierarchy, role delegation, separation of duties, cascading revocation, automatic credential discovery and trust negotiation. Cassandra has a formal semantics for query evaluation and for the access control enforcement engine. We use a goal-oriented distributed policy evaluation algorithm that is efficient and guarantees termination. Initial performance results for our prototype implementation have been promising.},
+	booktitle = {Proceedings. {Fifth} {IEEE} {International} {Workshop} on {Policies} for {Distributed} {Systems} and {Networks}, 2004. {POLICY} 2004.},
+	author = {Becker, M. Y. and Sewell, P.},
+	month = jun,
+	year = {2004},
+	keywords = {access control, access control enforcement engine, access control policy specification, authorisation, automatic credential discovery, cascading revocation, Cassandra, computational complexity, constraint domain, Datalog with constraints, distributed access control policies, distributed algorithms, Distributed computing, Engines, formal languages, formal semantics, formal specification, goal-oriented distributed policy evaluation, Laboratories, large-scale distributed systems, Large-scale systems, object-oriented programming, policy specification language, Prototypes, query evaluation, query languages, Query processing, role-based trust management system, role delegation, role hierarchy, Security, separation of duties, specification languages, standard policy idioms, trust negotiation, tunable expressiveness},
+	pages = {159--168},
+	file = {IEEE Xplore Abstract Record:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/P32NMFNH/1309162.html:text/html}
+}
+
+@inproceedings{jeannin_dkal*:_2013,
+	title = {{DKAL}*: {Constructing} {Executable} {Specifications} of {Authorization} {Protocols}},
+	shorttitle = {dkal ⋆},
+	url = {https://link.springer.com/chapter/10.1007/978-3-642-36563-8_10},
+	doi = {10.1007/978-3-642-36563-8_10},
+	abstract = {Many prior trust management frameworks provide authorization logics for specifying policies based on distributed trust. However, to implement a security protocol using these frameworks, one usually resorts to a general-purpose programming language. To reason about the security of the entire system, one must study not only policies in the authorization logic, but also hard-to-analyze implementation code.This paper proposes dkal ⋆ , a language for constructing executable specifications of authorization protocols. Protocol and policy designers can use dkal ⋆ ’s authorization logic for expressing distributed trust relationships, and its small rule-based programming language to describe the message sequence of a protocol. Importantly, many low-level details of the protocol (e.g., marshaling formats or management of state consistency) are left abstract in dkal ⋆ , but sufficient details must be provided in order for the protocol to be executable.We formalize the semantics of dkal ⋆ , giving it an operational semantics and a type system. We prove various properties of dkal ⋆ , including type soundness and a decidability property for its underlying logic. We also present an interpreter for dkal ⋆ , mechanically verified for correctness and security. We evaluate our work experimentally on several examples.},
+	language = {en},
+	urldate = {2017-05-09},
+	booktitle = {Engineering {Secure} {Software} and {Systems}},
+	publisher = {Springer, Berlin, Heidelberg},
+	author = {Jeannin, Jean-Baptiste and Caso, Guido de and Chen, Juan and Gurevich, Yuri and Naldurg, Prasad and Swamy, Nikhil},
+	month = feb,
+	year = {2013},
+	pages = {139--154},
+	file = {Snapshot:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/V9BSF6UW/978-3-642-36563-8_10.html:text/html;tr-4.pdf:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/BMVD49VP/tr-4.pdf:application/pdf}
+}
+
+@techreport{yuri_gurevich_dkal2---simplified_2009,
+	title = {{DKAL}2---{A} {Simplified} and {Improved} {Authorization} {Language}},
+	number = {MSR-TR-2009-11},
+	institution = {Microsoft Research},
+	author = {{Yuri Gurevich} and {Itay Neeman}},
+	year = {2009},
+	file = {Yuri Gurevich and Itay Neeman - 2009 - DKAL2---A Simplified and Improved Authorization La.pdf:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/2IHIUN7V/Yuri Gurevich and Itay Neeman - 2009 - DKAL2---A Simplified and Improved Authorization La.pdf:application/pdf}
+}
+
+@inproceedings{gurevich_dkal:_2008-1,
+	title = {{DKAL}: {Distributed}-{Knowledge} {Authorization} {Language}},
+	shorttitle = {{DKAL}},
+	doi = {10.1109/CSF.2008.8},
+	abstract = {DKAL is a new declarative authorization language for distributed systems. It is based on existential fixed-point logic and is considerably more expressive than existing authorization languages in the literature. Yet its query algorithm is within the same bounds of computational complexity as e.g. that of SecPAL. DKAL's communication is targeted which is beneficial for security and for liability protection. DKAL enables flexible use of functions; in particular principals can quote (to other principals) whatever has been said to them. DKAL strengthens the trust delegation mechanism of SecPAL. A novel information order contributes to succinctness. DKAL introduces a semantic safety condition that guarantees the termination of the query algorithm.},
+	booktitle = {2008 21st {IEEE} {Computer} {Security} {Foundations} {Symposium}},
+	author = {Gurevich, Y. and Neeman, I.},
+	month = jun,
+	year = {2008},
+	keywords = {access control, authorization, Communication system security, computational complexity, Computer security, Datalog, Datalog with constraints, distributed knowledge, existential fixed-point logic, infon, information leakage, Information security, Logic, Mathematics, Permission, Protection, Query processing, Security},
+	pages = {149--162},
+	file = {IEEE Xplore Abstract Record:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/8FE648Z9/4556684.html:text/html;tr-2007-116.pdf:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/2WP7UXF5/tr-2007-116.pdf:application/pdf}
+}
+
+@techreport{blass_introduction_2012,
+	title = {An introduction to {DKAL}},
+	url = {http://research.microsoft.com/en-us/um/people/gurevich/Opera/216.pdf},
+	number = {MSR-TR-2012-108},
+	urldate = {2017-05-09},
+	institution = {Microsoft Research},
+	author = {Blass, Andreas and De Caso, Guido and Gurevich, Yuri},
+	year = {2012},
+	file = {dkal-v26-tr1.pdf:/home/bogwonch/.mozilla/firefox/gidi19m7.default/zotero/storage/RSHTBQ2U/dkal-v26-tr1.pdf:application/pdf}
+}

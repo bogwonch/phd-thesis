@@ -274,16 +274,66 @@ languages~\cite{aziz_secpal4dsa:_2011,becker_secpal:_2010,becker_framework_2009,
 and DKAL~\cite{gurevich_dkal:_2008}, as well as
 Cassandra~\cite{becker_cassandra:_2004}.
 
-Cassandra is a trust management language designed to model large
-systems, in particular the NHS Spine: a system designed to enable
-healthcare workers to share patient data.  Cassandra is role-based but
-rather than having principals hold or be given roles, principals
-\emph{activate} roles when they need to act in that capacity.  This
-allows a single principal to hold different roles with different
-access capabilities at different times. \todo{More
-explanation... summarise from Becker's thesis.  Give an example.}
+Cassandra is a trust management language used to model large systems,
+in particular the NHS Spine: a system designed to enable healthcare
+workers to share patient
+data~\cite{becker_cassandra:_2004,becker_cassandra:_2004-1}.  The
+language is similar to the RT family, sharing both a backend and some
+syntax, however Cassandra focuses on roles rather than general access
+control mechanisms.  Rather than having principals hold or be given
+roles, principals \emph{activate} roles when they need to act in that
+capacity.  This allows a single principal to hold different roles with
+different access capabilities at different times and at different
+locations.  For example a \emph{hospital} \emph{admin} allows a
+\emph{clinician} access to a \emph{patient}'s records if they
+currently hold the role of \emph{Clinician} at the hospital, and can
+\emph{activate} the role of \emph{Treating Clinician} for that patient
+at this \emph{hospital}.
 
-\todo{DKAL}
+\begin{lstlisting}
+hospital@admin.permits(clinician, Read-Records(patient)) <-
+  hospital@hasActivated(clinician, Clinician(hospital)),
+  hospital@canActivate(clinician, TreatingClinician(hospital, patient))
+\end{lstlisting}
+
+Cassandra allows for powerful control of different roles, and enables
+delegation by allowing third-parties to activate and deactivate roles
+on others.  It was applied successfully to modelling access control
+with electronic healthcare records.
+
+The DKAL family of
+languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
+grew from SecPAL as a policy language for a distributed system's
+interacting agents~\cite{blass_introduction_2012}.  Assertions are
+communicated as signed statements called \emph{infons} between
+principals.  For example Alice might wish to recommend Bob an app.
+Alice, therefore, sends to Bob the infon:
+
+\begin{lstlisting}
+alice said com.rovio.angrybirds is a good app.
+\end{lstlisting}
+
+Bob is free to do with this information as he wishes.  He may be
+willing to accept app recommendations from anyone and may have a rule
+to learn that fact:
+
+\begin{lstlisting}
+with M: String, P: Principal
+  upon
+    P said M is a good app
+  do
+    learn P said M is a good app
+\end{lstlisting}
+
+DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009} simplified the
+language removing the constructs for roles that had been taken from
+SecPAL but which they could not find a use for.  They also added
+support for sending infons if the recipient has completed an action:
+for example only sending an app recommendation if the recipient has
+asked for it.
+DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
+ideas further and showed how DKAL programs that described how infons
+should be shared could be used as executable protocols.
 
 \subsubsection{XACML}
 
