@@ -400,11 +400,114 @@ start work with SecPAL.
 \todo{GIVE EXAMPLES OF XACMLS SYNTAX}
 
 \subsection{Fine Grained Permission Systems}
-\subsubsection{Dr.~Android and Mr.~Hide}
-\subsubsection{Aurasium}
-\subsubsection{CRePE}
-\subsubsection{Kirin}
-\subsubsection{SEAndroid}
+
+If policy languages give us a mechanism to describe trust
+relationships and decisions \emph{in general}, fine grained permission
+systems are one mechanism by which policy languages are used to
+control the behaviour of apps on Android specifically.  In Android to
+access certain functionality, for example access to private storage,
+apps must request a permission.  Permissions are a coarse usage
+control mechanism, and user's ability to control what permissions an
+app requested ranged from not installing the app (on versions prior to
+Android Marshmallow) to disabling parts of the app (on versions from
+Android Marshmallow).  The coarseness of the permissions and their
+relative inflexibility led to a line of research into
+\emph{fine-grained} permissions systems.  These systems would add
+additional controls to permissions and allow greater control about
+when they were enforced.
+
+This section looks exclusively at Android as that is where the bulk of
+the research has been.  The permission system of iOS allows users to
+toggle an app's ability to perform certain actions (access photos,
+send notifications) through the settings, and prompts users for a
+default policy when the app first attempts to perform the action.
+From Android Marshmallow the permissions schemes of iOS and Android
+are very similar.
+
+Some of the earliest work on fine-grained permissions systems for
+Android starts with Enck~\etal's work on
+Kirin~\cite{enck_lightweight_2009}.  Kirin allowed a user to define
+what behavior they considered acceptable using a policy language.
+Kirin ran on the device to certify apps using static analysis.  If an
+app did not conform to the policy the user would be warned and could
+uninstall it.  A natural next question is rather than rejecting the
+entire app, can you just reject the behaviour you don't like?
+Ontang~\etal's SAINT tool~\cite{ongtang_semantically_2012} did just
+that for inter-app communication, allowing the user to express a
+policy about the circumstances two apps could share data or call
+functionality.  Similarly Apex~\cite{nauman_apex:_2010} allowed user's
+to specify at install time constraints as to when a permission could
+be used.  This allowed them to write policies where an apps ability to
+send SMS messages could be denied if the app had already sent a
+message within the last hour, for example, or deny access to location
+data outside of working hours.  CRePE~\cite{conti_crepe:_2010} took
+these ideas further allowing permissions to be denied based on
+\emph{context} (for example the user was on a train, or the user was
+within Bluetooth range of their computer).
+
+Dr{.}~Android and Mr{.}~Hide~\cite{jeon_dr._2012} was a fine-grained
+permission scheme that worked by rewriting apps to use guarded APIs.
+Unlike earlier schemes that worked by modifying the Android~OS
+Dr{.}~Android decompiles Android apps and removes all permissions.
+Sensitive API calls that would normally require permissions were
+replaced with IPC calls to Mr{.}~Hide, a privileged Android service
+that could enforce a policy with increased controls.  This allowed for
+permissions limiting access to certain URLs, contacts, location data,
+and phone state and settings.  Modifying the apps not the OS allowed
+user's to get better control of app permissions without having to
+potentially compromise the integrity of Android by installing a
+third-party component with questionable security auditing. The
+disadvantage however was that to make the modifications apps had to be
+re-signed subtly changing Android's app trust model and moving the
+authenticity and integrity checks from the developer to the
+Dr{.}~Android tool.  AppGuard~\cite{backes_appguard_2013} worked
+similarly to Dr{.}~Android, but allowed for controlled responses when
+a permission was denied---essentially ensuring that the app didn't
+crash if it didn't get access to the data it expected to.
+
+Similarly to Dr{.}~Android and AppGuard, Aurasium~\cite{xu_aurasium:_2012} works by
+modifying API files to use a guarded API.  Unlike Dr{.}~Android it
+doesn't use a privileged service to control access to data, rather it
+modifies every app to monitor system calls and IPC mechanisms via GOT
+hijacking in the Bionic libc.  This allowed for policies that
+described how apps should behave at a systemcall level.  This enabled
+it to mitigate certain malware techniques, such as executing external
+ELF files, or sending premium SMS messages.  Again, like Dr{.}~Android
+it requires re-signing apps.  To mitigate this they offered a service
+that would re-sign apps with unique keys so for any app there would
+only be one Aurasium re-signed version.
+
+SEAndroid was a set of patches to the Android kernel by the US
+National~Security~Agency porting the SELinux discretionary access
+control to Android~\cite{smalley_security_2013}.  The permissions
+system in Android had been implemented by using the Linux groups
+mechanisms.  When an app launched, the process would be created by
+forking a copy of the privileged \emph{zygote} Dalvik virtual machine
+process\footnote{A \emph{zygote} would run in the background permanently
+semi-initialised to allow apps to start quickly.}, which would then
+drop privileges and set gids based on the permissions the app declared.
+
+This implementation was problematic as it inherrited many of the
+problems with Linux's discretionary access control model, had no
+centralised policy document describing how permissions were used (the
+policy was expressed by the permissions of the filesystem), but also
+meant that the sandboxing mechanisms relied upon having this
+privileged zygote running (as well as potentially other services).
+
+SEAndroid ported the basic SELinux security mechanisms to Android,
+provided a default policy that described how the permissions and
+sandboxing systems should work under a mandatory access control
+scheme, and integrated it with the zygote system for starting
+apps.\footnote{SELinux policies are usually applied on
+\texttt{exec}-ing a process, not the \texttt{clone} used by the
+zygote.}
+
+Whilst SEAndroid did not implement a fine-grained permissions system
+by itself, it was merged into Android and would replace the original
+permissions system.  By Android Marshmallow it was fully enabled, and
+allowed an app's permissions to be granted or denied by the user as
+the permissions system was far more flexible than the original DAC
+implementation.
 
 %% I'm not sure about this
 %\section{Static analysis tools}
@@ -423,8 +526,6 @@ start work with SecPAL.
 
 \section{Datalog}
 \label{ssec:datalog}
-
-\todo{lift the citations from the 1yr}
 
 Datalog is used in the implementation of several authorization
 logics~\cite{detreville_binder_2002,li_distributed_2003,becker_secpal:_2010}. A brief explanation of the languageand its variants is given for some context as to how these languages
