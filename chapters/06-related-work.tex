@@ -15,7 +15,7 @@ and other mobile operating systems account for only 3\% of the marketshare in
 2015).
 
 Despite the dominance of Android its ecosystem is rather fragmented. As shown in
-Figure \url{fig:android-versions}, in June 2016 only 10\% of devices used the
+\autoref{fig:android-versions}, in June 2016 only 10\% of devices used the
 latest version of Android, with around 5\% of devices still using a version
 released five years prior. The range of different Android versions is often
 blamed on the device manufacturers being unwilling to update their devices.
@@ -24,13 +24,13 @@ CyanogenMod\footnote{\url{http://www.cyanogenmod.org}} and LineageOS~\cite{linea
 custom firmware for Android devices to allow older devices to be upgraded
 independently of their manufacturers.
 
-\begin{figure*}
+\begin{figure}
 \centering
 \includegraphics[width=\linewidth]{figures/android-versions.pdf}
 \caption[Historical Android version's distribution.]{Historical Android
   version's distribution~\cite{erikrespo_android_2017}.}
 \label{fig:android-versions}
-\end{figure*}
+\end{figure}
 
 When building an Android device the manufacturers are also able to make
 modifications to the Android firmware. This can be done to support any custom
@@ -374,30 +374,154 @@ Readability was a design goal for SecPAL. Its notation is similar to natural
 language. Alternate notations based on XML do exist (Becker hints at them in the
 SecPAL technical report~\cite{becker_secpal:_2010}); though these are to aid
 computerised parsing of SecPAL not human legibility. In contrast, XACML's
-default syntax is difficult to read. XACML policies are verbose, and written in
-XML. To help developers write policies alternative notations are available that
+default syntax is designed to be in XML by default. XACML policies are verbose and difficult to read.
+For example a simple policy that grants a principal, \emph{Alice}, permission to do whatever she liked would be written as:
+
+\begin{lstlisting}
+<xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+  PolicyId="http://axiomatics.com/alfa/identifier/alice.policy"
+  RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides"
+  Version="1.0">
+  <xacml3:Description />
+  <xacml3:PolicyDefaults>
+    <xacml3:XPathVersion>http://www.w3.org/TR/1999/REC-xpath-19991116</xacml3:XPathVersion>
+  </xacml3:PolicyDefaults>
+  <xacml3:Target>
+    <xacml3:AnyOf>
+      <xacml3:AllOf>
+        <xacml3:Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <xacml3:AttributeValue
+            DataType="http://www.w3.org/2001/XMLSchema#string">alice</xacml3:AttributeValue>
+          <xacml3:AttributeDesignator 
+            AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+            DataType="http://www.w3.org/2001/XMLSchema#string"
+            Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+            MustBePresent="false"
+          />
+        </xacml3:Match>
+      </xacml3:AllOf>
+    </xacml3:AnyOf>
+  </xacml3:Target>
+  <xacml3:Rule 
+      Effect="Permit"
+      RuleId="http://axiomatics.com/alfa/identifier/alice.policy.Id_18">
+    <xacml3:Description />
+    <xacml3:Target />
+  </xacml3:Rule>
+</xacml3:Policy>
+\end{lstlisting}
+
+To help developers write policies alternative notations are available that
 compile into XACML's XML notation. ALFA is an alternate notation for
 XACML~\cite{oasis_xacml_technical_comitee_abbreviated_2015}. The XACML
 developers maintain ALFA, however others notations exist including graphical
 languages~\cite{henrik_nergaard_scratch-based_2015}, languages based on
 propositional logic~\cite{zhang_synthesising_2004} and answer set
-programming~\cite{ramli_xacml_2012}.
+programming~\cite{ramli_xacml_2012}.  The equivalent ALFA policy of the above \emph{allow Alice all} policy would be:
 
-\todo{MORE DETAIL EMPHASISE SEMANTIC PROBLEMS}
-XACML does not have well-defined semantics. XACML's designers used natural
-language to describe the semantics of XACML. This has made the semantics
-notoriously difficult to interpret~\cite{ramli_detecting_2015}. There have been
-several attempts to describe XACML's semantics
-formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. These
-help specify XACML but the lack of a single standard semantics make it less
-attractive to extend to a new domain. In contrast, SecPAL's semantics are given
-precisely by Becker~\cite{becker_secpal:_2010}
+\begin{lstlisting}
+namespace alice {
+  policy policy {
+    target clause Attributes.subjectId == "alice"
+    apply permitOverrides
+    rule {
+      permit
+    }
+  }
+}
+\end{lstlisting}
 
-Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010}, earlier
-versions do not. The XACML 3.0 standard was published in 2013, after deciding to
-start work with SecPAL.
+The ALFA policy is far more succinct than the XACML one and shows the
+policy's meaning far more clearly than the equivalent XACML version.
+There is an (Eclipse based) compiler for ALFA policies into
+XACML~\cite{axiomaics_axiomatics_2012}, but there are not tools for
+translating XACML to ALFA.  This means that any XACML policies would
+need to be rewritten to take advantage of ALFA's syntax, and that any
+tweaks made to a XACML policy cannot be trivially reintegrated into
+the ALFA version.  Furthermore any analysis of XACMLs semantics cannot
+be trivially used to understand the semantics of ALFA.
 
-\todo{GIVE EXAMPLES OF XACMLS SYNTAX}
+XACML does not have well-defined semantics. XACML's designers used
+natural language to describe the semantics of XACML. This has made the
+semantics notoriously difficult to
+interpret~\cite{ramli_detecting_2015}. There have been several
+attempts to describe XACML's semantics
+formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. Some
+of these translations have only described a subset of XACMLs
+syntax~\cite{halpern_using_2008}, others describe older versions of
+XACML which are not compatible with the latest language
+versions~\cite{ahn_reasoning_nodate}, and others have been found to
+contain mistakes caused by ambiguities in the XACML
+specification~\cite{bruns_access-control_2008,halpern_using_2008}.
+All these attempts help us understand XACML, but the lack of a single
+standard semantics make it less attractive to extend to a new domain.
+The language is also not tied to any particular formal definition of
+its semantics.  As the language grows and changes there are no
+guarantees that the semantics will remain correct and applicable to
+the current version of XACML. In contrast, SecPAL's semantics are
+given precisely by Becker~\cite{becker_secpal:_2010}.  SecPAL may not
+be as well known as XACML but at least the language definition will
+not be changed, and its semantics are set.
+
+Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010},
+earlier versions do not. The XACML 3.0 standard was published in 2013,
+after deciding to start work with SecPAL.  Despite XACML having a
+mechanism for delegation its semantics, like the rest of the language,
+are poorly defined in natural language.  The standard gives one
+example of how delegation in XACML can be used: a company has a
+printer and Carol is responsible for saying who can use the printer.
+She delegates to Bob who in turn grants Alice the right to use the
+printer.  The policy takes four pages and 260 lines of code to
+describe~\cite{oasis_xacml_2010}.  In contrast, the equivalent SecPAL
+policy is trivial and clear:
+
+\begin{lstlisting}
+'company' says 'carol' can-say inf
+  Person:X canUse(Printer:P).
+
+'carol' says 'bob' can-say
+  Person:X canUse(Printer:P).
+
+'bob' says 'alice' canUse(Printer:P).
+\end{lstlisting}
+
+Using ALFA we can also write delegation policies in the style of
+XACML.  An example (taken from \cite{axiomatics_going_2016}) might be
+a policy for a bank where only the account holder, or the account
+holder's guardians can view their account:
+
+\begin{lstlisting}
+policy account{ 
+  target clause object.objectType == "account"
+  apply firstApplicable
+  rule viewAccount{ 
+    target clause action.actionId == "view"
+    condition (user.username == account.owner) ||
+      (stringIsIn(stringOneAndOnly(user.username),owner.guardians))
+  }
+}
+\end{lstlisting}
+
+The equivalent in AppPAL would be:
+
+\begin{lstlisting}
+'bank' says Person:O canView(Account:A)
+if A hasOwner(O).
+
+'bank' says Person:G canView(Account:A)
+  if A hasOwner(O),
+     O hasGuardian(G).
+
+'bank' says Person:P can-say
+  P hasGuardian(Person:G).
+\end{lstlisting}
+
+Again we feel the SecPAL version is clearer.  XACML is undoubtably a
+capable and powerful as it is used extensively.  However, for modeling
+and describing the policies of the mobile ecosystem we favor a
+smaller, clearer, and better defined policy language as it allows us
+to focus on the policies themselves, rather than trying to comprehend
+the policy language used to describe them.
 
 \subsection{Fine Grained Permission Systems}
 
