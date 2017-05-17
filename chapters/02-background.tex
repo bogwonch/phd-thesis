@@ -6,12 +6,29 @@
 
 This dissertation talks about the policies surrounding \emph{mobile
 ecosystems}; but what, precisely, do we mean by the \emph{mobile
-ecosystem}?  A cow after all is both mobile and has an ecosystem of
-grass, farmers, and other cows surrounding it.  Succinctly when we
-refer to the mobile ecosystem we are referring to \textbf{the
-interactions surrounding the use of smart phones and tablet
-computers}.  To fully understand the scale of the ecosystem however,
-it is best to describe some of the history surrounding it.
+ecosystem}?  Succinctly when we refer to the mobile ecosystem we are
+referring to \textbf{the interactions surrounding the use of smart
+phones and tablet computers}.  Figure~\ref{fig:mobile-ecosystem} shows
+some of the relationships between devices, their users and their
+preferences, the stores, companies and all these principal's
+policies. Users have phones or other mobile devices.  They may own
+personal devices or have a company one.  They may have their own
+preferred ways of using the device, or they may be subject to policies
+written for their employer.  They download apps, written by developers
+from app stores, all with their own policies and some of the stores
+may delegate some aspects of their quality control to external vetting
+software.  Even just describing these aspects of the mobile ecosystem
+\autoref{fig:mobile-ecosystem} is quite complex.
+
+To fully understand the scale of the mobile ecosystem, however, it is
+best to describe some of the history surrounding it.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/mobile-ecosystem.png}
+  \caption{Interactions between surrounding the use of mobile devices.}
+  \label{fig:mobile-ecosystem}
+\end{figure}
 
 \subsection{Mobile devices: the story so far}
 
@@ -47,9 +64,9 @@ their devices.
 
 In the mid-2000s we first start to see the mobile
 ecosystem proper.  We have users with different devices, downloading
-apps from different sources (not all legitimate).  These devices
+apps from different sources (some pirated).  These devices
 contained personal information of the \acp{PDA}, but also photographs
-and music.  User's could browse the web, and send each other pictures.
+and music.  Users could browse the web, and send each other pictures.
 With increasing amounts of personal information malware authors
 started to take note.  In a blog post from 2006 for Symantec, Chien
 noted~\cite{eric_chien_spyware_2006}:
@@ -80,29 +97,34 @@ released the Android OS.  Symbian would release its final version in
 2012, with Android as the dominant OS on most devices.  These
 operating systems differed from past efforts, and conventional desktop
 OS, in that they were far more controlled than previous systems.
-Apple's devices cannot run un-vetted code or install software from
-outside of its App Store, which Apple controlled.  Android devices
-offered a similar, though less heavily vetted, app
-marketplace~\cite{oberheide_dissecting_2012}. Whilst Android users
-could install software from other sources, the option was hidden by
-default.  As well as restrictions to software, these devices were also
-better protected.  Devices no longer had an all powerful \emph{root}
-account.  APIs were provided that restricted malicious behaviors.
-One example was stopping SMSs being sent programatically to premium
-rate accounts; essentially ending a monetization technique that had
-been prevelent in malware before.
+Apple's devices could not run code that Apple had not signed or
+install software from outside of its App Store, which Apple
+controlled.  Android devices offered a similar app marketplace, but
+where there seemed to be less checking of individual
+apps~\cite{oberheide_dissecting_2012}. Whilst Android users could
+install software from other sources, the option was hidden by default.
+As well as restrictions to software, these devices were also better
+protected.  Devices no longer had an all powerful \emph{root} account.
+APIs were provided that restricted malicious behaviors.  One example
+was stopping SMSs being sent programatically to premium rate accounts;
+essentially ending a monetization technique that had been prevelent in
+malware before. 
 
-With iOS and Android user's became more aware about privacy on their
-devices.  A survey in 2012 by Chin~et~al{.} found that users were more
-concerned about privacy on their mobile devices, than on their
-laptops~\cite{chin_measuring_2012}. Users of a smartphone are more
+Mobile devices stored a large amount of personal data about their
+users.  They contained address books, records of phone calls, and GPS
+logs of where their users had been.  With iOS and Android user's
+became more aware about privacy on their devices, in part because of
+increased media coverage of privacy issues.  A survey in 2012 by
+Chin~et~al{.} found that users were more concerned about privacy on
+their mobile devices, than on their
+laptops~\cite{chin_measuring_2012}. Users of a smartphone were more
 likely to install an app that came recommended from a friend, was
-popular or was free.  The drive for ever cheaper apps, particularly on
-Android where users were even less likely to pay for software, lead to
-many developers adding adware and tracking libraries into their apps.
-These libraries accomplished a variety of tasks ranging from crash and
-error tracking, to collecting personal data to be sold to advertisers
-to subsidize the app's price~\cite{seungyeop_han_study_2012}.
+popular or was free.  To subsidize the cost of producing free apps,
+and to better understand how users used their apps, some developers
+added adware and tracking libraries to their apps.  These libraries
+accomplished a variety of tasks ranging from crash and error tracking,
+to collecting personal data to be sold to advertisers to subsidize the
+app's price~\cite{seungyeop_han_study_2012}.
 
 This dynamic between users who were increasingly concerned about their
 privacy and apps which were increasingly privacy invading, lead many
@@ -118,30 +140,53 @@ worked~\cite{felt_android_2012}.  By 2017 (and the present day) iOS
 and Android had settled on a model where user's were asked by their
 devices if an app could access certain data when it first requested it
 and then the user could revoke that decision later if they wished.
+Despite the present Android permissions model being \emph{ask on use},
+a large number of older Android devices are still being used.  In June
+2016 only 10\% of devices used the latest version of Android, with
+around 5\% using a version more than five years old
+(\autoref{fig:android-versions}).  In contrast 79\% of iOS devices use
+the latest OS, 16\% use the previous version and only 5\% use anything
+older~\cite{apple_app_2017}.  The greater fragmentation of the Android
+versions has been attributed to the greater number of Android device
+manufacturers each with their own update mechanisms as compared to
+with iOS where Apple exclusively control and update all devices.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/android-versions.pdf}
+\caption[Historical Android version's distribution.]{Historical Android
+  version's distribution~\cite{erikrespo_android_2017}.}
+\label{fig:android-versions}
+\end{figure}
 
 Mobile devices became more ubiquitous, and \acp{PDA} reappeared now
 called \emph{tablets} or \emph{iPads}.  These devices were identical
 to the smart phones, but larger and they generally did not have a
-cellular data connection instead using wifi. They couldn't send
+cellular data connection instead using wifi. They could not send
 texts or make phone calls but a shift away from traditional SMS and
 cellular phone calls to internet backed communications such as
 WhatsApp, iMessage, Skype and FaceTime meant these devices were
 essentially interchangeable with smart phones.
 
-Advances in secure co-processors meant that mobile devices are even
-more capable.  Banks allow users to link their devices to
-their bank accounts and use their device, or even the new \emph{smart
-  watches} as a debit card.  This quickly became a common and ubiquitous
-payment method quickly with even street vendors, who hadn't taken
-cards previously, accepting contactless payment via a mobile device.
+Advances in secure co-processors meant that mobile devices were even
+more capable.  Banks allowed users to link their devices to their bank
+accounts and use their device, or even the new \emph{smart watches} as
+a debit card.  This quickly became a common and ubiquitous payment
+method quickly with even street vendors, who hadn't taken cards
+previously, accepting contactless payment via a mobile device.  The
+separation of cryptographic operations from everyday computing with
+secure co-processors and secure enclaves (such as TrustZone) lead to
+significantly improved security.  Keys could be isolated from the
+entire mobile OS, allowing for increased trust mechanisms.
 
-Mobile devices record increasingly personal information.  Smart
-watches record and share a user's pulse with others. Mobile health
-apps are made to track and monitor medical conditions. In the US, the
-\ac{HIPAA} requires that healthcare providers transmit medical
-information securely, but many apps have basic security
-problems~\cite{fahl_why_2012}, and many of the healthcare apps do not
-handle the medical information securely~\cite{knorr_privacy_2015}.
+Mobile devices gained the ability to collect increasingly personal
+information.  Smart watches recorded and shared a user's pulse with
+others. Mobile health apps were made to track and monitor medical
+conditions. In the US, the \ac{HIPAA} required that healthcare
+providers transmited medical information securely, but many apps had
+basic security problems~\cite{fahl_why_2012}, and many of the
+healthcare apps did not handle the medical information
+securely~\cite{knorr_privacy_2015}.
 
 \subsection{The Mobile Ecosystem and the need for Policies}
 

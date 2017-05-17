@@ -1,61 +1,60 @@
-\documentclass[thesis.tex]{subfiles}
-\begin{document}
-\chapter{Related Work}
-\label{chap:related-work}
+    \documentclass[thesis.tex]{subfiles}
+    \begin{document}
+    \chapter{Related Work}
+    \label{chap:related-work}
 
-\section{Android and Mobile OSs}\label{android}
-\todo{PUT IN THE DIFFERENCES BETWEEN THE SYSTEMS EXPRESSED IN APPPAL HERE AND MOVE IT TO CH4 WHEN DAVID TELLS YOU TO}
-
-Android is a mobile operating system developed, primarily, by Google. It is by
-far the most popular mobile operating system in use being installed on around
-83\% of all mobile
-handsets\footnote{\url{http://www.idc.com/prodserv/smartphone-os-market-share.jsp}}
-with Apple's iOS being its only major competitor (Windows Phone, Blackberry OS
-and other mobile operating systems account for only 3\% of the marketshare in
-2015).
-
-Despite the dominance of Android its ecosystem is rather fragmented. As shown in
-\autoref{fig:android-versions}, in June 2016 only 10\% of devices used the
-latest version of Android, with around 5\% of devices still using a version
-released five years prior. The range of different Android versions is often
-blamed on the device manufacturers being unwilling to update their devices.
-Since the core of Android is open source this has lead to third parties (such as the now-depreciated
-CyanogenMod\footnote{\url{http://www.cyanogenmod.org}} and LineageOS~\cite{lineageos_lineageos_2017}) have started developed
-custom firmware for Android devices to allow older devices to be upgraded
-independently of their manufacturers.
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{figures/android-versions.pdf}
-\caption[Historical Android version's distribution.]{Historical Android
-  version's distribution~\cite{erikrespo_android_2017}.}
-\label{fig:android-versions}
-\end{figure}
-
-When building an Android device the manufacturers are also able to make
-modifications to the Android firmware. This can be done to support any custom
-hardware their device may have, add any additional software or apps, or provide
-a custom look or theme to atheir device. Again this creates more variety in the
-ecosystem, with few guarantees that any two devices may contain similar features
-or hardware. In fact since the core of the Android is the Linux kernel (albeit
-without the Linux Standard Base\footnote{The \emph{Linux Standard Base} is a
-  specification produced by the Linux foundation that describes what a stardard
-  Linux system should contain and how it should be organised. Android uses its own
-  system which differs most noticably by the different filesystem structures and
-  the use of user IDs to separate apps rather than users~\cite{linux_foundation_lsb_2015}.}, and with additional
-patches) it can be ported to other architectures (such as X86 and MIPS), and
-used in other devices (such as set-top boxes and TVs, watches, and cars) with
-relative ease.
-
-To give developers a somewhat stable base to develop for Google developed the
-\ac{CTS}\footnote{\url{https://source.android.com/compatibility/cts/index.html}},
-and \ac{CDD}\footnote{\url{https://source.android.com/compatibility/android-cdd.html}}.
-The \ac{CTS} is a series of unit tests that check basic Android functionality and
-behavior. The \ac{CDD} is a document that describes what hardware an Android device
-should have and how the device and it's software should be built. If a device
-manufacturer wishes their device to run Google's Play Store (the largest Android
-app marketplace), then they are required to show they can pass the \ac{CTS} and are
-in compliance with the \ac{CDD}.
+    %\section{Android and Mobile OSs}\label{android}
+    %
+    %Android is a mobile operating system developed, primarily, by Google. It is by
+    %far the most popular mobile operating system in use being installed on around
+    %83\% of all mobile
+    %handsets\footnote{\url{http://www.idc.com/prodserv/smartphone-os-market-share.jsp}}
+    %with Apple's iOS being its only major competitor (Windows Phone, Blackberry OS
+    %and other mobile operating systems account for only 3\% of the marketshare in
+    %2015).
+    %
+    %Despite the dominance of Android its ecosystem is rather fragmented. As shown in
+    %\autoref{fig:android-versions}, in June 2016 only 10\% of devices used the
+%latest version of Android, with around 5\% of devices still using a version
+%released five years prior. The range of different Android versions is often
+%blamed on the device manufacturers being unwilling to update their devices.
+%Since the core of Android is open source this has lead to third parties (such as the now-depreciated
+%CyanogenMod\footnote{\url{http://www.cyanogenmod.org}} and LineageOS~\cite{lineageos_lineageos_2017}) have started developed
+%custom firmware for Android devices to allow older devices to be upgraded
+%independently of their manufacturers.
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=\linewidth]{figures/android-versions.pdf}
+%\caption[Historical Android version's distribution.]{Historical Android
+%  version's distribution~\cite{erikrespo_android_2017}.}
+%\label{fig:android-versions}
+%\end{figure}
+%
+%When building an Android device the manufacturers are also able to make
+%modifications to the Android firmware. This can be done to support any custom
+%hardware their device may have, add any additional software or apps, or provide
+%a custom look or theme to atheir device. Again this creates more variety in the
+%ecosystem, with few guarantees that any two devices may contain similar features
+%or hardware. In fact since the core of the Android is the Linux kernel (albeit
+%without the Linux Standard Base\footnote{The \emph{Linux Standard Base} is a
+%  specification produced by the Linux foundation that describes what a stardard
+%  Linux system should contain and how it should be organised. Android uses its own
+%  system which differs most noticably by the different filesystem structures and
+%  the use of user IDs to separate apps rather than users~\cite{linux_foundation_lsb_2015}.}, and with additional
+%patches) it can be ported to other architectures (such as X86 and MIPS), and
+%used in other devices (such as set-top boxes and TVs, watches, and cars) with
+%relative ease.
+%
+%To give developers a somewhat stable base to develop for Google developed the
+%\ac{CTS}\footnote{\url{https://source.android.com/compatibility/cts/index.html}},
+%and \ac{CDD}\footnote{\url{https://source.android.com/compatibility/android-cdd.html}}.
+%The \ac{CTS} is a series of unit tests that check basic Android functionality and
+%behavior. The \ac{CDD} is a document that describes what hardware an Android device
+%should have and how the device and it's software should be built. If a device
+%manufacturer wishes their device to run Google's Play Store (the largest Android
+%app marketplace), then they are required to show they can pass the \ac{CTS} and are
+%in compliance with the \ac{CDD}.
 
 \section{Authorization Logic and Fine Grained Permission Systems}
 \label{sec:authorization-logic}
@@ -450,7 +449,7 @@ formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. Some
 of these translations have only described a subset of XACMLs
 syntax~\cite{halpern_using_2008}, others describe older versions of
 XACML which are not compatible with the latest language
-versions~\cite{ahn_reasoning_nodate}, and others have been found to
+versions~\cite{ahn_reasoning_2010}, and others have been found to
 contain mistakes caused by ambiguities in the XACML
 specification~\cite{bruns_access-control_2008,halpern_using_2008}.
 All these attempts help us understand XACML, but the lack of a single
