@@ -190,10 +190,145 @@ securely~\cite{knorr_privacy_2015}.
 
 \subsection{App Stores}
 
-\todo{Introduce how app stores are the primary mechanism for distributing software in the ecosystem.
-  Describe and possibly show the interface, and reviews.
-  Maybe move the marketshare diagram from later on into here?
-}
+%\todo{Introduce how app stores are the primary mechanism for
+%distributing software in the ecosystem.  Describe and possibly show
+%the interface, and reviews.  Maybe move the marketshare diagram from
+%later on into here?  }
+
+The app store has become the normal method for distributing software
+on mobile devices.  These stores run as apps on the device and show
+lists of software that the user can install on their device.  Users
+can browse, buy apps or install free versions, or read and leave
+reviews.  To install an app on an early mobile device the user would
+download it on a traditional computer and then transfer it to the
+mobile, where they could install it using a package manager.  App
+stores considerably streamlined this process, allowing users to find
+an install apps straight from their device.  Whilst the app store is
+the normal method of installing apps, apps can still be downloaded and
+installed manually by side-loading on Android or through iTunes for
+iOS.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.31\textwidth]{figures/store-home.png}
+  \includegraphics[width=0.31\textwidth]{figures/store-app.png}
+  \includegraphics[width=0.31\textwidth]{figures/store-review.png}
+  \caption[Apple's App Store.]{Apple's App Store.  Showing the store's frontpage, an app's page, and its reviews.}
+  \label{fig:appstore}
+\end{figure}
+
+Figure~\ref{fig:appstore} shows Apple's App Store.  Users are first
+presented with featured apps, though they can also browse for apps by
+category, search, or look at \emph{top charts}.  If a user touches an
+app they are presented with more information.  This particular app,
+\emph{Eggggg}, is the free app of the week.  The app's name and
+age-rating (9+) is shown alongside the a link to the app's developer.
+A button is presented for the user to install the app or open it if it
+has already been opened.  Additional information is displayed about
+the app: it will work with Apple's messaging app, and also with their
+Apple TV devices.  The App store editor has, in this case, written a
+note about it describing the app which is displayed prominently.  If
+the user reads down the page a description of the app by the developer
+is also given, as well as screenshots, a changelog, detailed
+information including device compatibility, and a link to the apps
+privacy policy.  This particular app offers in app purchases and the
+user is warned of this prominently on this screen.  A review score is
+also displayed. This app has 4 out of 5 stars based on twelve reviews.
+If the user touches the review tab, they can see more detailed reviews
+by named reviewers.  These can vary in quality (this particular app's
+top reviews are not helpful) and the developer can respond to
+individual reviews.  User's can optionally write a review for the app.
+
+Whilst Apple and Google's app stores are the largest, others are also
+available.  On Android, whilst Google's Play Store is often the
+default, users are free to choose other marketplaces if they wish.
+One choice is Amazon's Appstore.  It is the default for Amazon's
+Kindle Fire tablets, and has special offers for Amazon customers.
+Other marketplaces are regional.  In China, where Google web services
+cannot be used, alternative markets such as Qihoo360 and Baidu have
+sprung up.
+
+Precise numbers of apps in different stores is hard to get, but the
+largest stores occassionally give rough
+numbers~(\autoref{fig:app-store-apps}).  Google and Apple's stores
+have (as of the end of 2016) around 2.5 million apps, with Amazon's
+store having considerably less.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figures/app-store-apps.pdf}
+  \caption[Reported numbers of different apps on various App marketplaces.]{%
+    Reported numbers of different apps on various App marketplaces. Data taken from~\cite{statista_google_nodate,statista_apple_nodate,statista_amazon_nodate}.}
+  \label{fig:app-store-apps}
+\end{figure}
+
+Each of these different stores have different terms and conditions,
+and different criteria for developers to sell their apps in.  These
+are written in long, dense, legal documents. We will return to these
+documents in \autoref{chap:apps-and-app-stores} when we make a
+comparison between them.
+
+Apple's devices are limited normally only have access to Apple's App
+Store; however there is a second, unofficial, method of installing
+apps.  Jay Freeman's \emph{Cydia} is an alternative method for
+installing apps on jailbroken devices.  When a jailbreak is released
+they usually install the Cydia store as well.  Cydia itself is build
+atop of Debian's \emph{dpkg} framework and relies on various
+\emph{repositories} for hosting and distributing the apps.
+
+Anyone is free to host their own repository but often the
+\emph{``official''} repository is \emph{BigBoss}.  BigBoss is further
+split into three stores: free, CydiaStore with purchases handled by
+the Cydia store, and CydiaStore with purchases handled by the app and
+their own payment mechanisms.  To host an app in their store they list
+only 5 conditions~\cite{bigboss_host_2014}.
+
+\begin{quotation}\noindent
+  \begin{enumerate}
+    \item You must own the app and be the developer of the content
+
+    \item No porn or adult apps. No swagbucks style apps where user
+      makes you money by shopping with your ID.
+
+    \item You can only use one Cydia repository. If you submit here do
+      not submit this to another major host elsewhere or it will have to be
+      removed from one of the repositories. (You can host this in your own,
+      private repository still just not any other major community
+      source). There is no benefit to having duplicate packages in major
+      sources as you get the same exposure by using just one.
+
+    \item Screenshots for any GUI app are required. If you don't
+      provide screenshots, your submission will be delayed.
+
+    \item Make sure your app is signed with \emph{ldid}\footnote{A
+        tool for jailbroken devices that generates SHA-1 hashes that iOS
+        checks for in all code~\cite{saurik_code_nodate}.} and properly
+      built. We recommend you build with Theos but you can use whatever you
+      want as long as you test in a jailbroken iOS enviornment. Thie means
+      you should not be submitting xcode generated IPA files as this is a
+      dead giveaway that you did not test properly.
+  \end{enumerate}
+\end{quotation}
+
+The Cydia based stores are considerably less formal than the Android
+marketplaces, and they require less information and have fewer terms.
+There are several explanations for this: enthusiasts run the stores
+not companies, they rely upon having root access to the OS which is
+prohibited by Apple.  In this thesis we are not going to consider
+these stores as they are, by necessity, outside of the scope of the
+standard mobile ecosystems.  They are, however, worth mentioning for
+the sake of completeness.
+
+%The other iOS stores worth mentioning (though again we will not
+%consider them) are the piracy stores.  These exist to allow users to
+%download pirated paid apps from the App Store without paying.  Perhaps
+%the most notable of these was the \emph{Installous} Cydia repo which
+%hosted pirated apps for many years.  These stores come and go as they
+%are shutdown; some working through Cydia, and some offering pirated
+%\emph{IPA}s (Apple's app package format) for installation through
+%iTunes.  Again, we will not cover these stores (in part because they
+%are so transient) but they are worth mentioning as they represent part
+%of the mobile ecosystem that a minority of Apple's users use, that is
+%more open than the marketplace Apple provide.
 
 \subsection{The Need For Policies}
 
