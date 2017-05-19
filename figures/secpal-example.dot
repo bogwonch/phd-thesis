@@ -1,0 +1,40 @@
+digraph {
+	spline=true;
+	overlap=false;
+	concentrate=false;
+	rankdir=TB;
+	
+	graph [fontname="helvetica"];
+
+	node [fontname="helvetica" shape=plaintext];
+	hr [label="HR"];
+	cluster [label="Cluster"];
+	alice [label="Alice"];
+	files [label="File Server"];
+
+	node [fontname="courier new" shape=note];
+	f1 [label="'fileserver' says 'alice' canRead('data.db').\l\l'fileserver' says X can-say inf Y canRead(File)\l  if X canRead(File).\l"];
+	c1 [label="'cluster' says X canRun('grep')\l  if X isResearcher.\l\l'cluster' says 'hr' can-say\l  X isResearcher.\l"];
+	h1 [label="'hr' says 'alice' isResearcher.\l'hr' says 'bob' isResearcher\l..."];
+
+	{ rank=same cluster f1 };
+	{ rank=same alice c1 };
+	
+	
+	edge [fontname="helvetica" style=bold];
+	cluster -> files [label="Send me 'data.db'."];
+	alice -> cluster [label="Run grep file:/data.db."];
+
+	edge [fontname="courier new" style=dotted];
+	files -> alice [label="'alice' can-say\l  Y canRead(File).\l"];
+	cluster -> hr [label="'hr' can-say\l  X isResearcher.\l"];
+
+	edge [fontname="courier new" style=solid];
+	alice -> files [label="'alice' says 'cluster' canRead('data.db')\l  where currentTime() < 01/02/2003.\l"];
+	hr -> cluster [label="'hr' says 'alice' isResearcher."];
+
+	edge [arrowhead=none arrowtail=none style=solid];
+	files -> f1;
+	c1 -> cluster;
+	h1 -> hr;
+}	

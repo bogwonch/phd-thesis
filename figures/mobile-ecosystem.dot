@@ -1,0 +1,89 @@
+digraph mobileecosystem {
+	splines="true";
+	overlap="false";
+	concentrate="true";
+	
+	graph [fontname="helvetica"];
+	node [fontname="helvetica" shape=plaintext];
+	edge [fontname="helvetica"];
+	
+	user1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/male.png"/></TD></TR><TR><TD>User</TD></TR></TABLE>>];
+	user2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/male.png"/></TD></TR><TR><TD>User</TD></TR></TABLE>>];
+	user3 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/male.png"/></TD></TR><TR><TD>User</TD></TR></TABLE>>];
+	user_dev [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/male.png"/></TD></TR><TR><TD>Developer</TD></TR></TABLE>>];
+	userit [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/male.png"/></TD></TR><TR><TD>CISO</TD></TR></TABLE>>];
+
+	{ rank=same user1 user2 user3 };
+	
+	device1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
+	device2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
+	device3 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
+	device3w [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Company Phone</TD></TR></TABLE>>];
+
+	{ rank=same device1 device2 device3 device3w }
+
+	company [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/industry.png"/></TD></TR><TR><TD>Company</TD></TR></TABLE>>];
+	
+	store1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/shopping-bag.png"/></TD></TR><TR><TD>App Store</TD></TR></TABLE>>];
+	store2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/shopping-bag.png"/></TD></TR><TR><TD>App Store</TD></TR></TABLE>>];
+
+	{ rank=same company store1 store2 }
+
+	app1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/whatsapp.png"/></TD></TR><TR><TD>App</TD></TR></TABLE>>];
+	app2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/wechat.png"/></TD></TR><TR><TD>App</TD></TR></TABLE>>];
+	app3 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/skype.png"/></TD></TR><TR><TD>App</TD></TR></TABLE>>];
+
+	{ rank=same app1 app2 app3 }
+
+	policy_byod [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Company Policy</TD></TR></TABLE>>];
+	policy_personal1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Personal Policy</TD></TR></TABLE>>]
+	policy_personal2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Personal Policy</TD></TR></TABLE>>]
+	policy_store [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Store Policy</TD></TR></TABLE>>];
+	policy_dev [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Developer Policy</TD></TR></TABLE>>];
+
+	{ rank=same policy_byod policy_personal1 policy_personal2 policy_store policy_dev }
+
+	av_program [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/bogwonch/Repos/github.com/bogwonch/phd-thesis/figures/cog.png"/></TD></TR><TR><TD>Vetting Software</TD></TR></TABLE>>];
+
+	user1 -> device1 [label="owns"];
+	user2 -> device2 [label="owns"];
+	user3 -> device3 [label="owns"];
+	company -> device3w [label="owns"];
+	user3 -> device3w [label="has"];
+	company -> userit [label="employs"];
+	
+	company -> user2 [label="employs"];
+	company -> user3 [label="employs"];
+
+	userit -> policy_byod [label="writes"];
+	user1 -> policy_personal1 [label="describes"];
+	user2 -> policy_personal2 [label="describes"];
+
+	device1 -> policy_personal1 [label="is subject to"];
+	device2 -> policy_personal2 [label="is subject to"];
+	device2 -> policy_byod [label="is subject to"];
+	device3w -> policy_byod [label="is subject to"];
+	
+	store1 -> app1 [label="sells"];
+	store1 -> app2 [label="sells"];
+	store2 -> app2 [label="sells"];
+	store2 -> app3 [label="sells"];
+	
+	user_dev -> app1 [label="programs"]
+
+	user1 -> store1 [label="uses"];
+	user2 -> store2 [label="uses"];
+	
+	device1 -> app1 [label="installs"];
+	device2 -> app3 [label="installs"];
+	
+	policy_store -> store1 [label="is subject to"];
+	store1 -> policy_store [label="writes"];
+	store1 -> policy_dev [label="writes"];
+	user_dev -> policy_dev [label="is subject to"];
+
+	store2 -> av_program [label="licences"];
+	av_program -> app2 [label="checks"];
+	av_program -> app3 [label="checks"];
+	
+}

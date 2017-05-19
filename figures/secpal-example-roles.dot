@@ -1,0 +1,36 @@
+digraph {
+	spline=true;
+	overlap=false;
+	concentrate=false;
+	rankdir=TB;
+	
+	graph [fontname="helvetica"];
+
+	node [fontname="helvetica" shape=plaintext];
+	hr [label="HR"];
+	cluster [label="Cluster"];
+	clyde [label="Clyde"];
+
+	node [fontname="courier new" shape=note];
+	c1 [label="'cluster' says X canRun('grep')\l  if X isResearcher.\l\l'cluster' says 'hr' can-say\l  X isResearcher.\l\l'cluster' says 'hr' can-say\l  X can-act-as 'hr'.\l"];
+	r1 [label="'clyde' says 'alice' isResearcher.\l'clyde' says 'bob' isResearcher\l..."];
+	h1 [label="'hr' says 'clyde' can-act-as 'hr'."];
+
+	{ rank=max c1 }
+
+	edge [fontname="courier new" style=dotted];
+	cluster -> hr [label="'hr' can-say X isResearcher.\l'hr' can-say X can-act-as 'hr'.\l"];
+
+	edge [fontname="courier new" style=solid];
+	hr -> cluster [label="'hr' says 'clyde' can-act-as 'hr'."];
+	clyde -> cluster [label="'clyde' says 'alice' isResearcher."];
+
+	edge [arrowhead=none arrowtail=none style=solid];
+	c1 -> cluster;
+	h1 -> hr;
+	r1 -> clyde;
+
+	edge [arrowhead=none arrowtail=none style=dashed];
+	hr -> clyde [label="'clyde' can-act-as 'hr'."];
+	
+}	

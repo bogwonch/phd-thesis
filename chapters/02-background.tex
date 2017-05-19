@@ -188,42 +188,40 @@ basic security problems~\cite{fahl_why_2012}, and many of the
 healthcare apps did not handle the medical information
 securely~\cite{knorr_privacy_2015}.
 
-\subsection{The Mobile Ecosystem and the need for Policies}
+\todo{App Stores}
 
-With mobile devices becoming increasingly capable and managing ever
-increasing amounts of information there is a need to manage how the
-devices behave.  As users become aware of the privacy implications of
-their devices, they express preferences about which apps they want to
-install~\cite{sadeh_understanding_2009}, even if they do not follow
-through on their preferences~\cite{hallett_apppal_2016}.  Employees
-now bring their mobile devices to work and use them to access company
-email and documents.  In response to this companies publish mobile
-device policies that describe how the devices should be used within
-the company.  They may also use \ac{MDM} software to enforce the
-policies.  If a company wishes to use an app for business purposes
-there may be regulation they need to follow, such as \ac{HIPAA}.
+\subsection{The Need For Policies}
 
-These policies vary in terms of formality.  A user may never write
-their privacy preferences in a formal language, but they may make
-decisions guided by them.  For example which apps to install and which
-to avoid.  They may make decisions based on what their friends have
-told them, or what a review said about the app.  By describing the
-policy in a formal language we can start to express the policy more
-rigorously.  We can start to make comparisons between users, and with
-rules for checking the policy start to help the user to make decisions
-more accurately, or measure the extent a user follows their stated
-policy~\cite{hallett_apppal_2016}.  
+With mobile devices becoming increasingly capable and holding
+ever-increasing amounts of information there is a need from users and
+businesses to manage how the devices behave.  Employees now bring
+their mobile devices to work and use them to access company email and
+documents.  In response to this companies publish mobile device
+policies that describe how the devices should be used within the
+company.  These policies vary in terms of formality.  A user may never
+write their privacy preferences in a formal language, but they may
+make decisions guided by them.  For example which apps to install and
+which to avoid.  They may make decisions based on what their friends
+have told them, or what a review said about the app.  They may also
+use \ac{MDM} software to enforce the policies.  If a company wishes to
+use an app for business purposes there may be regulation they need to
+follow, such as \ac{HIPAA}.
 
 A company looking to control the mobile devices their employees bring
 to work might write a \ac{BYOD} policy.  They might also use \ac{MDM}
 software to control some aspects of their devices.  The company might
 write these with varying degrees of formality but often they are
 written using natural language.  This adds vagueness and can lead to
-confusion as to how a policy should be implemented.  Using formal
-languages we can model the policies precisely, helping clarify their
-meanings and make precise comparisons between different policies.  We
-can tie the rules in the \ac{BYOD} policies to the \ac{MDM} tools used
-to implement them.
+confusion as to how a policy should be implemented.  By describing the
+policy in a formal language we can start to express the policy more
+rigorously.  We can start to make comparisons between users, and with
+rules for checking the policy start to help the user to make decisions
+more accurately, or measure the extent a user follows their stated
+policy~\cite{hallett_apppal_2016}.  Using formal languages we can
+model the policies precisely, helping clarify their meanings and make
+precise comparisons between different policies.  We can tie the rules
+in the \ac{BYOD} policies, for example, to the \ac{MDM} tools used to
+implement them.
 
 If a company needs to use apps which conform with a policy such as
 \ac{HIPAA} they could use static analysis tools to check for some
@@ -232,23 +230,37 @@ Mallodroid~\cite{fahl_why_2012} to detect when data is sent
 unencrypted.  It is important, however, not to confuse the tools and
 techniques we might use to implement parts of a policy with the end
 goal of ensuring that the policy is followed.  A formal language that
-lets us tie the policy to its implementation can help show how the
+lets us sever the policy from its implementation can help us
+understand the policy precisely, and then show precisely how the
 policy is checked.  It lets us see what rules from the policy are
 checked for by which tools, and identify gaps where the policy is not
-being checked.
+being checked sufficiently.
 
-When describing how mobile phones had evolved, we described how we
-arrived with two main operating systems for mobile devices: iOS and
-Android.  The trust models in the systems differ, as do the
-assumptions about what an app can do when running on each system.
-There are also similarities.  iOS and Android (from Android M) have a
-similar permissions system for apps.  When people make comparisons
-between them, however, the differences are often vague.  iOS is a
-\emph{walled garden}.  Android is \emph{more open}.  Again, by using
-formal languages we can start to make comparisons that are precise and
-show the differences clearly.
+\todo{Delegation}
 
-We need an authorization logic for mobile ecosystems.
+%When describing how mobile phones had evolved, we described how we
+%arrived with two main operating systems for mobile devices: iOS and
+%Android.  The trust models in the systems differ, as do the
+%assumptions about what an app can do when running on each system.
+%There are also similarities.  iOS and Android (from Android M) have a
+%similar permissions system for apps.  When people make comparisons
+%between them, however, the differences are often vague.  iOS is a
+%\emph{walled garden}.  Android is \emph{more open}.  Again, by using
+%formal languages we can start to make comparisons that are precise and
+%show the differences clearly.
+
+% I'm a bit unsure about this...
+One approach to designing a policy language is to base it on a logic
+of authorization.  These authorization logics describe rules for
+deciding when an action is permitted, and reasoning about why that
+action was allowed.  A common use case for these logics is building
+access control systems: users are allowed to read a file if they have
+the appropriate permissions.  In applying logics of authorization to
+policy language the policy language describes who can access what, but
+the authorization logic gives a formal description of how we make that
+decision.
+
+We need an authorization language for mobile ecosystems.
 
 \section{SecPAL}
 
@@ -262,16 +274,16 @@ SecPAL was designed to improve over previous high-level languages in
 several areas.  It was designed to be more expressive than
 XrML~\cite{kolovski_logic-based_2007},
 SPKI/SDSI~\cite{ellison_spki_1999}, and Delegation
-Logic~\cite{li_delegation_2003}. More readable than
+Logic~\cite{li_delegation_2003}; and more readable than
 XACML~\cite{oasis_extensible_2013} and other XML-based policy
 languages.  Furthermore it was designed to be intuitive and
-unambiguous with its semantics unlike other languages (most notably
+unambiguous with precise semantics unlike other languages (most notably
 XACML) which had natural language descriptions with ambiguous and
 inconsistent specifications that had been retrofitted to the language
 instead of being designed with the language in the first
 place~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
 
-Its original application was to model and enforce access control
+SecPAL's original application was to model and enforce access control
 policies in grid computing systems~\cite{becker_secpal:_2010}.  In
 this dissertation we describe how the language can be extended to
 describe the policies surrounding the mobile ecosystem.
@@ -301,22 +313,22 @@ the cost of its expressiveness. SecPAL supports delegation (by using
   \label{fig:assertion}
 \end{figure}
 
-\newcommand{\bnfcomment}[1]{\slshape{\color{gray} (#1)}}
+\newcommand{\bnfcomment}[1]{\slshape{\sffamily(#1)}}
 \newcommand{\secpal}[1]{\texttt{#1}}
-\begin{figure}\footnotesize
+\begin{figure}\footnotesize\centering
   \begin{tabular}{r r l c}
+    AC         & $\Coloneqq$ & assertion$_1$ \dots assertion$_n$                      & \bnfcomment{assertion context} \\
+    assertion  & $\Coloneqq$ & e \secpal{says} claim.                          \\
     e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
                & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
-    pred       & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
+    predicate  & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
     D          & $\Coloneqq$ & 0                                                & \bnfcomment{no delegation}     \\
-               & $\vert$     & $\infty$                                         & \bnfcomment{delegation}        \\
-    vp         & $\Coloneqq$ & pred e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
+               & $\vert$     & $\infty$                                         & \bnfcomment{unbounded delegation}        \\
+    vp         & $\Coloneqq$ & predicate e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
                & $\vert$     & \secpal{can-say}$_D$ fact                       \\
                & $\vert$     & \secpal{can-act-as}  e                          \\
     f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
     claim      & $\Coloneqq$ & f \secpal{if} f$_1$,\dots, f$_n$; c             \\
-    assert     & $\Coloneqq$ & e \secpal{says} claim.                          \\
-    AC         & $\Coloneqq$ & assert$_1$ \dots assert$_n$                      & \bnfcomment{assertion context} \\
     c          & $\Coloneqq$ & $\top$                                           & \bnfcomment{no constraint}     \\
                & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
                & $\vert$     & \dots                                           \\
@@ -379,17 +391,19 @@ the cost of its expressiveness. SecPAL supports delegation (by using
 \end{figure}
 
 
-\begin{figure}\centering
-  \begin{tabular}{l p{0.7\linewidth}}
+\begin{figure}\centering\sffamily\footnotesize
+  \begin{tabular}{c l p{0.6\linewidth}}
     \toprule
-    $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
-    $\epsilon$                               & The empty substitution.                                                                                                                              \\
+    \multirow{3}{*}{\rotatebox{90}{Concepts\hspace{1em}}} & $AC,\theta \vdash q$                     & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
+    &$\epsilon$                               & The empty substitution. \\
+    
     \midrule
-    $AC,\theta \vdash e \text{ says } fact$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
-    $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
-    $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
-    $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
-    $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
+    \multirow{5}{*}{\rotatebox{90}{Definitions}} &
+    1. $AC,\theta \vdash \overbrace{e \text{ says } fact}^q.$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
+    &2. $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
+    &3. $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
+    &4. $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
+    &5. $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
     \bottomrule                             \\
   \end{tabular}
   \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
@@ -397,24 +411,148 @@ the cost of its expressiveness. SecPAL supports delegation (by using
 \end{figure}
 
 SecPAL's semantics are given in \autoref{fig:secpal-semantics}.  A
-query ($q$) to a SecPAL program (a collection of facts and
+query $q$ to a SecPAL program (which is a collection of facts and
 relationships called the \emph{assertion context} or \emph{AC}) asks
-if there exists a renaming ($\theta$) such that the rules of SecPAL
-can be used to derive the, possibly renamed, query ($AC,\infty \models
-q\theta$).  The renaming must be specific and talk only of the
-variables contained in the query (third statement in
-\autoref{fig:secpal-semantics}), conjunction and disjunction work as
-would be expected (fourth and fifth statements).  Negation is only
-allowed in an extremely limited form (sixth statement): a query can be
-not true if it contains no variables and there is no way to show that
-the AC supports the query.  This limited form means that queries
-remain decidable: the rules inside the AC are not permitted to use
-negation.
+if there exists a renaming $\theta$ such that the rules of SecPAL can
+be used to derive the, possibly renamed, query ($AC,\theta \vdash q$
+if $AC,\infty \models q\theta$)\footnote{$\vdash$ describes if a query
+  is valid with respect to an AC, whereas $\models$ says there is a
+  valid proof for a SecPAL using the rules of SecPAL.  Conjugation,
+  disjunction and negation are allowed within a query, but not when
+  evaluating SecPAL.}.  The renaming must be specific and talk only of
+the variables contained in the query, conjunction and disjunction work
+as expected.  Negation is only allowed in an extremely limited form: a
+query can be not true if it contains no variables and there is no way
+to show that the AC supports the query.  This limited form means that
+queries remain decidable: the rules inside the AC are not permitted to
+use negation.
+
+A key feature of SecPAL is the ability to delegate statements.  SecPAL
+was designed to make access control decisions over large networks.
+Rather than have a centralized decision server where all decisions are
+made, SecPAL allows information to be shared through assertions signed
+by their speaker.  This allows different principals to be responsible for different decisions and make decisions independently.
+An example of this, expanded from one given by Becker~\cite{becker_secpal:_2010}, is of a researcher attempting to run a query on a cluster, using data from a fileserver (\autoref{fig:delegation-example}).
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/secpal-example.png}
+  \caption[Example of delegation on a cluster.]{Example of delegation when running a command on a cluster.  Bold links show requests, plain links show the sending of SecPAL statements, and dotted links indicate delegation relationships.  SecPAL assertions at each location are shown in notes.}
+  \label{fig:delegation-example}
+\end{figure}
+
+Alice sends a request to the cluster to run a search on her data on the file-server.
+The cluster has a SecPAL policy that only researchers can run the search:
+\begin{lstlisting}
+'cluster' says X canRun('grep')
+  if X isResearcher.
+\end{lstlisting}
+and a rule that says only HR can say who is a researcher or not.
+\begin{lstlisting}
+'cluster says 'hr' can-say
+  X isResearcher.
+\end{lstlisting}
+The cluster queries HR if Alice is a researcher or not and HR responds by sending the assertion that she is.
+\begin{lstlisting}
+'hr' says 'alice' isResearcher.
+\end{lstlisting}
+The cluster does not know how HR knows that Alice is a researcher, but
+is content with HR's assertion that she is.  HR may have a SecPAL
+instance and policy of their own to make this and send it to the
+cluster, or they might be using a conventional database.  Provided
+they give this signed SecPAL assertion to the cluster, it doesn't care
+how they came by it.  The one limitation the cluster has is that it
+\emph{must} be HR who tells them; HR cannot delegate the decision
+further.
+
+With the cluster convinced that Alice is authorized to run the search,
+the cluster requests the database from the file server.  The file
+server knows that Alice can read her data and that anyone who can read
+a file is permitted to say who else can read it.
+\begin{lstlisting}
+'fileserver' says 'alice' canRead('data.db').
+'fileserver' says X can-say inf Y canRead(File)
+  if X canRead(File).
+\end{lstlisting}
+Using SecPAL, the file server, determines that Alice can say who can
+read her data.  Alice provides the file server with a statement that
+the cluster is authorized to read her file (for a short time
+period).
+\begin{lstlisting}
+'alice says 'cluster' canRead('data.db')
+  where currentTime() < 01/02/2003.
+\end{lstlisting}
+Dutifully the file server provides the cluster with the data
+it required.  The cluster runs the search and hands the results back to Alice.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/secpal-example-delegation.png}
+  \caption{Example of unbounded delegation.}
+  \label{fig:unbounded-example}
+\end{figure}
+
+This simple example shows how different principals can make decisions using delegation mechanisms, and by sharing assertions.
+SecPAL allows for more complicated delegation relationships, however. When checking who could access Alice's data, the file server allowed Alice the ability to delegate the decision of who could read her file by using the \texttt{can-say inf} verb.
+Alice might allow Bob to share her data set with others who might also be allowed to share it for a limited time (\autoref{fig:unbounded-example}).
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/secpal-example-roles.png}
+  \caption[Example of delegation with roles.]{Example of delegation with roles.  Role relationships are shown with dashed links.}
+  \label{fig:roles-example}
+\end{figure}
+
+An alternative to the delegation to the HR server to determine if
+Alice was a researcher would be to use delegation with roles (shown in
+\autoref{fig:roles-example}).  HR may consist of many principals.  The
+cluster may be happy to accept the word of anyone who works in HR as
+if they were HR.  To do this the cluster adds a delegation to HR that
+they can name anyone who acts as them, and HR respond by saying that
+Clyde can act for them.
+\begin{lstlisting}
+'cluster' says 'hr' can-say
+  X can-act-as 'hr'.
+'hr' says 'clyde' can-act-as 'hr'.
+\end{lstlisting}
+Now on the cluster Clyde's word is as good as HR's.
+Clyde sends the necessary facts about Alice and the program can be run as before.
+It is important to note that any restrictions on HR also apply to Clyde.  He still cannot delegate the decision further.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{figures/secpal-example-delegation2.png}
+  \caption{Example of depth bounded delegation.}
+  \label{fig:depth-example}
+\end{figure}
+
+As an alternative to roles, depth-bounded delegation with the
+\emph{can-say} statement could also have been used
+(\autoref{fig:depth-example}).  In this case instead of delegating the
+decision of who is a researcher to HR, the cluster delegates the
+\emph{decision of who can make the decision} to HR.  HR makes the
+delegation to Clyde, and the process continues as before.
+Depth-bounded delegation allows delegation statements to be chained to
+an arbitrary (but finite) depth, without allowing for unbounded
+delegation.  It is often preferable to roles as it allows HR to
+delegate some but not all decisions to others.  If the role assignment
+is used then, on the cluster, anywhere \texttt{'hr'} follows the
+\texttt{says} in an assertion, then it can be replaced with
+\texttt{'clyde'}: making them effectively equivalent.
+
+SecPAL's delegation mechanisms can describe a large number of
+different relationships, whilst remaining conceptually and
+semantically extremely simple.  This power makes SecPAL an exteremely
+attractive authorization language for situations where entities are
+distributed and there is no central decision maker: whatever
+relationship each of the entities have SecPAL can describe it.
 
 SecPAL was later extended to add universal quantification, and the
-possibility of dynamic assertion retrieval (they define a safety
-condition, but don't describe a protocol for retrieving
-assertions)~\cite{moritz_y_becker_secpal:_2009}.  These ideas would be
+possibility of dynamic assertion retrieval (they defined a safety
+condition, but didn't describe a protocol for retrieving assertions).
+They also abandoned the roles to use exclusively depth bounded
+delegation (citing a lack of uses in
+practice)~\cite{moritz_y_becker_secpal:_2009}.  These ideas would be
 expanded to create a new language called
 DKAL~\cite{gurevich_dkal:_2008}.  Gruevich~\etal~showed how SecPAL
 policies could be translated into DKAL

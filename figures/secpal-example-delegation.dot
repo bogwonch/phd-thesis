@@ -1,0 +1,33 @@
+digraph {
+	spline=true;
+	overlap=false;
+	concentrate=false;
+	rankdir=TB;
+	
+	graph [fontname="helvetica"];
+
+	node [fontname="helvetica" shape=plaintext];
+	alice [label="Alice"];
+	bob [label="Bob"];
+	others [label="..."];
+	files [label="File Server"];
+
+	{ rank=same alice bob others }
+
+	node [fontname="courier new" shape=note];
+	f1 [label="'fileserver' says 'alice' canRead('data.db').\l\l'fileserver' says X can-say inf Y canRead(File)\l  if X canRead(File).\l"];
+
+	edge [fontname="helvetica" style=bold];
+
+	edge [fontname="courier new" style=dotted];
+	files -> alice [label="'alice' can-say inf\l  'bob' canRead(File).\l"];
+	alice -> bob [label="'bob' can-say inf\l  Y canRead('data.db').\l"];
+	bob -> others [label="'... can-say inf\l  Y canRead('data.db').\l"];
+
+	edge [fontname="courier new" style=solid];
+	alice -> files [label="'alice' says 'bob' canRead('data.db')\l  where currentTime() < 03/04/2005.\l"];
+	bob -> files [label="'bob' says 'cluster' canRead('data.db')\l"];
+
+	edge [arrowhead=none arrowtail=none style=solid];
+	files -> f1;
+}	
