@@ -188,7 +188,12 @@ basic security problems~\cite{fahl_why_2012}, and many of the
 healthcare apps did not handle the medical information
 securely~\cite{knorr_privacy_2015}.
 
-\todo{App Stores}
+\subsection{App Stores}
+
+\todo{Introduce how app stores are the primary mechanism for distributing software in the ecosystem.
+  Describe and possibly show the interface, and reviews.
+  Maybe move the marketshare diagram from later on into here?
+}
 
 \subsection{The Need For Policies}
 
@@ -236,7 +241,50 @@ policy is checked.  It lets us see what rules from the policy are
 checked for by which tools, and identify gaps where the policy is not
 being checked sufficiently.
 
-\todo{Delegation}
+A key aspect of the mobile ecosystem is delegation.  The user of a
+mobile device (typically) first logs on to a Google or Apple account
+before using the device, which retrieves all their data.  Even in an
+app rather than store all the data locally the app may prompt the user
+to log in and delegate to a third-party (such as Google or Facebook)
+to manage the account ID.
+
+Users may install apps manually themselves, but they might use one or
+more app stores to provide them with apps.  They trust these app
+stores to provide them with \emph{good and safe} apps, and delegate
+the checking of them to the store.  Whereas a user might once have
+done the check themselves (or at least delegated to an \ac{AV} package
+on their computer) now the responsibility is handed to the stores.
+Furthermore all software comes signed either by the developer who
+created it (in the case of Google's Play Store), the store that sold
+it (in the case of Amazon's app store) or both (Apple's App Store).  A
+store may delegate to a third-party app vetting service to determine
+what apps are safe (Yandex and Aptoide stores), or use their own
+in-house teams.
+
+On Android there is a requirement that whenever
+an app is updated the update's signature must be from the same key as
+the app it is updating.  This means that there is a delegation from
+the OS to the developer to say what is a valid update, but also a
+trust relationship from the user to the developer (or store) to
+provide updates at all, as no-one else will be able to patch the
+software.
+
+Users recommend each other apps.  Some may consider what apps they
+want to use on their phone and come up with internalized policies that
+describe how they want to use them, and may trust reviews to give them
+an idea of an app's quality, and the phone itself to tell them what
+functionality the app has through its permissions.
+
+They allow their employers to say how they should their devices, who
+may in turn delegate to IT departments, to write rules, which may
+delegate back to the users to state what rules they're willing to
+follow.
+
+These trust relationships and delegations permeate the entire mobile
+ecosystem.  They represent an important aspect of the ecosystem that a
+policy language should catch in order to adequately describe the
+relationships and policies within it.
+
 
 %When describing how mobile phones had evolved, we described how we
 %arrived with two main operating systems for mobile devices: iOS and
