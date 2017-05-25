@@ -999,10 +999,412 @@ I believe the policy checking performance of AppPAL is acceptable as unless a po
 \end{table}
 
 
+\section{Automatic Analysis of AppPAL policies}
+\label{sec:lint}
 
-\ignore{
-  \bibliography{../thesis.bib}
-}
+When examining an AppPAL policy it is natural to wonder whether the
+policy is as optimal, in terms of the rules and facts required to
+decide a query and the number of rules in the policy, as it could
+be. Is a decision reachable given the rules and facts contained in the
+policy?  Does an assertion context contain enough statements to use a
+given rule? If there are multiple ways of deciding whether some
+statement is true or not does one rule require fewer statements than
+any other? Does one rule require only a subset of the facts of another
+rule, implying the second is redundant?
+
+Many authorization and logic-programming languages, such as
+XACML~\cite{ramli_detecting_2015} and
+Datalog~\cite{alon_levy_equivalence_1993,alon_levy_constraints_1992}, exist.
+Researchers have thought about how policies can be checked for various
+properties similar to those described here. The properties we seek to check
+AppPAL (or SecPAL) for are not novel, but rather the application of them to
+SecPAL is. We have implemented preliminary checkers for some of these
+properties, though they are undertested. The code is included with AppPAL.
+
+\todo{Recap properties quickly here.}
+
+\subsection{Checking Satisfiability}
+
+An assertion is \emph{satisfiable} if there are sufficient facts
+such that the assertion's conditions can be met.  We care about this
+property when writing policies as it means that our assertions affect
+something.  If an assertion is \emph{unsatisfiable} then this may
+indicate that we have failed to specify one of the conditions it
+depends upon.
+
+When an assertion is satisfiable there is a combination of facts that could
+satisfy its conditionals. If there are no facts that could ever satisfy the rule
+then the policy may have a bug. An analogy can be drawn to an \emph{conditional
+always false bug} in a conventional programming languge: we have code (or in
+this case a rule) that can never be used as the conditions for using it can
+never occur.
+
+\begin{align*}
+  G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
+                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
+                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
+\end{align*}
+
+This is a similar idea to the notions of \emph{satisfiability} in Datalog (and
+more generally logic programming). A Datalog predicate, found by satisfying a
+rule, is satisfiable if there are suffient ground facts in the database to
+deduce it. Formally, satisfiability in Datalog is defined
+as~\cite{alon_levy_equivalence_1993}:
+
+\begin{quote}
+  \textbf{Satisfiability:} An IDB predicate $s$ of a program $P$ is
+  \emph{satisfiable} if there is some EDB $D$, such that $P$ defines a
+  non-empty relationship for $s$.
+\end{quote}
+
+
+For an example of satisfiability, consider the following snippet taken
+from the NHS policy described in \autoref{chap:byod}.  The rule
+described in the policy is that an app must be approved by the
+\ac{IGC} as well as by either the \ac{CACPG} as well as the \ac{MIG}
+depending on whether it is for clinical or business use. We describe
+this in AppPAL as:
+
+\begin{lstlisting}
+'nhs-trust' says App isInstallable
+  if App isApproved, App isUsableClinically.
+'nhs-trust' says App isInstallable
+  if App isApproved, App isUsableNonClinically.
+'nhs-trust' says 'igc' can-say App:isApproved.
+'nhs-trust' says 'cacpg' can-say App:A isUsableClinically.
+'nhs-trust' says 'mig' can-say App:A isUsableNonClinically.
+\end{lstlisting}
+
+What apps in practice are approved for use?
+As the policy document notes, none of the groups or committees have ever
+approved an app in practice.
+When we run the satisfiability checker on this policy
+it reports that (amongst other information) no app is installable.
+
+\begin{lstlisting}
+$\$$ java -jar Lint.jar --satisfiability example.policy
+[INFO]: loaded 1/1 files of 6 assertions
+Issues identified when checking satisfiability.
+The following decisions may be unsatisfiable by their speakers:
+'nhs-trust' says * isUsableClinically
+'nhs-trust' says * isInstallable
+'nhs-trust' says * isApproved
+'nhs-trust' says * isUsableNonClinically
+
+In particular the following assertions are unsatisfiable:
+'nhs-trust' says App isInstallable if App isApproved, App isUsableNonClinically.
+'nhs-trust' says App isInstallable if App isApproved, App isUsableClinically.
+
+These decisions may be satisfiable through delegation but we
+lack any statements to that effect from the delegated party:
+(via 'cacpg') 'nhs-trust' says * isUsableClinically
+(via 'igc') 'nhs-trust' says * isApproved
+(via 'mig') 'nhs-trust' says * isUsableNonClinically
+\end{lstlisting}
+
+As well as reporting which decisions it cannot make, it also reports the
+specific assertions as well.
+
+Using AppPAL we can describe policies using delegation. As well as looking for assertions that are unsatisfiable it also looks for examples where we have a \emph{can-say} statement, but lack any statements from the delegated party to that effect.  This may indicate that we need to collect additional statements from the delegated person, or that the \emph{can-say} statement can be removed as it will not be used.
+This check is somewhat simple and we don't take into account dependencies
+between variables.  If we add, for example, the statements:
+
+\begin{lstlisting}
+'igc' says 'angry-birds' isApproved.
+'cacpg' says 'dropbox' isUsableClinically.
+'mig' says 'instagram' isUsableNonClinically.
+\end{lstlisting}
+
+Then we will still never find any installable apps, as the \ac{IGC},
+\ac{CACPG} and \ac{MIG} need to agree on the same app to find it
+installable.  When we run the satisfiability checker however, we find
+no problems as all the decisions are now satisfiable as there is a
+decision about \emph{some} variable; even if that variable isn't
+useful in practice.
+
+\begin{lstlisting}
+$\$$ java -jar Lint.jar --satisfiability example.policy
+[I]: loaded 1/1 files of 11 assertions
+[I]: no satisfiability problems
+\end{lstlisting}
+
+The satisfiability checker acts as a quick sanity checker that a policy contains
+enough facts and assertions. unlike AppPAL-proper which can check how and whether a specific statement would be be made.
+
+%The code in \autoref{alg:reachable} produces a set of pairs of predicates and
+%speakers where the pair of a speaker and a predicate indicates that that
+%speaker may say something about that predicate. We search over all the
+%assertions in the AppPAL assertion context. If all of an assertion's
+%conditionals (the facts in the if part) are reachable (or it has none) then the
+%speaker and predicate are added to the reachable set. If the statement is a
+%can-say statement then we additionally check if the delegated predicate is
+%reachable from the delegated speaker, and if so mark the delegated statement as
+%reachable from the speaker who made the can-say statement.
+%
+%\begin{lstlisting}[language=Python,float,caption={Procedure for finding all reachable assertions.},label={alg:reachable}]
+%def reachable(ac) -> set:
+%  reachable = new set()
+%  iterate = True
+%  while iterate == True:
+%    iterate = False
+%    for assertion in ac:
+%      e = a.speaker
+%      p = a.predicate
+%      if p.isCanSay() and (e, p) in reachable:
+%        if (p.delegator, p.delegation) in reachable:
+%          if for all c in a.conditions: (e, c.predicate) in reachable:
+%            reachable.add((e, p.delegation))
+%            iterate = True
+%      else if not (e, p) in reachable:
+%        if for all c in a.conditions; (e, c.predicate) in reachable:
+%          reachable.add((e, p))
+%          iterate = True
+%  return reachable
+%\end{lstlisting}
+
+\subsection{Checking Redundancy}
+
+If unsatisfiability can be caused when we lack sufficient facts and assertions to make a decision then redundancy occurs when we have too many.  Specifically there are two types of redundancy~\cite{alon_levy_constraints_1992} that we care about here:
+
+\begin{itemize}
+\item \emph{Unreachability} occurs if a predicate does not take part in the
+  minimal deverivation tree of a fact.
+\item \emph{Irrelevance} occurs if a derivation tree contains pairs of identical atoms.
+\end{itemize}
+
+These ideas are directly relatable to AppPAL, for instance if we have the
+following AppPAL policy:
+
+\begin{lstlisting}
+'alice' says App isInstallable
+  if App isRecommended,
+     App isNotMalware.
+
+'alice' says App isRecommended
+  if App isNotMalware,
+     App isGood.
+\end{lstlisting}
+
+Alice checks that the app is not malware when checking the app is
+installable and when checking that the app is recommended.  The check
+in \texttt{isInstallable} is irrelevant as it depends on the app being
+recommended which also checks this property.  When writing AppPAL
+policies this kind of irrelevance commonly occurs when using the
+typed-syntax described in \autoref{ssec:types}. For example, in this
+excerpt from a SANS BYOD policy there is a check that \emph{U} is a
+user in both assertions.  In the first there is irrelevance because
+\emph{U} is stated as being a user twice, where once would have been
+sufficient.  In the second there is a single check that \emph{U} is a
+user but it is irrelevant as the check had already been done when
+checking is \emph{U} had lost the device (since only users can lose
+devices in the first assertion).
+
+\begin{lstlisting}
+'company' says User:U can-say User:U hasLost(Device:D)
+  if D isOwnedBy(U).
+
+'company' says User:U mustInform('help-desk', 'device-lost')
+  if U hasLost(Device).
+\end{lstlisting}
+
+We can check for this kind of irrelevance by building a proof-graph for the
+assertion context.  Every node (shown in a box) represents an AppPAL fact we
+might wish to prove.  For every assertion in the context we create a proof
+(represented as a number in brackets) for the head of the assertion, which is
+connected to the facts required to prove the assertion.  In the case of can-say
+and can-act-as statements we expand them as per AppPAL's inference rules.
+A proof-graph for the above example is shown in \autoref{fig:irrelevance}: the
+irrelevant links are shown in red and the AppPAL facts connected to the two
+dashed ones can be removed to remove the irrelevance.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./figures/irrelevance.png}
+  \caption{Proof graph showing irrelevance.}
+  \label{fig:irrelevance}
+\end{figure}
+
+In contrast unreachability occurs when a fact does not take part in the minimal
+derivation tree of a fact.  As a simple example consider the following policy:
+
+\begin{lstlisting}
+'alice' says App isInstallable if App isNotMalware.
+'alice' says App isInstallable if App isNotMalware,  App isRecommended.
+\end{lstlisting}
+
+To detect unreachability for a given policy we again build the proof-graph (shown
+in \autoref{fig:unreachability}).  For each proof node we collect the facts
+(the leaves of the graph underneath it, which are the ground assertions from the
+AC\footnote{Or in the case of an unsatisfiable policy facts with variables that
+  cannot be unified with a ground fact.} in
+AppPAL).  If the facts for one proof node connected to a fact are a subset of
+the facts for another proof node, then the larger proof node, is unreachable it
+contains facts which are not in the minimal derivation tree.   In the case of
+\autoref{fig:unreachability}, the derivation-graph 2 is made redundant by
+derivation-graph 1 as it contains a subset of the facts.  This is a
+simplified example; in general facts lower in the tree may have multiple
+derivation trees, leading to multiple sets of facts being required for a fact
+that seems to have only one proof node.  Loops can also occur (where one fact
+depends on itself to prove itself).  This approach isn't complete, but it does
+identify several cases where an AppPAL policy may be redundant through
+unreachability.
+
+\begin{lstlisting}[float, caption={Output of AppPAL when checking a policy with unreachability.}]
+java -jar Lint.jar --redundancy unreachable.policy
+[I]: loaded 1/1 files of 2 assertions
+[I]: flattened 0 node(s)
+[W]: 'alice' says App isInstallable. has unreachable derivation trees.
+\end{lstlisting}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{./figures/unreachability.png}
+  \caption{Proof graph showing unreachability.}
+  \label{fig:unreachability}
+\end{figure}
+
+Redundancy can occur when there are multiple rules that result in the
+same decision being made.  Rules may depend on other rules, or ground
+facts.  One proof ($A$) is made redundant by another proof ($B$) if
+the set of ground facts used in $B$ is a subset of the ground facts
+used in $A$. Whenever $A$ is satisfied $B$ will also be, but when $B$
+is satisfied $A$ may not be: consequently $A$ is redundant as $B$ can
+be used to prove its goal with fewer facts.  For any goal
+$G$.
+
+\begin{align*}
+  \exists p_1 \in \text{proofs}(G).~\exists p_2 \in \text{proofs}(G).        & \\
+  p_1 \not= p_2~\wedge~\text{facts}(p_1) \subset \text{facts}(p_2)           & \implies G\text{ has unreachable proofs.} \\
+  p_1 \not= p_2~\wedge~\text{facts}(p_1) = \text{facts}(p_2)                 & \implies G\text{ has equivalent proofs.}
+\end{align*}
+
+Additionally if two different goals ($G$ and $G^\prime$) have
+equivalent proofs, then we report this as it implies the two
+statements may not be independent.
+
+\begin{align*}
+  \exists p_1 \in \text{proofs}(G).~\exists p_2 \in \text{proofs}(G^\prime). & \\
+  \text{facts}(p_1) = \text{facts}(p_2)                                      & \implies \text{$G$ and $G^\prime$ have equivalent proofs.}
+\end{align*}
+
+A simple example might be the policy shown in \autoref{fig:redundancy-graph-simple}.
+The second rule makes the first redundant.  We can represent the policy
+as a graph shown opposite the policy.  The goal (shown as a blue rectangle) has two routes
+to prove it true (each shown in ellipses).  Route 1 requires that the facts
+(shown in green rectangles) \lstinline!'x' says 'y' r,! and
+\lstinline!'x' says 'y' q.!, whereas route 0 only requires the
+latter fact.
+
+\begin{figure}
+  \centering
+  \begin{minipage}{0.4\linewidth}
+    \begin{lstlisting}
+'x' says 'y' p
+  if 'y' q,
+     'y' r.
+
+'x' says 'y' p
+  if 'y' q.
+    \end{lstlisting}
+  \end{minipage}
+  \begin{minipage}{0.59\linewidth}
+    \scriptsize{}\centering
+    \def\svgwidth{\columnwidth}
+    \includegraphics[width=0.59\linewidth]{figures/redundancy-simple.eps}
+  \end{minipage}
+  \caption{A simple policy shown as a graph.}
+  \label{fig:redundancy-graph-simple}
+\end{figure}
+
+A more complex example is shown below:
+
+\begin{lstlisting}
+'x' says 'z' p if 'z' q.
+'x' says 'y' can-say 'z' p.
+'y' says 'z' p if 'z' q.
+'y' says 'x' can-say 'z' q.
+\end{lstlisting}
+
+Representing this policy as the graph in \autoref{fig:redundancy-complex} we can see it is more complex. Goals that
+depend on more than just green facts, are shown as black rectangles.  If a goal
+is used to prove another goal, and it itself only depends on green, ground,
+facts, then the node is marked to be flattened (red rectangle).  Its proofs are
+merged into the higher proof, and the flattened goal is removed from the higher
+proof.  This process is repeated until no more nodes can be flattened (shown
+twice in \autoref{fig:redundancy-complex}).  Once the graph is flattened we can
+identify that \lstinline!'x' says 'z' p! has a redundant means of proof (route
+0 only uses one of route 1's facts).  We can also see that all the proofs for
+\lstinline!'y' says 'z' q! and \lstinline!'y' says 'z' p! use the same facts.
+We report these statements as having equivalent proofs as the goals are not
+independent of each other (implying we could use fewer goals and still write
+equivalent policies).
+
+\begin{figure}
+  \centering\tiny
+  \framebox{\def\svgwidth{0.35\linewidth}1.
+    \includegraphics[width=0.35\linewidth]{figures/redundancy-complex-0.eps}}
+  \framebox{\def\svgwidth{0.55\linewidth}2.
+    \includegraphics[width=0.55\linewidth]{figures/redundancy-complex-1.eps}}
+  \newline
+  \framebox{\def\svgwidth{0.8\linewidth}3.
+    \includegraphics[width=0.8\linewidth]{figures/redundancy-complex-2.eps}}
+  \caption{Flattening a more complex policy.}
+  \label{fig:redundancy-complex}
+\end{figure}
+
+% To build the graphs, each statement we might want to prove (a goal) becomes a
+% node in the graph, its children are organised into sets of goals (a proof),
+% where if all the goals in any set were proved true then the goal node would also
+% become true. If a node has an empty set of goals to prove it is a fact. Once the
+% graph has been constructed (taking into account delegation and unification with
+% other statements), the graph is flattened by applying the flatten procedure
+% (Listing~\ref{alg:flatten}) repeatedly until a fixed point is reached. When the
+% graph has been flattened we look for redundancy by looking for goals with proofs
+% that are subsets of their other proofs, implying that if the larger proof is
+% true, then the shorter proof will always be true too; and different goals with
+% identical proofs, implying that the two decisions are not
+% independent~(Listing~\ref{alg:redundancy}).
+
+% \begin{lstlisting}[language=Python,float,caption={Procedure for flattening the redundancy graph.},label={alg:flatten}]
+% def flatten(graph):
+%   for goal in graph.goals:
+%     hoist = true
+%     for proof in graph[goal]:
+%       for proof_goal in proof:
+%         if not proof_goal.is_fact:
+%           hoist = False
+%           break
+%       if hoist == True:
+%         hoist(graph, goal)
+
+% def hoist(graph, target):
+%   for parent in graph[target].parents:
+%     for proof in parent.proofs:
+%       if proof.uses(target):
+%         for replacements in graph[target].parents:
+%           parent.proofs += proof.replace(target, replacements)
+%           parent.proofs -= proof
+% \end{lstlisting}
+
+% \begin{lstlisting}[language=Python,float,caption={Procedure to check for redundancy.},label={alg:redundancy}]
+% def check_redundancy(graph) -> boolean:
+%   for goal in graph.goals:
+%     for a in graph[goal]:
+%       for b in graph[goal]:
+%         if a >= b and a.goals.subset(b.goals):
+%           if b.goals.subset(a.goals):
+%             warn(a+" has multiple equivalent proofs")
+%           else
+%             warn(a+" has a redundant proof")
+%     for other_goal in graph.goals:
+%       if goal > other_goal:
+%         for a in graph[goal]:
+%           for b in graph[other_goal]:
+%             if not (a.goals.is_empty() or b.is_empty())
+%                and a.goals == b.goals:
+%               warn(a+" and "+b+" have equivalent proofs")
+% \end{lstlisting}
+
 \end{document}
 
 % vim: set makeprg=make\ ch3.pdf:
