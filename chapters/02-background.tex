@@ -534,11 +534,11 @@ the cost of its expressiveness. SecPAL supports delegation (by using
 
 \begin{figure}
   \footnotesize\centering
-  \newcommand{\says}[1]{\text{says}}
-  \newcommand{\AC}[0]{\text{AC}}
-  \newcommand{\canSay}[1]{\text{can-say}_{\text{#1}}}
-  \newcommand{\canActAs}[0]{\text{can-act-as}}
-  \newcommand{\where}[0]{\text{where}}
+  \renewcommand{\says}[1]{\text{says}}
+  \renewcommand{\AC}[0]{\text{AC}}
+  \renewcommand{\canSay}[1]{\text{can-say}_{\text{#1}}}
+  \renewcommand{\canActAs}[0]{\text{can-act-as}}
+  \renewcommand{\where}[0]{\text{where}}
   \begin{equation*}
     \infer[\text{cond}]{
       \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta

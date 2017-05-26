@@ -1,16 +1,115 @@
 
-\chapter{Translation to Datalog\textsuperscript{C}}
+\chapter{Probabilistic SecPAL Changes and Evaluation}
+\label{appendix:probabilistic}
 
-In \autoref{chap:extensions}
-When describing SecPAL Becker showed that it could be translated into
+In \autoref{chap:future-work} we described how SecPAL could be modified so that
+assertions could carry a measure of how plausible the speaker believed them to
+be. To implement this we would require changes to SecPAL's evaluation algorithm.
+Also when describing SecPAL Becker showed that it could be translated into
 Datalog\textsuperscript{C} in order to show that the language was tractable
 could be evaluated in polynomial time~\cite{becker_secpal:_2010}.
 Becker~\etal~gave in their technical report an algorithm (5.2) translating
 SecPAL into Datalog\textsuperscript{C}. By modifying this algorithm to add the
 plausibility annotations described in this chapter, we can show the Plausible
-AppPAL is also tractable. The remainder of this appendix presents
-Becker~\etal{}'s Algorithm~5.2 \textsf{as described by Becker \new{with
-    additions for plausibility}}.
+SecPAL is also tractable.
+
+ The remainder of this appendix presents the \new{modifications} to SecPAL's
+evaluation rules, as well as Becker~\etal{}'s Algorithm~5.2 \textsf{as described
+by Becker \new{with additions for plausibility}}. We do not present any
+arguments for the correctness of our modifications, but rather present them as a
+tentative first step towards implementing Plausible SecPAL.
+
+\section{Evaluating Plausibility}
+
+SecPAL has three rules for evaluation: \emph{cond}, \emph{can-say},
+and \emph{can-act-as}.  We modify the language so that the \emph{says}
+keyword has an an annotation $0 \geq p \geq 1$ denoting a statements
+\emph{plausibility}.  If the annotation is missing then it is assumed
+to be $1$ We also assume a plausibility combining function $\oplus$
+which combines plausibility, though we do not define it.
+
+{\footnotesize\centering
+\begin{equation*}
+  \infer[\text{cond\new{$\leq$}}]{
+    \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta
+  }{
+    \begin{matrix}{
+      \left(A~\says{}~f~if~f_1\cdots f_n~\where~c~\new{\text{with plausibility at least}~p_{lim}}\right) \in \AC{}
+    }\\{
+      \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
+    }\\\new{
+      0 < p_{lim} \leq \bigoplus_{i=1}^n p_i
+    }
+    \end{matrix}&
+    \vdash c\theta &
+    vars\left(f\theta\right) = \emptyset
+  }
+\end{equation*}
+\begin{equation*}
+  \infer[\text{cond\new{=}}]{
+    \AC{}, D \models A~\says{p_{lim}}~f\theta
+  }{
+    \begin{matrix}{
+      \left(A~\says{}~f~if~f_1\cdots f_n~\where~c~\new{\text{with plausibility is}~p_{lim}}\right) \in \AC{}
+    }\\{
+      \forall i \in [1\cdots n]. \AC{}, D \models A~\says{p_i}~f_i\theta
+    }\\\new{
+      0 < p_{lim} \leq \bigoplus_{i=1}^n p_i
+    }
+    \end{matrix}&
+    \vdash c\theta &
+    vars\left(f\theta\right) = \emptyset
+  }
+\end{equation*}
+\begin{equation*}
+  \infer[\text{can-say}]{
+    \AC{}, \infty \models A~\says{p_1 \oplus p_2}~f
+  }{
+    \AC{}, \infty \models A~\says{p_1}~B~\canSay{D}~f &
+    \AC{}, D \models B~\says{p_2}~f
+  }
+\end{equation*}
+\begin{equation*}
+  \infer[\text{can-act-as}]{
+    \AC{}, D \models A~\says{p_1 \oplus p_2}~x~vp
+  }{
+    \AC{}, D \models A~\says{p_1}~x~\canActAs~y &
+    \AC{}, D \models B~\says{p_2}~y~vp
+  }
+\end{equation*}
+\begin{equation*}
+  \new{
+    \infer[\text{reduce}]{
+        \AC{}, D \models A~\says{p}~f
+    }{
+        \AC{}, D \models A~\says{p^\prime}~f & p \leq p^\prime
+    }
+  }
+\end{equation*}
+}
+
+Any derived statement is at most as plausible as the
+combination of the statements that went into deriving it.  
+
+We split the \emph{cond} rule into two variants. The \emph{cond$\leq$} rule
+allows us to specify a minimum plausibility required by combining all the
+conditional statements and if that limit is exceeded we take the combined
+probability in the plausibility of the outcome. The \emph{cond=} rule allows us
+again to set a minimum plausibility but this time we take the stated
+plausibility if the rule is satisfied. These two \emph{cond} rules serve
+different purposes. The \emph{cond=} variant is useful when we want to set a
+limit on the plausibility: for instance when we have a tool with a known
+confidence rate we want to run, or a fact which we know how plausible it is. The
+\emph{cond=} rule is useful for when you want to ensure that a decision is made
+with a certain least-confidence, for instance if you want to be at least 80\%
+sure that an app is safe to use before doing anything with it. In this case we
+would want the combined plausibility to trickle through the proof not the lower
+limit.
+
+We also add a plausibility reduction rule that allows us to reduce the
+plausibility of an assertion, this allows us to phrase a policy query
+as \emph{``is it at least 50\% plausible that...''} rather than having
+to discover the plausibilities precisely.
 
 \section{A Plausible Algorithm 5.2}
 
