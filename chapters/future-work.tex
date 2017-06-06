@@ -13,55 +13,6 @@ interesting insight into mobile ecosystems. We also describe how plausibility,
 quantified doubt, could be used to express confidence in a statement in an
 AppPAL policy.
 
-\section{Other Markets}
-
-There are many different markets available for Android, each with their own
-policies and apps within them. In~\autoref{chap:apps-and-stores} we looked at
-the policies four different stores as well as Apple's store and started to make
-comparisons. The stores we looked at, however, were all common to Europe, Russia
-and the US.
-
-Other marketplaces, of course, exist. In particular the app ecosystem in China
-appears to be somewhat different as it has grown independently of Google. We did
-not examine these markets extensively, however, describing the differences
-between these stores and the western ones would make for an interesting
-comparison. One particularly interesting area might be to look at the apps sold.
-In all the stores we looked at many of the same apps appeared on the stores
-front pages. The Chinese stores have completely different sets of apps. Building
-a precise description of the different sets of apps each region uses would allow
-us to contrast what users are doing with their devices (i.e.~playing games,
-work, video) as well as which companies are collecting their data.
-
-\section{AppPAL Enforcement and Usability}
-
-We have shown in this dissertation how AppPAL can be used to describe different
-policies for BYOD, and for app installation preferences. A logical next step
-would be to start to use AppPAL to enforce these policies, and to study how
-users might use AppPAL to make decisions.
-
-One way of doing this might be to use AppPAL as a mechanisms for finding apps
-that match user's privacy policies. We described earlier how we could use
-AppPAL's \emph{genstore}-framework to build a curated app store on the basis of
-a policy. This could be extended to allow for app searches. AppPAL is designed
-to be readable, but we might guess that most non-technical users would struggle
-with writing a formal policy (as they do with many other technical tasks).
-Exploring how general users might use policies, either through a subscription
-model where they \emph{subscribe} to a policy written by a more advanced user,
-or through a graphical interface that helps them build their own policy, would
-help us understand how (and infact whether at all) user's want to use better app
-controls. 
-
-BYOD is another area where it would be interesting to see how AppPAL might be
-used in practice. When talking about BYOD policies we said that AppPAL was
-designed to separate the policy specification from its implementation. By
-combining AppPAL policies with an MDM package we could dynamically configure the
-MDM software to enforce a BYOD policy. This could allow for greater
-customization as not only could we extend the simplistic MDM policy setting with
-a full policy language. Trialing an implementation in a company and working with
-the IT departments and policy authors to better understand their needs would
-allow us to tailor AppPAL further to implementing BYOD policies.
-
-
 
 \section{Plausible SecPAL}
 
@@ -219,6 +170,55 @@ that \texttt{'x' says 'y' p} will be greater than the plausibility of the
 conditionals that \texttt{'x' says 'y' p} and \texttt{'x' says 'z' q}. Since the
 decision that \texttt{'x' says 'y' p} is also part of the conditions, we could
 repeatedly reapply this rule and raise the plausibility arbitrarily.
+
+
+\section{Other Markets}
+
+There are many different markets available for Android, each with their own
+policies and apps within them. In~\autoref{chap:apps-and-stores} we looked at
+the policies four different stores as well as Apple's store and started to make
+comparisons. The stores we looked at, however, were all common to Europe, Russia
+and the US.
+
+Other marketplaces, of course, exist. In particular the app ecosystem in China
+appears to be somewhat different as it has grown independently of Google. We did
+not examine these markets extensively, however, describing the differences
+between these stores and the western ones would make for an interesting
+comparison. One particularly interesting area might be to look at the apps sold.
+In all the stores we looked at many of the same apps appeared on the stores
+front pages. The Chinese stores have completely different sets of apps. Building
+a precise description of the different sets of apps each region uses would allow
+us to contrast what users are doing with their devices (i.e.~playing games,
+work, video) as well as which companies are collecting their data.
+
+\section{AppPAL Enforcement and Usability}
+
+We have shown in this dissertation how AppPAL can be used to describe different
+policies for BYOD, and for app installation preferences. A logical next step
+would be to start to use AppPAL to enforce these policies, and to study how
+users might use AppPAL to make decisions.
+
+One way of doing this might be to use AppPAL as a mechanisms for finding apps
+that match user's privacy policies. We described earlier how we could use
+AppPAL's \emph{genstore}-framework to build a curated app store on the basis of
+a policy. This could be extended to allow for app searches. AppPAL is designed
+to be readable, but we might guess that most non-technical users would struggle
+with writing a formal policy (as they do with many other technical tasks).
+Exploring how general users might use policies, either through a subscription
+model where they \emph{subscribe} to a policy written by a more advanced user,
+or through a graphical interface that helps them build their own policy, would
+help us understand how (and infact whether at all) user's want to use better app
+controls. 
+
+BYOD is another area where it would be interesting to see how AppPAL might be
+used in practice. When talking about BYOD policies we said that AppPAL was
+designed to separate the policy specification from its implementation. By
+combining AppPAL policies with an MDM package we could dynamically configure the
+MDM software to enforce a BYOD policy. This could allow for greater
+customization as not only could we extend the simplistic MDM policy setting with
+a full policy language. Trialing an implementation in a company and working with
+the IT departments and policy authors to better understand their needs would
+allow us to tailor AppPAL further to implementing BYOD policies.
 
 
 
