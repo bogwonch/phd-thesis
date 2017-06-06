@@ -683,37 +683,6 @@ answer queries. For all policies we tried our implementation was fast
 enough---answering all but the most complex queries in seconds
 (\autoref{ssec:benchmarks}).
 
-\begin{figure}
-  \centering
-  \begin{eqnarray*}
-    \infer[\textsf{\scriptsize cond}]{%
-      AC, D \models A\textsf{~says~}fact\theta
-    }{%
-      \begin{array}[c]{c}
-        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
-        AC,D\models A\textsf{~says~}\textit{fact}_i\theta \; \forall i \in \{1\cdots k\}
-      \end{array}
-      & \models{c\theta}
-      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
-    }\\
-    \infer[\textsf{\scriptsize can say}]{%
-      AC, \infty \models A\textsf{~says~}\textit{fact}
-    }{%
-      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
-      & AC, D \models B\textsf{~says~}\textit{fact}
-    } \\
-    \infer[\textsf{\scriptsize can act as}]{%
-      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
-    }{%
-      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
-      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
-    }
-  \end{eqnarray*}
-  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
-  evaluated in the context of a set of other assertions $AC$ as well as an
-  allowed level of delegation $D$ which may be $0$ or $\infty$.}
-\label{fig:secpal-rules}
-\end{figure}
 
 \begin{figure}
   \centering

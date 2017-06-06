@@ -104,7 +104,7 @@ store having considerably less.
 Each of these different stores have different terms and conditions,
 and different criteria for developers to sell their apps in.  These
 are written in long, dense, legal documents. We will return to these
-documents in \autoref{chap:apps-and-app-stores} when we make a
+documents in \autoref{chap:apps-and-stores} when we make a
 comparison between them.
 
 
@@ -184,47 +184,38 @@ the cost of its expressiveness. SecPAL supports delegation (by using
   \label{fig:secpal-grammar}
 \end{figure}
 
-\begin{figure}
-  \footnotesize\centering
-  \renewcommand{\says}[1]{\text{says}}
-  \renewcommand{\AC}[0]{\text{AC}}
-  \renewcommand{\canSay}[1]{\text{can-say}_{\text{#1}}}
-  \renewcommand{\canActAs}[0]{\text{can-act-as}}
-  \renewcommand{\where}[0]{\text{where}}
-  \begin{equation*}
-    \infer[\text{cond}]{
-      \AC{}, D \models A~\says{\bigoplus_{i=1}^n p_i}~f\theta
-    }{
-      \begin{matrix}{
-          \left(A~\says{}~f~if~f_1\cdots f_n~\where~c\right) \in \AC{}
-        }\\{
-          \forall i \in [1\cdots n]. \AC{}, D \models A~\says{}~f_i\theta
-        }
-      \end{matrix}&
-      \vdash c\theta &
-      vars\left(f\theta\right) = \emptyset
-    }
-  \end{equation*}
-  \begin{equation*}
-    \infer[\text{can-say}]{
-      \AC{}, \infty \models A~\says{p_1 \oplus p_2}~f
-    }{
-      \AC{}, \infty \models A~\says{p_1}~B~\canSay{D}~f &
-      \AC{}, D \models B~\says{p_2}~f
-    }
-  \end{equation*}
-  \begin{equation*}
-    \infer[\text{can-act-as}]{
-      \AC{}, D \models A~\says{p_1 \oplus p_2}~x~vp
-    }{
-      \AC{}, D \models A~\says{p_1}~x~\canActAs~y &
-      \AC{}, D \models B~\says{p_2}~y~vp
-    }
-  \end{equation*}
-  \caption{SecPAL's evaluation rules.}
-  \label{fig:secpal-rules}
-\end{figure}
 
+\begin{figure}
+  \centering
+  \begin{eqnarray*}
+    \infer[\textsf{\scriptsize cond}]{%
+      AC, D \models A\textsf{~says~}fact\theta
+    }{%
+      \begin{array}[c]{c}
+        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
+        AC,D\models A\textsf{~says~}\textit{fact}_i\theta \; \forall i \in \{1\cdots k\}
+      \end{array}
+      & \models{c\theta}
+      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
+    }\\
+    \infer[\textsf{\scriptsize can say}]{%
+      AC, \infty \models A\textsf{~says~}\textit{fact}
+    }{%
+      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
+      & AC, D \models B\textsf{~says~}\textit{fact}
+    } \\
+    \infer[\textsf{\scriptsize can act as}]{%
+      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
+    }{%
+      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
+      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
+    }
+  \end{eqnarray*}
+  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
+  evaluated in the context of a set of other assertions $AC$ as well as an
+  allowed level of delegation $D$ which may be $0$ or $\infty$.}
+\label{fig:secpal-rules}
+\end{figure}
 
 \begin{figure}\centering\sffamily\footnotesize
   \begin{tabular}{c l p{0.6\linewidth}}
