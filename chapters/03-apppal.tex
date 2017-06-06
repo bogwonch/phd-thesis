@@ -202,11 +202,14 @@ Google's Android. When comparing the systems Apple's is often described as a
 like this is informal. It hints at the differences without giving them
 precisely.
 
-Using AppPAL we can model the differences between the two systems and make more meaningful comparisons.
-The \emph{walled-garden} comments relate to their different app store models.
-Users of iOS can only install apps from the App Store\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an \emph{app store} is a generic term for an on-device store selling apps.}.
-If a user is willing to install a special certificate, from a developer or business, however they may install apps through the browser or a computer connected to the device.
-Apple control these special certificates, issuing and revoking them.
+Using AppPAL we can model the differences between the two systems and make more
+meaningful comparisons. The \emph{walled-garden} comments relate to their
+different app store models. Users of iOS can only install apps from the App
+Store\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an
+\emph{app store} is a generic term for an on-device store selling apps.}. If a
+user is willing to install a special certificate, from a developer or business,
+however they may install apps through the browser or a computer connected to the
+device. Apple control these special certificates, issuing and revoking them.
 They must also be authorized by the device's owner.
 \begin{lstlisting}
 'device' says App isInstallable
@@ -253,11 +256,14 @@ Alternatively if the user has enabled \emph{developer-mode}, again through the s
 'settings-app' says 'user' can-say
   'user hasAuthorized(Setting:X).
 \end{lstlisting}
-This glosses over some of the details of certificate handling (though the example could be extended further).
-It also ignores how the system might update apps.
-It does, however, provide a far more precise version of the differences in app installation between the two platforms.
-For iOS, to install an app Apple have to authorize it, either by signing the app or the issuer.
-In contrast for Android, to the device can install any app if the device owner is willing to enable the relevant setting.
+
+This glosses over some of the details of certificate handling (though the
+example could be extended further). It also ignores how the system might update
+apps. It does, however, provide a far more precise version of the differences in
+app installation between the two platforms. For iOS, to install an app Apple
+have to authorize it, either by signing the app or the issuer. In contrast for
+Android, to the device can install any app if the device owner is willing to
+enable the relevant setting.
 
 %\todo{How do we know this is correct?}
 
@@ -325,15 +331,18 @@ To satisfy the policy and install the app she needs to collect the following sta
     \end{enumerate}
 \end{itemize}
 
-Alice obtains the statements by contacting the speakers.
-Each may either give her the statement she needs or may give her more rules.
-For example, the \ac{MIG} and \ac{IGC} may authorize the app or they might give a list of additional checks they need before they agree to authorize the app.
-When checking if the app is an App in \autoref{item:isapp}, the NHS trust might delegate further.
-They could reply that if the App is in the Google Play store then they recognise it as a valid app.
-Alice would then have to get more assertions if she wanted to prove this statement.
-%As with SecPAL, all statements should have a signature from their speaker proving they said the statement.
-Alternatively, the speaker could refuse to make the assertion, either because they do not believe it, or they cannot give an answer.
-In this case, Alice would have to look for an alternative means to prove the assertion or accept that they cannot install the app.
+Alice obtains the statements by contacting the speakers. Each may either give
+her the statement she needs or may give her more rules. For example, the
+\ac{MIG} and \ac{IGC} may authorize the app or they might give a list of
+additional checks they need before they agree to authorize the app. When
+checking if the app is an App in \autoref{item:isapp}, the NHS trust might
+delegate further. They could reply that if the App is in the Google Play store
+then they recognise it as a valid app. Alice would then have to get more
+assertions if she wanted to prove this statement. Alternatively, the speaker
+could refuse to make the assertion, either because they do not believe it, or
+they cannot give an answer. In this case, Alice would have to look for an
+alternative means to prove the assertion or accept that they cannot install the
+app.
 
 Once she has collected the statements, she can use a SecPAL inference tool,
 such as AppPAL, to check whether she can install the app.  Additional to the
@@ -356,7 +365,7 @@ To later nodes which might use SecPAL's other rules to be proved (\emph{can-say}
 If two nodes depend on the same sub-goals then the proof will be reused.
 
 \begin{center}
-  \includegraphics[width=0.9\linewidth]{figures/exemplar-proof-3.png}
+  \includegraphics[width=0.3\linewidth]{figures/exemplar-proof-3.png}
 \end{center}
 
 \begin{figure}
@@ -417,7 +426,7 @@ When we need to describe the conditions for an action going ahead we use the can
   often helpful to restrict their type to a given domain.  For example Alice
   might trust Bob to describe what apps are good, but not what websites.
   \begin{lstlisting}
-'alice' says 'bob' can-say X isGood if X isApp.
+    'alice' says 'bob' can-say X isGood if X isApp.
   \end{lstlisting}
   Additionally SecPAL requires that all variables in the head of a statement be
   used in the body\footnote{The rule ensures that all queries terminate.}.
@@ -442,9 +451,9 @@ When we need to describe the conditions for an action going ahead we use the can
 
   If a device requires its owner to grant a permission we might write:
   \begin{lstlisting}
-'device' says User:U can-say
-  App:A hasBeenGrantedPermission(Permission:P)
-  if 'device' isOwnedBy(U).
+    'device' says User:U can-say
+    App:A hasBeenGrantedPermission(Permission:P)
+    if 'device' isOwnedBy(U).
   \end{lstlisting}
 
   Often predicates fall into common patterns and groups, for example
@@ -462,9 +471,9 @@ When we need to describe the conditions for an action going ahead we use the can
   devices report if a user is using a company device unacceptably:
 
   \begin{lstlisting}
-'company' says User:U hasBehavedUnacceptably
-  if U hasAccessedWebpage(W),
-     W isPornographic.
+    'company' says User:U hasBehavedUnacceptably
+    if U hasAccessedWebpage(W),
+    W isPornographic.
   \end{lstlisting}
 
 \item[\bfseries\texttt{subject \emph{can}Action}]
@@ -481,9 +490,9 @@ When we need to describe the conditions for an action going ahead we use the can
   An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
 
   \begin{lstlisting}
-'company' says Device:D mustInform('it', 'login-failure')
-  if D hasUnsuccesfulLogins(N)
-  where N >= 3.
+    'company' says Device:D mustInform('it', 'login-failure')
+    if D hasUnsuccesfulLogins(N)
+    where N >= 3.
   \end{lstlisting}
 
   AppPAL does not state how quickly a user should complete their obligation, or
@@ -491,17 +500,15 @@ When we need to describe the conditions for an action going ahead we use the can
   by using additional predicates:
 
   \begin{lstlisting}
-'mum' says 'alice' hasSatisfiedObligationToCall
-  if 'alice' mustCall,
-     'alice' hasCalled.
+    'mum' says 'alice' hasSatisfiedObligationToCall
+    if 'alice' mustCall,
+    'alice' hasCalled.
   \end{lstlisting}
 
   \emph{Must} predicates are mostly goals, as they describe the conditions when
   its subject must do something.  There are exceptions, such as the example
   above, but they are unusual.
 \end{description}
-
-\todo{Add table sumarising how often each type of predicate was used from BYOD paper}
 
 This differs from the approach taken with the SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}.
 Both these languages add extra phrases to SecPAL's grammar.
@@ -518,99 +525,6 @@ An analogous AppPAL rule would be:
 \end{lstlisting}
 The AppPAL is arguably slightly less succinct, but more explicit than the SecPAL4DSA.
 
-\subsubsection{Patterns with predicates}
-
-Using the four predicate types we can start to build relationships between them.
-We showed how a policy author could check an obligation was completed when
-descrbing \emph{must} predicates.  Whilst a policy author could write these
-rules by hand, AppPAL has tools to automate creating rules like this.
-
-As well as automating creating the policy, we can also start to check other
-properties to check the policy is well formed. Using the example of installing
-an app; if \emph{Alice says Bob must install
-  an app}, then it implies that there should be a rule where \emph{Alice says
-Bob has installed that app}.  We might also expect there to be a rule that
-\emph{Alice says Bob can install the app}.
-
-This can be taken further: actions where Alice \emph{can} do something might
-naturally lead to assertions where Alice \emph{has} done something.  If a policy
-author wished to enforce this relationship then we can start to reason about how the
-assertion context has changed over time.
-
-\begin{table}\centering
-  \begin{tabular}{l c l}
-    \toprule
-      $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\
-      $P(\phi)$ & $\Rightarrow$ & At sometime in the past $\phi$ was true. \\
-      $G(\phi)$ & $\Rightarrow$ & $\phi$ will always true. \\
-      $H(\phi)$ & $\Rightarrow$ & $\phi$ was always true. \\
-    \bottomrule
-  \end{tabular}
-  \caption{Summary of temporal operators from Prior~\cite{arthur_n._prior_past_1967}.}
-  \label{tab:temporal-operators}
-\end{table}
-
-Using the temporal operators in \autoref{tab:temporal-operators}, we can start to write rules expressing the relationship between different predicates.
-Taking the earlier example,  we might wish to add a rule that if Alice believes Bob has done something $\phi$, then she must have said he could do that thing in the past.
-
-\begin{equation*}
-  \infer{P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)}{%
-    AC, D \models \mathtt{A~says~B~has~\phi.}}
-\end{equation*}
-
-Using this structure we could add a rule to AppPAL that all decisions from the past, will hold in the future.
-This might enable us to reduce the size of the asserition context as once we have a statement that someone \emph{has} we can remove the respective \emph{can} assertions.
-Alternatively if we prove the rule is false, i.e. at no point in the past did Alice permit Bob's action then we can detect something has gone wrong.
-
-\begin{equation*}
-  \infer{\bot}{%
-  AC, D \models \mathtt{A~says~B~has~\phi.} & \neg P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)
-  }
-\end{equation*}
-
-An AppPAL interpretter might implement this by requiring the \emph{can} statement be made before any equivalent \emph{has} statement is made.
-Looking at a trace from an instance of an AppPAL interpreter with one AC (though which might import or remove assertions over time), the following trace would be valid, but if the statement in red was removed it would be rejected.
-
-\begin{center}
-  \begin{tabular}{c c l}
-    \toprule
-    $\vdots$ & $\vdots$ \\
-    At $T_i$:   & \textcolor{BrickRed}{$AC_i, D \models \mathtt{A~says~B~can~\phi.}$} & \\
-    $\vdots$ & $\vdots$ \\
-    At $T_j$:   & $AC_j, D \models \mathtt{A~says~B~has~\phi.}$ & (j $>$ i) \\
-    $\vdots$ & $\vdots$ \\
-    \bottomrule
-  \end{tabular}
-\end{center}
-
-Interesting examples are not just limited to \emph{can} and \emph{has}: 
-if Alice says Bob \emph{must} do some $\phi$, then we would expect that at some point in the future (if not immediately) that Alice will say that Bob \emph{can} complete the obligation to $\phi$.  Furthermore we would also expect Alice to acknowledge that at some future point Bob \emph{has} done $\phi$ as she required.
-
-\begin{equation*}
-  \infer{F\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~has~\phi.}\right)}{%
-  F\left(\exists AC^{\prime}~s.t.~AC^{\prime}, D^{\prime} \models \mathtt{A~says~B~can~\phi.}\right) &
-    AC, D \models \mathtt{A~says~B~must~\phi.}}
-\end{equation*}
-
-Using this interpretation of AppPAL's rules the following for an interpretter the following trace is valid; 
-but if either statement in red was removed the interpreter would report an error.
-
-\begin{center}
-  \begin{tabular}{c c l}
-    \toprule
-    $\vdots$ & $\vdots$ \\
-    At $T_i$:   & $AC_i, D \models \mathtt{A~says~B~must~\phi.}$ & \\
-    $\vdots$ & $\vdots$ \\
-    At $T_j$:   & \textcolor{BrickRed}{$AC_i, D \models \mathtt{A~says~B~can~\phi.}$} & \\
-    $\vdots$ & $\vdots$ \\
-    At $T_k$:   & \textcolor{BrickRed}{$AC_j, D \models \mathtt{A~says~B~has~\phi.}$} & (k $>$ i, k $>$ j) \\
-    $\vdots$ & $\vdots$ \\
-    \bottomrule
-  \end{tabular}
-\end{center}
-
-Using four predicates to describe various decisions allows for complex interpretations on top of AppPAL.
-In this work we have only hinted at some of these possibilities, however it may make an interesting avenue for future work.
 
 \subsection{Type Notation}
 
@@ -664,7 +578,7 @@ X says A predicate(B, C)
      C isT3, 
      ... .
 \end{lstlisting}
-  \caption{Desugaring from AppPAL to SecPAL.}
+  \caption{Desugaring from AppPAL types to SecPAL.}
   \label{lst:type-expansion}
 \end{figure}
 
@@ -711,37 +625,63 @@ This is a fairly simple refinement of SecPAL's syntax, but it improves the
 readability. It avoids hiding the condition that the company must own the access
 point amongst typing statements aiding readability. It also helps avoid errors
 in policies caused by the policy author forgetting to give a type to a variable.
+To our knowledge this is the first attempt to add 
 
 \section{Implementation}
 \label{sec:implementation}
 
 Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
-The implementation is available online\footnote{\url{https://github.com/apppal/libapppal}}.
-The library creates an AppPAL instance.
-This instance can be given several policies to enforce. 
-The architecture is shown in \autoref{fig:apppal-inputs-outputs}.
-The instance is queried and will give decisions based on whether the queried assertion is valid according to the policy.
-As part of the constraint checking AppPAL can also be connected to external databases, systems, and static analysis tools.
-These can give AppPAL with more information external to that provided by SecPAL at the time of checking, and connect AppPAL to tools to enforce the policies.
+The implementation is available
+online\footnote{\url{https://github.com/apppal/libapppal}}. The library creates
+an AppPAL instance. This instance can be given several policies to enforce. The
+architecture is shown in \autoref{fig:apppal-inputs-outputs}. The instance is
+queried and will give decisions based on whether the queried assertion is valid
+according to the policy. As part of the constraint checking AppPAL can also be
+connected to external databases, systems, and static analysis tools. These can
+give AppPAL with more information external to that provided by SecPAL at the
+time of checking, and connect AppPAL to tools to enforce the policies.
 
 Implementing AppPAL as a library allows us to embed into a variety of
-situations.  AppPAL can be part of an app store checking the apps sold against
-a policy.  Running on a device, AppPAL can check apps before installation by
-the package manager.  There is also a command-line version which is useful for
-testing and modelling policies.  Our implementation can make the inferences, on
-an Android device or on a command line but it is not integrated into Android.
-It is future work to evaluate how AppPAL policies mgiht work in practice and be
-tied into a mobile operating system to enforce policies in practice.  This work
+situations. AppPAL can be part of an app store checking the apps sold against a
+policy. Running on a device, AppPAL can check apps before installation by the
+package manager. There is also a command-line version which is useful for
+testing and modelling policies. Our implementation can make the inferences, on
+an Android device or on a command line but it is not integrated into Android. It
+is future work to evaluate how AppPAL policies mgiht work in practice and be
+tied into a mobile operating system to enforce policies in practice. This work
 looks primarily and moddeling the policies and preference and providing a
 framework for enforcement, rather than the enforcement itself.
 
-The AppPAL interpreter implements SecPAL's evaluation rules (shown in~\autoref{fig:secpal-rules}) directly.
-This differs from Becker's original description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation through Datalog$^C$.
-Datalog$^C$ is Datalog extended to support constraints~\cite{li_datalog_2003}.
-Rather than implementing Datalog$^C$ and then AppPAL atop it (we could not find an existing implementation), AppPAL implements the evaluation rules directly.
-Our implementation is na\"ive and not the optimal method for evaluating queries.
-Faster solutions might use answer-set programming and an SMT solver to answer queries.
-For all policies we tried though our implementation was fast enough---answering all but the most queries in seconds.  An app takes about 30 seconds to download and install\footnote{The time taken to download and install the YouTube app on iOS over Wifi.}. An extra second to check a policy seems reasonable, though future work could check what user's find acceptable.
+The AppPAL interpreter implements SecPAL's evaluation rules (shown
+in~\autoref{fig:secpal-rules}) directly. This differs from Becker's original
+description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation
+through Datalog$^C$. Datalog$^C$ is a variant of Datalog extended to support
+constraints~\cite{li_datalog_2003}. 
+
+Becker used a translation from SecPAL to Datalog$^C$ in order to prove certain
+properties about SecPAL: namely decidability and tractability (with polynomial
+data complexity). In order to implement SecPAL efficiently he described a novel
+Datalog evaluation algorithm using tabling, as the \emph{bottom up} methods were
+inefficient with a changing assertion context, and the \emph{top down} methods
+(such as SLD resolution) could run into infinite loops when evaluating
+\emph{can-say} or \emph{can-act-as} statements. To solve these issues Becker
+proposed an algorithm that extended SLD resolution with a table to prune
+infinite search trees by tracking which rules had been used before.
+
+When implementing SecPAL we considered using a Datalog$^C$ backend but could not
+find an implementation. We also explored using a Datalog implementation (such as
+Z3 or Datomic) to build SecPAL but in practice no implementation could fully
+support Datalog$^C$. We also wanted our implementation to run on an Android
+device (we were interested in having user's enforce policies on their phone),
+and all the Datalog libraries we found could not be ported trivially.
+
+Rather than implementing Datalog$^C$ ourselves, AppPAL implements SecPAL's
+evaluation rules directly, and incorporates Becker's tabling to avoid infinite
+loops. Our implementation is na\"ive and not the optimal method for evaluating
+queries. Faster solutions might use answer-set programming and an SMT solver to
+answer queries. For all policies we tried our implementation was fast
+enough---answering all but the most complex queries in seconds
+(\autoref{ssec:benchmarks}).
 
 \begin{figure}
   \centering
@@ -785,31 +725,38 @@ For all policies we tried though our implementation was fast enough---answering 
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-Pseudocode for AppPAL's evaluation algorithm is given in Algorithms~\cref{alg:eval1,alg:eval2,alg:eval3}.
+Pseudocode for evaluation algorithm used by AppPAL is described
+in~Figures~\ref{alg:eval1},~\ref{alg:eval2}~and~\ref{alg:eval3}.
 
 To make queries against a policy AppPAL is first given one or more policy files.
-AppPAL parses the files and adds the assertions within them to the \ac{AC}.
-The AC is then preprocessed to extract more information; summarized in \autoref{tab:apppal-sets}.
-If a constant is used before a \emph{says} statement, or it is used as the subject of a \emph{can-say} fact then the constant is marked as \emph{voiced}.
-A constant is \emph{voiced} if it is the speaker of a statement or it is the subject of a \emph{can-say} fact.
-A constant is a \emph{subject} is it is the subject of a fact.
-The predicates used in the policy are also extracted and marked as \emph{derivable}.
-This allows some queries to be decided automatically and some rules to be flagged as unusable in the assertion context.
-This lets AppPAL reject some queries quickly: if a query has a speaker that isn't voiced then we cannot query what the speaker says.
-If a rule relies on un-derivable predicates then it cannot be used to make decisions.
+AppPAL parses the files and adds the assertions within them to the \ac{AC}. The
+AC is then preprocessed to extract more information; summarized in
+\autoref{tab:apppal-sets}. If a constant is used before a \emph{says} statement,
+or it is used as the subject of a \emph{can-say} fact then the constant is
+marked as \emph{voiced}. A constant is \emph{voiced} if it is the speaker of a
+statement or it is the subject of a \emph{can-say} fact. A constant is a
+\emph{subject} is it is the subject of a fact. The predicates used in the policy
+are also extracted and marked as \emph{derivable}. This allows some queries to
+be decided automatically and some rules to be flagged as unusable in the
+assertion context. This lets AppPAL reject some queries quickly: if a query has
+a speaker that isn't voiced then we cannot query what the speaker says. If a
+rule relies on un-derivable predicates then it cannot be used to make decisions.
 
-A results table is also created.
-All ground facts in the assertion context are added to the results table as proven facts.
-The table stores partial results and previously established proofs.
-The table is indexed by queries and a delegation depth, partial results (i.e. that the evaluation of this query is ongoing).
-This allows previous results to reused without re-computation or constraint re-evaluation.
-It also prevents AppPAL proofs growing infinite in size (and the decision process not terminating).
-If when searching for a proof we meet a query that we are currently evaluating, i.e.~one that exists higher in the current proof tree, we treat it as false.
-Multiple queries will share the same results table until the table is cleared, or the AppPAL instance is stopped.
+A results table is also created. All ground facts in the assertion context are
+added to the results table as proven facts. The table stores partial results and
+previously established proofs. The table is indexed by queries and a delegation
+depth, partial results (i.e. that the evaluation of this query is ongoing). This
+allows previous results to reused without re-computation or constraint
+re-evaluation. It also prevents AppPAL proofs growing infinite in size (and the
+decision process not terminating). If when searching for a proof we meet a query
+that we are currently evaluating, i.e.~one that exists higher in the current
+proof tree, we treat it as false. Multiple queries will share the same results
+table until the table is cleared, or the AppPAL instance is stopped.
 
-When evaluating the policy we also track which rules and predicates we have used.
-From this we can reconstruct a proof tree that shows how AppPAL made a decision.
-This allows an auditor to check the decision-making process and aids AppPAL's developers with debugging.
+When evaluating the policy we also track which rules and predicates we have
+used. From this we can reconstruct a proof tree that shows how AppPAL made a
+decision. This allows an auditor to check the decision-making process and aids
+AppPAL's developers with debugging.
 
 \begin{table}
   \centering
@@ -828,102 +775,111 @@ This allows an auditor to check the decision-making process and aids AppPAL's de
   \label{tab:apppal-sets}
 \end{table}
 
-\begin{algorithm}
-  \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
-    \If{Results Table.\FnContains{(Query, D)}}{
-      result $\gets$ {Results Table.\FnGet{(Query, D)}}\;
-      \If{result.\FnValid{}}{
-        \Return Result
+\begin{figure}
+  \begin{algorithm}[H]
+    \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
+      \If{Results Table.\FnContains{(Query, D)}}{
+        result $\gets$ {Results Table.\FnGet{(Query, D)}}\;
+        \If{result.\FnValid{}}{
+          \Return Result
+        }
+        \Else{
+          \Return{Failure}
+        }
       }
       \Else{
-        \Return{Failure}
-      }
-    }
-    \Else{
-      Results Table.\FnSet{(Query, D), (Inprogress, p)}\;
-      p $\gets$ \FnCond{AC, Results Table, Query, D}\;
-      \If{p.\FnValid{}}{
-        Results Table.\FnSet{(Query, D), (Proven, p)}\;
-        \Return{(Proven, p)}\;
-      }
-      \Else{
-        p $\gets$ \FnCanSayCanActAs{AC, Results Table, Query, D}\;
+        Results Table.\FnSet{(Query, D), (Inprogress, p)}\;
+        p $\gets$ \FnCond{AC, Results Table, Query, D}\;
         \If{p.\FnValid{}}{
           Results Table.\FnSet{(Query, D), (Proven, p)}\;
           \Return{(Proven, p)}\;
         }
         \Else{
-          Results Table.\FnSet{(Query, D), Failure}\;
-          \Return{Failure}\;
-        }
-      }
-    }
-  }
-  \caption{Pseudocode for evaluating a query.}
-  \label{alg:eval1}
-\end{algorithm}
-\begin{algorithm}
-  \ContinuedFloat
-  \Fn(){\FnCanSayCanActAs{AC, Results Table, Query, D}}{
-    \For{c $\in$ \FnConstants{AC}}{
-      \If{c $\in$ \FnSubjects{AC}}{
-        p $\gets$ \FnCanActAs{AC, Results Table, Query, D}\;
-        \If{p.\FnValid{}}{\Return p}
-      }
-      \If{c $\in$ \FnSpeakers{AC}}{
-        p $\gets$ \FnCanSay{AC, Results Table, Query, D}\;
-        \If{p.\FnValid{}}{\Return p}
-      }
-    }
-    \Return{Failure}
-  }
-  \caption{Pseudocode for using the can-say and can-act-as rules.}
-  \label{alg:eval2}
-\end{algorithm}
-\begin{algorithm}
-  \ContinuedFloat
-  \Fn(){\FnCond{AC, Results Table, Query, D}}{
-    \For{a $\in$ \FnAssertions{AC}}{
-      u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
-      \If{u.\FnValid{}}{
-        a $\gets$ a.\FnApply{u}
-        \If{\FnVariables{a} = $\emptyset$}{
-          \Return{\FnCheckBody{AC, Results Table, a, D}}
-          \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
-            a$^\prime$ $\gets$ a.\FnApply{$\theta$}\;
-            \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
-              p $\gets$ \FnCheckConstraint{a$^\prime$.\FnConstraint{}}\;
-              \If{p.\FnValid{}}{\Return{p}}
-            }
+          p $\gets$ \FnCanSayCanActAs{AC, Results Table, Query, D}\;
+          \If{p.\FnValid{}}{
+            Results Table.\FnSet{(Query, D), (Proven, p)}\;
+            \Return{(Proven, p)}\;
+          }
+          \Else{
+            Results Table.\FnSet{(Query, D), Failure}\;
+            \Return{Failure}\;
           }
         }
       }
     }
-    \Return{Failure}
-  }
-    \caption{Pseudocode for using the cond-rule.}
-    \label{alg:eval3}
-\end{algorithm}
+  \end{algorithm}
+  \caption{Pseudocode for evaluating a query.}
+  \label{alg:eval1}
+\end{figure}
+\begin{figure}
+  \begin{algorithm}[H]
+    \ContinuedFloat
+    \Fn(){\FnCanSayCanActAs{AC, Results Table, Query, D}}{
+      \For{c $\in$ \FnConstants{AC}}{
+        \If{c $\in$ \FnSubjects{AC}}{
+          p $\gets$ \FnCanActAs{AC, Results Table, Query, D}\;
+          \If{p.\FnValid{}}{\Return p}
+        }
+        \If{c $\in$ \FnSpeakers{AC}}{
+          p $\gets$ \FnCanSay{AC, Results Table, Query, D}\;
+          \If{p.\FnValid{}}{\Return p}
+        }
+      }
+      \Return{Failure}
+    }
+  \end{algorithm}
+  \caption{Pseudocode for using the can-say and can-act-as rules.}
+  \label{alg:eval2}
+\end{figure}
+\begin{figure}
+  \begin{algorithm}[H]
+    \ContinuedFloat
+    \Fn(){\FnCond{AC, Results Table, Query, D}}{
+      \For{a $\in$ \FnAssertions{AC}}{
+        u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
+        \If{u.\FnValid{}}{
+          a $\gets$ a.\FnApply{u}
+          \If{\FnVariables{a} = $\emptyset$}{
+            \Return{\FnCheckBody{AC, Results Table, a, D}}
+            \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
+              a$^\prime$ $\gets$ a.\FnApply{$\theta$}\;
+              \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
+                p $\gets$ \FnCheckConstraint{a$^\prime$.\FnConstraint{}}\;
+                \If{p.\FnValid{}}{\Return{p}}
+              }
+            }
+          }
+        }
+      }
+      \Return{Failure}
+    }
+  \end{algorithm}
+  \caption{Pseudocode for using the cond-rule.}
+  \label{alg:eval3}
+\end{figure}
 
-\subsection{Soundness o decision procedure}
+\subsection{Soundness of decision procedure}
 \todo{You know you're going to have to do this.}
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
 
-Someone using AppPAL might wish it to check apps before installation.
-Since policy checks may involve inspecting many rules and constraints one may ask whether the checking will be acceptably fast.
-Downloading and installing an app takes about 30 seconds on a typical Android phone over Wifi.
-If checking a policy delays this even further a user may become annoyed and disable AppPAL.
+Someone using AppPAL might wish it to check apps before installation. Since
+policy checks may involve inspecting many rules and constraints one may ask
+whether the checking will be acceptably fast. Downloading and installing an app
+takes about 30 seconds on a typical Android phone over Wifi. If checking a
+policy delays this even further a user may become annoyed and disable AppPAL.
 
-A synthetic benchmark is used to give a measure AppPAL's performance.
-The policy checking procedure is at its slowest when having to delegate repeatedly;
-  the depth of the delegation tree is the biggest reason for slowing the search.
+A synthetic benchmark is used to give a measure AppPAL's performance. The policy
+checking procedure is at its slowest when having to delegate repeatedly; the
+depth of the delegation tree is the biggest reason for slowing the search.
 Synthetic benchmarks checks that the checking procedure performed acceptably.
-Each benchmark consisted of a chain of delegations.
-The \emph{1 to 1} benchmark consists of a repeated delegation between all the principals.
-In the \emph{1 to 2} benchmark each principal delegated to 2 others and in the \emph{1 to 3} benchmark each principal delegated to 3 others.
-These benchmarks are reasonable as they model the slowest kinds of policies to test---though worse ones could be designed by delegating even more or triggering an expensive constraint check.
+Each benchmark consisted of a chain of delegations. The \emph{1 to 1} benchmark
+consists of a repeated delegation between all the principals. In the \emph{1 to
+2} benchmark each principal delegated to 2 others and in the \emph{1 to 3}
+benchmark each principal delegated to 3 others. These benchmarks are reasonable
+as they model the slowest kinds of policies to test---though worse ones could be
+designed by delegating even more or triggering an expensive constraint check.
 
 \noindent
 \begin{minipage}{.32\textwidth}
@@ -972,7 +928,7 @@ Most typical policies (such as those discussed in \autoref{chap:apps-and-stores}
 I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
 
 \begin{table}
-  \centering\sffamily
+  \centering\sffamily\footnotesize
     \begin{tabular}{c c r@{.}l}
       \toprule
       Delegations & Principals & \multicolumn{2}{c}{Time (s)} \\
@@ -993,7 +949,7 @@ I believe the policy checking performance of AppPAL is acceptable as unless a po
       1 to 3 & 1000 & 15&28 \\
       \bottomrule
     \end{tabular}
-    \includegraphics[width=1.00\linewidth]{figures/benchmarks.pdf}
+    \includegraphics[width=0.70\linewidth]{figures/benchmarks.pdf}
   \caption{Benchmarking results on a Nexus 4 Android phone.}
   \label{tab:benchmarks}
 \end{table}
@@ -1194,7 +1150,7 @@ $\$$ java -jar Lint.jar --satisfiability example.policy
 \end{lstlisting}
 
 The satisfiability checker acts as a quick sanity checker that a policy contains
-enough facts and assertions. unlike AppPAL-proper which can check how and
+enough facts and assertions; unlike AppPAL-proper which can check how and
 whether a specific statement would be be made.  
 
 %The code in \autoref{alg:reachable} produces a set of pairs of predicates and
@@ -1334,7 +1290,7 @@ the set of ground facts used in $B$ is a subset of the ground facts
 used in $A$. Whenever $A$ is satisfied $B$ will also be, but when $B$
 is satisfied $A$ may not be: consequently $A$ is redundant as $B$ can
 be used to prove its goal with fewer facts.  For any goal
-$G$.
+$G$:
 
 \begin{align*}
   \exists p_1 \in \text{proofs}(G).~\exists p_2 \in \text{proofs}(G).        & \\

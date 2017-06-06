@@ -249,10 +249,13 @@ look at where the checks or policies come from, however.
 
 \section{Modelling BYOD policies}
 
-Because the policies are written using natural language, which can be ambiguous.
-Comparing policies written in different styles from different sources is tricky as the relationships between different entities, and the exact decisions being made can become confused.
-To make comparisons precisely we first model the natural language policy's rules in a formal language, namely AppPAL.
-We take care to use the same predicates between different policies to create a standard set of decisions between \ac{BYOD} policies.
+Because the policies are written using natural language, they can be ambiguous.
+Comparing policies written in different styles from different sources is tricky
+as the relationships between different entities, and the exact decisions being
+made can become confused. To make comparisons precise we first model the
+natural language policy's rules in a formal language, namely AppPAL. We take
+care to use the same predicates between different policies to create a standard
+set of decisions between \ac{BYOD} policies.
 
 Each of the policies are split into a series of rules. A simple example is the
 following example from the Sirens-company policy. The rule states that devices
@@ -359,10 +362,10 @@ functionality restrictions.  Restricting device functionality is
 tricky and important, but other aspects of BYOD policies are also
 worth attention.
 
-\begin{table}\sffamily\small\centering
-  \newcommand{\zilch}[0]{\small 0}
-  \newcommand{\numpc}[2]{\small #2\% {\small(#2)}}
-  \setlength{\tabcolsep}{1pt}
+\begin{table}\sffamily\footnotesize\centering
+  \newcommand{\zilch}[0]{\scriptsize 0}
+  \newcommand{\numpc}[2]{\scriptsize #2\% {\tiny(#1)}}
+  \setlength{\tabcolsep}{4pt}
 \begin{tabular}{ c  c c c c c c c c c }
 \toprule
              & \multicolumn{4}{c}{Decision}                                                    && \multicolumn{4}{c}{Condition} \\

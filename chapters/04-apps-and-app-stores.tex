@@ -123,50 +123,21 @@ developer agreements.  These hide within pages of legalese what the
 stores are \emph{contractually} allowed to do with a user's data and a
 developer's app.
 
-% To explore the differences we took user and developer from five
-% different markets: Google Play, Amazon App Store, Apple's App Store,
-% Yandex and Aptoide.  These five were chosen as they represent the
-% biggest app marketplaces (Apple and Google Play) as well as some of
-% the larger third-party market places (Amazon and Yandex).  Yandex and
-% Aptoide are market places that are often installed on Android devices
-% that do not meet Google's criteria for the Play Store.
+A comparison of the terms and conditions is given in
+\autoref{tab:terms-and-conditions}. It is also worthwhile comparing the forms
+the terms and conditions themselves take. For most of the stores the terms are
+single files or webpages written in English easily accessible from the store
+homepages~\cite{yandex_yandex.store_nodate,aptoide_aptoide_nodate,google_google_nodate,amazon_amazon.co.uk_nodate}.
 
-These five seem to cover many of the different use cases and terms for
-a store, though unfortunately they do not include a Chinese store.
-The Chinese Android app markets, unlike the rest of
-the world, they have grown without ever being in competition with
-Google's store.  Many of the apps featured on the front page of the
-\emph{Baidu} marketplace (China's largest), are unfamiliar to Westernaudiences, with only
-the games having recognisable icons (\autoref{fig:storefronts}).  Apps
-like WhatsApp Facebook and Candy Crush, that appear on nearly every
-other app market are absent.
-% Future work should explore these markets
-% further as they represent an important part of the mobile ecosystem
-% largely unexamined by this dissertation.
-
-\begin{figure}\centering
-  \begin{minipage}{\linewidth}
-    \begin{minipage}{0.48\linewidth}
-      \includegraphics[width=\linewidth]{figures/google-storefront.png}
-    \end{minipage}
-    \begin{minipage}{0.48\linewidth}
-      \includegraphics[width=\linewidth]{figures/baidu-storefront.png}
-    \end{minipage}
-  \end{minipage}
-  \caption{Different storefronts for Google Play and Baidu app stores.}
-  \label{fig:storefronts}
-\end{figure}
-
-A comparison of the terms and conditions is given in \autoref{tab:terms-and-conditions}.
-It is also worthwhile comparing the forms the terms and conditions themselves take.
-For most of the stores the terms are single files or webpages written in English easily accessible from the store homepages~\cite{yandex_yandex.store_nodate,aptoide_aptoide_nodate,google_google_nodate,amazon_amazon.co.uk_nodate}.  
-
-Apple's terms documents are split into many files and websites, and it isn't immediately obvious how each is related.
-The user agreements for all app software and hardware are kept on one site in hierarchical menus with each product, version of a product, and for each country appearing to have a separate terms document.  In practice many products share the same linked contracts, within a single country.
-% One example of this is the warantees for Apple's various watches.  The \emph{Apple Watch} and \emph{Apple Watch Sport} share the same one year warantee in the UK and Ireland~\cite{apple_apple_nodate}.
-% The \emph{Apple Watch Edition}, however, has a two-year warantee~\cite{apple_apple_nodate-1}.  Looking at the documents they are mostly the same, with \emph{one year} in the first replaced with \emph{two years}.  This suggests these documents could be generated from templates based on the desired terms of the policy.  Intriguingly slight differences between the contracts suggests Apple do not do this and maintain each document separately.  For example the one year warantee has a section heading called ``IMPORTANT RESTRICTIONS" but in the two-year warantee it is ``IMPORTANT RESTRICTION".  We would not expect to see these, and other, differences if the documents were generated from a common source.
-Developer terms and agreements are kept in a different website and presented as a list of eleven policies.
-The iTunes terms and conditions, which form the bulk of the agreements for using the iOS app store, are also available in comic-book format ~\cite{r._sikoryak_terms_2017}. 
+Apple's terms documents are split into many files and websites, and it isn't
+immediately obvious how each is related. The user agreements for all app
+software and hardware are kept on one site in hierarchical menus with each
+product, version of a product, and for each country appearing to have a separate
+terms document. In practice many products share the same linked contracts,
+within a single country. Developer terms and agreements are kept in a different
+website and presented as a list of eleven policies. The iTunes terms and
+conditions, which form the bulk of the agreements for using the iOS app store,
+are also available in comic-book format ~\cite{r._sikoryak_terms_2017}.
 
 \afterpage{{\tiny\sffamily\centering\raggedright
   \newcolumntype{R}{>{\raggedright\arraybackslash}p{0.13\linewidth}}
@@ -539,7 +510,7 @@ satisfied which policies.
 
 The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
 users seem to follow Lin~\etal's policies most of the
-time.  Even for the least onourus policy,
+time.h
 the \emph{unconcerned} policy, most users did not seem to follow the
 policy most of the time.  This suggests that there is a disconnect
 between user's privacy preferences and their behavior (reminiscent of
@@ -583,17 +554,17 @@ as they often request many permissions. We can check this by using
 AppPAL policies to measure the number of malwares each user had
 installed.
 
-\begin{marginfigure}
+\begin{figure}
   \centering
   \subfloat[Malware only]{%
-    \includegraphics[width=0.9\linewidth]{figures/malware_np.pdf}
+    \includegraphics[width=0.45\linewidth]{figures/malware_np.pdf}
   }\\
   \subfloat[Malware and PUPs]{%
-    \includegraphics[width=0.9\linewidth]{figures/malware_nm.pdf}
+    \includegraphics[width=0.45\linewidth]{figures/malware_nm.pdf}
   }\\
   \caption{Malware installation numbers in the Carat dataset.}
   \label{fig:malware}
-\end{marginfigure}
+\end{figure}
 
 We found that 1\% of the users had a \ac{PUP} or malicious app
 installed.  Figure~\ref{fig:malware} shows that infection rates for

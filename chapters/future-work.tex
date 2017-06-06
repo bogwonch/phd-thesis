@@ -171,6 +171,114 @@ conditionals that \texttt{'x' says 'y' p} and \texttt{'x' says 'z' q}. Since the
 decision that \texttt{'x' says 'y' p} is also part of the conditions, we could
 repeatedly reapply this rule and raise the plausibility arbitrarily.
 
+\subsubsection{Patterns with predicates}
+
+We described in \autoref{chap:apppal} how we split AppPAL predicates into four types: can, has, is and must.
+Using the four predicate types we can start to build relationships between them.
+We also showed how a policy author could check an obligation was completed when
+descrbing \emph{must} predicates.  Whilst a policy author could write these
+rules by hand, AppPAL has tools to automate creating rules like this.
+
+As well as automating creating the policy, we could also start to check other
+properties to check the policy is well formed. Using the example of installing
+an app; if \emph{Alice says Bob must install
+  an app}, then it implies that there should be a rule where \emph{Alice says
+Bob has installed that app}.  We might also expect there to be a rule that
+\emph{Alice says Bob can install the app}.
+
+This can be taken further: actions where Alice \emph{can} do something might
+naturally lead to assertions where Alice \emph{has} done something.  If a policy
+author wished to enforce this relationship then we can start to reason about how the
+assertion context has changed over time.
+
+\begin{table}\centering
+  \begin{tabular}{l c l}
+    \toprule
+      $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\
+      $P(\phi)$ & $\Rightarrow$ & At sometime in the past $\phi$ was true. \\
+      $G(\phi)$ & $\Rightarrow$ & $\phi$ will always true. \\
+      $H(\phi)$ & $\Rightarrow$ & $\phi$ was always true. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of temporal operators from Prior~\cite{arthur_n._prior_past_1967}.}
+  \label{tab:temporal-operators}
+\end{table}
+
+Using the temporal operators in \autoref{tab:temporal-operators}, we can start
+to write rules expressing the relationship between different predicates. Taking
+the earlier example, we might wish to add a rule that if Alice believes Bob has
+done something $\phi$, then she must have said he could do that thing in the
+past.
+
+\begin{equation*}
+  \infer{P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)}{%
+    AC, D \models \mathtt{A~says~B~has~\phi.}}
+\end{equation*}
+
+Using this structure we could add a rule to AppPAL that all decisions from the
+past, will hold in the future. This might enable us to reduce the size of the
+asserition context as once we have a statement that someone \emph{has} we can
+remove the respective \emph{can} assertions. Alternatively if we prove the rule
+is false, i.e. at no point in the past did Alice permit Bob's action then we can
+detect something has gone wrong.
+
+\begin{equation*}
+  \infer{\bot}{%
+  AC, D \models \mathtt{A~says~B~has~\phi.} & \neg P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)
+  }
+\end{equation*}
+
+An AppPAL interpreter might implement this by requiring the \emph{can}
+statement be made before any equivalent \emph{has} statement is made. Looking at
+a trace from an instance of an AppPAL interpreter with one AC (though which
+might import or remove assertions over time), the following trace would be
+valid, but if the statement in red was removed it would be rejected.
+
+\begin{center}
+  \begin{tabular}{c c l}
+    \toprule
+    $\vdots$ & $\vdots$ \\
+    At $T_i$:   & \textcolor{BrickRed}{$AC_i, D \models \mathtt{A~says~B~can~\phi.}$} & \\
+    $\vdots$ & $\vdots$ \\
+    At $T_j$:   & $AC_j, D \models \mathtt{A~says~B~has~\phi.}$ & (j $>$ i) \\
+    $\vdots$ & $\vdots$ \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+Interesting examples are not just limited to \emph{can} and \emph{has}: if Alice
+says Bob \emph{must} do some $\phi$, then we would expect that at some point in
+the future (if not immediately) that Alice will say that Bob \emph{can} complete
+the obligation to $\phi$. Furthermore we would also expect Alice to acknowledge
+that at some future point Bob \emph{has} done $\phi$ as she required.
+
+\begin{equation*}
+  \infer{F\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~has~\phi.}\right)}{%
+  F\left(\exists AC^{\prime}~s.t.~AC^{\prime}, D^{\prime} \models \mathtt{A~says~B~can~\phi.}\right) &
+    AC, D \models \mathtt{A~says~B~must~\phi.}}
+\end{equation*}
+
+Using this interpretation of AppPAL's rules the following for an interpretter
+the following trace is valid; but if either statement in red was removed the
+interpreter would report an error.
+
+\begin{center}
+  \begin{tabular}{c c l}
+    \toprule
+    $\vdots$ & $\vdots$ \\
+    At $T_i$:   & $AC_i, D \models \mathtt{A~says~B~must~\phi.}$ & \\
+    $\vdots$ & $\vdots$ \\
+    At $T_j$:   & \textcolor{BrickRed}{$AC_i, D \models \mathtt{A~says~B~can~\phi.}$} & \\
+    $\vdots$ & $\vdots$ \\
+    At $T_k$:   & \textcolor{BrickRed}{$AC_j, D \models \mathtt{A~says~B~has~\phi.}$} & (k $>$ i, k $>$ j) \\
+    $\vdots$ & $\vdots$ \\
+    \bottomrule
+  \end{tabular}
+\end{center}
+
+Further investigation into the relationships between predicates, and their
+semantics, might allow for interesting auditing possibilities with AppPAL and
+extend the language further.
 
 \section{Other Markets}
 
