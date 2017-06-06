@@ -376,7 +376,7 @@ domain.  The choice of predicates and constraints defines the
 decisions the SecPAL instantiation can talk about.
 
 AppPAL instantiates SecPAL to describe policies in mobile
-ecosystems~\cite{hallett_apppal_2016}.  It was initially focussed on
+ecosystems. It was initially focussed on
 describing app installation policies, however it was later extended
 further to describe other policies, such as \ac{BYOD} policies.
 
@@ -741,7 +741,7 @@ Datalog$^C$ is Datalog extended to support constraints~\cite{li_datalog_2003}.
 Rather than implementing Datalog$^C$ and then AppPAL atop it (we could not find an existing implementation), AppPAL implements the evaluation rules directly.
 Our implementation is na\"ive and not the optimal method for evaluating queries.
 Faster solutions might use answer-set programming and an SMT solver to answer queries.
-For all policies we tried though our implementation was fast enough---answering all but the most queries in seconds~\cite{hallett_apppal_2016}.  An app takes about 30 seconds to download and install\footnote{The time taken to download and install the YouTube app on iOS over Wifi.}. An extra second to check a policy seems reasonable, though future work could check what user's find acceptable.
+For all policies we tried though our implementation was fast enough---answering all but the most queries in seconds.  An app takes about 30 seconds to download and install\footnote{The time taken to download and install the YouTube app on iOS over Wifi.}. An extra second to check a policy seems reasonable, though future work could check what user's find acceptable.
 
 \begin{figure}
   \centering
@@ -969,7 +969,7 @@ For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
 The results are shown in \autoref{tab:benchmarks}.
 Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
-I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone~\cite{hallett_apppal_2016}.
+I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
 
 \begin{table}
   \centering\sffamily
