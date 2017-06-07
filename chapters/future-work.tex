@@ -3,30 +3,26 @@
 \chapter{Future Work}
 \label{chap:future-work}
 
-So far we have described the policies of the mobile ecosystem and how AppPAL can
-be used to describe them. We have argued that AppPAL is a good language for
+We have described the policies of the mobile ecosystem and how AppPAL can be
+used to describe them. We have argued that AppPAL is a good language for
 describing these policies, however there are also areas where AppPAL could be
 improved to further to describe more kinds of policies and to aid policy
-authors, as well as examining further aspects of the mobile ecosystem. This chapter
-suggests several areas which we did not look at and why they might offer an
-interesting insight into mobile ecosystems. We also describe how plausibility,
-quantified doubt, could be used to express confidence in a statement in an
-AppPAL policy.
-
+authors, as well as examining further aspects of the mobile ecosystem. This
+chapter suggests areas we did not look at and how they might expand our
+knowledge of mobile ecosystems and the trust relationships within them.
 
 \section{Plausible SecPAL}
 
-The SecPAL authorization language, and the AppPAL instantiation, allow
-policy authors to make use of static analysis tools to make decisions,
-and allow principals to make statements about apps through delegation.
-When these decisions are made they are made with certainty.  If a
-principal says an app is safe to access the network then we believe
-that that principal definitely believes the app is safe on a network.
-When a static analysis tool finds that an app isn't malware then we
-believe that app to not be malware.  This isn't realistic.  Static
-analysis tools can produce false results.  A principal might be merely
-fairly confident that an app can access the network safely but not absolutely
-certain.
+The SecPAL authorization language, and the AppPAL instantiation, allow policy
+authors to make use of static analysis tools to make decisions, and allow
+principals to make statements about apps through delegation. When these
+decisions are made they are made with certainty. If a principal says an app is
+safe to access the network then we believe that that principal definitely
+believes the app is safe on a network. When a static analysis tool finds that an
+app isn't malware then we believe that app to not be malware. This isn't
+realistic. Static analysis tools can produce false results. A principal might be
+merely fairly confident that an app can access the network safely but not
+absolutely certain.
 
 With current authorization languages you cannot quantify the belief a principal
 has in any statement. A principal cannot say how \emph{plausible} they think any
@@ -123,17 +119,24 @@ to deal with delegation in the same manner as SecPAL however so incorporating
 similar ideas here may be interesting and allow SecPAL and AppPAL greater
 expressiveness..
 
+Whilst some work went into developing the ideas behind a plausible SecPAL
+variant, we did not finish this work because there are several hard problems
+surrounding it. In particular it is far from clear how to combine probabilistic
+statements in a consistent, and sound manner. Several choices are possible but
+more research is needed to understand the right way to do it and how to develop
+Plausible SecPAL into a full, and useful language.
+
+
 \subsection{Guarantees for Plausible SecPAL} 
 
 In \autoref{appendix:probabilistic} we suggest how we might implement Plausible
 SecPAL by modifying Becker~\etal's original design. However we implement it, we
 should consider carefully how we might \emph{combine} information and
 plausibilities. Combining probabilities of events when you cannot guarantee
-independence is hard, and the same is true of plausibility. Simple strategies
-such as taking the product, minimum or maximum of combined statements are simple
-solutions, though better ones undoubtably exist. However plausibility
-combination is implemented some thought should be given to what properties and
-guarantees Plausible SecPAL ought to offer. We suggest the following:
+independence is hard, and the same is true of plausibility. Strategies such as
+taking the product, minimum of combined statements may be too simple. We suggest
+the following properties should hold no matter what combination mechanism is
+used:
 
 \begin{enumerate}
 \item \label{enum:1} If all facts are completely plausible, then evaluation should be
@@ -280,54 +283,79 @@ Further investigation into the relationships between predicates, and their
 semantics, might allow for interesting auditing possibilities with AppPAL and
 extend the language further.
 
-\section{Other Markets}
-
-There are many different markets available for Android, each with their own
-policies and apps within them. In~\autoref{chap:apps-and-stores} we looked at
-the policies four different stores as well as Apple's store and started to make
-comparisons. The stores we looked at, however, were all common to Europe, Russia
-and the US.
-
-Other marketplaces, of course, exist. In particular the app ecosystem in China
-appears to be somewhat different as it has grown independently of Google. We did
-not examine these markets extensively, however, describing the differences
-between these stores and the western ones would make for an interesting
-comparison. One particularly interesting area might be to look at the apps sold.
-In all the stores we looked at many of the same apps appeared on the stores
-front pages. The Chinese stores have completely different sets of apps. Building
-a precise description of the different sets of apps each region uses would allow
-us to contrast what users are doing with their devices (i.e.~playing games,
-work, video) as well as which companies are collecting their data.
-
-\section{AppPAL Enforcement and Usability}
+\section{Curation with AppPAL}
 
 We have shown in this dissertation how AppPAL can be used to describe different
 policies for BYOD, and for app installation preferences. A logical next step
 would be to start to use AppPAL to enforce these policies, and to study how
 users might use AppPAL to make decisions.
 
-One way of doing this might be to use AppPAL as a mechanisms for finding apps
-that match user's privacy policies. We described earlier how we could use
-AppPAL's \emph{genstore}-framework to build a curated app store on the basis of
-a policy. This could be extended to allow for app searches. AppPAL is designed
-to be readable, but we might guess that most non-technical users would struggle
-with writing a formal policy (as they do with many other technical tasks).
-Exploring how general users might use policies, either through a subscription
-model where they \emph{subscribe} to a policy written by a more advanced user,
-or through a graphical interface that helps them build their own policy, would
-help us understand how (and infact whether at all) user's want to use better app
-controls. 
+This could be done by using AppPAL as a mechanism for \emph{curation}. AppPAL
+would be used as a tool for finding apps that match user's privacy policies. We
+described earlier how we could use AppPAL's \emph{genstore}-framework to build a
+curated app store on the basis of a policy. This could be extended to allow for
+policy-aware app searches.
+
+\section{AppPAL MDM}
 
 BYOD is another area where it would be interesting to see how AppPAL might be
-used in practice. When talking about BYOD policies we said that AppPAL was
-designed to separate the policy specification from its implementation. By
-combining AppPAL policies with an MDM package we could dynamically configure the
-MDM software to enforce a BYOD policy. This could allow for greater
-customization as not only could we extend the simplistic MDM policy setting with
-a full policy language. Trialing an implementation in a company and working with
-the IT departments and policy authors to better understand their needs would
-allow us to tailor AppPAL further to implementing BYOD policies.
+used in practice. AppPAL is designed to separate the policy specification from
+its implementation. By combining an AppPAL policy engine with an MDM package we
+could dynamically configure the MDM software to enforce a BYOD policy. This
+would allow for greater customization as we could extend the MDM tool to support
+contextual and policy driven controls rather than the low-level simple ones that
+are the only controls many tools support. More advanced MDM tools, such as
+Armando~\etal's \emph{meta-market}~\cite{armando_enabling_2014}, can enforce
+more complex policies but cannot distinguish between different contexts. A user
+who uses an app for both work and home may wish to run an app unemcumberred and
+with different accounts when at home compared to at the office. Extending a tool
+such as this with AppPAL would allow contextual as well as policy controls into
+apps.
 
+Trialing an implementation in a company and working with the IT departments and
+policy authors to better understand their needs would allow us to tailor AppPAL
+further to implementing BYOD policies rather than just modelling them.
+
+\section{Usability Study}
+
+AppPAL is designed to be readable, but we might guess that most non-technical
+users would struggle with writing a formal policy (as they do with many other
+technical tasks). Exploring how general users might use policies, either through
+a subscription model where they \emph{subscribe} to a policy written by a more
+advanced user, or through a graphical interface that helps them build their own
+policy, would help us understand how (and infact whether at all) users would
+take advantage of better app controls.
+
+Looking solely at the language a user study with AppPAL should seek to answer at
+least three questions looking at a range of users of varying technical skill and
+comparing to results from other languages (such as XACML):
+
+\begin{itemize}
+\item Can users comprehend the meaning of a policy written in AppPAL? Becker
+  designed SecPAL to be readable but didn't trial the language with users.
+  Specifically SecPAL was designed to be less verbose than XACML, to abstract away
+  the logic-based syntax of the RT family (which some administrators found
+  intimidating), and to offer a simple succinct syntax based on natural language.
+  Measuring users' comprehension of AppPAL would test whether the syntax offers an
+  advantage over other languages.
+
+\item Can users predict the decision made by AppPAL given a policy and a
+  scenario? As well as being readable SecPAL was designed to have intuitive
+  semantics. We would hope that a user should be able to follow and understand the
+  decision process made by AppPAL, but we should test it with users to be sure. A
+  key requirement for a policy language should be it's predictability as we do not
+  want the language to make surprising decisions (for its users), and allow or
+  deny actions that users intuitively believe should not be permitted given a
+  policy. Testing whether users can predict decisions given a policy and whether
+  they can explain, in high-level terms, the decision process would give some
+  measure of the language's intuitiveness.
+  
+\item Can users modify or create an AppPAL policy given set of requirements? If
+  AppPAL is comprehensible and predictable we would hope that a user could tweak
+  or even create a policy to meet their own requirements. SecPAL was designed to
+  be expressive, but we should test whether users are capable of expressing the
+  policies they want using it.
+\end{itemize}
 
 
 
@@ -337,3 +365,5 @@ allow us to tailor AppPAL further to implementing BYOD policies.
 %%% mode: latex
 %%% tex-master: "../ch6.tex"
 %%% end:
+
+
