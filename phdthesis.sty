@@ -124,8 +124,8 @@
 \SetKwIF{If}{ElseIf}{Else}{if}{:}{elif}{else:}{}
 \SetKwFunction{FnEvaluate}{Evaluate}
 \SetKwFunction{FnContains}{Contains}
-\SetKwFunction{FnCheckConstraint}{Check Constraint}
-\SetKwFunction{FnCheckBody}{Check Body}
+\SetKwFunction{FnCheckConstraint}{CheckConstraint}
+\SetKwFunction{FnCheckBody}{CheckBody}
 \SetKwFunction{FnGet}{Get}
 \SetKwFunction{FnSet}{Set}
 \SetKwFunction{FnCond}{Cond}
@@ -133,87 +133,87 @@
 \SetKwFunction{FnCanSay}{CanSay}
 \SetKwFunction{FnCanActAs}{CanActAs}
 \SetKwFunction{FnCanSayCanActAs}{CanSay-CanActAs}
-\SetKwFunction{FnValid}{Is Valid?}
-\SetKwFunction{FnVarSubs}{Variable Substitutions}
+\SetKwFunction{FnValid}{IsValid?}
+\SetKwFunction{FnVarSubs}{PossibleVariableSubstitutions}
 \SetKwFunction{FnAssertions}{Assertions}
 \SetKwFunction{FnConstants}{Constants}
 \SetKwFunction{FnSpeakers}{Speakers}
 \SetKwFunction{FnSubjects}{Subjects}
-\SetKwFunction{FnConstants}{Constants}
-\SetKwFunction{FnUnify}{Unify}
-\SetKwFunction{FnHead}{Head}
-\SetKwFunction{FnType}{Type}
-\SetKwFunction{FnApply}{Apply}
-\SetKwFunction{FnBody}{Body}
-\SetKwFunction{FnVariables}{Variables}
+    \SetKwFunction{FnConstants}{Constants}
+    \SetKwFunction{FnUnify}{Unify}
+    \SetKwFunction{FnHead}{Head}
+    \SetKwFunction{FnType}{Type}
+    \SetKwFunction{FnApply}{Apply}
+    \SetKwFunction{FnBody}{Body}
+    \SetKwFunction{FnVariables}{Variables}
 
-%% Sectioning commands
-%\newcommand{\frontmatter}[0]{}
-%\newcommand{\mainmatter}[0]{}
+    %% Sectioning commands
+    %\newcommand{\frontmatter}[0]{}
+    %\newcommand{\mainmatter}[0]{}
 
-% Tufte-latex compatibility
-\renewenvironment{figure*}{\begin{figure}\centering}{\end{figure}}
-\newenvironment{marginfigure}{\begin{figure}\centering}{\end{figure}}
-\renewenvironment{table*}{\begin{table}\centering}{\end{table}}
-\newenvironment{margintable}{\begin{table}\centering}{\end{table}}
+    % Tufte-latex compatibility
+    \renewenvironment{figure*}{\begin{figure}\centering}{\end{figure}}
+    \newenvironment{marginfigure}{\begin{figure}\centering}{\end{figure}}
+    \renewenvironment{table*}{\begin{table}\centering}{\end{table}}
+    \newenvironment{margintable}{\begin{table}\centering}{\end{table}}
 
 
-% Nicer typography
-%\includepackage{microtype}
+    % Nicer typography
+    %\includepackage{microtype}
 
-% Saner lists
-\includepackage{enumerate}
+    % Saner lists
+    \includepackage{enumerate}
 
-% Rotate stuff
-\includepackage{rotating}
+    % Rotate stuff
+    \includepackage{rotating}
 
-% Gantt charts
-%\includepackage{pgfgantt}
+    % Gantt charts
+    %\includepackage{pgfgantt}
 
-% Import files from a directory (useful for figures)
-%\includepackage{import}
+    % Import files from a directory (useful for figures)
+    %\includepackage{import}
 
-% Source code listings
-\includepackage{listings}
-\lstdefinelanguage{AppPAL}{%
-  morekeywords={if,inf,says,where,true,false,with,is},
-  otherkeywords={can-act-as,can-say},
-  sensitive=true,
-  morestring=[b]',
-  literate={\ inf\ }{{$\infty$}}5
-}[keywords,strings]
-\lstset{%
-  basicstyle=\ttfamily\footnotesize,
-  keywordstyle=\ttfamily\slshape,
-  stringstyle=\sffamily,
-  columns=flexible,
-  mathescape,
-  frame=single,
-  tabsize=2,
-  showstringspaces=true,
-  %numbers=left,
-  breaklines=true,
-  numberstyle=\tiny\ttfamily\color{Gray},
-  commentstyle=\ttfamily\color{Gray}
-}
-\newcommand{\code}[2][]{\lstinline[breaklines=true, #1]{#2}}
-% Autoref line numebers
-\providecommand*{\lstnumberautorefname}{line}
-% SecPAL
-\lstdefinelanguage{apppal}{%
-  morekeywords={says,if,where,False,True},%
-  otherkeywords={=,0,inf,can-say,can-act-as},%
-  morestring=[b]"%
-}[keywords,comments,strings]
-\lstset{language=apppal}
+    % Source code listings
+    \includepackage{listings}
+    \lstdefinelanguage{AppPAL}{%
+    morekeywords={if,inf,says,where,true,false,with,is},
+    otherkeywords={can-act-as,can-say},
+    sensitive=true,
+    morestring=[b]',
+    literate={\ inf\ }{{$\infty$}}5
+    }[keywords,strings]
+    \lstset{%
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\ttfamily\slshape,
+    stringstyle=\sffamily,
+    columns=flexible,
+    mathescape,
+    frame=single,
+    tabsize=2,
+    showstringspaces=true,
+    %numbers=left,
+    breaklines=true,
+    numberstyle=\tiny\ttfamily\color{Gray},
+    commentstyle=\ttfamily\color{Gray}
+    }
+    \newcommand{\code}[2][]{\lstinline[breaklines=true, #1]{#2}}
+    % Autoref line numebers
+    \providecommand*{\lstnumberautorefname}{line}
+    % SecPAL
+    \lstdefinelanguage{apppal}{%
+    morekeywords={says,if,where,False,True},%
+    otherkeywords={=,0,inf,can-say,can-act-as},%
+    morestring=[b]"%
+    }[keywords,comments,strings]
+    \lstset{language=apppal}
 
-% Hyperlinks
-\includepackage{hyperref}
+    % Hyperlinks
+    \includepackage{hyperref}
 
-% PDF including
-%\includepackage{pdfpages}
+    % PDF including
+    %\includepackage{pdfpages}
 
-% Full references
-%\includepackage{natbib}
-%\includepackage{bibentry}
-%\nobibliography*
+    % Full references
+    %\includepackage{natbib}
+    %\includepackage{bibentry}
+    %\nobibliography*

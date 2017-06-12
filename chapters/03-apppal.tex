@@ -711,7 +711,7 @@ assertion context. This lets AppPAL reject some queries quickly: if a query has
 a speaker that isn't voiced then we cannot query what the speaker says. If a
 rule relies on un-derivable predicates then it cannot be used to make decisions.
 
-A results table is also created. All ground facts in the assertion context are
+A results table ($RT$) is also created. All ground facts in the assertion context are
 added to the results table as proven facts. The table stores partial results and
 previously established proofs. The table is indexed by queries and a delegation
 depth, partial results (i.e. that the evaluation of this query is ongoing). This
@@ -746,31 +746,31 @@ AppPAL's developers with debugging.
 
 \begin{figure}
   \begin{algorithm}[H]
-    \Fn(){\FnEvaluate{AC, Results Table, Query, D}}{
-      \If{Results Table.\FnContains{(Query, D)}}{
-        result $\gets$ {Results Table.\FnGet{(Query, D)}}\;
-        \If{result.\FnValid{}}{
-          \Return Result
+    \Fn(){\FnEvaluate{AC, RT, Q, D}}{
+      \If{$RT$.\FnContains{(Q, D)}}{
+        $result$ $\gets$ {$RT$.\FnGet{(Q, D)}}\;
+        \If{result=Success}{
+          \Return $result$
         }
         \Else{
           \Return{Failure}
         }
       }
       \Else{
-        Results Table.\FnSet{(Query, D), (Inprogress, p)}\;
-        p $\gets$ \FnCond{AC, Results Table, Query, D}\;
-        \If{p.\FnValid{}}{
-          Results Table.\FnSet{(Query, D), (Proven, p)}\;
-          \Return{(Proven, p)}\;
+        $RT$.\FnSet{(Q, D), (Inprogress, p)}\;
+        $p$ $\gets$ \FnCond{AC, RT, Q, D}\;
+        \If{p=Proven}{
+          $RT$.\FnSet{(Q, D), Success}\;
+          \Return{Success}\;
         }
         \Else{
-          p $\gets$ \FnCanSayCanActAs{AC, Results Table, Query, D}\;
-          \If{p.\FnValid{}}{
-            Results Table.\FnSet{(Query, D), (Proven, p)}\;
-            \Return{(Proven, p)}\;
+          $p$ $\gets$ \FnCanSayCanActAs{AC, RT, Q, D}\;
+          \If{p=Proven}{
+            $RT$.\FnSet{(Q, D), Success}\;
+            \Return{Success}\;
           }
           \Else{
-            Results Table.\FnSet{(Query, D), Failure}\;
+            $RT$.\FnSet{(Q, D), Failure}\;
             \Return{Failure}\;
           }
         }
@@ -782,19 +782,38 @@ AppPAL's developers with debugging.
 \end{figure}
 \begin{figure}
   \begin{algorithm}[H]
-    \ContinuedFloat
-    \Fn(){\FnCanSayCanActAs{AC, Results Table, Query, D}}{
+    \Fn(){\FnCanSayCanActAs{AC, RT, Q, D}}{
       \For{c $\in$ \FnConstants{AC}}{
         \If{c $\in$ \FnSubjects{AC}}{
-          p $\gets$ \FnCanActAs{AC, Results Table, Query, D}\;
-          \If{p.\FnValid{}}{\Return p}
+          \If{\FnCanActAs{AC, RT, Q, D, c} = $Proven$}{\Return{$Proven$}}
         }
-        \If{c $\in$ \FnSpeakers{AC}}{
-          p $\gets$ \FnCanSay{AC, Results Table, Query, D}\;
-          \If{p.\FnValid{}}{\Return p}
+        \If{D = $\infty$ $\wedge$ c $\in$ \FnSpeakers{AC}}{
+          \If{\FnCanSay{AC, RT, Q, D} = $Proven$}{\Return{$Proven$}}
         }
       }
       \Return{Failure}
+    }
+    
+    \Fn(){\FnCanActAs{AC, RT, Q, D, c}}{
+      $q_1 \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-act-as} $Q$.subject.\; 
+      $q_2 \gets$ $Q$.speaker \texttt{says} c $Q$.verbphrase.\;
+      $p_1 \gets$ \FnEvaluate{AC, RT, $q_1$, D} = $Proven$\;
+      $p_2 \gets$ \FnEvaluate{AC, RT, $q_2$, D} = $Proven$\;
+      \If{$p_{1} \wedge p_{2}$}{\Return $Proven$}
+      \Else{\Return $Failure$}
+    }
+    
+    \Fn(){\FnCanSay{AC, RT, Q, D, c}}{
+      $q_{1\infty} \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-say inf} $Q$.fact.\; 
+      $q_{2\infty} \gets$ c \texttt{says} $Q$.fact.\;
+      $p_{1\infty} \gets$ \FnEvaluate{AC, RT, $q_1$, $\infty$} = $Proven$\;
+      $p_{2\infty} \gets$ \FnEvaluate{AC, RT, $q_2$, $\infty$} = $Proven$\;
+      $q_1 \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-say} $Q$.fact.\; 
+      $q_2 \gets$ c \texttt{says} $Q$.fact.\;
+      $p_1 \gets$ \FnEvaluate{AC, RT, $q_1$, 0} = $Proven$\;
+      $p_2 \gets$ \FnEvaluate{AC, RT, $q_2$, 0} = $Proven$\;
+      \If{$(p_{1\infty} \wedge p_{2\infty})\vee(p_{1} \wedge p_{2})$}{\Return $Proven$}
+      \Else{\Return $Failure$}
     }
   \end{algorithm}
   \caption{Pseudocode for using the can-say and can-act-as rules.}
@@ -802,19 +821,18 @@ AppPAL's developers with debugging.
 \end{figure}
 \begin{figure}
   \begin{algorithm}[H]
-    \ContinuedFloat
-    \Fn(){\FnCond{AC, Results Table, Query, D}}{
+    \Fn(){\FnCond{AC, RT, Q, D}}{
       \For{a $\in$ \FnAssertions{AC}}{
-        u $\gets$ Query.\FnUnify{a.\FnHead{}}\;
+        $u$ $\gets$ Q.\FnUnify{a.\FnHead{}}\;
         \If{u.\FnValid{}}{
-          a $\gets$ a.\FnApply{u}
-          \If{\FnVariables{a} = $\emptyset$}{
-            \Return{\FnCheckBody{AC, Results Table, a, D}}
-            \For{$\theta \in$ \FnVarSubs{AC, Assertion}}{
-              a$^\prime$ $\gets$ a.\FnApply{$\theta$}\;
-              \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, Results Table, b, D}.\FnValid{}}{
-                p $\gets$ \FnCheckConstraint{a$^\prime$.\FnConstraint{}}\;
-                \If{p.\FnValid{}}{\Return{p}}
+          $a$ $\gets$ $a$.\FnApply{u}\;
+           \For{$\theta$ $\in$ \FnVarSubs{AC, a}}{
+            $a^\prime$ $\gets$ a.\FnApply{$\theta$}\;
+            \If{\FnVariables($a^\prime$) = $\emptyset$}{
+              \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, RT, b, D}=Success}{
+                \If{\FnCheckConstraint{a$^\prime$.constraint}=True}{
+                  \Return{Success}
+                }
               }
             }
           }
@@ -827,8 +845,78 @@ AppPAL's developers with debugging.
   \label{alg:eval3}
 \end{figure}
 
-\subsection{Soundness of decision procedure}
-\todo{You know you're going to have to do this.}
+\subsection{Soundness and Completeness of Decision Procedure}
+
+The algorithm as described is neither sound or complete as it makes use of a
+results table $RT$, but has no means to invalidate results in it. This causes
+problems when handling constraints, in particular temporal ones. 
+
+Consider a constraint that states that the current time must be between
+9~\textsc{am} and 3~\textsc{pm}. At 8:59~\textsc{am} we try and evaluate a query
+that depends on this constraint being true (i.e. all possible proof trees use
+this constraint). No proof can be found so the \texttt{Evaluate} function
+correctly returns failure and the $RT$ is updated accordingly. At
+9:01~\textsc{am} the query is re-run. Since a past result already exists in $RT$
+it is reused and evaluate returns failure again, despite the constraint now
+being satisfiable. Therefore the algorithm is incomplete as it has failed to
+find a proof when one exists. A similar argument for soundness can be made by
+evaluating a query successfully at 2:59~\textsc{pm} and then again at
+3:01~\textsc{pm}. A successful result may be returned which is unsound.
+
+We use the results table to cache results, and to avoid circular proof searches.
+It helps makes the algorithm fast, albeit at the cost of soundness and
+completeness. If AppPAL were encorporated into a production system, the
+designers would need to have a strategy to manage the $RT$ and delete old
+results. A simple strategy, such as clearing any statements older than 10
+minutes, may likely be enough for many scenarios.
+
+The arguments in thes rest of the section assume that the result of evaluating a
+constraint does not change over time. This allows us to argue the basic
+correctness of the algorithm, but with a caveat that the $RT$ must be cleaned
+regularly.
+
+\paragraph*{Soundness Argument}
+A query is \texttt{Evaluate}-d at a given delegation depth, against a given
+$AC$ and $RT$. If the query has been made before,
+then the result will be present in $RT$, and will be reused. Therefore in
+showing the decision process is sound we must show that only queries that can be
+proven are ever marked as successful in $RT$. Since this is only done in the
+\texttt{Evaluate} function we must argue that evaluate itself is sound.
+
+A query is only marked as successful if the \texttt{Cond} on
+\texttt{CanSay-CanActAs} functions return success. These functions implement the
+three AppPAL evaluation rules. The \texttt{CanSay-CanActAs} rule searches
+through possible variables for possible candidates for either of the rules, and
+then the individual \texttt{CanSay} and \texttt{CanActAs} rules which implement
+their respective evaluation rules. If \texttt{Evaluate} is sound then these must
+also be sound as they are analogus to the \emph{can-say} and \emph{can-act-as}
+AppPAL evaluation rules.
+
+The \texttt{Cond} function implements the \emph{cond} rule. It searches for
+assertions $a$ in the $AC$ that unify with the query (i.e. have a head that is
+equal to the query under a variable renaming $u$). For each $a$ we try all
+possible substitutions of the remaining free variables (satisfying the
+\emph{cond} rules condition that there must be no free variables) and tries to
+evaluate each statement in the body of $a$. If all evaluate successfully (the
+first condition in the \emph{eval} rule), then the constraint is checked (the
+final condition of the \emph{cond} rule). If it is successful then the
+\texttt{Cond} function returns success. Since this process is analogus to the
+\emph{cond} rule this process must also be sound.
+
+Since the \texttt{Evaluate} rule can only mark a query as proven in $RT$ if it
+follows the evaluation rules of AppPAL the algorithm must be sound as there are
+no other means to insert a successful result into the table.
+
+\paragraph*{Completeness Argument}
+
+When evaluating queries we look through all possible assertions in $AC$ to find
+a statement that could prove it. Finding a valid proof involves looking through
+all possible variable substitutions in \texttt{Cond}, delegators in
+\texttt{CanSay}, and renamings in \texttt{CanActAs}. When arguing the
+algorithm's soundness we argued that it implements AppPAL's evaluation rules
+correctly. If a valid proof exists it will be found through the evaluation rules
+since the search space consists of all possible assertions and renamings.
+Therefore the algorithm is complete.
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
