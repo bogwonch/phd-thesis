@@ -13,6 +13,32 @@
   way of asking what are we trying to prove with this document?
 }
 
+\section{The mobile ecosystem}\label{sec:mobile-ecosystem}
+
+This dissertation talks about the policies surrounding \emph{mobile
+ecosystems}; but what, precisely, do we mean by the \emph{mobile
+ecosystem}?  Succinctly when we refer to the mobile ecosystem we are
+referring to \textbf{the interactions surrounding the use of smart
+phones and tablet computers}.  Figure~\ref{fig:mobile-ecosystem} shows
+some of the relationships between devices, their users and their
+preferences, the stores, companies and all these principal's
+policies. Users have phones or other mobile devices.  They may own
+personal devices or have a company one.  They may have their own
+preferred ways of using the device, or they may be subject to policies
+written for their employer.  They download apps, written by developers
+from app stores, all with their own policies and some of the stores
+may delegate some aspects of their quality control to external vetting
+software.  Even just describing these aspects of the mobile ecosystem
+\autoref{fig:mobile-ecosystem} is quite complex.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/mobile-ecosystem.png}
+  \caption{Interactions between surrounding the use of mobile devices.}
+  \label{fig:mobile-ecosystem}
+\end{figure}
+
+
 \section{The Need For Policies}
 
 With mobile devices becoming increasingly capable and holding
@@ -116,7 +142,7 @@ decision.
 We need an authorization language for mobile ecosystems.
 
 
-\subsection{History of Mobile Devices}
+\section{History of Mobile Devices}
 
 Some of the earliest mobile devices were the \acp{PDA} devices of the
 early 90s.  The earliest devices, such as Apple's Newton, were
@@ -273,6 +299,86 @@ providers transmited medical information securely, but many apps had
 basic security problems~\cite{fahl_why_2012}, and many of the
 healthcare apps did not handle the medical information
 securely~\cite{knorr_privacy_2015}.
+
+\subsection{App Stores}
+
+%\todo{Introduce how app stores are the primary mechanism for
+%distributing software in the ecosystem.  Describe and possibly show
+%the interface, and reviews.  Maybe move the marketshare diagram from
+%later on into here?  }
+
+The app store has become the normal method for distributing software
+on mobile devices.  These stores run as apps on the device and show
+lists of software that the user can install on their devices.  Users
+can browse or install free or purchased apps, or read and leave
+reviews.  To install an app on an early mobile device the user would
+download it on a traditional computer and then transfer it to the
+mobile, where they could install it using a package manager.  App
+stores considerably streamlined this process, allowing users to find
+an install apps straight from their device.  Whilst the app store is
+the normal method of installing apps, apps can still be downloaded and
+installed manually by side-loading on Android or through iTunes for
+iOS.
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=0.31\textwidth]{figures/store-home.png}
+%  \includegraphics[width=0.31\textwidth]{figures/store-app.png}
+%  \includegraphics[width=0.31\textwidth]{figures/store-review.png}
+%  \caption[Apple's App Store.]{Apple's App Store.  Showing the store's frontpage, an app's page, and its reviews.}
+%  \label{fig:appstore}
+%\end{figure}
+%
+%Figure~\ref{fig:appstore} shows Apple's App Store.  Users are first
+%presented with featured apps, though they can also browse for apps by
+%category, search, or look at \emph{top charts}.  If a user touches an
+%app they are presented with more information.  This particular app,
+%\emph{Eggggg}, is the free app of the week.  The app's name and
+%age-rating (9+) is shown alongside the a link to the app's developer.
+%A button is presented for the user to install the app or open it if it
+%has already been opened.  Additional information is displayed about
+%the app: it will work with Apple's messaging app, and also with their
+%Apple TV devices.  The App store editor has, in this case, written a
+%note about it describing the app which is displayed prominently.  If
+%the user reads down the page a description of the app by the developer
+%is also given, as well as screenshots, a changelog, detailed
+%information including device compatibility, and a link to the apps
+%privacy policy.  This particular app offers in app purchases and the
+%user is warned of this prominently on this screen.  A review score is
+%also displayed. This app has 4 out of 5 stars based on twelve reviews.
+%If the user touches the review tab, they can see more detailed reviews
+%by named reviewers.  These can vary in quality (this particular app's
+%top reviews are not helpful) and the developer can respond to
+%individual reviews.  User's can optionally write a review for the app.
+
+Whilst Apple and Google's app stores are the largest, others are also
+available.  On Android, whilst Google's Play Store is often the
+default, users are free to choose other marketplaces if they wish.
+One choice is Amazon's Appstore.  It is the default for Amazon's
+Kindle Fire tablets, and has special offers for Amazon customers.
+Other marketplaces are regional.  In China, where Google web services
+cannot be used, alternative markets such as Qihoo360 and Baidu have
+sprung up.
+
+Precise numbers of apps in different stores is hard to get, but the
+largest stores occassionally give rough
+numbers~(\autoref{fig:app-store-apps}).  Google and Apple's stores
+have (as of the end of 2016) around 2.5 million apps, with Amazon's
+store having considerably less.
+
+\begin{figure}
+  \includegraphics[width=\textwidth]{figures/app-store-apps.pdf}
+  \caption[Reported numbers of different apps on various App marketplaces.]{%
+    Reported numbers of different apps on various App marketplaces. Data taken from~\cite{statista_google_nodate,statista_apple_nodate,statista_amazon_nodate}.}
+  \label{fig:app-store-apps}
+\end{figure}
+
+Each of these different stores have different terms and conditions,
+and different criteria for developers to sell their apps in. These
+are written in long, dense, legal documents. We will return to these
+documents in \autoref{chap:apps-and-stores} when we make a
+comparison between them.
+
 
 \section{Publications}
 

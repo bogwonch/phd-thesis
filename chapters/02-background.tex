@@ -2,117 +2,11 @@
 \begin{document}
 \chapter{Background}
 
-\section{The mobile ecosystem}\label{sec:mobile-ecosystem}
-
-This dissertation talks about the policies surrounding \emph{mobile
-ecosystems}; but what, precisely, do we mean by the \emph{mobile
-ecosystem}?  Succinctly when we refer to the mobile ecosystem we are
-referring to \textbf{the interactions surrounding the use of smart
-phones and tablet computers}.  Figure~\ref{fig:mobile-ecosystem} shows
-some of the relationships between devices, their users and their
-preferences, the stores, companies and all these principal's
-policies. Users have phones or other mobile devices.  They may own
-personal devices or have a company one.  They may have their own
-preferred ways of using the device, or they may be subject to policies
-written for their employer.  They download apps, written by developers
-from app stores, all with their own policies and some of the stores
-may delegate some aspects of their quality control to external vetting
-software.  Even just describing these aspects of the mobile ecosystem
-\autoref{fig:mobile-ecosystem} is quite complex.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/mobile-ecosystem.png}
-  \caption{Interactions between surrounding the use of mobile devices.}
-  \label{fig:mobile-ecosystem}
-\end{figure}
-
-
-\subsection{App Stores}
-
-%\todo{Introduce how app stores are the primary mechanism for
-%distributing software in the ecosystem.  Describe and possibly show
-%the interface, and reviews.  Maybe move the marketshare diagram from
-%later on into here?  }
-
-The app store has become the normal method for distributing software
-on mobile devices.  These stores run as apps on the device and show
-lists of software that the user can install on their devices.  Users
-can browse or install free or purchased apps, or read and leave
-reviews.  To install an app on an early mobile device the user would
-download it on a traditional computer and then transfer it to the
-mobile, where they could install it using a package manager.  App
-stores considerably streamlined this process, allowing users to find
-an install apps straight from their device.  Whilst the app store is
-the normal method of installing apps, apps can still be downloaded and
-installed manually by side-loading on Android or through iTunes for
-iOS.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.31\textwidth]{figures/store-home.png}
-  \includegraphics[width=0.31\textwidth]{figures/store-app.png}
-  \includegraphics[width=0.31\textwidth]{figures/store-review.png}
-  \caption[Apple's App Store.]{Apple's App Store.  Showing the store's frontpage, an app's page, and its reviews.}
-  \label{fig:appstore}
-\end{figure}
-
-Figure~\ref{fig:appstore} shows Apple's App Store.  Users are first
-presented with featured apps, though they can also browse for apps by
-category, search, or look at \emph{top charts}.  If a user touches an
-app they are presented with more information.  This particular app,
-\emph{Eggggg}, is the free app of the week.  The app's name and
-age-rating (9+) is shown alongside the a link to the app's developer.
-A button is presented for the user to install the app or open it if it
-has already been opened.  Additional information is displayed about
-the app: it will work with Apple's messaging app, and also with their
-Apple TV devices.  The App store editor has, in this case, written a
-note about it describing the app which is displayed prominently.  If
-the user reads down the page a description of the app by the developer
-is also given, as well as screenshots, a changelog, detailed
-information including device compatibility, and a link to the apps
-privacy policy.  This particular app offers in app purchases and the
-user is warned of this prominently on this screen.  A review score is
-also displayed. This app has 4 out of 5 stars based on twelve reviews.
-If the user touches the review tab, they can see more detailed reviews
-by named reviewers.  These can vary in quality (this particular app's
-top reviews are not helpful) and the developer can respond to
-individual reviews.  User's can optionally write a review for the app.
-
-Whilst Apple and Google's app stores are the largest, others are also
-available.  On Android, whilst Google's Play Store is often the
-default, users are free to choose other marketplaces if they wish.
-One choice is Amazon's Appstore.  It is the default for Amazon's
-Kindle Fire tablets, and has special offers for Amazon customers.
-Other marketplaces are regional.  In China, where Google web services
-cannot be used, alternative markets such as Qihoo360 and Baidu have
-sprung up.
-
-Precise numbers of apps in different stores is hard to get, but the
-largest stores occassionally give rough
-numbers~(\autoref{fig:app-store-apps}).  Google and Apple's stores
-have (as of the end of 2016) around 2.5 million apps, with Amazon's
-store having considerably less.
-
-\begin{figure}
-  \includegraphics[width=\textwidth]{figures/app-store-apps.pdf}
-  \caption[Reported numbers of different apps on various App marketplaces.]{%
-    Reported numbers of different apps on various App marketplaces. Data taken from~\cite{statista_google_nodate,statista_apple_nodate,statista_amazon_nodate}.}
-  \label{fig:app-store-apps}
-\end{figure}
-
-Each of these different stores have different terms and conditions,
-and different criteria for developers to sell their apps in.  These
-are written in long, dense, legal documents. We will return to these
-documents in \autoref{chap:apps-and-stores} when we make a
-comparison between them.
-
-
 \section{SecPAL}
 
 SecPAL is an authorization language developed by Becker~\etal~to
 describe policies and delegation chains surrounding distributed
-services~\cite{becker_secpal:_2010}. It was designed as a high-level
+services~\cite{becker_secpal:_2006}. It was designed as a high-level
 human-readable language that allowed the policy specification and
 maintenance to be separated from the implementation mechanisms.
 
@@ -130,7 +24,7 @@ instead of being designed with the language in the first
 place~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
 
 SecPAL's original application was to model and enforce access control
-policies in grid computing systems~\cite{becker_secpal:_2010}.  In
+policies in grid computing systems~\cite{becker_secpal:_2006}.  In
 this dissertation we describe how the language can be extended to
 describe the policies surrounding the mobile ecosystem.
 
@@ -232,7 +126,7 @@ the cost of its expressiveness. SecPAL supports delegation (by using
     &5. $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
     \bottomrule                             \\
   \end{tabular}
-  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2010}.}
+  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2006}.}
   \label{fig:secpal-semantics}
 \end{figure}
 
@@ -275,7 +169,7 @@ a centralized decision server where all decisions are made, SecPAL allows
 information to be shared through assertions signed by their speaker. This allows
 different principals to be responsible for different decisions and make
 decisions independently. An example of this, expanded from one given by
-Becker~\cite{becker_secpal:_2010}, is of a researcher attempting to run a query
+Becker~\cite{becker_secpal:_2006}, is of a researcher attempting to run a query
 on a cluster, using data from a fileserver (\autoref{fig:delegation-example}).
 
 \begin{figure}
@@ -393,6 +287,31 @@ relationship each of the entities have SecPAL can describe it.
 
 \section{Policy Languages}
 
+\begin{figure}
+  \centering\sffamily\scriptsize
+  \begin{chronology}[5]{1987}{2017}{\textwidth}
+    \event{1988}{X.509~}
+    \event{1991}{A Calculus for Access Control~\cite{abadi_calculus_1991}}
+    \event{1994}{Authentication in the Taos OS~\cite{wobber_authentication_1994}}
+    \event{1996}{PolicyMaker~\cite{blaze_decentralized_1996}}
+    \event{1998}{KeyNote~\cite{blaze_keynote:_1998}}
+    \event{1999}{SPKI/SDSI}
+    \event{2000}{Delegation Logic}
+    \event{2001}{Ponder~\cite{damianou_ponder_2001}, XACML}
+    \event{2002}{RT~\cite{li_design_2002}, Binder~\cite{detreville_binder_2002}}
+    \event{2004}{Cassandra}
+    \event{2005}{XACML 2.0}
+    \event{2006}{SecPAL~\cite{becker_secpal:_2006}}
+    \event{2008}{DKAL~\cite{gurevich_dkal:_2008}}
+    \event{2009}{DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009}, Ponder2~\cite{twidle_ponder2:_2009}, SecPAL4P~\cite{becker_framework_2009}}
+    \event{2010}{XACML 3.0~\cite{oasis_extensible_2013}}
+    \event{2011}{SecPAL4DSA~\cite{aziz_secpal4dsa:_2011}}
+    \event{2013}{DKAL$\star$~\cite{jeannin_dkal*:_2013}}
+    \event{2016}{AppPAL~\cite{hallett_apppal_2016}}
+  \end{chronology}
+  \caption{Timeline of the development of different policy languages.}
+\end{figure}
+
 This thesis focusses on an instantiation of SecPAL to describe the trust
 relationships and decisions in the mobile ecosystem. In this section we provide
 a survey of other policy languages and their geneology.
@@ -490,7 +409,7 @@ otherwise have been.
 
 %\subsection{SPKI/SDSI}
 
-In contrast to PolicyMaker SPKI/SDSI~\cite{ellison_spki_1999} is
+In contrast to PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
 designed to associate keys with roles.  A user, Alice with key~$K_A$,
 can present a certificate that says she can act as a \emph{Bob Labs
 employee} (authorized by Bob with key~$K_B$) for one~year.
@@ -506,16 +425,14 @@ to send emails, and can optionally delegate the decision further.
  (K_B,~(K_B,~\text{\tt BobLabsEmployee}),~\bot,~\text{\ttfamily send\_email},~1~\text{year})
 \end{equation*}
 
-Where PolicyMaker let an administrator check if a specific action was
-permitted by a specific user, SPKI/SDSI lets administrators associate
-users with roles and roles with tasks.  The SPKI/SDSI version of the
-email sending policy doesn't specify that all emails sent by Employees
-must have a field listing the lab as the sending organization; that
-part of the policy must be implemented by whatever implemented the
-\texttt{send\_email} functionality.  One of the large advantages of
-SPKI/SDSI is that it allows a higher-level view of the policy by
-associating groups of users with a role, and roles with allowed
-actions.
+Where PolicyMaker let an administrator check if a specific action was permitted
+by a specific user, SPKI/SDSI let administrators associate users with roles and
+roles with tasks. The SPKI/SDSI version of the email sending policy doesn't
+specify that all emails sent by Employees must have a field listing the lab as
+the sending organization; that part of the policy must be implemented by
+whatever implemented the \texttt{send\_email} functionality. One of the large
+advantages of SPKI/SDSI is that it allows a higher-level view of the policy by
+associating groups of users with a role, and roles with allowed actions.
 
 A weakness of SPKI/SDSI however was that the language was not designed
 with formal semantics.  This meant that it was not possible to define
@@ -549,38 +466,21 @@ thresholds (i.e. Alice can send an email if two out of three of the
 board members approve it), \RT{}{C} adds constraints, and \RT{}{D}
 adds delegation~\cite{ninghui_li_design_2002}.
 
-Unlike PolicyMaker, the RT family of languages is tractable, they can
-guarantee that a query will be answered soundly in polynomial time
-with respect to the size of the policy.  To give this guarantee trust
-languages some trust languages such as
-Binder~\cite{detreville_binder_2002} and
-Delegation~Logic~\cite{li_delegation_2003,li_practically_2000} had
-shown that they could be reduced to Datalog, a database language with
-known complexity guarantees and fast evaluation based on Prolog.  One
-limitation of Datalog is that it cannot describe structured data: for
-example consider an administrator who wishes to write a policy rule
-that says Alice can send email between 9am and 5pm.  We can imagine in
-the policy rule having some function to fetch the time and another to
-compare whether it is within that range.  In Datalog we cannot
-trivially write this function and instead have to enumerate each
-possible time in that domain and state whether it is within that
-period. For example:
-
-\begin{lstlisting}
-  between_9_to_5(9:00).
-  between_9_to_5(9:01).
-  between_9_to_5(9:02).
-  ...
-  between_9_to_5(16:59).
-  between_9_to_5(17:00).
-\end{lstlisting}
-
-This is obviously undesirable: we would need to add almost 500
-statements to the knowledge base for resolution of the time to
-minutes, and tens of thousands if we need the time accurate to
-seconds.  More generally whenever there is data that has structure
-such as file paths, times or numeric intervals; Datalog databases can
-become large and start to become intractable.
+Unlike PolicyMaker, the RT family of languages was tractable, they could guarantee
+that a query will be answered soundly in polynomial time with respect to the
+size of the policy. To give this guarantee trust languages some trust languages
+such as Binder~\cite{detreville_binder_2002} and
+Delegation~Logic~\cite{li_delegation_2003,li_practically_2000} had shown that
+they could be reduced to Datalog, a database language with known complexity
+guarantees and fast evaluation based on Prolog. One limitation of Datalog is
+that it cannot describe structured data: for example consider an administrator
+who wishes to write a policy rule that says Alice can send email between 9am and
+5pm. We can imagine in the policy rule having some function to fetch the time
+and another to compare whether it is within that range. In Datalog we cannot
+trivially write this function and instead have to enumerate each possible time
+in that domain and state whether it is within that period. More generally
+whenever there is data that has structure such as file paths, times or numeric
+intervals; Datalog databases can become large and start to become intractable.
 
 To solve this problem Li~\etal{}~proposed a modified version of
 Datalog called Datalog\textsuperscript{C}~\cite{li_datalog_2003},
@@ -592,9 +492,34 @@ database programming.
 
 Datalog\textsuperscript{C} has also been used as a foundation for many
 other policy languages including SecPAL based
-languages~\cite{aziz_secpal4dsa:_2011,becker_secpal:_2010,becker_framework_2009}
+languages~\cite{aziz_secpal4dsa:_2011,becker_secpal:_2006,becker_framework_2009}
 and DKAL~\cite{gurevich_dkal:_2008}, as well as
 Cassandra~\cite{becker_cassandra:_2004}.
+
+Ponder, like SecPAL, was a language for specifying policies for distributed
+systems~\cite{damianou_ponder_2001}. Ponder supports positive and negative
+authorization, delegation, obligation, roles and constraints which are used to
+extract the attributes of principals, as well as state and temporal information.
+A policy that trainee engineers are not allowed to send emails could be written:
+
+\begin{lstlisting}
+inst auth- engineersCanEmail {
+  subject e =/Engineer;
+  target  /mail_server;
+  action send_email();
+  when e.status() == ``trainee'';
+}
+\end{lstlisting}
+
+Since Ponder allowed positive and negative policies, conflicts could occur where
+an entity satisfied rules that they both could and could not complete an action.
+Ponder did not resolve the conflicts itself, but rather detected them using
+static analysis and reports them to the policy author as bugs in the policy
+specification. Ponder was followed by Ponder2~\cite{twidle_ponder2:_2009} which
+simplified the language and enabled it to enforce policies in decentralized
+environments. Ponder also provided a control language called \emph{PonderTalk}
+that enabled the decision engine to send messages to the objects it was
+managing.
 
 Cassandra is a trust management language used to model large systems,
 in particular the NHS Spine: a system designed to enable healthcare
@@ -625,11 +550,11 @@ with electronic healthcare records.
 
 The DKAL family of
 languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
-grew from SecPAL as a policy language for a distributed system's
-interacting agents~\cite{blass_introduction_2012}.  Assertions are
-communicated as signed statements called \emph{infons} between
-principals.  For example Alice might wish to recommend Bob an app.
-Alice, therefore, sends to Bob the infon:
+grew from SecPAL as a policy language for a distributed
+system's interacting agents~\cite{blass_introduction_2012}. Assertions are
+communicated as signed statements called \emph{infons} between principals. For
+example Alice might wish to recommend Bob an app. Alice, therefore, sends to Bob
+the infon:
 
 \begin{lstlisting}
 alice said com.rovio.angrybirds is a good app.
@@ -656,6 +581,7 @@ asked for it.
 DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
 ideas further and showed how DKAL programs that described how infons
 should be shared could be used as executable protocols.
+
 \end{document}
 
 %%% Local Variables:
