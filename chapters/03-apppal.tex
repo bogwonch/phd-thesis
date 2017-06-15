@@ -38,7 +38,7 @@ rules in mobile ecosystems. Writing the policy in a formal language allows it to
 be checked automatically.
 
 Becker~et~al{.} designed SecPAL to make access control decisions in distributed
-systems~\cite{becker_secpal:_2010}. SecPAL is expressive, has a clear and
+systems~\cite{becker_secpal:_2006}. SecPAL is expressive, has a clear and
 intuitive syntax, is decidable and extensible. That SecPAL is extensible is
 important as we can apply the language to a new domain by instantiating it with
 predicates and constraints.
@@ -58,11 +58,10 @@ Some are general like XACML~\cite{oasis_extensible_2013}: designed to express
 access control decisions from a variety of domains. Different policy languages
 are descrbied in greater detail in \autoref{chap:related-work}; however to
 create a policy language to describe mobile ecosystems we chose to base the
-language on SecPAL~\cite{becker_secpal:_2010}.
+language on SecPAL~\cite{becker_secpal:_2006}.
 
-The mobile ecosystem as described in \autoref{sec:mobile-ecosystem} has specific
-requirements for a policy language to describe it's policies. Namely we need a
-policy language that can express:
+The mobile ecosystem has specific requirements for a policy language to describe
+it's policies. Namely we need a policy language that can express:
 
 \begin{description}
   \item[Locality and Delegation.]
@@ -319,6 +318,7 @@ To satisfy the policy and install the app she needs to collect the following sta
       \item \lstinline!'igc' says 'ms.office' hasMet('final-app-approval').!
     \end{enumerate}
   \item \lstinline!'nhs-trust' says 'ms.office' isApprovedFor('alices-device').!
+
     To get this she needs a statement from the manager responsible for Alice's device (\emph{Bob}) approving the app.
     \begin{enumerate}\setcounter{enumi}{2}
       \item \lstinline!'bob' says 'ms.office' isApprovedFor('alices-device').!
@@ -510,7 +510,7 @@ When we need to describe the conditions for an action going ahead we use the can
   above, but they are unusual.
 \end{description}
 
-This differs from the approach taken with the SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}.
+This differs from the approach taken with SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}.
 Both these languages add extra phrases to SecPAL's grammar.
 For example SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether to carry out an action.
 If Alice, a policy author, wished to use SecPAL4P to say that someone can forget her email address she could write:\footnote{%
@@ -654,7 +654,7 @@ framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown
 in~\autoref{fig:secpal-rules}) directly. This differs from Becker's original
-description of SecPAL~\cite{becker_secpal:_2010} which describes evaluation
+description of SecPAL~\cite{becker_secpal:_2006} which describes evaluation
 through Datalog$^C$. Datalog$^C$ is a variant of Datalog extended to support
 constraints~\cite{li_datalog_2003}. 
 

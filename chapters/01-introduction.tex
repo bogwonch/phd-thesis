@@ -2,34 +2,16 @@
 \begin{document}
 \chapter{Introduction}
 
-\todo{%
-  This chapter should introduce:
-  \begin{itemize}
-  \item Introduce the thesis.
-  \item State the main contributions.
-  \end{itemize}
-
-  We should also ask \emph{what is the thesis of the thesis} which is a fiddly
-  way of asking what are we trying to prove with this document?
-}
-
-\section{The mobile ecosystem}\label{sec:mobile-ecosystem}
-
-This dissertation talks about the policies surrounding \emph{mobile
-ecosystems}; but what, precisely, do we mean by the \emph{mobile
-ecosystem}?  Succinctly when we refer to the mobile ecosystem we are
-referring to \textbf{the interactions surrounding the use of smart
-phones and tablet computers}.  Figure~\ref{fig:mobile-ecosystem} shows
-some of the relationships between devices, their users and their
-preferences, the stores, companies and all these principal's
-policies. Users have phones or other mobile devices.  They may own
-personal devices or have a company one.  They may have their own
-preferred ways of using the device, or they may be subject to policies
-written for their employer.  They download apps, written by developers
-from app stores, all with their own policies and some of the stores
-may delegate some aspects of their quality control to external vetting
-software.  Even just describing these aspects of the mobile ecosystem
-\autoref{fig:mobile-ecosystem} is quite complex.
+%\todo{%
+%  This chapter should introduce:
+%  \begin{itemize}
+%  \item Introduce the thesis.
+%  \item State the main contributions.
+%  \end{itemize}
+%
+%  We should also ask \emph{what is the thesis of the thesis} which is a fiddly
+%  way of asking what are we trying to prove with this document?
+%}
 
 \begin{figure}
   \centering
@@ -38,10 +20,72 @@ software.  Even just describing these aspects of the mobile ecosystem
   \label{fig:mobile-ecosystem}
 \end{figure}
 
+%\begin{itemize}
+%\item Mobile devices are ubiquitous.
+%\item With increasing device power there has also been an increasing desire to
+  %control them. From user's having preferences about what data the device should
+  %access and which apps they want to use to companies seeking to control what data
+  %each device can access.
+%\item As part of the devices mobility there has been a move towards
+  %decentralization. Users can install apps from many sources. Two users may share
+  %different policies. Tools for running policy checks may not be run locally as
+  %before, but on a distant server. Apps come with guarantees from stores that they
+  %are safe to use.
+%\item This distributed and decentralized ecosystem relies on trust relationships
+  %to work. A user or company may not know precisely what checks the store is doing
+  %on the apps they sell but they trust the store to make the judgement.
+%\item Despite the prevalence of these trust relationships, the policies that
+  %define them are frequently \emph{informal}. Either natural language documents,
+  %unwritten preferences, or hidden in the code implementing the devices and
+  %software.
+%\item Existing research has focussed on the question of how can we enforce ever
+  %more sophisticated policies, using ever more sophisticated techniques.
+%\item This work takes a step back: it asks how we can express the informal
+  %policies and trust relationships surrounding mobile devices formally.
+%\item By using authorization languages we can model these policies precisely,
+  %and start to analyse and make comparisons between them.
+%\item This is the central question of this thesis: how can we use formal
+  %languages to model the informal policies and trust relationships surrounding
+  %the mobile ecosystem.
+%\end{itemize}
+
+Mobile devices are ubiquitous, yet the relationships between their users, and
+the environment they operate in is often vague. Users have preferences,
+companies have policies, and stores have terms; but the precise trust
+relationships are often hidden in informal, or natural language, descriptions of
+each.
+
+As the devices have become more powerful there has been an increasing wish to
+control the devices. Companies expect devices to follow their corporate policies
+within their networks and trust users to abide by their policies as well as use
+tools to enforce some aspects of them. Some user's may have reservations about
+what data apps can access and wish to restrict their access. User's may rely on
+stores to vet the apps they sell, but will likely not know (or necessarily care)
+what checks have been done.
+
+These devices exist with in the \emph{mobile ecosystem}: which we define as
+\textbf{the interactions surrounding the use of smart phones and tablet
+computers}. Figure~\ref{fig:mobile-ecosystem} shows some of the relationships
+between devices, their users and their preferences, the stores, companies and
+all these principal's policies. Users have phones or other mobile devices. They
+may own personal devices or have a company one. They may have their own
+preferred ways of using the device, or they may be subject to policies written
+for their employer. They download apps, written by developers from app stores,
+all with their own policies and some of the stores may delegate some aspects of
+their quality control to external vetting software.
+
+Prior work has focussed on how we can check and enforce ever more sophisticated
+policies and ever finer controls. This thesis asks a different question:
+\textbf{how can we take the informal policies and trust relationships
+surrounding the mobile ecosystem and use formal languages to model and examine
+them?} We ask how we can tie the top-level goals in the natural language
+policies and preferences to the tools used to implement them? How can we compare
+different policies and highlight similarities and differences between them
+precisely?
 
 \section{The Need For Policies}
 
-With mobile devices becoming increasingly capable and holding
+As mobile devices are increasingly capable and hold
 ever-increasing amounts of information there is a need from users and
 businesses to manage how the devices behave.  Employees now bring
 their mobile devices to work and use them to access company email and
@@ -129,17 +173,15 @@ ecosystem.  They represent an important aspect of the ecosystem that a
 policy language should catch in order to adequately describe the
 relationships and policies within it.
 
-One approach to designing a policy language is to base it on a logic
-of authorization.  These authorization logics describe rules for
-deciding when an action is permitted, and reasoning about why that
-action was allowed.  A common use case for these logics is building
-access control systems: users are allowed to read a file if they have
-the appropriate permissions.  In applying logics of authorization to
-policy language the policy language describes who can access what, but
-the authorization logic gives a formal description of how we make that
-decision.
-
-We need an authorization language for mobile ecosystems.
+One approach to designing a policy language is to base it on a logic of
+authorization. These authorization logics describe rules for deciding when an
+action is permitted, and reasoning about why that action was allowed. A common
+use case for these logics is building access control systems: users are allowed
+to read a file if they have the appropriate permissions. In applying logics of
+authorization to policy language the policy language describes who can access
+what, but the authorization logic gives a formal description of how we make that
+decision. We want to use a policy language to describe the trust relationships
+in the mobile ecosystem.
 
 
 \section{History of Mobile Devices}

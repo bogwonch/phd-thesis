@@ -213,7 +213,7 @@ configure a device for a group of users.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/maas360-policy.png}
-  \caption{Policy settings in the MaaS360 \ac{MDM} tool.}
+  \caption{Policy settings in the MaaS360 MDM tool.}
   \label{fig:maas360-policy}
 \end{figure}
 
@@ -382,6 +382,21 @@ Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & 
 \label{tab:prefix}
 \end{table}
 
+\begin{table}\centering\footnotesize\sffamily
+  \begin{tabular}{lllll}
+    \toprule
+              & Authorities & Primary Authority  & Technical Authority & User Authority \\
+    \midrule
+    SANS      & 10          & company            & it-department       & user           \\
+    HiMSS     & 3           & user               & xyz-health-system   & department     \\
+    NHS       & 11          & nhs-trust          & it-department       & employee       \\
+    Edinburgh & 2           & records-management &                     & employee       \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of different authorities in BYOD policies.}
+  \label{tab:principals}
+\end{table}
+
 \begin{table}\sffamily\footnotesize\centering
   \newcommand{\expred}[3]{\textit{#2} #1\textit{#3}}
   \begin{tabular}{c c c c c c}
@@ -458,20 +473,6 @@ however.  These tools instead allow IT staff to set fixed policies and
 push them to devices.  No further requesting of information is
 typically needed or required.
 
-\begin{table}\centering\footnotesize\sffamily
-  \begin{tabular}{lllll}
-    \toprule
-              & Authorities & Primary Authority  & Technical Authority & User Authority \\
-    \midrule
-    SANS      & 10          & company            & it-department       & user           \\
-    HiMSS     & 3           & user               & xyz-health-system   & department     \\
-    NHS       & 11          & nhs-trust          & it-department       & employee       \\
-    Edinburgh & 2           & records-management &                     & employee       \\
-    \bottomrule
-  \end{tabular}
-  \caption{Summary of different authorities in BYOD policies.}
-  \label{tab:principals}
-\end{table}
 
 When a policy decision requires input from a third-party delegation is used.
 For example, an employee's manager has to authorise an app install.
