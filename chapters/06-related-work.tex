@@ -2,18 +2,57 @@
     \begin{document}
     \chapter{Related Work}
     \label{chap:related-work}
+   
+\section{Other Policy Languages}
 
-\section{XACML}
+\subsection{DKAL}
 
-XACML is a standardised policy language~\cite{oasis_extensible_2013}
-that can be extended to fit many scenarios. It is an attribute based
-policy language, but can also describe role-based policies; and has
-industrial support from \emph{Oracle}.  It is worthy of special
-attention as it has become an extremely popular policy language from
-both an industrial and academic standpoint.  As such it is important
-to summarize and briefly describe why we chose to base our own work on
-SecPAL, a comparatively obscure policy language, instead of the more
-popular XACML.
+The DKAL family of
+languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
+grew from SecPAL as a policy language for a distributed
+system's interacting agents~\cite{blass_introduction_2012}. Assertions are
+communicated as signed statements called \emph{infons} between principals. For
+example Alice might wish to recommend Bob an app. Alice, therefore, sends to Bob
+the infon:
+
+\begin{lstlisting}
+alice said com.rovio.angrybirds is a good app.
+\end{lstlisting}
+
+Bob is free to do with this information as he wishes.  He may be
+willing to accept app recommendations from anyone and may have a rule
+to learn that fact:
+
+\begin{lstlisting}
+with M: String, P: Principal
+  upon
+    P said M is a good app
+  do
+    learn P said M is a good app
+\end{lstlisting}
+
+DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009} simplifies DKAL
+language removing SecPAL's constructs for roles (the \emph{can-act-as} statement)
+as they could not find a use for them in practice.  It also adds
+support for sending infons if the recipient has completed an action:
+for example only sending an app recommendation if the recipient has
+asked for it.
+DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
+ideas further and showed how DKAL programs that described how infons
+should be shared could be used as executable protocols.
+
+DKAL improved over SecPAL by giving a means for transfering and reacting to information.
+De
+
+\subsection{XACML}
+
+XACML is a policy language with an industrial
+standard~\cite{oasis_extensible_2013} that can be extended to fit many
+scenarios. It is an attribute based policy language, but can also describe
+role-based policies. It has tooling and enforcement infrastructure available
+from Oracle. As a standard, it is important to summarize and briefly describe
+why we chose to base our own work on SecPAL, a comparatively obscure policy
+language, instead of the more well known XACML.
 
 XACML policies are expressed as sets of \emph{rules} that describe
 whether a specific action should be allowed or denied. When making a
@@ -31,18 +70,26 @@ proceed. Typical algorithms include:
   \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
 \end{description}
 
-XACML is a powerful access control and policy language with a published
-standard~\cite{oasis_extensible_2013}. It is generic and is used in industry as
-a policy language for access control decisions, and there are tools available to
-help policy authors write policies in it. Whilst XACML might seem like a
-suitable language to model mobile ecosystems, it suffers from various issues.
+XACML does not have well-defined semantics. XACML's designers used natural
+language to describe the semantics of XACML. This has made the semantics
+notoriously difficult to interpret~\cite{ramli_detecting_2015}. There have been
+several attempts to describe XACML's semantics
+formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. Some of
+these translations have only described a subset of XACML's
+syntax~\cite{halpern_using_2008}, others describe older versions of XACML which
+are not compatible with the latest language versions~\cite{ahn_reasoning_2010},
+and others have been found to contain mistakes caused by ambiguities in the
+XACML specification~\cite{bruns_access-control_2008,halpern_using_2008}. All
+these attempts help us understand XACML, but the lack of a single standard
+semantics make it less attractive to extend to a new domain. As the language
+grows and changes there are no present guarantees that any of the formal
+semantics will remain correct and applicable to the current version of XACML. In
+contrast, SecPAL's semantics are given precisely by
+Becker~\cite{becker_secpal:_2006}.
 
-Readability was a design goal for SecPAL. Its notation is similar to natural
-language. Alternate notations based on XML do exist (Becker hints at them in the
-SecPAL technical report~\cite{becker_secpal:_2006}); though these are to aid
-computerised parsing of SecPAL not human legibility. In contrast, XACML's
-default syntax is designed to be in XML by default. XACML policies are verbose and difficult to read.
-For example a simple policy that grants a principal, \emph{Alice}, permission to do whatever she liked would be written as:
+Whilst SecPAL was designed for readablility, XACML policies are verbose and
+difficult to read. For example a simple policy that grants a principal,
+\emph{Alice}, permission to do whatever she liked would be written as:
 
 \begin{lstlisting}
 <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
@@ -80,11 +127,9 @@ For example a simple policy that grants a principal, \emph{Alice}, permission to
 
 To help developers write policies alternative notations are available that
 compile into XACML's XML notation. ALFA is an alternate notation for
-XACML~\cite{oasis_xacml_technical_comitee_abbreviated_2015}. The XACML
-developers maintain ALFA, however others notations exist including graphical
-languages~\cite{henrik_nergaard_scratch-based_2015}, languages based on
-propositional logic~\cite{zhang_synthesising_2004} and answer set
-programming~\cite{ramli_xacml_2012}.  The equivalent ALFA policy of the above \emph{allow Alice all} policy would be:
+XACML~\cite{oasis_xacml_technical_comitee_abbreviated_2015} maintained by the
+XACML developers. The equivalent ALFA policy of the above \emph{allow Alice all}
+policy would be:
 
 \begin{lstlisting}
 namespace alice {
@@ -108,39 +153,34 @@ tweaks made to a XACML policy cannot be trivially reintegrated into
 the ALFA version.  Furthermore any analysis of XACMLs semantics cannot
 be trivially used to understand the semantics of ALFA.
 
-XACML does not have well-defined semantics. XACML's designers used
-natural language to describe the semantics of XACML. This has made the
-semantics notoriously difficult to
-interpret~\cite{ramli_detecting_2015}. There have been several
-attempts to describe XACML's semantics
-formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. Some
-of these translations have only described a subset of XACMLs
-syntax~\cite{halpern_using_2008}, others describe older versions of
-XACML which are not compatible with the latest language
-versions~\cite{ahn_reasoning_2010}, and others have been found to
-contain mistakes caused by ambiguities in the XACML
-specification~\cite{bruns_access-control_2008,halpern_using_2008}.
-All these attempts help us understand XACML, but the lack of a single
-standard semantics make it less attractive to extend to a new domain.
-The language is also not tied to any particular formal definition of
-its semantics.  As the language grows and changes there are no
-guarantees that the semantics will remain correct and applicable to
-the current version of XACML. In contrast, SecPAL's semantics are
-given precisely by Becker~\cite{becker_secpal:_2006}.  SecPAL may not
-be as well known as XACML but at least the language definition will
-not be changed, and its semantics are set.
+Other notations exist including graphical
+languages~\cite{henrik_nergaard_scratch-based_2015}, languages based on
+propositional logic~\cite{zhang_synthesising_2004} and answer set
+programming~\cite{ramli_xacml_2012}.
 
-Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010},
-earlier versions do not. The XACML 3.0 standard was published in 2013,
-after deciding to start work with SecPAL.  Despite XACML having a
-mechanism for delegation its semantics, like the rest of the language,
-are poorly defined in natural language.  The standard gives one
-example of how delegation in XACML can be used: a company has a
-printer and Carol is responsible for saying who can use the printer.
-She delegates to Bob who in turn grants Alice the right to use the
-printer.  The policy takes four pages and 260 lines of code to
-describe~\cite{oasis_xacml_2010}.  In contrast, the equivalent SecPAL
-policy is trivial and clear:
+Whilst XACML 3.0 does support delegation~\cite{oasis_xacml_2010}, earlier
+versions do not. The XACML 3.0 standard was published in 2013, after deciding to
+start work with SecPAL. Despite XACML having a mechanism for delegation its
+semantics, like the rest of the language, are poorly defined in natural
+language. The standard gives one example of how delegation in XACML can be used:
+a company has a printer and Carol is responsible for saying who can use the
+printer. She delegates to Bob who in turn grants Alice the right to use the
+printer. An excerpt from the XACML delegation policy example is shown in
+\autoref{lst:xacml-deleg}. Full policy set is split into three smaller
+policy \footnote{An individual decision in XACML is called a \emph{policy}, a
+collection of policies is called a \emph{policy set}.}
+
+\begin{figure}
+  \begin{minipage}{0.85\textwidth}
+  \begin{mdframed}
+    %\begin{multicols}{1}
+      \lstinputlisting[basicstyle=\ttfamily\tiny,frame=none,breaklines=true]{figures/xacmldelegation.xml}
+    %\end{multicols}
+  \end{mdframed}
+  \end{minipage}
+  \caption[Excerpt from XACML delegation example.]{Excerpt from XACML delegation example~\cite{oasis_xacml_2010}.}
+  \label{lst:xacml-deleg}
+\end{figure}
 
 \begin{lstlisting}
 'company' says 'carol' can-say inf
@@ -183,32 +223,62 @@ if A hasOwner(O).
   P hasGuardian(Person:G).
 \end{lstlisting}
 
-Again we feel the SecPAL version is clearer.  XACML is undoubtably a
-capable and powerful as it is used extensively.  However, for modeling
-and describing the policies of the mobile ecosystem we favor a
-smaller, clearer, and better defined policy language as it allows us
-to focus on the policies themselves, rather than trying to comprehend
-the policy language used to describe them.
+\begin{figure}
+  \centering
+  \includegraphics[width=1.0\textwidth]{figures/xacml-architecture.png}
+  \caption{The XACML reference architecture.}
+  \label{fig:xacml-architecture}
+\end{figure}
+
+XACML also defines a reference architecture for anyone seeking to use XACML,
+shown in \autoref{fig:xacml-architecture}. The architecture consists of five
+major \emph{policy points}: the PEP stands between the users and the files (for
+example) they are trying to access. The PEP sends a query to the PDP (which
+makes the \emph{decision}), and \emph{enforces} the policy by either granting or
+denying access. In order to make the decision PDP \emph{requests} policies from
+the PRP (which are updated by an \emph{administrator} editing the policies at
+the PAP), and using \emph{information} from the PIP. 
+
+XACML's architecture fits well with a centralized architecture, where
+distributed PEPs talk to local PDPs which retrieve policies from a centralized
+PRP. For a decentralized scenario the architecture fits less well as the
+decision point may have to retrieve policies and decisions from multiple sources
+(which may in turn require more decisions and policies to be retrieved).
+
+Ultimately we chose to use SecPAL as the basis for our work instead of XACML as
+it had well defined semantics, and was a better fit to describe the
+decentralized policies of the mobile ecosystem. A lot of the results of our work
+could have been replicated using XACML instead of AppPAL. Idioms found in BYOD
+policies could be described in XACML as easily as they could in AppPAL. We could
+have described app usage patterns using XACML and queried what apps they had
+installed using that policy instead. But we used AppPAL as it felt a better fit.
+Ultimately how we used the policy language is more interesting, we feel, that
+which policy language we used.
 
 \section{Fine Grained Permission Systems}
 
-If policy languages give us a mechanism to describe trust
-relationships and decisions \emph{in general}, fine grained permission
-systems are one mechanism by which policy languages are used to
-control the behaviour of apps on Android specifically.  In Android to
-access certain functionality, for example access to private storage,
-apps must request a permission.  Permissions are a coarse usage
-control mechanism, and user's ability to control what permissions an
-app requested ranged from not installing the app (on versions prior to
-Android Marshmallow) to disabling parts of the app (on versions from
-Android Marshmallow).  The coarseness of the permissions and their
+If policy languages give us a mechanism to describe trust relationships and
+decisions \emph{in general}, fine grained permission systems are one mechanism
+by which policy languages are used to control the behaviour of apps on Android
+specifically. In Android to access certain functionality, for example access to
+private storage, apps must request a permission. Permissions are a coarse usage
+control mechanism, and user's ability to control what permissions an app
+requested was limited to not installing the app until 2015 when Android
+Marshmallow allowed users the ability to disable individual permissions.
+
+The coarseness of Android's permission system and its
 relative inflexibility led to a line of research into
 \emph{fine-grained} permissions systems.  These systems would add
 additional controls to permissions and allow greater control about
 when they were enforced.
 
-This section looks exclusively at Android as that is where the bulk of
-the research has been.  The permission system of iOS allows users to
+This section looks exclusively at Android as that is where the bulk of the
+research has been. It is relevant to our work as these alternative permissions
+schemes have been used to describe the policies about how users wish to use
+their devices. The majority of the work has looked at Android: perhaps because,
+unlike iOS, the operating system can be modified to encorporate new features.
+
+The permission system of iOS allows users to
 toggle an app's ability to perform certain actions (access photos,
 send notifications) through the settings, and prompts users for a
 default policy when the app first attempts to perform the action.
@@ -228,92 +298,63 @@ that for inter-app communication, allowing the user to express a
 policy about the circumstances two apps could share data or call
 functionality.  Similarly Apex~\cite{nauman_apex:_2010} allowed user's
 to specify at install time constraints as to when a permission could
-be used.  This allowed them to write policies where an apps ability to
-send SMS messages could be denied if the app had already sent a
-message within the last hour, for example, or deny access to location
-data outside of working hours.  CRePE~\cite{conti_crepe:_2010} took
+be used.  
+%This allowed them to write policies where an apps ability to send SMS messages
+%could be denied if the app had already sent a message within the last hour, for
+%example, or deny access to location data outside of working hours.
+CRePE~\cite{conti_crepe:_2010} took
 these ideas further allowing permissions to be denied based on
 \emph{context} (for example the user was on a train, or the user was
 within Bluetooth range of their computer).
 
-Dr{.}~Android and Mr{.}~Hide~\cite{jeon_dr._2012} was a fine-grained
-permission scheme that worked by rewriting apps to use guarded APIs.
-Unlike earlier schemes that worked by modifying the Android~OS
-Dr{.}~Android decompiles Android apps and removes all permissions.
-Sensitive API calls that would normally require permissions were
-replaced with IPC calls to Mr{.}~Hide, a privileged Android service
-that could enforce a policy with increased controls.  This allowed for
-permissions limiting access to certain URLs, contacts, location data,
-and phone state and settings.  Modifying the apps not the OS allowed
-user's to get better control of app permissions without having to
-potentially compromise the integrity of Android by installing a
-third-party component with questionable security auditing. The
-disadvantage however was that to make the modifications apps had to be
-re-signed subtly changing Android's app trust model and moving the
-authenticity and integrity checks from the developer to the
-Dr{.}~Android tool.  AppGuard~\cite{backes_appguard_2013} worked
-similarly to Dr{.}~Android, but allowed for controlled responses when
-a permission was denied---essentially ensuring that the app didn't
-crash if it didn't get access to the data it expected to.
+Dr{.}~Android and Mr{.}~Hide~\cite{jeon_dr._2012} was a fine-grained permission
+scheme that worked by rewriting apps to use guarded APIs.
+AppGuard~\cite{backes_appguard_2013} worked similarly to Dr{.}~Android, but
+allowed for controlled responses when a permission was denied---essentially
+ensuring that the app didn't crash if it didn't get access to the data it
+expected to. Aurasium~\cite{xu_aurasium:_2012} works by modifying apps to
+monitor system calls and IPC mechanisms via GOT hijacking in the Bionic libc,
+allowing their policies to effect native code which earlier tools ignored.
 
-Similarly to Dr{.}~Android and AppGuard, Aurasium~\cite{xu_aurasium:_2012} works by
-modifying API files to use a guarded API.  Unlike Dr{.}~Android it
-doesn't use a privileged service to control access to data, rather it
-modifies every app to monitor system calls and IPC mechanisms via GOT
-hijacking in the Bionic libc.  This allowed for policies that
-described how apps should behave at a systemcall level.  This enabled
-it to mitigate certain malware techniques, such as executing external
-ELF files, or sending premium SMS messages.  Again, like Dr{.}~Android
-it requires re-signing apps.  To mitigate this they offered a service
-that would re-sign apps with unique keys so for any app there would
-only be one Aurasium re-signed version.
+Jin~\etal{} developed a fine grained permission system that targetted apps
+written using the PhoneGap framework, that enable developers to create portable
+native apps from web apps~\cite{jin_fine-grained_2015}. Dai~\etal{} proposed a
+fine grained permissions scheme that controlled apps (and IoT devices) access to
+media stored on cloud based services based on a user's
+policies~\cite{dai_who_2017}.
 
-SEAndroid was a set of patches to the Android kernel by the US
-National~Security~Agency porting the SELinux discretionary access
-control to Android~\cite{smalley_security_2013}.  The permissions
-system in Android had been implemented by using the Linux groups
-mechanisms.  When an app launched, the process would be created by
-forking a copy of the privileged \emph{zygote} Dalvik virtual machine
-process\footnote{A \emph{zygote} would run in the background permanently
-semi-initialised to allow apps to start quickly.}, which would then
-drop privileges and set gids based on the permissions the app declared.
-
-This implementation was problematic as it inherrited many of the
-problems with Linux's discretionary access control model, had no
-centralised policy document describing how permissions were used (the
-policy was expressed by the permissions of the filesystem), but also
-meant that the sandboxing mechanisms relied upon having this
-privileged zygote running (as well as potentially other services).
-
-SEAndroid ported the basic SELinux security mechanisms to Android,
-provided a default policy that described how the permissions and
-sandboxing systems should work under a mandatory access control
-scheme, and integrated it with the zygote system for starting
-apps.\footnote{SELinux policies are usually applied on
-\texttt{exec}-ing a process, not the \texttt{clone} used by the
-zygote.}
-
-Whilst SEAndroid did not implement a fine-grained permissions system
-by itself, it was merged into Android and would replace the original
-permissions system.  By Android Marshmallow it was fully enabled, and
-allowed an app's permissions to be granted or denied by the user as
-the permissions system was far more flexible than the original DAC
-implementation.
-
-%% I'm not sure about this
-%\section{Static analysis tools}
+%SEAndroid was a set of patches to the Android kernel by the US
+%National~Security~Agency porting the SELinux discretionary access
+%control to Android~\cite{smalley_security_2013}.  The permissions
+%system in Android had been implemented by using the Linux groups
+%mechanisms.  When an app launched, the process would be created by
+%forking a copy of the privileged \emph{zygote} Dalvik virtual machine
+%process\footnote{A \emph{zygote} would run in the background permanently
+%semi-initialised to allow apps to start quickly.}, which would then
+%drop privileges and set gids based on the permissions the app declared.
 %
-%There have been many static tools developed that can infer complex
-%properties about
-%apps~\cite{felt_android_2011,song_integrated_2016,antonin_carette_investigating_2017,schmidt_static_2009,enck_taintdroid:_2014}.
-%Leveraging these tools in a policy language lets us make statements about the
-%properties they can infer, without having to reimplement the functionality.
-%Despite the power of these tools it is not obvious how they should integrate
-%with the policies surrounding the mobile ecosystem. Running and configuring each
-%It isn't clear when each tool should run, or how to configure them to enforce a
-%policy rule. By incorporating these tools into a policy language, such as
-%SecPAL, we can act as a glue-layer between the policies of the mobile ecosystem
-%and the research into the properties of code.
+%This implementation was problematic as it inherrited many of the
+%problems with Linux's discretionary access control model, had no
+%centralised policy document describing how permissions were used (the
+%policy was expressed by the permissions of the filesystem), but also
+%meant that the sandboxing mechanisms relied upon having this
+%privileged zygote running (as well as potentially other services).
+%
+%SEAndroid ported the basic SELinux security mechanisms to Android,
+%provided a default policy that described how the permissions and
+%sandboxing systems should work under a mandatory access control
+%scheme, and integrated it with the zygote system for starting
+%apps.\footnote{SELinux policies are usually applied on
+%\texttt{exec}-ing a process, not the \texttt{clone} used by the
+%zygote.}
+%
+%Whilst SEAndroid did not implement a fine-grained permissions system
+%by itself, it was merged into Android and would replace the original
+%permissions system.  By Android Marshmallow it was fully enabled, and
+%allowed an app's permissions to be granted or denied by the user as
+%the permissions system was far more flexible than the original DAC
+%implementation.
+
 
 \end{document}
 

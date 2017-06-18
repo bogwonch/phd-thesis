@@ -3,81 +3,73 @@
 \chapter{App Stores and App Preferences}
 \label{chap:apps-and-stores}
 
-Apps and app stores are a key part of the mobile ecosystem; an app
-being the key form of software and the app store as their primary mode
-of distribution.  In this chapter we explore the stores and the
-policies surrounding them.  We compare the differences in terms and
-conditions between the various marketplaces and make comparisons
-between them.  We look at how users have privacy preferences about the
-which apps they want to use, but by using AppPAL versions of common
-user privacy preferences show how they do not seem to follow them in
-practice.  Finally we describe how AppPAL can be used to create new
-app stores by checking for apps that can be shown to follow a policy,
-and offering them in a web app-based store.
+Apps and app stores are a key part of the mobile ecosystem; an app being the key
+form of software and the app store as their primary mode of distribution. In
+this chapter we explore the stores and the policies surrounding them. We compare
+the differences in terms and conditions between the various marketplaces and
+make comparisons between them. We look at how users have privacy preferences
+about the which apps they want to use, but by using AppPAL versions of common
+user privacy preferences show how they do not seem to follow them in practice.
+Finally we describe how AppPAL can be used to create new app stores by checking
+for apps that can be shown to follow a policy, and offering them in a web
+app-based store.
 
 \section{App Stores}
 
-App stores are the primary mechanism for distributing software on
-smart phones.  Whilst iOS has just one store (Apple's App store), the
-Android ecosystem is more diverse with multiple stores available for
-multiple different purposes.  The dominant app store on Android is
-Google Play.  Unlike iOS, Google isn't the sole app vendor however.
-Some device vendors add their own stores to their devices as a
-feature: Amazon do this with their Kindle Fire tablets, where Kindle
-owners can download discounted apps.  Some vendors, such as Samsung,
-add their own store this to highlight apps that use features specific
-to their phones (KNOX in Samsung's case).  In some regions (most
-notably China), using Google products is problematic. People in these
-countries use local, regionally focused app stores (such as QiHoo360,
-and Yandex) instead.
+App stores are the primary mechanism for distributing software on smart phones.
+Whilst iOS has just one store (Apple's App store), the Android ecosystem is more
+diverse with multiple stores available for multiple different purposes. The
+dominant app store on Android is Google Play. Unlike iOS, Google isn't the sole
+app vendor however. Some device vendors add their own stores to their devices as
+a feature: Amazon do this with their Kindle Fire tablets, where Kindle owners
+can download discounted apps. Some vendors, such as Samsung, add their own store
+this to highlight apps that use features specific to their phones (KNOX in
+Samsung's case). In some regions (most notably China), using Google products is
+problematic. People in these countries use local, regionally focused app stores
+(such as QiHoo360, and Yandex) instead.
 
-For a manufacturer to install Google's store they must comply with the
-Android \ac{CDD}~\cite{google_android_2016}.  The \ac{CDD} describes
-how to configure the Android operating system and what features a
-device must have to run Android.  If a manufacturer cannot pass the
-\ac{CTS} that tests conformance with the \ac{CDD} then they cannot
-install the Play Store.
+For a manufacturer to install Google's store they must comply with the Android
+\ac{CDD}~\cite{google_android_2016}. The \ac{CDD} describes how to configure the
+Android operating system and what features a device must have to run Android. If
+a manufacturer cannot pass the \ac{CTS} that tests conformance with the \ac{CDD}
+then they cannot install the Play Store.
 
 For manufacturers like \emph{Jolla} whose devices do not run
-Android\footnote{They run Sailfish, which is based off of the Linux
-Foundation's Mer operating system.}, but can emulate some parts of the
-Dalvik virtual machine enough to run Android apps, third-party stores
-like Yandex and Aptoide allow the device to still benefit from apps
-designed for the Android ecosystem.
+Android\footnote{They run Sailfish, which is based off of the Linux Foundation's
+Mer operating system.}, but can emulate some parts of the Dalvik virtual machine
+enough to run Android apps, third-party stores like Yandex and Aptoide allow the
+device to still benefit from apps designed for the Android ecosystem.
 
 In this section we will focus on five different app stores: Apple's App Store,
-Amazon's app store, Aptoide, Google Play and Yandex.  Apple's App Store is for iOS,
-but the rest are for Android operating systems.  
-Amazon's app store was opened in 2011 and was the primary app store for Amazon's
-Kindle tablets released later that year.  Like Apple's
-and Google's stores it is a
-store controlled by a device manufacturer.
+Amazon's app store, Aptoide, Google Play and Yandex. Apple's App Store is for
+iOS, but the rest are for Android operating systems. Amazon's app store was
+opened in 2011 and was the primary app store for Amazon's Kindle tablets
+released later that year. Like Apple's and Google's stores it is a store
+controlled by a device manufacturer.
 
-Yandex is a store primarily for the Russian and eastern European markets
-and it features many Russian language apps. Some manufacturers,
-such as Nokia, installed Yandex over Google's app store on devices sold in
-Russia.
+Yandex is a store primarily for the Russian and eastern European markets and it
+features many Russian language apps. Some manufacturers, such as Nokia,
+installed Yandex over Google's app store on devices sold in Russia.
 
-Aptoide is a an open-source app store, and software for creating new
-app stores.  Unlike many other app stores it provides specialized app
-stores targeted for Android based Smart TVs (Aptiode TV), and for
-users with slow internet connections (Aptoide Lite).  Aptoide doesn't
-provide access to fixed sets of apps.  Any user, or developer, is free
-to create their own \emph{curated} repository of apps, and point
-Aptoide to it.  Aptoide claim users and developers have created over
-220,000 stores using Aptoide. Notably the F-Droid app store which
-sells only open source apps was created from a fork of Aptoide's code.
+Aptoide is a an open-source app store, and software for creating new app stores.
+Unlike many other app stores it provides specialized app stores targeted for
+Android based Smart TVs (Aptiode TV), and for users with slow internet
+connections (Aptoide Lite). Aptoide doesn't provide access to fixed sets of
+apps. Any user, or developer, is free to create their own \emph{curated}
+repository of apps, and point Aptoide to it. Aptoide claim users and developers
+have created over 220,000 stores using Aptoide. Notably the F-Droid app store
+which sells only open source apps was created from a fork of Aptoide's code.
 Aptoide tries to detect malware in its own repositories
-(\autoref{fig:aptoide-malware}), alerting their customers if
-not removing it.  Not all apps are subject to these checks however.
-Searching the store it was quickly possible to find an app designed to
-root phones~(\autoref{fig:aptoide-root})
+(\autoref{fig:aptoide-malware}), alerting their customers if not removing it.
+Not all apps are subject to these checks however. Searching the store it was
+quickly possible to find an app designed to root
+phones~(\autoref{fig:aptoide-root})
 
-We chose these stores to focus on as they represent a range of
-different app stores.  From the largest of marketplaces from Apple and
-Google, to smaller markets for specific devices like Amazon, specific
-regions like Yandex, and for companies and users looking to create
-their own stores for their own devices using providers like Aptoide.
+We chose these stores to focus on as they represent a range of different app
+stores. From the largest of marketplaces from Apple and Google, to smaller
+markets for specific devices like Amazon, specific regions like Yandex, and for
+companies and users looking to create their own stores for their own devices
+using providers like Aptoide.
 
 \begin{figure}
   \centering
@@ -304,44 +296,44 @@ differ is in terms of refunds---only Apple has a return period longer
 than a few hours.  In the case of Amazon there is no right to a
 refund, and for Yandex only 15 minutes.
 
-Another area where they differ is the rights a store has to the apps
-they sell.  Amazon and Aptoide both have the right to alter the apps.
-This is important because it changes the trust model for apps on
-Android.  In Android the developer who signs the app is responsible
-for updates and identified as the developer of the app. Android will
-not let a user install unsigned apps\footnote{Normally. There are
-exceptions for development.}.  To modify an app, Aptoide and Amazon
-must be able to re-sign the code, essentially taking on the role of vouching for the apps integrity and, by implication, its safety and security.  Whereas an app from Google's
-marketplace would be signed by the developer who made it, the Amazon
-app store signs the apps it sells.  In theory, an app originally
-purchased in the Google Play store could be updated by an app from the
-Yandex store (if signed by the same key and the app was a later
-version).  With Amazon's model this is not possible as they sign the
-app with different key.  In Amazon's case this is especially confusing
-as Amazon manufacture their own Android tablets.  To access certain
-\emph{system} permissions Android requires that an app be signed by
-the same key that signed the OS installation.  In the Play store model
-Google no third-party developer in their store would have access to
-that key, but in the Amazon model they could (if they desired)
-distribute system apps for their Kindle devices.  Having a different
-signing model isn't necessarily bad, but it changes the trust
-assumptions associated with Android; which a user may not necessarily
-be aware of.
+Another area where they differ is the rights a store has to the apps they sell.
+Amazon and Aptoide both have the right to alter the apps. This is important
+because it changes the trust model for apps on Android. In Android the developer
+who signs the app is responsible for updates and identified as the developer of
+the app. Android will not let a user install unsigned apps\footnote{Normally.
+There are exceptions for development.}. To modify an app, Aptoide and Amazon
+must be able to re-sign the code, essentially taking on the role of vouching for
+the apps integrity and, by implication, its safety and security. Whereas an app
+from Google's marketplace would be signed by the developer who made it, the
+Amazon app store signs the apps it sells. In theory, an app originally purchased
+in the Google Play store could be updated by an app from the Yandex store (if
+signed by the same key and the app was a later version). With Amazon's model
+this is not possible as they sign the app with different key. In Amazon's case
+this is especially confusing as Amazon manufacture their own Android tablets. To
+access certain \emph{system} permissions Android requires that an app be signed
+by the same key that signed the OS installation. In the Play store model Google
+no third-party developer in their store would have access to that key, but in
+the Amazon model they could (if they desired) distribute system apps for their
+Kindle devices. Having a different signing model isn't necessarily bad, but it
+changes the trust assumptions associated with Android; which a user may not
+necessarily be aware of.
 
 %\todo{
 %  Describe how a developer may have preferences about which app store to submit to, and state these differences could be encoded in apppal.
 %  Mention how that would allow greater clarity in determining differences in stores as apppal is clearer than natural language.
 %}
 
-The terms and conditions are dense technical documents.  Yet despite
-their intimidating nature, the differences between different app store
-agreements are often small.  By encoding the key differences into a
-formal language (such as AppPAL) we can start to clarify the small
-distinctions then a developer or user can choose the app stores they
-are happy to submit to based on the store's policies, and a company
-could automate the enforcement of the policy.  The longer terms could
-even be generated from the formal version.  For example in the case of
-refunds the differences in policy could be written as:
+The terms and conditions are dense technical documents. Yet despite their
+intimidating nature, the differences between each app store agreement is often
+small. By encoding the key differences into a formal language (such as AppPAL)
+we can start to clarify the small distinctions then a developer or user can
+choose the app stores they are happy to submit to based on the store's policies,
+and a company could automate the enforcement of the policy. For example in the
+case of refunds the differences in policy could be written as shown in
+\autoref{lst:refunds}. The differences in support agreements is shown in
+\autoref{lst:support}. Again the differences are small: only differing in the
+number of hours developers have to respond and whether there is a need to
+respond to issues from the store itself more urgently.
 
 %   Refunds
 % Apple    & 14 days.
@@ -349,39 +341,69 @@ refunds the differences in policy could be written as:
 % Aptoide    & 24 hours.
 % Google    & Only for defective or removed content.  A user may request a refund for 2 hours.  For an amount less than 10 USD a refund may be issued up to 48 hours later.  For amounts above 10 USD it depends on who processed the payment.
 % Yandex    & 15 minutes.
+\begin{figure}\centering
 \begin{lstlisting}
-'apple' says 'maximum-purchase-hours is(336).
+'apple' says 'maximum-purchase-hours' is(336).
 'apple' says User:U canRequestRefund(Purchase:P)
-  if U hasCompletedPurchase(P),
-     'maximum-purchase-age' is(N)
+  if U hasCompletedPurchase(P), 'maximum-purchase-age' is(N)
   where age(P) < N.
 
-'aptoide' says 'maximum-purchase-hours is(24).
+'aptoide' says 'maximum-purchase-hours' is(24).
 'aptoide' says User:U canRequestRefund(Purchase:P)
-  if U hasCompletedPurchase(P),
-     'maximum-purchase-age' is(N)
+  if U hasCompletedPurchase(P), 'maximum-purchase-age' is(N)
   where age(P) < N.
 
-'google' says 'maximum-purchase-hours is(2).
+'google' says 'maximum-purchase-hours' is(2).
 'google' says User:U canRequestRefund(Purchase:P)
-  if P isFor(App:A),
-     A isDefective,
-     U hasCompletedpurchase(P),
-     'maximum-purchase-age' is(N)
+  if P isFor(App:A), A isDefective,
+     U hasCompletedpurchase(P), 'maximum-purchase-age' is(N)
   where age(P) < N.
 
-'yandex' says 'maximum-purchase-age' is(0.25).
+'yandex' says 'maximum-purchase-hours' is(0.25).
 'yandex' says User:U canRequestRefund(Purchase:P)
-  if U hasCompletedPurchase(P),
-     'maximum-purchase-age' is(N)
+  if U hasCompletedPurchase(P), 'maximum-purchase-age' is(N)
   where age(P) < N.
 \end{lstlisting}
+\caption{AppPAL translations of app store refund rules.}
+\label{lst:refunds}
+\end{figure}
 
-Writing policies out in this way describes the informal terms and
-conditions unambiguously.  A computer could check compliance with the
-terms by evaluating the policy in this form (assuming it was given
-sufficient information). We will return to this idea in
-\autoref{chap:byod} when we look further explore BYOD policies using AppPAL.
+\begin{figure}\centering
+  \begin{lstlisting}
+'amazon' says Developer:D mustRespondWithinHours(Issue:I, 120)
+  if User hasIssueWith(I, App), D hasCreated(App).
+
+'amazon' says Developer:D mustRespondWithinHours(Issue:I, 24)
+  if 'amazon' hasIssueWith(I, App), D hasCreated(App),
+     I isCritical.
+     
+'google' says Developer:D mustRespondWithinHours(Issue:I, 72)
+  if User hasIssueWith(I, App), D hasCreated(App).
+
+'google' says Developer:D mustRespondWithinHours(Issue:I, 24)
+  if 'amazon' hasIssueWith(I, App), D hasCreated(App),
+     I isCritical.
+
+'yandex' says Developer:D mustRespondWithinHours(Issue:I, 120)
+  if User hasIssueWith(I, App), D hasCreated(App).
+  \end{lstlisting}
+  \caption{AppPAL translations of app store support rules.}
+  \label{lst:support}
+\end{figure}
+
+Writing policies out in this way describes the informal terms and conditions
+unambiguously. A computer could check compliance with the terms by evaluating
+the policy in this form (assuming it was given sufficient information).
+
+If we were to translate the entire app store terms and agreements we could build
+a set of standard decisions that describe what app stores terms and conditions
+talk about. The similarity between the different rules in \autoref{lst:refunds}
+and \autoref{lst:support} suggests there are idiomatic patterns present in the
+policies that could be captured and described. In \autoref{chap:byod} we look at
+BYOD policies and identify decisions and idioms common to those policies on the
+basis of an AppPAL description of the rules. Similar techniques could also be
+applied to app store terms to clarify and describe the policies precisely; going
+beyond the comparison of the text of the policies presented here.
 
 \section{Finding the Right Apps}
 
@@ -420,7 +442,7 @@ advertiser without their permission.  Such a user avoids apps which
 can get access to their location, or address book; so they may apply their own
 personal, informal, security policies when downloading and running apps.
 
-\begin{table}\centering
+\begin{table}\centering\sffamily\footnotesize
 \newcommand{\tabtitle}[1]{\textbf{\footnotesize #1}}
   \begin{tabular}{ r l l l l }
     \toprule

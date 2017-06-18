@@ -293,16 +293,16 @@ relationship each of the entities have SecPAL can describe it.
 \begin{figure}
   \centering\sffamily\scriptsize
   \begin{chronology}[5]{1987}{2017}{\textwidth}
-    \event{1988}{X.509~}
+    \event{1988}{X.509}
     \event{1991}{A Calculus for Access Control~\cite{abadi_calculus_1991}}
     \event{1994}{Authentication in the Taos OS~\cite{wobber_authentication_1994}}
     \event{1996}{PolicyMaker~\cite{blaze_decentralized_1996}}
     \event{1998}{KeyNote~\cite{blaze_keynote:_1998}}
-    \event{1999}{SPKI/SDSI}
-    \event{2000}{Delegation Logic}
+    \event{1999}{SPKI/SDSI\cite{ellison_spki_1999}}
+    \event{2000}{Delegation Logic~\cite{li_practically_2000}}
     \event{2001}{Ponder~\cite{damianou_ponder_2001}, XACML}
     \event{2002}{RT~\cite{li_design_2002}, Binder~\cite{detreville_binder_2002}}
-    \event{2004}{Cassandra}
+    \event{2004}{Cassandra~\cite{becker_cassandra:_2004}}
     \event{2005}{XACML 2.0}
     \event{2006}{SecPAL~\cite{becker_secpal:_2006}}
     \event{2008}{DKAL~\cite{gurevich_dkal:_2008}}
@@ -322,12 +322,13 @@ a survey of other policy languages and their geneology.
 PolicyMaker~\cite{blaze_decentralized_1996} was created to give a language for
 permitted actions. It grew out of the logics of authentication of Wobber, Abadi,
 Burrows and Lampson~\cite{wobber_authentication_1994,abadi_calculus_1991}; as
-well as a dissatisfaction with identification mechanisms. X.509 and PGP
-certificates had given a mechanism for identifying users; at the time however,
-they did not give any means to link the users to what users were allowed to do.
+well as a dissatisfaction with identification mechanisms such as X.509 and PGP
+certificates, which had given a mechanism for identifying users; but which at
+the time did not give any means to link the users to what users were allowed to
+do.
 
-To describe the authorizations trust information is contained within assertions.
-A collection of assertions form the policy. An assertion has a source (either
+To describe the authorizations, trust information is contained within assertions.
+A collection of assertions form apolicy. An assertion has a source (either
 the local policy document or a public key). The source \emph{asserts} that a key
 (or more complex arrangements such as three of four keys) is permitted to
 perform any action that matches the \emph{filter}. The filter itself is
@@ -390,31 +391,23 @@ Conditions: (app_domain == "RFC822-EMAIL") &&
 \end{lstlisting}
 
 Checking whether a PolicyMaker or KeyNote policy is satisfied is
-NP-hard~\cite{blaze_compliance_1998}.  It is not tractable as checking
-PolicyMaker assertions can involve arbitrary programs written in
-Turing complete languages.  Deciding whether a program will stop when
-given an arbitrary input is analogous to the halting problem.  So in
-general it is not known whether a PolicyMaker program which takes an
-arbitrary request and an unconstrained set of checking functions will
-terminate: it is undecidable.  Blaze~\etal{} give
-some restrictions that guarantee polynomial time checking: a function
-must be authentic (not fake another functions result), monotonic, and
-run in polynomial time for all inputs pertinent to a request.  This
-reduced the expressiveness however.
+NP-hard~\cite{blaze_compliance_1998}. PolicyMaker assertions can involve
+arbitrary programs written in Turing complete languages. Blaze~\etal{} give some restrictions that
+guarantee polynomial time checking: a function must be authentic (not fake
+another function's result), monotonic, and run in polynomial time for all inputs
+pertinent to a request.
 
 Another weakness of these languages is that they cannot express
 general relationships as the subjects of the policy cannot be a
 variable.  You cannot have, for example, a policy where the subject is
 a set of users.  The example policy could not be written as
-\emph{anyone working in R\&D can send email from Bob Labs.}  This
-restriction made the languages less expressive than they might
-otherwise have been.
+\emph{anyone working in R\&D can send email from Bob Labs.}
 
 %\subsection{SPKI/SDSI}
 
 In contrast to PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
 designed to associate keys with roles.  A user, Alice with key~$K_A$,
-can present a certificate that says she can act as a \emph{Bob Labs
+can present a certificate that says she \textbf{can act as} (a role assignment) a \emph{Bob Labs
 employee} (authorized by Bob with key~$K_B$) for one~year.
 
 \begin{equation*}
@@ -428,23 +421,21 @@ to send emails, and can optionally delegate the decision further.
  (K_B,~(K_B,~\text{\tt BobLabsEmployee}),~\bot,~\text{\ttfamily send\_email},~1~\text{year})
 \end{equation*}
 
-Where PolicyMaker let an administrator check if a specific action was permitted
+Where PolicyMaker lets an administrator check if a specific action was permitted
 by a specific user, SPKI/SDSI let administrators associate users with roles and
 roles with tasks. The SPKI/SDSI version of the email sending policy doesn't
 specify that all emails sent by Employees must have a field listing the lab as
 the sending organization; that part of the policy must be implemented by
-whatever implemented the \texttt{send\_email} functionality. One of the large
+whatever implements the \texttt{send\_email} functionality. One of the large
 advantages of SPKI/SDSI is that it allows a higher-level view of the policy by
 associating groups of users with a role, and roles with allowed actions.
 
-A weakness of SPKI/SDSI however was that the language was not designed
-with formal semantics.  This meant that it was not possible to define
-precisely what promises the language gave or how to extend it safely
-or even exactly what it does.  All these things must be inferred from
-RFC 2693 which loosely defined it~\cite{ellison_spki_1999}. There were
+A weakness of SPKI/SDSI was that the language was not designed
+with a formal semantics.  The language's precise meaning must be inferred from
+RFC 2693 which loosely defined it in English~\cite{ellison_spki_1999}. There were
 several later attempts to fit a semantics to the
-language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000},
-however not all covered every aspect of SPKI/SDSIs features.
+language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001},
+however not all covered every aspect of SPKI/SDSIs features, and there was no standard semantics.
 
 The focus on roles leads to the RT family of
 languages~\cite{ninghui_li_design_2002}, which associates policy
@@ -469,21 +460,23 @@ thresholds (i.e. Alice can send an email if two out of three of the
 board members approve it), \RT{}{C} adds constraints, and \RT{}{D}
 adds delegation~\cite{ninghui_li_design_2002}.
 
-Unlike PolicyMaker, the RT family of languages was tractable, they could guarantee
-that a query will be answered soundly in polynomial time with respect to the
-size of the policy. To give this guarantee trust languages some trust languages
-such as Binder~\cite{detreville_binder_2002} and
-Delegation~Logic~\cite{li_delegation_2003,li_practically_2000} had shown that
-they could be reduced to Datalog, a database language with known complexity
-guarantees and fast evaluation based on Prolog. One limitation of Datalog is
-that it cannot describe structured data: for example consider an administrator
-who wishes to write a policy rule that says Alice can send email between 9am and
-5pm. We can imagine in the policy rule having some function to fetch the time
-and another to compare whether it is within that range. In Datalog we cannot
-trivially write this function and instead have to enumerate each possible time
-in that domain and state whether it is within that period. More generally
-whenever there is data that has structure such as file paths, times or numeric
-intervals; Datalog databases can become large and start to become intractable.
+Unlike PolicyMaker, the RT family of languages was tractable, they could
+guarantee that a query will be answered soundly in polynomial time in the size
+of the policy. To give this guarantee, researchers showed languages such as
+Binder~\cite{detreville_binder_2002} and
+Delegation~Logic~\cite{li_delegation_2003,li_practically_2000} could be reduced
+to Datalog, a database language with known complexity guarantees and fast
+evaluation based on Prolog.
+
+One limitation of Datalog is that it cannot describe structured data: for
+example consider an administrator who wishes to write a policy rule that says
+Alice can send email between 9am and 5pm. We can imagine in the policy rule
+having some function to fetch the time and another to compare whether it is
+within that range. In Datalog we cannot trivially write this function and
+instead have to enumerate each possible time in that domain and state whether it
+is within that period. More generally whenever there is data that has structure
+such as file paths, times or numeric intervals, Datalog databases can become
+overly large.
 
 To solve this problem Li~\etal{}~proposed a modified version of
 Datalog called Datalog\textsuperscript{C}~\cite{li_datalog_2003},
@@ -493,11 +486,10 @@ supported constraints and kept Datalog's tractability, with a focus on
 the constraints typical to a policy languages instead of those for
 database programming.
 
-Datalog\textsuperscript{C} has also been used as a foundation for many
-other policy languages including SecPAL based
-languages~\cite{aziz_secpal4dsa:_2011,becker_secpal:_2006,becker_framework_2009}
-and DKAL~\cite{gurevich_dkal:_2008}, as well as
-Cassandra~\cite{becker_cassandra:_2004}.
+Showing a policy language can be translated to Datalog\textsuperscript{C} allows the language author 
+to prove that evaluating policies in their language can be done with the same time and space complexities as Datalog\textsuperscript{C}.
+Datalog\textsuperscript{C} has been used as a foundation for many
+other policy languages for this reason including SecPAL as well as RT.  
 
 Ponder, like SecPAL, was a language for specifying policies for distributed
 systems~\cite{damianou_ponder_2001}. Ponder supports positive and negative
@@ -551,39 +543,6 @@ delegation by allowing third-parties to activate and deactivate roles
 on others.  It was applied successfully to modelling access control
 with electronic healthcare records.
 
-The DKAL family of
-languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
-grew from SecPAL as a policy language for a distributed
-system's interacting agents~\cite{blass_introduction_2012}. Assertions are
-communicated as signed statements called \emph{infons} between principals. For
-example Alice might wish to recommend Bob an app. Alice, therefore, sends to Bob
-the infon:
-
-\begin{lstlisting}
-alice said com.rovio.angrybirds is a good app.
-\end{lstlisting}
-
-Bob is free to do with this information as he wishes.  He may be
-willing to accept app recommendations from anyone and may have a rule
-to learn that fact:
-
-\begin{lstlisting}
-with M: String, P: Principal
-  upon
-    P said M is a good app
-  do
-    learn P said M is a good app
-\end{lstlisting}
-
-DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009} simplified the
-language removing the constructs for roles that had been taken from
-SecPAL but which they could not find a use for.  They also added
-support for sending infons if the recipient has completed an action:
-for example only sending an app recommendation if the recipient has
-asked for it.
-DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
-ideas further and showed how DKAL programs that described how infons
-should be shared could be used as executable protocols.
 
 \end{document}
 

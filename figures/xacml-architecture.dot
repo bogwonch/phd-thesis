@@ -1,0 +1,29 @@
+digraph xacml_architecture {
+    
+        graph [fontname="helvetica"];
+        node [fontname="helvetica" shape=plaintext];
+        edge [fontname="helvetica italic"];
+
+        users [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>Users</TD></TR></TABLE>>];
+        admins [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/male.png"/></TD></TR><TR><TD>Admins</TD></TR></TABLE>>];
+        documents [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/file-text-o.png"/></TD></TR><TR><TD>Documents</TD></TR></TABLE>>];
+
+        pep [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/cog.png"/></TD></TR><TR><TD>Policy Enforcement Point</TD></TR></TABLE>>];
+        pdp [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/cog.png"/></TD></TR><TR><TD>Policy Decision Point</TD></TR></TABLE>>];
+        pip [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/database.png"/></TD></TR><TR><TD>Policy Information Point</TD></TR></TABLE>>];
+        prp [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/database.png"/></TD></TR><TR><TD>Policy Retrieval Point</TD></TR></TABLE>>];
+        pap [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/cog.png"/></TD></TR><TR><TD>Policy Administration Point</TD></TR></TABLE>>];
+        
+
+        {rank=same users pep documents}
+        {rank=same admins pap}
+        {rank=same pdp pip}
+        
+        users -> pep [label="requests"];
+        pep -> documents [label="grants access to"];
+        pep -> pdp [label="queries"];
+        pdp -> pip [label="queries"];
+        pdp -> prp [label="requests policies"];
+        prp -> pap [label="updates" dir=back];
+        admins -> pap [label="updates"];
+}
