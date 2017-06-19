@@ -80,7 +80,6 @@
 \renewcommand*{\pageautorefname}{page}
 
 \includepackage{mathtools}
-\includepackage{cleveref}
 \includepackage{pxfonts}
 \includepackage{multicol}
 \includepackage{multirow}
@@ -152,14 +151,14 @@
 % \newcommand{\mainmatter}[0]{}
 
 % Tufte-latex compatibility
-\renewenvironment{figure*}{\begin{figure}\centering}{\end{figure}}
-\newenvironment{marginfigure}{\begin{figure}\centering}{\end{figure}}
-\renewenvironment{table*}{\begin{table}\centering}{\end{table}}
-\newenvironment{margintable}{\begin{table}\centering}{\end{table}}
+%\renewenvironment{figure*}{\begin{figure}\centering}{\end{figure}}
+%\newenvironment{marginfigure}{\begin{figure}\centering}{\end{figure}}
+%\renewenvironment{table*}{\begin{table}\centering}{\end{table}}
+%\newenvironment{margintable}{\begin{table}\centering}{\end{table}}
 
 
 % Nicer typography
-% \includepackage{microtype}
+\includepackage{microtype}
 
 % Saner lists
 \includepackage{enumerate}
@@ -221,3 +220,6 @@
 % Timelines
 \includepackage{chronology}
 
+% Cross references
+\usepackage[capitalise]{cleveref}
+\renewcommand{\autoref}[1]{\cref{#1}}
