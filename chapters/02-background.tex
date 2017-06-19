@@ -2,6 +2,13 @@
 \begin{document}
 \chapter{Background}
 
+The work presented in this thesis builds on earlier work on policy languages, in
+particular work on SecPAL. In this chapter we give an overview of the prior work
+on policy languages and describe SecPAL in detail, including its delegation
+mechanisms. Our contributions and modifications to SecPAL to create a policy
+language to describe the policies of the mobile ecosystem are presented in
+\autoref{chap:apppal}.
+
 \section{SecPAL}
 
 SecPAL is an authorization language developed by Becker~\etal~to
@@ -10,23 +17,32 @@ services~\cite{becker_secpal:_2006}. It was designed as a high-level
 human-readable language that allowed the policy specification and
 maintenance to be separated from the implementation mechanisms.
 
-SecPAL was designed to improve over previous high-level languages in
-several areas.  It was designed to be more expressive than
-XrML~\cite{kolovski_logic-based_2007},
-SPKI/SDSI~\cite{ellison_spki_1999}, and Delegation
-Logic~\cite{li_delegation_2003}; and more readable than
-XACML~\cite{oasis_extensible_2013} and other XML-based policy
-languages.  Furthermore it was designed to be intuitive and
-unambiguous with precise semantics unlike other languages (most notably
-XACML) which had natural language descriptions with ambiguous and
-inconsistent specifications that had been retrofitted to the language
-instead of being designed with the language in the first
+SecPAL was designed to improve over previous high-level languages in several
+areas. It was designed to be more expressive than
+XrML~\cite{kolovski_logic-based_2007}, SPKI/SDSI~\cite{ellison_spki_1999}, and
+Delegation Logic~\cite{li_delegation_2003}; and more readable than
+XACML~\cite{oasis_extensible_2013} and other XML-based policy languages.
+Furthermore it was designed to be intuitive and unambiguous with precise
+semantics unlike other languages (most notably XACML) which have natural
+language descriptions with ambiguous and inconsistent specifications that have
+been retrofitted to the language instead of being designed with the language in
+the first
 place~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
 
 SecPAL's original application was to model and enforce access control
 policies in grid computing systems~\cite{becker_secpal:_2006}.  In
 this dissertation we describe how the language can be extended to
 describe the policies surrounding the mobile ecosystem.
+
+We have implemented SecPAL to explore its use and (as will be described in the
+rest of this thesis) describe our own policy language for the policies
+surrounding the mobile ecosystem. Moreover whenever a SecPAL (or AppPAL) policy
+or snippet is presented in \framebox{\texttt{teletype font}} it can be parsed
+and run\footnote{Sometimes with minimal edits. Some constraints used are not
+implemented.} using our \emph{AppPAL} interpretter which will be
+described in \autoref{chap:apppal}.
+
+\subsection{Grammar, Evaluation and Semantics}
 
 At its core, SecPAL is a language with a simple grammar
 (\autoref{fig:secpal-grammar}) and three evaluation rules
@@ -54,75 +70,86 @@ the cost of its expressiveness. SecPAL supports delegation (by using
 \end{figure}
 
 \newcommand{\bnfcomment}[1]{\slshape{\sffamily(#1)}}
-\newcommand{\secpal}[1]{\texttt{#1}}
-\begin{figure}\footnotesize\centering
+\newcommand{\secpal}[1]{{\color{BrickRed}\texttt{#1}}}
+\begin{figure}\footnotesize\centering\sffamily
   \begin{tabular}{r r l c}
     AC         & $\Coloneqq$ & assertion$_1$ \dots assertion$_n$                      & \bnfcomment{assertion context} \\
     assertion  & $\Coloneqq$ & e \secpal{says} claim.                          \\
     e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
                & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
     predicate  & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
-    D          & $\Coloneqq$ & 0                                                & \bnfcomment{no delegation}     \\
-               & $\vert$     & $\infty$                                         & \bnfcomment{unbounded delegation}        \\
-    vp         & $\Coloneqq$ & predicate e$_1$ \dots e$_n$                           & \bnfcomment{verb phrase}       \\
-               & $\vert$     & \secpal{can-say}$_D$ fact                       \\
+    D          & $\Coloneqq$ & \secpal{0}                                               & \bnfcomment{no delegation}     \\
+               & $\vert$     & \secpal{inf}                                        & \bnfcomment{unbounded delegation}        \\
+    verb-phrase& $\Coloneqq$ & predicate(\secpal{(}e$_1$\secpal{,} \dots e$_n$\secpal{)})?                          & \bnfcomment{verb phrase}       \\
+               & $\vert$     & \secpal{can-say} D? fact                       \\
                & $\vert$     & \secpal{can-act-as}  e                          \\
     f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
-    claim      & $\Coloneqq$ & f \secpal{if} f$_1$,\dots, f$_n$; c             \\
-    c          & $\Coloneqq$ & $\top$                                           & \bnfcomment{no constraint}     \\
-               & $\vert$     & e$^\prime_1 =$ e$^\prime_2$                      & \bnfcomment{constraints}       \\
+    claim      & $\Coloneqq$ & f (\secpal{if} f$_1$,\dots, f$_n$)? (\secpal{where} c)?             \\
+    c          & $\vert$     & e$^\prime_1 $\secpal{=} e$^\prime_2$                      & \bnfcomment{constraints}       \\
+    c          & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                      & \bnfcomment{constraints}       \\
                & $\vert$     & \dots                                           \\
-    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)           \\
+    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)            \\  
+              & $\Coloneqq$ & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
+              & $\Coloneqq$ & integer           & \bnfcomment{numbers}     \\
   \end{tabular}
-  \caption{BNF description of SecPAL.}
+  \caption[BNF description of SecPAL.]{%
+    BNF description of SecPAL as used in this thesis. As originally described by
+    Becker, SecPAL is hard to type as it uses subscripts and infinity symbols. We
+    replace these with ASCII equivalents, and allow a missing \textsf{D} in the
+    \texttt{can-say} statement equivalent to \texttt{can-say 0}. Terminals are shown
+    in {\color{BrickRed} red}.
+  }
   \label{fig:secpal-grammar}
 \end{figure}
 
 
 \begin{figure}
+  \sffamily
+  \footnotesize
   \centering
   \begin{eqnarray*}
     \infer[\textsf{\scriptsize cond}]{%
-      AC, D \models A\textsf{~says~}fact\theta
+      AC, D \models A\texttt{~says~}fact\theta
     }{%
       \begin{array}[c]{c}
-        \left(A\textsf{~says~}\textit{fact}\textsf{~if~}\textit{fact}_1, \ldots, \textit{fact}_k, c\right) \in AC \\
-        AC,D\models A\textsf{~says~}\textit{fact}_i\theta \; \forall i \in \{1\cdots k\}
+        \left(A\texttt{~says~}\text{fact}\texttt{~if~}\text{fact}_1,~\ldots,~\text{fact}_k~\texttt{where}~c\right) \in AC \\
+        AC,D\models A\texttt{~says~}\text{fact}_i\theta \; \forall i \in \{1\cdots k\}
       \end{array}
       & \models{c\theta}
-      & \textsf{vars}(\textit{fact}\theta) = \emptyset)
+      & \textsf{vars}(\text{fact}\theta) = \emptyset)
     }\\
-    \infer[\textsf{\scriptsize can say}]{%
-      AC, \infty \models A\textsf{~says~}\textit{fact}
+    \infer[\textsf{\scriptsize can-say}]{%
+      AC, \texttt{inf} \models A\texttt{~says~}\text{fact}
     }{%
-      AC, \infty \models A\textsf{~says~}B\textsf{~can~say}_D \textit{fact}
-      & AC, D \models B\textsf{~says~}\textit{fact}
+      AC, \texttt{inf} \models A\texttt{~says~}B\texttt{~can-say}~D~\text{fact}
+      & AC, D \models B\texttt{~says~}\text{fact}
     } \\
-    \infer[\textsf{\scriptsize can act as}]{%
-      AC, D \models A\textsf{~says~}B~\textit{verbphrase}
+    \infer[\textsf{\scriptsize can-act-as}]{%
+      AC, D \models A\texttt{~says~}B~\text{verb-phrase}
     }{%
-      AC, D \models A\textsf{~says~}B\textsf{~can~act~as~}C
-      & AC, D \models A\textsf{~says~}C~\textit{verbphrase}
+      AC, D \models A\texttt{~says~}B\texttt{~can-act-as~}C
+      & AC, D \models A\texttt{~says~}C~\text{verb-phrase}
     }
   \end{eqnarray*}
   \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
   evaluated in the context of a set of other assertions $AC$ as well as an
-  allowed level of delegation $D$ which may be $0$ or $\infty$.}
+  allowed level of delegation $D$ which may be \texttt{0} or \texttt{inf}.}
 \label{fig:secpal-rules}
 \end{figure}
 
 \begin{figure}\centering\sffamily\footnotesize
   \begin{tabular}{c l p{0.6\linewidth}}
     \toprule
-    \multirow{3}{*}{\rotatebox{90}{Concepts}} 
+    \multirow{4}{*}{\rotatebox{90}{Concepts}} 
     & $AC,\theta \vdash q$                     
-    & Defining relation. A query assertion $q$ is valid given the assertions contained in the assertion context $AC$ and a variable substitution $\theta$. \\
+    & Defining relation. A query assertion $q$ is valid given the assertions
+      contained in the assertion context $AC$ and a variable substitution $\theta$. \\
     &$\epsilon$                               
     & The empty substitution. \\
     
     \midrule
-    \multirow{5}{*}{\rotatebox{90}{Definitions}} &
-    1. $AC,\theta \vdash \overbrace{e \text{ says } fact}^q.$  & if $AC,\infty \models e\theta \text{ says } fact\theta$ and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
+    \multirow{6}{*}{\rotatebox{90}{Definitions}} &
+    1. $AC,\theta \vdash \underbrace{e \text{ says } fact}_q.$  & if $AC,\texttt{inf} \models e\theta \texttt{ says } fact\theta.$\newline and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
     &2. $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
     &3. $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
     &4. $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
@@ -138,7 +165,7 @@ query $q$ to a SecPAL program (which is a collection of facts and
 relationships called the \emph{assertion context} or \emph{AC}) asks
 if there exists a renaming $\theta$ such that the rules of SecPAL can
 be used to derive the, possibly renamed, query ($AC,\theta \vdash q$
-if $AC,\infty \models q\theta$)\footnote{$\vdash$ describes if a query
+if $AC,\texttt{inf} \models q\theta$)\footnote{$\vdash$ describes if a query
   is valid with respect to an AC, whereas $\models$ says there is a
   valid proof for a SecPAL using the rules of SecPAL.  Conjugation,
   disjunction and negation are allowed within a query, but not when
@@ -150,19 +177,17 @@ to show that the AC supports the query.  This limited form means that
 queries remain decidable: the rules inside the AC are not permitted to
 use negation.
 
-SecPAL was later extended to add universal quantification, and the
-possibility of dynamic assertion retrieval (they defined a safety
-condition, but didn't describe a protocol for retrieving assertions).
-They also abandoned the roles to use exclusively depth bounded
-delegation (citing a lack of uses in
-practice)~\cite{moritz_y_becker_secpal:_2009}.  These ideas would be
-expanded to create a new language called
-DKAL~\cite{gurevich_dkal:_2008}.  Gruevich~\etal~showed how SecPAL
-policies could be translated into DKAL
-policies~\cite{gurevich_dkal:_2008} so any SecPAL-based policies could
-be updated to DKAL.  We don't use these additional features in this
-thesis as we did not need the additional expressiveness they provide
-to adequately describe the policies in the mobile ecosystem.
+SecPAL was later extended to add universal quantification, and the possibility
+of dynamic assertion retrieval (they defined a safety condition, but didn't
+describe a protocol for retrieving
+assertions)~\cite{moritz_y_becker_secpal:_2009}. They also abandoned the roles
+to use exclusively depth bounded delegation (citing a lack of uses in practice).
+These ideas would be expanded to create a new language called
+DKAL~\cite{gurevich_dkal:_2008}. Gruevich~\etal~showed how SecPAL policies could
+be translated into DKAL policies~\cite{gurevich_dkal:_2008} so any SecPAL-based
+policies could be updated to DKAL. We don't use these additional features in
+this thesis as we did not need the additional expressiveness they provide to
+adequately describe the policies in the mobile ecosystem.
 
 \subsection{Delegation in SecPAL}
 
@@ -172,8 +197,9 @@ a centralized decision server where all decisions are made, SecPAL allows
 information to be shared through assertions signed by their speaker. This allows
 different principals to be responsible for different decisions and make
 decisions independently. An example of this, expanded from one given by
-Becker~\cite{becker_secpal:_2006}, is of a researcher attempting to run a query
-on a cluster, using data from a fileserver (\autoref{fig:delegation-example}).
+Becker~\cite{becker_secpal:_2006} and illustrated by us, is of a
+researcher attempting to run a query on a cluster, using data from a fileserver
+(\autoref{fig:delegation-example}).
 
 \begin{figure}
   \centering
@@ -215,7 +241,7 @@ a file is permitted to say who else can read it.
 'fileserver' says X can-say inf Y canRead(File)
   if X canRead(File).
 \end{lstlisting}
-Using SecPAL, the file server, determines that Alice can say who can
+Using SecPAL, the file server determines that Alice can say who can
 read her data.  Alice provides the file server with a statement that
 the cluster is authorized to read her file (for a short time
 period).
@@ -283,7 +309,7 @@ is used then, on the cluster, anywhere \texttt{'hr'} follows the
 
 SecPAL's delegation mechanisms can describe a large number of
 different relationships, whilst remaining conceptually and
-semantically extremely simple.  This power makes SecPAL an exteremely
+semantically extremely simple.  This power makes SecPAL an
 attractive authorization language for situations where entities are
 distributed and there is no central decision maker: whatever
 relationship each of the entities have SecPAL can describe it.

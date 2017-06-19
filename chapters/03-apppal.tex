@@ -1025,12 +1025,23 @@ statement is true or not does one rule require fewer statements than
 any other? Does one rule require only a subset of the facts of another
 rule, implying the second is redundant?
 
-We have implemented preliminary checkers for some of these properties. The code
-is included with AppPAL. The output shown in \texttt{teletype} is output by the
-tools we have produced, and the diagrams shown in \autoref{ssec:redundancy} are
-produced when running the tools in debug mode.
+Policies can be checked for many properties including:
+\begin{description}
+\item[Satisfiability] do there exist rules which can never be satisfied?
+\item[Equivalence] do there exist rules which have the same conditions in order to satisfy them?
+\item[Redundancy] do there exist multiple rules to make a decision where one requires a subset of the facts in order to satisfy it?
+\item[Consistency] can two contradictory decisions be made?
+\end{description}
 
-\todo{Recap properties quickly here.}
+We have implemented preliminary checkers for two of these properties. The code
+is included with AppPAL. The output shown in \framebox{\texttt{teletype}} is
+output by the tools we have produced, and the diagrams shown in
+\autoref{ssec:redundancy} are produced when running the tools in debug mode.
+Additionally a checker for \emph{consistency} could be implemented by using the
+same technique as the Ponder authorization language and disallowing predicates
+of the form \texttt{can$\star$} and
+\texttt{cannot$\star$}~\cite{damianou_ponder_2001}.
+
 
 \subsection{Checking Satisfiability}
 

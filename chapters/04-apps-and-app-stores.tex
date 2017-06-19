@@ -699,20 +699,37 @@ by IT staff.
   \label{fig:genstore-architecture}
 \end{figure}
 
-AppPAL's \emph{GenStore} tool automates this process for Android app stores.  The architecture is shown in \autoref{fig:genstore-architecture}. We summarize it as:
+AppPAL's \emph{GenStore} tool automates this process for Android app stores. The
+architecture is shown in \autoref{fig:genstore-architecture}. We summarize it
+as:
 
 \begin{enumerate}
-\item The developer provides a pool of apps to GenStore. GenStore will select from among these apps to create the curated store.
-\item The developer also provides a series of policy files. These should include rules to decide if an \emph{App isSellable}.  Optionally they can also describe predicates where \emph{App hasCategory(Category)} which will be used to organise the apps into categories in the store.
-\item GenStore runs, and for every app checks whether it is \emph{sellable}.  Additionally it checks apps for each category (apps can belong to multiple categories), if defined.
-  From this the GenStore builds a database (\autoref{fig:genstore-schema}) documenting which apps are avilable, their catagories and soem additional metadata.
-\item A webapp is created from a template.  The default template uses the Sinatra framework to serve the store, but any framework could be used.  Alongside the webapp, Genstore copies the selected APK files into a directory and a database is created storing information about the apps.
+\item The developer provides a pool of apps to GenStore. GenStore will select
+  from among these apps to create the curated store.
+\item The developer also provides a series of policy files. These should include
+  rules to decide if an \emph{App isSellable}. Optionally they can also describe
+  predicates where \emph{App hasCategory(Category)} which will be used to organise
+  the apps into categories in the store.
+\item GenStore runs, and for every app checks whether it is \emph{sellable}.
+  Additionally it checks apps for each category (apps can belong to multiple
+  categories), if defined. From this the GenStore builds a database
+  (\autoref{fig:genstore-schema}) documenting which apps are avilable, their
+  catagories and soem additional metadata.
+\item A webapp is created from a template. The default template uses the Sinatra
+  framework to serve the store, but any framework could be used. Alongside the
+  webapp, Genstore copies the selected APK files into a directory and a database
+  is created storing information about the apps.
 \end{enumerate}
 
-Genstore is a prototype, but it lets developers explore how policies could be integrated into the Android ecosystem.
-It shows an example of how AppPAL can help make decisions, in this case about which apps make the cut for a store, automatically.
-For a company seeking to enforce a policy about which apps are installable they could use it to offer their employees choice about apps, without having to remove the default store entirely.
-If an AV vendor integrated their own checks into AppPAL then they could trivially create a \emph{safe} app store where all apps have been demonstrably vetted by their software and engineers.
+Genstore is a prototype, but it lets developers explore how policies could be
+integrated into the Android ecosystem. It shows an example of how AppPAL can
+help make decisions, in this case about which apps make the cut for a store,
+automatically. For a company seeking to enforce a policy about which apps are
+installable they could use it to offer their employees choice about apps,
+without having to remove the default store entirely. If an AV vendor integrated
+their own checks into AppPAL then they could trivially create a \emph{safe} app
+store where all apps have been demonstrably vetted by their software and
+engineers.
 
 \begin{figure}\centering
   \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
