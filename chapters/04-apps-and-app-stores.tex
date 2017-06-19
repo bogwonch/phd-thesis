@@ -86,29 +86,12 @@ using providers like Aptoide.
 \end{figure}
 
 
-\subsection{Exploring differences in terms between markets}.
+\subsection{Exploring Differences In Terms Between Markets}
 
 With the various app stores available, a user or developer might be
 interested in the differences between them.  Different stores require
 different amounts of identification from their users to buy and sell
 apps, or offer different terms and conditions.
-
-Some stores may make changes to the apps they sell.  For Android users
-this is important as it changes the trust relationships around who can
-provide updates and who developed the app as the app will need to be
-re-signed.  To install an app Android requires it to be signed with a
-key to identify the developer.  When upgrading an app the upgrade is
-only accepted if the certificates match.  Additionally if two apps
-have been signed by the same key, they will share the same process
-space (enabling them to share memory) and be able to share code. To
-submit an app to the Play store Google require that the apps key must
-be valid until 2033, and more generally they recommend keys are valid
-for at least 25 years.  If an app is re-signed then it loses the
-relationships set up by its original key. The new signer must provide
-(or re-sign) updates.  If the new key is also used to sign other apps
-then the app may leak (or take) information from other apps shared
-with the same key.  Assumptions that data is private to one particular
-app start to break down if apps are re-signed.
 
 The precise terms for using these stores are hidden in user and
 developer agreements.  These hide within pages of legalese what the
@@ -404,6 +387,82 @@ BYOD policies and identify decisions and idioms common to those policies on the
 basis of an AppPAL description of the rules. Similar techniques could also be
 applied to app store terms to clarify and describe the policies precisely; going
 beyond the comparison of the text of the policies presented here.
+
+\subsubsection{Why Who Signed the App Matters}
+
+Some stores may make changes to the apps they sell. For Android users this is
+important as it changes the trust relationships around who can provide updates
+and who developed the app. We will illustrate the decisions Android makes using
+AppPAL.
+
+To install an app Android requires it to be signed with a key to
+identify the developer.
+
+\begin{lstlisting}
+'android' says App:A isAcceptable
+  if A isSignedWith(Key),
+     Key isValid.
+\end{lstlisting}
+
+The standard Android trust model says that the developer of the app should be the person that signed it.
+
+\begin{lstlisting}
+'user' says Developer:D hasMade(App:A)
+   if A isSignedWith(Key),
+      Developer isOwnerOf(Key).
+\end{lstlisting}
+
+When upgrading an app the upgrade is only accepted if the certificates match
+(and the version number is higher). Additionally if two apps have been signed by
+the same key, they will share the same process space (enabling them to share
+memory) and be able to share code.
+
+\begin{lstlisting}
+'android' says App:A canUpgrade(App:B)
+  if A isSignedWith(Key),
+     B isSignedWith(Key),
+     A hasVersion(V1),
+     B hasVersion(V2),
+     Key isValid
+  where A > B.
+  
+'android' says App:A canAccess(Data:D)
+  if D isOwnedBy(DataOwnerApp),
+     A isSignedWith(Key),
+     DataOwnerApp isSignedWith(Key).
+     Key isValid
+\end{lstlisting}
+
+To submit an app to the Play Store Google require that the apps key must be
+valid until 2033, and more generally they recommend keys are valid for at least
+25 years. 
+
+\begin{lstlisting}
+'play-store' says App:A isAcceptable
+  if A isSignedWith(Key),
+     Key isValid
+  where expiryDate(Key) > 2033.
+\end{lstlisting}
+
+If an app is re-signed by a store to alter an app then it loses the
+relationships set up by its original key. The store must now provide (or
+re-sign) updates for the app it sold.
+If the new key is also used to sign other apps then the app
+may leak (or take) information from other apps shared with the same key.
+Assumptions that data is private to one particular app start to break down if
+apps are re-signed.  The user's trust model must now become:
+
+\begin{lstlisting}
+'user' says Store:D hasSold(App:A)
+   if A isSignedWith(Key),
+      Developer isOwnerOf(Key).
+\end{lstlisting}
+
+This policy is equivalent to the user's original trust model (they rely on the
+same decisions), but the meaning is subtly different. The key that signed the
+app is no longer sufficient to identify the developer.
+  
+\subsubsection{Terms and conditions in stores}
 
 \section{Finding the Right Apps}
 
