@@ -53,7 +53,7 @@ know are not malware. She could use an \ac{AV} program, but these tools are not
 infallible. Some change their mind about apps over time. Others are heuristic
 based and may only be capable of judging an app based on sufficiently many
 malware indicators being present. Instead of using one \ac{AV} program, Alice
-opts to use \emph{VirusTotal}; a webservice for running files through multiple
+opts to use \emph{VirusTotal}; a web service for running files through multiple
 \ac{AV} programs. Even for known malware samples VirusTotal rarely gives
 absolute answers instead giving the number of \ac{AV} programs that flagged
 it~(\autoref{fig:android-malware}). Alice acknowledges this and writes her
@@ -162,7 +162,7 @@ equivalent to falsehood in standard SecPAL and should not be used further.
 
 Rule~\ref{enum:grow} applies to assertions with a conditional part (i.e.~an
 \texttt{if}). If this rule were not the case we might be able to grow the
-plausibilty of a fact by applying a rule that contained its own derived fact in
+plausibility of a fact by applying a rule that contained its own derived fact in
 its condition. For example consider the following rule:
 \begin{lstlisting}
 'x' says 'y' p
@@ -179,7 +179,7 @@ repeatedly reapply this rule and raise the plausibility arbitrarily.
 We described in \autoref{chap:apppal} how we split AppPAL predicates into four types: can, has, is and must.
 Using the four predicate types we can start to build relationships between them.
 We also showed how a policy author could check an obligation was completed when
-descrbing \emph{must} predicates.  Whilst a policy author could write these
+describing \emph{must} predicates.  Whilst a policy author could write these
 rules by hand, AppPAL has tools to automate creating rules like this.
 
 As well as automating creating the policy, we could also start to check other
@@ -220,7 +220,7 @@ past.
 
 Using this structure we could add a rule to AppPAL that all decisions from the
 past, will hold in the future. This might enable us to reduce the size of the
-asserition context as once we have a statement that someone \emph{has} we can
+assertion context as once we have a statement that someone \emph{has} we can
 remove the respective \emph{can} assertions. Alternatively if we prove the rule
 is false, i.e. at no point in the past did Alice permit Bob's action then we can
 detect something has gone wrong.
@@ -261,7 +261,7 @@ that at some future point Bob \emph{has} done $\phi$ as she required.
     AC, D \models \mathtt{A~says~B~must~\phi.}}
 \end{equation*}
 
-Using this interpretation of AppPAL's rules the following for an interpretter
+Using this interpretation of AppPAL's rules the following for an interpreter
 the following trace is valid; but if either statement in red was removed the
 interpreter would report an error.
 
@@ -307,14 +307,14 @@ contextual and policy driven controls rather than the low-level simple ones that
 are the only controls many tools support. More advanced MDM tools, such as
 Armando~\etal's \emph{meta-market}~\cite{armando_enabling_2014}, can enforce
 more complex policies but cannot distinguish between different contexts. A user
-who uses an app for both work and home may wish to run an app unemcumberred and
+who uses an app for both work and home may wish to run an app unencumbered and
 with different accounts when at home compared to at the office. Extending a tool
 such as this with AppPAL would allow contextual as well as policy controls into
 apps.
 
 Trialing an implementation in a company and working with the IT departments and
 policy authors to better understand their needs would allow us to tailor AppPAL
-further to implementing BYOD policies rather than just modelling them.
+further to implementing BYOD policies rather than just modeling them.
 
 \section{Usability Study}
 
@@ -323,7 +323,7 @@ users would struggle with writing a formal policy (as they do with many other
 technical tasks). Exploring how general users might use policies, either through
 a subscription model where they \emph{subscribe} to a policy written by a more
 advanced user, or through a graphical interface that helps them build their own
-policy, would help us understand how (and infact whether at all) users would
+policy, would help us understand how (and in fact whether at all) users would
 take advantage of better app controls.
 
 Looking solely at the language a user study with AppPAL should seek to answer at

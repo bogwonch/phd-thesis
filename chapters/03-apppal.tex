@@ -19,7 +19,7 @@ devices connect to, and companies and networks the devices and their users work
 within.
 
 Every entity in the ecosystem has its own policies. For example there is a
-contract between the store selling apps and the developer programmging them. Not
+contract between the store selling apps and the developer programming them. Not
 all policies are as formal as a contract: a user may have preferences about
 which kinds of apps he wants to install but may not write these preferences
 down. Instead he might pick apps to install from a store based on his
@@ -31,7 +31,7 @@ central authority to make decisions for them. They can, if required, delegate to
 others for their policies and knowledge.
 
 Formal languages let us write policies without ambiguity and describes precisely
-the process behing making decisions. The policy written in the formal language
+the process behind making decisions. The policy written in the formal language
 describes what decisions can be made. Translating policies into a formal
 language allows for rigorous comparisons of different policies, preferences and
 rules in mobile ecosystems. Writing the policy in a formal language allows it to
@@ -56,7 +56,7 @@ which targets firewalls, OS's and databases~\cite{damianou_ponder_2001}. Others,
 such as Cassandra, focus on credential management~\cite{becker_cassandra:_2004}.
 Some are general like XACML~\cite{oasis_extensible_2013}: designed to express
 access control decisions from a variety of domains. Different policy languages
-are descrbied in greater detail in \autoref{chap:related-work}; however to
+are described in greater detail in \autoref{chap:related-work}; however to
 create a policy language to describe mobile ecosystems we chose to base the
 language on SecPAL~\cite{becker_secpal:_2006}.
 
@@ -337,7 +337,7 @@ her the statement she needs or may give her more rules. For example, the
 additional checks they need before they agree to authorize the app. When
 checking if the app is an App in \autoref{item:isapp}, the NHS trust might
 delegate further. They could reply that if the App is in the Google Play store
-then they recognise it as a valid app. Alice would then have to get more
+then they recognize it as a valid app. Alice would then have to get more
 assertions if she wanted to prove this statement. Alternatively, the speaker
 could refuse to make the assertion, either because they do not believe it, or
 they cannot give an answer. In this case, Alice would have to look for an
@@ -385,7 +385,7 @@ domain.  The choice of predicates and constraints defines the
 decisions the SecPAL instantiation can talk about.
 
 AppPAL instantiates SecPAL to describe policies in mobile
-ecosystems. It was initially focussed on
+ecosystems. It was initially focused on
 describing app installation policies, however it was later extended
 further to describe other policies, such as \ac{BYOD} policies.
 
@@ -410,7 +410,7 @@ further to describe other policies, such as \ac{BYOD} policies.
 
 When instantiating SecPAL we use predicates based on four verbs: \emph{can}, \emph{has}, \emph{is} and \emph{must}.
 These verbs describe facts common to many policies.
-An \emph{is} predicate states that its subject has a given propery.
+An \emph{is} predicate states that its subject has a given property.
 A \emph{can} predicate describes permissible actions.
 For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can get access to.
 A user might have a privacy preference describing what parts of their personal data an app can share.
@@ -418,10 +418,10 @@ App stores have steps to go through before a developer can sell their app~\cite{
 When we need to describe the conditions for an action going ahead we use the can statement.
 
 \begin{description}
-\item[\bfseries\texttt{subject \emph{is}Propery}]
+\item[\bfseries\texttt{subject \emph{is}Properly}]
   A statement that says the \emph{subject} has a given \emph{property}.
   A~common example of this is to restrict variables to a given type.
-  An example might be that \lstinline!'anrgry-birds' isApp! or that \lstinline!'jennie' isEmployee!.
+  An example might be that \lstinline!'angry-birds' isApp! or that \lstinline!'jennie' isEmployee!.
   Constants in SecPAL are untyped (they are in effect just symbols) so it is
   often helpful to restrict their type to a given domain.  For example Alice
   might trust Bob to describe what apps are good, but not what websites.
@@ -467,7 +467,7 @@ When we need to describe the conditions for an action going ahead we use the can
 
   \emph{Has} predicates are rarely used as queries as they describe actions
   already taken.  They might be used as a goal if a policy needs to describe
-  actions occuring in a given order.  For example, a~company might require that
+  actions occurring in a given order.  For example, a~company might require that
   devices report if a user is using a company device unacceptably:
 
   \begin{lstlisting}
@@ -537,7 +537,7 @@ This can be written in SecPAL as follows:
   if App isApp.
 \end{lstlisting}
 When writing this we added a condition \lstinline{if App isApp}, that Bob can only talk about Apps as being installable.
-Generalising this pattern we use predicates starting with \emph{is} to give types to their subjects.
+Generalizing this pattern we use predicates starting with \emph{is} to give types to their subjects.
 If a policy rule contains a lot of variables, however these typing conditions can become very verbose.
 To simplify the policy rules, AppPAL adds a sugared notation for typing
 statements by extending SecPAL's grammar for variables (\autoref{fig:type-changes}).
@@ -578,7 +578,7 @@ X says A predicate(B, C)
      C isT3, 
      ... .
 \end{lstlisting}
-  \caption{Desugaring from AppPAL types to SecPAL.}
+  \caption{De-sugaring from AppPAL types to SecPAL.}
   \label{lst:type-expansion}
 \end{figure}
 
@@ -623,7 +623,7 @@ The syntactic sugar expands into the following equivalent policy.
 
 This is a fairly simple refinement of SecPAL's syntax, but it improves the
 readability. It avoids hiding the condition that the company must own the access
-point amongst typing statements aiding readability. It also helps avoid errors
+point among typing statements aiding readability. It also helps avoid errors
 in policies caused by the policy author forgetting to give a type to a variable.
 To our knowledge this is the first attempt to add 
 
@@ -645,11 +645,11 @@ Implementing AppPAL as a library allows us to embed into a variety of
 situations. AppPAL can be part of an app store checking the apps sold against a
 policy. Running on a device, AppPAL can check apps before installation by the
 package manager. There is also a command-line version which is useful for
-testing and modelling policies. Our implementation can make the inferences, on
+testing and modeling policies. Our implementation can make the inferences, on
 an Android device or on a command line but it is not integrated into Android. It
-is future work to evaluate how AppPAL policies mgiht work in practice and be
+is future work to evaluate how AppPAL policies might work in practice and be
 tied into a mobile operating system to enforce policies in practice. This work
-looks primarily and moddeling the policies and preference and providing a
+looks primarily and modeling the policies and preference and providing a
 framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown
@@ -694,7 +694,7 @@ enough---answering all but the most complex queries in seconds
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-Pseudocode for evaluation algorithm used by AppPAL is described
+Pseudo-code for evaluation algorithm used by AppPAL is described
 in~Figures~\ref{alg:eval1},~\ref{alg:eval2}~and~\ref{alg:eval3}.
 
 To make queries against a policy AppPAL is first given one or more policy files.
@@ -865,12 +865,12 @@ evaluating a query successfully at 2:59~\textsc{pm} and then again at
 
 We use the results table to cache results, and to avoid circular proof searches.
 It helps makes the algorithm fast, albeit at the cost of soundness and
-completeness. If AppPAL were encorporated into a production system, the
+completeness. If AppPAL were incorporated into a production system, the
 designers would need to have a strategy to manage the $RT$ and delete old
 results. A simple strategy, such as clearing any statements older than 10
 minutes, may likely be enough for many scenarios.
 
-The arguments in thes rest of the section assume that the result of evaluating a
+The arguments in the rest of the section assume that the result of evaluating a
 constraint does not change over time. This allows us to argue the basic
 correctness of the algorithm, but with a caveat that the $RT$ must be cleaned
 regularly.
@@ -889,7 +889,7 @@ three AppPAL evaluation rules. The \texttt{CanSay-CanActAs} rule searches
 through possible variables for possible candidates for either of the rules, and
 then the individual \texttt{CanSay} and \texttt{CanActAs} rules which implement
 their respective evaluation rules. If \texttt{Evaluate} is sound then these must
-also be sound as they are analogus to the \emph{can-say} and \emph{can-act-as}
+also be sound as they are analogous to the \emph{can-say} and \emph{can-act-as}
 AppPAL evaluation rules.
 
 The \texttt{Cond} function implements the \emph{cond} rule. It searches for
@@ -900,7 +900,7 @@ possible substitutions of the remaining free variables (satisfying the
 evaluate each statement in the body of $a$. If all evaluate successfully (the
 first condition in the \emph{eval} rule), then the constraint is checked (the
 final condition of the \emph{cond} rule). If it is successful then the
-\texttt{Cond} function returns success. Since this process is analogus to the
+\texttt{Cond} function returns success. Since this process is analogous to the
 \emph{cond} rule this process must also be sound.
 
 Since the \texttt{Evaluate} rule can only mark a query as proven in $RT$ if it
@@ -924,7 +924,7 @@ Therefore the algorithm is complete.
 Someone using AppPAL might wish it to check apps before installation. Since
 policy checks may involve inspecting many rules and constraints one may ask
 whether the checking will be acceptably fast. Downloading and installing an app
-takes about 30 seconds on a typical Android phone over Wifi. If checking a
+takes about 30 seconds on a typical Android phone over WiFi. If checking a
 policy delays this even further a user may become annoyed and disable AppPAL.
 
 A synthetic benchmark is used to give a measure AppPAL's performance. The policy
@@ -1055,7 +1055,7 @@ depends upon.
 When an assertion is satisfiable there is a combination of facts that could
 satisfy its conditionals. If there are no facts that could ever satisfy the rule
 then the policy may have a bug. An analogy can be drawn to an \emph{conditional
-always false bug} in a conventional programming languge: we have code (or in
+always false bug} in a conventional programming language: we have code (or in
 this case a rule) that can never be used as the conditions for using it can
 never occur.
 
@@ -1067,7 +1067,7 @@ never occur.
 
 This is a similar idea to the notions of \emph{satisfiability} in Datalog (and
 more generally logic programming). A Datalog predicate, found by satisfying a
-rule, is satisfiable if there are suffient ground facts in the database to
+rule, is satisfiable if there are sufficient ground facts in the database to
 deduce it. Formally, satisfiability in Datalog is defined
 as~\cite{alon_levy_equivalence_1993}:
 
@@ -1105,7 +1105,7 @@ When checking the satisfiability we ask whether there is a mechanism in the poli
   \end{equation*}
 \end{center}
 
-We also add a somewhat weaker notion of satisfiablitiy (Satisfiable$^\star$) which distinguishes
+We also add a somewhat weaker notion of satisfiability (Satisfiable$^\star$) which distinguishes
 statements that might be satisfiable, but depend on delegation, and where the
 delegated party has made no assertions about this predicate. This distinguishes
 the case where we have missing information from the case where a speaker has
@@ -1164,7 +1164,7 @@ What apps in practice are approved for use?
 As the policy document notes, none of the groups or committees have ever
 approved an app in practice.
 When we run the satisfiability checker on this policy
-it reports that (amongst other information) no app is installable.
+it reports that (among other information) no app is installable.
 
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
@@ -1262,7 +1262,7 @@ about here:
 
 \begin{itemize}
 \item \emph{Unreachability} occurs if a predicate does not take part in the
-  minimal deverivation tree of a fact.
+  minimal derivation tree of a fact.
 \item \emph{Irrelevance} occurs if a derivation tree contains pairs of identical atoms.
 \end{itemize}
 

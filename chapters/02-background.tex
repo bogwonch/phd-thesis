@@ -39,7 +39,7 @@ rest of this thesis) describe our own policy language for the policies
 surrounding the mobile ecosystem. Moreover whenever a SecPAL (or AppPAL) policy
 or snippet is presented in \framebox{\texttt{teletype font}} it can be parsed
 and run\footnote{Sometimes with minimal edits. Some constraints used are not
-implemented.} using our \emph{AppPAL} interpretter which will be
+implemented.} using our \emph{AppPAL} interpreter which will be
 described in \autoref{chap:apppal}.
 
 \subsection{Grammar, Evaluation and Semantics}
@@ -198,7 +198,7 @@ information to be shared through assertions signed by their speaker. This allows
 different principals to be responsible for different decisions and make
 decisions independently. An example of this, expanded from one given by
 Becker~\cite{becker_secpal:_2006} and illustrated by us, is of a
-researcher attempting to run a query on a cluster, using data from a fileserver
+researcher attempting to run a query on a cluster, using data from a file-server
 (\autoref{fig:delegation-example}).
 
 \begin{figure}
@@ -341,9 +341,9 @@ relationship each of the entities have SecPAL can describe it.
   \caption{Timeline of the development of different policy languages.}
 \end{figure}
 
-This thesis focusses on an instantiation of SecPAL to describe the trust
+This thesis focuses on an instantiation of SecPAL to describe the trust
 relationships and decisions in the mobile ecosystem. In this section we provide
-a survey of other policy languages and their geneology.
+a survey of other policy languages and their genealogy.
 
 PolicyMaker~\cite{blaze_decentralized_1996} was created to give a language for
 permitted actions. It grew out of the logics of authentication of Wobber, Abadi,
@@ -354,7 +354,7 @@ the time did not give any means to link the users to what users were allowed to
 do.
 
 To describe the authorizations, trust information is contained within assertions.
-A collection of assertions form apolicy. An assertion has a source (either
+A collection of assertions form a policy. An assertion has a source (either
 the local policy document or a public key). The source \emph{asserts} that a key
 (or more complex arrangements such as three of four keys) is permitted to
 perform any action that matches the \emph{filter}. The filter itself is
@@ -367,7 +367,7 @@ PolicyMaker key \emph{requesting} a given action.
 
 Blaze~\etal~give an example of this scheme being used as part of an email
 server. A user, Alice, identified by key \texttt{0x12345678} is permitted to
-send emails with the from header set to Alice and the organisation set to Bob
+send emails with the from header set to Alice and the organization set to Bob
 Labs.
 
 A PolicyMaker instance is installed on a server and allowed to receive queries and give answers.
@@ -381,7 +381,7 @@ policy ASSERTS
 \end{lstlisting}
 
 When Alice tries to send an email using a PolicyMaker enhanced SMTP
-client she signs and sends her message using her key.  The mailserver
+client she signs and sends her message using her key.  The mail-server
 checks the signature and queries the policy server with her message:
 
 \begin{lstlisting}
@@ -461,7 +461,7 @@ with a formal semantics.  The language's precise meaning must be inferred from
 RFC 2693 which loosely defined it in English~\cite{ellison_spki_1999}. There were
 several later attempts to fit a semantics to the
 language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001},
-however not all covered every aspect of SPKI/SDSIs features, and there was no standard semantics.
+however not all covered every aspect of SPKI/SDSI's features, and there was no standard semantics.
 
 The focus on roles leads to the RT family of
 languages~\cite{ninghui_li_design_2002}, which associates policy
@@ -566,7 +566,7 @@ hospital@admin.permits(clinician, Read-Records(patient)) <-
 
 Cassandra allows for powerful control of different roles, and enables
 delegation by allowing third-parties to activate and deactivate roles
-on others.  It was applied successfully to modelling access control
+on others.  It was applied successfully to modeling access control
 with electronic healthcare records.
 
 

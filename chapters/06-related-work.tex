@@ -41,8 +41,8 @@ DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
 ideas further and showed how DKAL programs that described how infons
 should be shared could be used as executable protocols.
 
-DKAL improved over SecPAL by giving a means for transfering and reacting to information.
-De
+DKAL improved over SecPAL by giving a means for transferring and reacting to information.
+  
 
 \subsection{XACML}
 
@@ -59,7 +59,7 @@ whether a specific action should be allowed or denied. When making a
 \emph{request} if a rule's target matches the request then the
 appropriate action should be taken. Rules are combined into policies
 and may contain many rules which can contradict each other if multiple
-ones match a given request. To handle contraditions between rules a
+ones match a given request. To handle contradictions between rules a
 \emph{combining algorithm} may be used to decide how to
 proceed. Typical algorithms include:
 
@@ -87,7 +87,7 @@ semantics will remain correct and applicable to the current version of XACML. In
 contrast, SecPAL's semantics are given precisely by
 Becker~\cite{becker_secpal:_2006}.
 
-Whilst SecPAL was designed for readablility, XACML policies are verbose and
+Whilst SecPAL was designed for readability, XACML policies are verbose and
 difficult to read. For example a simple policy that grants a principal,
 \emph{Alice}, permission to do whatever she liked would be written as:
 
@@ -150,7 +150,7 @@ XACML~\cite{axiomaics_axiomatics_2012}, but there are not tools for
 translating XACML to ALFA.  This means that any XACML policies would
 need to be rewritten to take advantage of ALFA's syntax, and that any
 tweaks made to a XACML policy cannot be trivially reintegrated into
-the ALFA version.  Furthermore any analysis of XACMLs semantics cannot
+the ALFA version.  Furthermore any analysis of XACML's semantics cannot
 be trivially used to understand the semantics of ALFA.
 
 Other notations exist including graphical
@@ -260,7 +260,7 @@ which policy language we used.
 
 If policy languages give us a mechanism to describe trust relationships and
 decisions \emph{in general}, fine grained permission systems are one mechanism
-by which policy languages are used to control the behaviour of apps on Android
+by which policy languages are used to control the behavior of apps on Android
 specifically. In Android to access certain functionality, for example access to
 private storage, apps must request a permission. Permissions are a coarse usage
 control mechanism, and user's ability to control what permissions an app
@@ -277,7 +277,7 @@ This section looks exclusively at Android as that is where the bulk of the
 research has been. It is relevant to our work as these alternative permissions
 schemes have been used to describe the policies about how users wish to use
 their devices. The majority of the work has looked at Android: perhaps because,
-unlike iOS, the operating system can be modified to encorporate new features.
+unlike iOS, the operating system can be modified to incorporate new features.
 
 The permission system of iOS allows users to
 toggle an app's ability to perform certain actions (access photos,
@@ -293,7 +293,7 @@ what behavior they considered acceptable using a policy language.
 Kirin ran on the device to certify apps using static analysis.  If an
 app did not conform to the policy the user would be warned and could
 uninstall it.  A natural next question is rather than rejecting the
-entire app, can you just reject the behaviour you don't like?
+entire app, can you just reject the behavior you don't like?
 Ontang~\etal's SAINT tool~\cite{ongtang_semantically_2012} did just
 that for inter-app communication, allowing the user to express a
 policy about the circumstances two apps could share data or call
@@ -317,7 +317,7 @@ expected to. Aurasium~\cite{xu_aurasium:_2012} works by modifying apps to
 monitor system calls and IPC mechanisms via GOT hijacking in the Bionic libc,
 allowing their policies to effect native code which earlier tools ignored.
 
-Jin~\etal{} developed a fine grained permission system that targetted apps
+Jin~\etal{} developed a fine grained permission system that targeted apps
 written using the PhoneGap framework, that enable developers to create portable
 native apps from web apps~\cite{jin_fine-grained_2015}. Dai~\etal{} proposed a
 fine grained permissions scheme that controlled apps (and IoT devices) access to
