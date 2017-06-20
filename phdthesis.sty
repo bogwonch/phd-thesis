@@ -61,23 +61,24 @@
 \newcommand{\rb}[1]{\rotatebox{90}{#1}}
 \includepackage[update,prepend]{epstopdf}
 
-\includepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\includepackage[hidelinks]{hyperref}
 \renewcommand*{\equationautorefname}{Equation}
-\renewcommand*{\footnoteautorefname}{footnote}
-\renewcommand*{\itemautorefname}{item}
+\renewcommand*{\footnoteautorefname}{Footnote}
+\renewcommand*{\itemautorefname}{Item}
 \renewcommand*{\figureautorefname}{Figure}
 \renewcommand*{\tableautorefname}{Table}
 \renewcommand*{\partautorefname}{Part}
 \renewcommand*{\appendixautorefname}{Appendix}
-\renewcommand*{\chapterautorefname}{chapter}
-\renewcommand*{\sectionautorefname}{section}
-\renewcommand*{\subsectionautorefname}{subsection}
-\renewcommand*{\subsubsectionautorefname}{subsubsection}
-\renewcommand*{\paragraphautorefname}{paragraph}
-\renewcommand*{\subparagraphautorefname}{subparagraph}
-\renewcommand*{\FancyVerbLineautorefname}{line}
+\renewcommand*{\chapterautorefname}{Chapter}
+\renewcommand*{\sectionautorefname}{Section}
+\renewcommand*{\subsectionautorefname}{Subsection}
+\renewcommand*{\subsubsectionautorefname}{Subsubsection}
+\renewcommand*{\paragraphautorefname}{Paragraph}
+\renewcommand*{\subparagraphautorefname}{Subparagraph}
+\renewcommand*{\FancyVerbLineautorefname}{Line}
 \renewcommand*{\theoremautorefname}{Theorem}
-\renewcommand*{\pageautorefname}{page}
+\renewcommand*{\pageautorefname}{Page}
 
 \includepackage{mathtools}
 \includepackage{pxfonts}
@@ -206,8 +207,6 @@
 }[keywords,comments,strings]
 \lstset{language=apppal}
 
-% Hyperlinks
-\includepackage{hyperref}
 
 % PDF including
 % \includepackage{pdfpages}
