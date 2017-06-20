@@ -1,11 +1,34 @@
-    \documentclass[thesis.tex]{subfiles}
-    \begin{document}
-    \chapter{Related Work}
-    \label{chap:related-work}
+\documentclass[thesis.tex]{subfiles}
+\begin{document}
+\chapter{Related Work}
+\label{chap:related-work}
    
-\section{Other Policy Languages}
+Whilst we do not know of any concurrent work modeling the informal policies and
+trust relationships surrounding the mobile ecosystem; there has been work on
+policy languages that is relevant to our work. In this chapter we give an
+overview of DKAL which built on SecPAL to describe how information could be
+shared. We also describe XACML an industrial standard for describing policies
+that recently has been extended to describe delegation relationships and explain
+our reasons for choosing SecPAL as a basis for our work over it. 
 
-\subsection{DKAL}
+We also describe work developing fine grained permissions systems for Android.
+If policy languages give us a mechanism to describe trust relationships and
+decisions \emph{in general}, fine grained permission systems are one mechanism
+by which policy languages are used to control the behavior of apps on Android
+specifically. In Android to access certain functionality, for example access to
+private storage, apps must request a permission. Permissions are a coarse usage
+control mechanism, and user's ability to control what permissions an app
+requested was limited to not installing the app until 2015 when Android
+Marshmallow allowed users the ability to disable individual permissions.
+
+The coarseness of Android's permission system and its relative inflexibility led
+to a line of research into \emph{fine-grained} permissions systems. These
+systems would add additional controls to permissions and allow greater control
+about when they were enforced. We describe several notable examples and how each
+added additional controls or provided new means to enforce the policies.
+
+
+\section{DKAL}
 
 The DKAL family of
 languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
@@ -48,7 +71,7 @@ The authors of DKAL showed that all SecPAL policies could be expressed in
 DKAL~\cite{gurevich_dkal:_2008}, so AppPAL could gain increased expressivity
 just by switching interpretters.
 
-\subsection{XACML}
+\section{XACML}
 
 XACML is a policy language with an industrial
 standard~\cite{oasis_extensible_2013} that can be extended to fit many
@@ -261,21 +284,6 @@ which policy language we used.
 
 \section{Fine Grained Permission Systems}
 \label{sec:fine-grained-permissions}
-
-If policy languages give us a mechanism to describe trust relationships and
-decisions \emph{in general}, fine grained permission systems are one mechanism
-by which policy languages are used to control the behavior of apps on Android
-specifically. In Android to access certain functionality, for example access to
-private storage, apps must request a permission. Permissions are a coarse usage
-control mechanism, and user's ability to control what permissions an app
-requested was limited to not installing the app until 2015 when Android
-Marshmallow allowed users the ability to disable individual permissions.
-
-The coarseness of Android's permission system and its
-relative inflexibility led to a line of research into
-\emph{fine-grained} permissions systems.  These systems would add
-additional controls to permissions and allow greater control about
-when they were enforced.
 
 This section looks exclusively at Android as that is where the bulk of the
 research has been. It is relevant to our work as these alternative permissions
