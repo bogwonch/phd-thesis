@@ -2,10 +2,131 @@
 \begin{document}
 \chapter{Conclusion}
 
-\end{document}
+% (1) What were your research question/s? This thesis posed the question/s (a)… (b)
 
+This thesis looked at the ways the informal policies surrounding the mobile
+ecosystem, linking the specification of the policies to their implementation. We
+aimed to capture the trust relationships and policies using a formal language.
+Using the formal description of the policies, we used them to measure the extent
+users followed app privacy preferences, look for common concerns and idioms in
+BYOD policies, and check policies for problems.
+
+% (2) What were your answers to the research questions and how did you arrive at
+%     them? My research study was describe in one sentence the kind of research you
+%     undertook eg mixed methods study of… I found in answer to research question (a)
+%     … and research question (b)… Don’t write more than about three sentences
+%     or four or five bullets points in answer to each research question.
+
+To explore these policies we instantiated and implemented a formal language,
+AppPAL, based on the SecPAL authorization language to describe the policies of
+the mobile ecosystem. Our implementation ran on Android and the JVM and included
+tools to check policies for common errors, and analyze their contents.
+
+By taking app installation data from a large number of users, and privacy
+preferences discovered by researchers talking to users~\cite{lin_modeling_2014},
+we modeled the preferences using AppPAL policies and measured the extent users
+were following these policies. We found an example of the \emph{privacy
+paradox}: users behavior didn't match their stated preferences.
+
+Among other policies, we looked at five natural language BYOD policies and
+translated them into AppPAL. This allowed us to identify two idioms,
+acknowledgment and delegation, that whilst a significant part of the policies
+had not been looked at by existing research and \ac{MDM} tools. These particular
+idioms were of particular interest as they described social and often unenforced
+aspects of policies whereas prior work and tools had looked predominantly at
+the technical aspects.
+
+% (3) What do your findings have to say to the literatures? Write an answer in
+%     no more than four or five sentences. Think about whether your findings
+%     challenge, trouble, suggest something (say what), add to what we know about x
+%     from (name category of literatures and key authors), support (what)… My work
+%     contributes to the literatures on… by…
+
+Our work contributes to the literature by showing how informal language policies
+can be captured formally and used as the basis for precise comparisons and
+analysis. Existing work has focussed on the implementation aspects, but has
+ignored the question of \emph{when} different policies should be enforced.
+AppPAL lets us link the specification of a policy to its implementation. This
+lets our policies be independent of any particular tool: we describe when any
+tools should be run in order to check a policy rather than the precise,
+mechanistic, checks of any particular tool.
+
+% (4) What are the implications of this new knowledge? Who needs to know what
+%     you have to say? Why? How could this knowledge be of interest/use to them? (Go
+%     back to the policy or practice problem or think of a policy or practice problem
+%     to which this knowledge speaks, or think about the ways in which literatures are
+%     currently used/spoken that might be changed by your addition. Be careful not to
+%     over or underclaim here.) What might happen as a result of knowing this new
+%     stuff, your contribution? These findings could be of interest to… benefit to…
+%     worry… Just write a few bullets or sentences in answer.
+
+Our work also highlights that in many policies \emph{who} has performed a
+particular check is sometimes more important to the policy the \emph{what} check
+they actually performed. Existing research has looked at ways of enforcing
+policies mechanistically, but sometimes just trusting the subject to follow them
+on their own is sufficient to satisfy the policy. Existing policy tools focus on
+the checks; but other aspects are also interesting to look at and provide
+mechanisms for.
+
+% (5) What further research might now be done as a result of your work? Here you
+%     need to think about your work opening up a research agenda, being a building
+%     block for further work that you, or someone else, might do. Write a few bullets
+%     or sentences here. As a result of my study, further research might well be
+%     conducted on/in order to …
+
+The work described here is not without limitations. There are many policies in
+the mobile ecosystem that we didn't fully examine such as the differences
+between OSs, the differences between store contents. it could be that the reason
+existing research has not looked at the trust relationships in mobile device
+policies is because they are not interesting to anyone and just act as pointers
+to others to set their own low level policies. We would disagree: precisely
+specifying the informal policies leads to a better understanding of its
+implications and the trust relationships describe the relationships between
+companies and individuals that are often hidden by policies. Understanding the
+responsibilities between each is interesting as it lets us see who is
+responsible for what, and can be used to guide who to blame when things go
+wrong.
+
+This thesis focussed on the policies of the mobile ecosystem, but in the last
+few years \ac{IoT} has established itself as its own ecosystem. These IoT
+devices are even more distributed than mobile devices and frequently delegate to
+webservices to provide information and process data. Our work on AppPAL could be
+applied to IoT policies to model and examine the trust relationships and better
+understand the relationships within.
+
+% (6) Optional question Are there any implications for your own research
+%     practice? What did you learn about researching from this study? Write a sentence
+%     or two or a couple of bullets only.
+
+In his Turing award lecture \emph{on trusting trust} Ken Thompson asked a
+question~\cite{ken_thompson_reflections_1984}:
+\begin{quotation} 
+  To what extent should one trust a statement that a program is free of Trojan
+  horses? Perhaps it is more important to trust the people who wrote the
+  software.
+\end{quotation}
+
+He concluded:
+
+\begin{quotation}
+  The moral is obvious. You can't trust code that you did not totally create
+  yourself. (Especially code from companies that employ people like me.)
+  No amount of source-level verification or scrutiny will protect you from using untrusted code.''
+\end{quotation} 
+
+A similar question could be asked of the policies surrounding the mobile
+ecosystem. Thompson's conclusion is still true: there is no way to trust that
+any app you download is safe or good. There is no way to verify that an employee
+isn't circumventing a BYOD policy in an evil and clever manner. It is infeasible
+for users to create all their own apps and OSs, and few companies can only run
+with one employee. We can't trust our policies are followed but we can
+understand the trust relationships within them. If we understand the trust
+relationships we can then decide how closely we want to check any part of it for
+\emph{people like Ken}.
+
+\end{document}
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../../thesis"
+%%% TeX-master: "../thesis"
 %%% End:
