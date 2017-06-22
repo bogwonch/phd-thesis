@@ -195,23 +195,24 @@ author wished to enforce this relationship then we can start to reason about how
 assertion context has changed over time.
 
 \begin{table}\centering
-  \begin{tabular}{l c l}
-    \toprule
-      $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\
-      $P(\phi)$ & $\Rightarrow$ & At sometime in the past $\phi$ was true. \\
-      $G(\phi)$ & $\Rightarrow$ & $\phi$ will always true. \\
-      $H(\phi)$ & $\Rightarrow$ & $\phi$ was always true. \\
-    \bottomrule
-  \end{tabular}
-  \caption{Summary of temporal operators from Prior~\cite{arthur_n._prior_past_1967}.}
-  \label{tab:temporal-operators}
+ \begin{tabular}{l c l}
+   \toprule
+     $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\
+     $P(\phi)$ & $\Rightarrow$ & At sometime in the past $\phi$ was true. \\
+     $G(\phi)$ & $\Rightarrow$ & $\phi$ will always true. \\
+     $H(\phi)$ & $\Rightarrow$ & $\phi$ was always true. \\
+   \bottomrule
+ \end{tabular}
+ \caption{Summary of temporal operators from Prior.}
+ \label{tab:temporal-operators}
 \end{table}
 
-Using the temporal operators in \autoref{tab:temporal-operators}, we can start
-to write rules expressing the relationship between different predicates. Taking
-the earlier example, we might wish to add a rule that if Alice believes Bob has
-done something $\phi$, then she must have said he could do that thing in the
-past.
+Using the temporal operators, such as those established by
+Prior~\cite{arthur_n._prior_past_1967} (\autoref{tab:temporal-operators}), we can
+start to write rules expressing the relationship between different predicates.
+Taking the earlier example, we might wish to add a rule that if Alice believes
+Bob has done something $\phi$, then she must have said he could do that thing in
+the past.
 
 \begin{equation*}
   \infer{P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)}{%
