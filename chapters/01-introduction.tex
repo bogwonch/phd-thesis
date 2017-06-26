@@ -20,37 +20,8 @@
   \label{fig:mobile-ecosystem}
 \end{figure}
 
-%\begin{itemize}
-%\item Mobile devices are ubiquitous.
-%\item With increasing device power there has also been an increasing desire to
-  %control them. From user's having preferences about what data the device should
-  %access and which apps they want to use to companies seeking to control what data
-  %each device can access.
-%\item As part of the devices mobility there has been a move towards
-  %decentralization. Users can install apps from many sources. Two users may share
-  %different policies. Tools for running policy checks may not be run locally as
-  %before, but on a distant server. Apps come with guarantees from stores that they
-  %are safe to use.
-%\item This distributed and decentralized ecosystem relies on trust relationships
-  %to work. A user or company may not know precisely what checks the store is doing
-  %on the apps they sell but they trust the store to make the judgement.
-%\item Despite the prevalence of these trust relationships, the policies that
-  %define them are frequently \emph{informal}. Either natural language documents,
-  %unwritten preferences, or hidden in the code implementing the devices and
-  %software.
-%\item Existing research has focussed on the question of how can we enforce ever
-  %more sophisticated policies, using ever more sophisticated techniques.
-%\item This work takes a step back: it asks how we can express the informal
-  %policies and trust relationships surrounding mobile devices formally.
-%\item By using authorization languages we can model these policies precisely,
-  %and start to analyse and make comparisons between them.
-%\item This is the central question of this thesis: how can we use formal
-  %languages to model the informal policies and trust relationships surrounding
-  %the mobile ecosystem.
-%\end{itemize}
-
 Mobile devices are ubiquitous, yet the relationships between their users, and
-the environment they operate in is often vague. Users have preferences,
+the environment they run in is often vague. Users have preferences,
 companies have policies, and stores have terms; but the precise trust
 relationships are often hidden in informal, or natural language, descriptions of
 each.
@@ -59,9 +30,9 @@ As the devices have become more powerful there has been an increasing wish to
 control the devices. Companies expect devices to follow their corporate policies
 within their networks and trust users to abide by their policies as well as use
 tools to enforce some aspects of them. Some user's may have reservations about
-what data apps can access and wish to restrict their access. User's may rely on
+what data apps can get access to and wish to restrict their access. User's may rely on
 stores to vet the apps they sell, but will likely not know (or necessarily care)
-what checks have been done.
+precisely how the store checked the app.
 
 These devices exist with in the \emph{mobile ecosystem}: which we define as
 \textbf{the interactions surrounding the use of smart phones and tablet
@@ -69,14 +40,14 @@ computers}. Figure~\ref{fig:mobile-ecosystem} shows some of the relationships
 between devices, their users and their preferences, the stores, companies and
 all these principal's policies. Users have phones or other mobile devices. They
 may own personal devices or have a company one. They may have their own
-preferred ways of using the device, or they may be subject to policies written
-for their employer. They download apps, written by developers from app stores,
+preferred ways of using the device, or they have to follow policies written
+by their employer. They download apps, written by developers from app stores,
 all with their own policies and some of the stores may delegate some aspects of
 their quality control to external vetting software.
 
 Prior work has focused on how we can check and enforce ever more sophisticated
 policies and ever finer controls. This thesis asks a different question:
-\textbf{how can we take the informal policies and trust relationships
+\textbf{how can we capture the informal policies and trust relationships
 surrounding the mobile ecosystem and use formal languages to model and examine
 them?} We ask how we can tie the top-level goals in the natural language
 policies and preferences to the tools used to implement them? How can we compare
