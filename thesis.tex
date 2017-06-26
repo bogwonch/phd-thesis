@@ -3,70 +3,70 @@
 \usepackage{phdthesis}
 \usepackage{subfiles}
 
-\title{On Formally Describing Informal Mobile Policies} 
+\title{Capturing Mobile Security Policies Precisely} 
 \author{Joseph Hallett}
 \submityear{2017} 
-\abstract{ 
+\abstract{%
 
   This thesis looks at developing an authorization logic to describe the
-informal policies in the mobile ecosystem. These policies are described using
-natural language such as BYOD policies or terms and conditions, as privacy
-preferences that users may never write down, or as trust relationships implicit
-in the software running on mobile devices. Whilst prior work has looked on
-checking and enforcing policies with low-level controls, this work aims to
-capture the intent of the policies and the trust relationships within them
-separating the specification of the policy from its enforcement. This allows us
-to analyze the informal policies precisely, measure how often they are used in
-practice, and look for idioms.
+  informal security policies in the mobile ecosystem. Natural language policies describe
+  BYOD agreements and terms and conditions. Users have privacy preferences that
+  they may never express as a policy but which guide their actions. Software
+  running on mobile devices has trust relationships with servers and stores.
+  Whilst earlier work has looked on checking and enforcing policies with low-level
+  controls, this work aims to capture these informal policy's intents and the trust
+  relationships within them separating the policy specification from its
+  enforcement. This allows us to analyze the informal policies precisely, measure
+  their use in practice, and look for idioms.
 
-  We show how AppPAL can be instantiated from SecPAL and implemented as an
-authorization logic for mobile ecosystems, and how we can check AppPAL policies
-for common errors. Using AppPAL we show that policies describing users privacy
-preferences do not seem to match the apps users install. We explore the
-differences between app stores and how to create new ones based on policy. We
-examine five BYOD policies and discover previously unexamined idioms within
-them. 
-  
+  We show how AppPAL instantiates SecPAL and our implementation of it as an
+  authorization logic for mobile ecosystems. We show how we can check AppPAL
+  policies for common errors. Using AppPAL we show that policies describing users
+  privacy preferences do not seem to match the apps users install. We explore the
+  differences between app stores and how to create new ones based on policy. We
+  look at five BYOD policies and discover previously unexamined idioms within
+  them.
+
 }
 
 \begin{document}
 \begin{preliminary}
   \maketitle
   \begin{acknowledgements}
-    I am grateful to many people for their help in completing my PhD. In
-    particular I would like to thank the following people:
-    
-    Thank you to my supervisors David Aspinall and Bj\"orn Franke for their
-    advice, criticism, help, patience, and always offering to edit my papers.
-    Thank you to Andy Gordon and Martin Hofmann for the helpful discussions early on,
-    introducing me to SecPAL and to using formal logic to model this domain.
-    Thank you to Daniel Franzen, Marcin Szymczak, Arthur Chan, Catherine Crompton and
-    the rest of IF~5.24 for listening to my rants and helpful discussions over the
-    years. Thank you to Dan Page for his help early in my career, and for suggesting
-    I apply for this job. A second thank you to David Aspinall for helping me move
-    back home to be a proper father to my son, before I really should have and for
-    sorting out the paperwork when the university eventually noticed. Thank you to my
-    friends and family for supporting me over the past years, especially Di for her
-    camaraderie in completing this. Thank you to EasyJet for roughly 307 safe flights
-    between Ediburgh and Bristol (and one slightly terrifying one).
+    %I am grateful to many people for their help in completing my PhD. In
+    %particular I would like to thank the following people:
+    %
+    %Thank you to my supervisors David Aspinall and Bj\"orn Franke for their
+    %advice, criticism, help, patience, and always offering to edit my papers.
+    %Thank you to Andy Gordon and Martin Hofmann for the helpful discussions early on,
+    %introducing me to SecPAL and to using formal logic to model this domain.
+    %Thank you to Daniel Franzen, Marcin Szymczak, Arthur Chan, Catherine Crompton and
+    %the rest of IF~5.24 for listening to my rants and helpful discussions over the
+    %years. Thank you to Dan Page for his help early in my career, and for suggesting
+    %I apply for this job. A second thank you to David Aspinall for helping me move
+    %back home to be a proper father to my son, before I really should have and for
+    %sorting out the paperwork when the university eventually noticed. Thank you to my
+    %friends and family for supporting me over the past years, especially Di for her
+    %camaraderie in completing this. Thank you to EasyJet for roughly 307 safe flights
+    %between Ediburgh and Bristol (and one slightly terrifying one).
 
-    Finally, thank you to Emma and Jim. Thank you Emma for your unwavering
-    support and for letting me work when I should be helping with the baby, and
-    thankyou Jim for keeping me awake and writing at all hours.
+    %Finally, thank you to Emma and Jim. Thank you Emma for your unwavering
+    %support and for letting me work when I should be helping with the baby, and
+    %thankyou Jim for keeping me awake and writing at all hours.
   \end{acknowledgements}
   \standarddeclaration{}
   \dedication{
-    This thesis is dedicated to Emma, for putting up with me.
+    %This thesis is dedicated to Emma, for putting up with me.
 
-    \vspace{8em}
-    {\itshape
-      ``You cannot have a secure Android phone for two reasons: 1) it is Android, 2) it is a phone. 
-      step 1, get google out of it.  Step 2, everything else'' --- \emph{The Grugq}
+    %\vspace{8em}
+    %{\itshape
+    %  ``You cannot have a secure Android phone for two reasons: 1) it is Android, 2) it is a phone. 
+    %  step 1, get google out of it.  Step 2, everything else'' --- \emph{The Grugq}
 
-    \vspace{2em}
+    %\vspace{2em}
 
-      ``It's too late to fire you, you better get a PhD'' --- \emph{David Aspinall}
-    }
+    %  ``It's too late to fire you, you better get a PhD'' --- \emph{David Aspinall}
+    %}
   }
   \tableofcontents
   \listoffigures
