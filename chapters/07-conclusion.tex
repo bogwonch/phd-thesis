@@ -2,46 +2,45 @@
 \begin{document}
 \chapter{Conclusion}
 
-This thesis looks at the analyzing the informal policies surrounding of the
-mobile ecosystem with authorization logic. We have tried to capture the trust
-relationships within the policies and by to better understand the way policies
-are used with mobile devices. 
+This thesis looks at capturing informal security policies precisely. We have
+focussed on the policies of the mobile ecosystem, though the work could apply to
+other domains. We have tried to capture the trust relationships within the
+policies. This allows us to make precise comparisons and study the policies
+rigorously. We instantiated and implemented AppPAL from the SecPAL authorization
+language. We use AppPAL to describe the policies of the mobile ecosystem.
 
-To explore the mobile ecosystem we instantiated and implemented 
-AppPAL from the SecPAL authorization language to describe the policies of
-the mobile ecosystem.
-
-By taking app installation data from a large number of users, and privacy
-preferences discovered by researchers talking to users~\cite{lin_modeling_2014},
-we modeled the user's preferences using AppPAL and have shown an example of the
+By taking user app installation data, and privacy
+preferences found by researchers talking to users~\cite{lin_modeling_2014},
+we modeled the user's preferences using AppPAL. We showed an example of the
 privacy paradox: that user's privacy preferences do not seem to influence which
 apps they install in practice.
 
 We examined BYOD policies and
-translated them into AppPAL. We identified idioms,
-acknowledgment and delegation, that 
+translated them into AppPAL. We identified idioms of
+acknowledgment and delegation that 
 had not been looked at by existing research and \ac{MDM} tools. These particular
 idioms were of particular interest as they described social and often unenforced
-aspects of policies whereas prior work and tools had looked predominantly at
-the technical aspects.
+aspects of policies. Prior work has looked predominantly at
+the technical aspects of policies.   Our work focuses on the more informal aspects.
 
-Our work contributes to the literature by showing how informal language policies
-can be modeled and used as the basis for precise comparisons and reasoning.
-AppPAL lets us link the specification of a policy to its implementation allowing
-our policies be independent of any particular tool, and abstract the checking
-process away from the reason why the policy requires we perform the checks.
+Our work contributes to the literature by showing how to model informal language policies,
+and use them as the basis for precise comparisons and reasoning.
+AppPAL lets us separate policy specification from implementation. This makes
+our policies independent of any particular tool. We can abstract the checking
+process away from the reason the policy requires we do the checks.
 
-In some policies \emph{who} has performed a
-particular check is more important to the policy the \emph{what} check
-they actually performed. Existing research has looked at ways of enforcing
-policies mechanistically, but sometimes just trusting the subject to follow them
-on their own is sufficient to satisfy the policy. 
+In some policies, \emph{who} has performed a
+check is more important to the policy than \emph{what} check
+they actually did. Existing research has looked at ways of enforcing
+policies mechanistically. Sometimes just trusting the subject to follow them
+on their own, however, is enough to satisfy the policy. 
 
 Our work is not without its limitations. There are many policies in the mobile
-ecosystem that we didn't fully examine such as the differences between OSs, the
+ecosystem that we didn't fully look at; such as the differences between OSs, the
 differences between store contents. We have shown that by using AppPAL we can
-gain a better understanding of the policies implications and the trust
-relationships between companies, individuals and tools they refer to.
+gain a better understanding of the policies, however. This includes the policy's
+implications and the trust relationships between companies, people and tools
+they use.
 
 \hspace{1em}
 
@@ -53,19 +52,19 @@ question~\cite{ken_thompson_reflections_1984}:
   software.''
 \end{quotation}
 He concluded:
-\begin{quotation}\itshape
+\begin{quotation}\itshape\noindent
   ``The moral is obvious. You can't trust code that you did not totally create
   yourself. (Especially code from companies that employ people like me.)
   No amount of source-level verification or scrutiny will protect you from using untrusted code.''
 \end{quotation} 
-A similar question could be asked of the policies surrounding the mobile
+The same question could be asked of the policies in the mobile
 ecosystem. Thompson's conclusion is still true: there is no way to trust that
-any app you download is safe or good. There is no way to verify that an employee
-isn't circumventing a BYOD policy in an evil and clever manner. It is infeasible
-for users to create all their own apps and OSs, and few companies can only run
-with one employee. We can't trust our policies are followed but we can
+any app you download is safe or good. There is no way to check employees
+are not circumventing a BYOD policy in a clever way. It is hard
+for users to create all their own apps and OSs. Few companies can only run
+with only one employee. We can't trust people follow our policies. But we can
 understand the trust relationships within them. If we understand the trust
-relationships we can decide what risks we are willing to take, and with whom.
+relationships, we can decide what risks we take, and with whom.
 
 \end{document}
 
