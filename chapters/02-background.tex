@@ -3,48 +3,39 @@
 \chapter{Background}
 
 The work presented in this thesis builds on earlier work on policy languages, in
-particular work on SecPAL. In this chapter we give an overview of the prior work
-on policy languages and describe SecPAL in detail, including its delegation
-mechanisms. Our contributions and modifications to SecPAL to create a policy
-language to describe the policies of the mobile ecosystem are presented in
-\autoref{chap:apppal}.
+particular work on SecPAL. In this chapter we give an overview of earlier work
+and describe SecPAL in detail, including its delegation mechanisms. This chapter
+gives the background for our work. In \autoref{chap:apppal} we describe our
+changes to SecPAL and how we instantiate it to create a policy language to
+describe the policies of the mobile ecosystem.
 
 \section{SecPAL}
 
 SecPAL is an authorization language developed by Becker~\etal~to
-describe policies and delegation chains surrounding distributed
-services~\cite{becker_secpal:_2006}. It was designed as a high-level
-human-readable language that allowed the policy specification and
-maintenance to be separated from the implementation mechanisms.
+describe policies and delegation chains for distributed
+systems~\cite{becker_secpal:_2006}. It is a high-level
+human-readable language that separates policy specification and
+maintenance from the implementation mechanisms.
 
-SecPAL was designed to improve over previous high-level languages in several
-areas. It was designed to be more expressive than
+SecPAL improves over previous authorization languages in several
+ways. It is more expressive than
 XrML~\cite{kolovski_logic-based_2007}, SPKI/SDSI~\cite{ellison_spki_1999}, and
-Delegation Logic~\cite{li_delegation_2003}; and more readable than
+Delegation Logic~\cite{li_delegation_2003}. More readable than
 XACML~\cite{oasis_extensible_2013} and other XML-based policy languages.
-Furthermore it was designed to be intuitive and unambiguous with precise
-semantics unlike other languages (most notably XACML) which have natural
-language descriptions with ambiguous and inconsistent specifications that have
-been retrofitted to the language instead of being designed with the language in
-the first
-place~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
+SecPAL is intuitive and unambiguous with precise
+semantics. Other languages (most notably XACML) have ambiguous and inconsistent specifications, or have
+formal ones retrofitted to the language~\cite{bryans_reasoning_2005,ramli_logic_2014,masi_formalisation_2012}.
+In contrast Becker~\etal~gives SecPAL's semantics precisely when describing the language.
 
-SecPAL's original application was to model and enforce access control
-policies in grid computing systems~\cite{becker_secpal:_2006}.  In
-this dissertation we describe how the language can be extended to
-describe the policies surrounding the mobile ecosystem.
-
-We have implemented SecPAL to explore its use and (as will be described in the
-rest of this thesis) describe our own policy language for the policies
-surrounding the mobile ecosystem. Moreover whenever a SecPAL (or AppPAL) policy
-or snippet is presented in \framebox{\texttt{teletype font}} it can be parsed
-and run\footnote{Sometimes with minimal edits. Some constraints used are not
-implemented.} using our \emph{AppPAL} interpreter which will be
-described in \autoref{chap:apppal}.
+We have implemented SecPAL to explore its use and build our own policy language called AppPAL to capture the policies
+of the mobile ecosystem. Moreover, when we show a SecPAL (or AppPAL)
+snippet in \framebox{\texttt{teletype font}} you can parse
+and run it\footnote{Sometimes with minimal edits. Some constraints used are not
+implemented.} using our \emph{AppPAL} interpreter (described in \autoref{chap:apppal}).
 
 \subsection{Grammar, Evaluation and Semantics}
 
-At its core, SecPAL is a language with a simple grammar
+SecPAL is a language with a simple grammar
 (\autoref{fig:secpal-grammar}) and three evaluation rules
 (\autoref{fig:secpal-rules}). The language's simplicity makes it easy
 to apply to a new domain by instantiating it with predicates and
@@ -164,15 +155,15 @@ SecPAL's semantics are given in \autoref{fig:secpal-semantics}.  A
 query $q$ to a SecPAL program (which is a collection of facts and
 relationships called the \emph{assertion context} or \emph{AC}) asks
 if there exists a renaming $\theta$ such that the rules of SecPAL can
-be used to derive the, possibly renamed, query ($AC,\theta \vdash q$
+derive the, possibly renamed, query ($AC,\theta \vdash q$
 if $AC,\texttt{inf} \models q\theta$)\footnote{$\vdash$ describes if a query
   is valid with respect to an AC, whereas $\models$ says there is a
   valid proof for a SecPAL using the rules of SecPAL.  Conjugation,
   disjunction and negation are allowed within a query, but not when
-  evaluating SecPAL.}.  The renaming must be specific and talk only of
-the variables contained in the query, conjunction and disjunction work
+  evaluating SecPAL.}.  The renaming must only change 
+the variables contained in the query. Conjunction and disjunction work
 as expected.  Negation is only allowed in an extremely limited form: a
-query can be not true if it contains no variables and there is no way
+query is false if it has no variables and there is no way
 to show that the AC supports the query.  This limited form means that
 queries remain decidable: the rules inside the AC are not permitted to
 use negation.
@@ -186,19 +177,19 @@ These ideas would be expanded to create a new language called
 DKAL~\cite{gurevich_dkal:_2008}. Gruevich~\etal~showed how SecPAL policies could
 be translated into DKAL policies~\cite{gurevich_dkal:_2008} so any SecPAL-based
 policies could be updated to DKAL. We don't use these additional features in
-this thesis as we did not need the additional expressiveness they provide to
+this thesis as we did not need the greater expressiveness they give to
 adequately describe the policies in the mobile ecosystem.
 
 \subsection{Delegation in SecPAL}
 
 A key feature of SecPAL is the ability to delegate statements. SecPAL was
 designed to make access control decisions over large networks. Rather than have
-a centralized decision server where all decisions are made, SecPAL allows
-information to be shared through assertions signed by their speaker. This allows
-different principals to be responsible for different decisions and make
+a centralized decision server make all decisions; SecPAL allows
+the sharing of information through assertions signed by their speaker. This allows
+different principals to take responsiblity for different decisions and make
 decisions independently. An example of this, expanded from one given by
 Becker~\cite{becker_secpal:_2006} and illustrated by us, is of a
-researcher attempting to run a query on a cluster, using data from a file-server
+researcher attempting to run a query on a cluster using data from a file-server
 (\autoref{fig:delegation-example}).
 
 \begin{figure}
@@ -208,49 +199,48 @@ researcher attempting to run a query on a cluster, using data from a file-server
   \label{fig:delegation-example}
 \end{figure}
 
-Alice sends a request to the cluster to run a search on her data on the file-server.
+Alice requests the cluster run a search on her data.  Her data is on the file-server.
 The cluster has a SecPAL policy that only researchers can run the search:
+It also has a rule that says HR can say who is a researcher.
 \begin{lstlisting}
 'cluster' says X canRun('grep')
   if X isResearcher.
-\end{lstlisting}
-and a rule that says only HR can say who is a researcher or not.
-\begin{lstlisting}
+
 'cluster says 'hr' can-say
   X isResearcher.
 \end{lstlisting}
-The cluster queries HR if Alice is a researcher or not and HR responds by sending the assertion that she is.
+The cluster queries HR if Alice is a researcher. HR responds by saying she is.
 \begin{lstlisting}
 'hr' says 'alice' isResearcher.
 \end{lstlisting}
-The cluster does not know how HR knows that Alice is a researcher, but
+The cluster does not know how HR knows that Alice is a researcher. But it
 is content with HR's assertion that she is.  HR may have a SecPAL
-instance and policy of their own to make this and send it to the
-cluster, or they might be using a conventional database.  Provided
-they give this signed SecPAL assertion to the cluster, it doesn't care
+instance and policy of their own to make this decision and send it to the
+cluster. Alternatively they might be using a conventional database.  Provided
+they give this signed SecPAL assertion to the cluster, it does not care
 how they came by it.  The one limitation the cluster has is that it
-\emph{must} be HR who tells them; HR cannot delegate the decision
+\emph{must} be HR telling them. HR cannot delegate the decision
 further.
 
-With the cluster convinced that Alice is authorized to run the search,
-the cluster requests the database from the file server.  The file
+The cluster convinced that Alice may run the search.
+It requests the database from the file server.  The file
 server knows that Alice can read her data and that anyone who can read
-a file is permitted to say who else can read it.
+a file may say who else can read it.
 \begin{lstlisting}
 'fileserver' says 'alice' canRead('data.db').
 'fileserver' says X can-say inf Y canRead(File)
   if X canRead(File).
 \end{lstlisting}
-Using SecPAL, the file server determines that Alice can say who can
-read her data.  Alice provides the file server with a statement that
-the cluster is authorized to read her file (for a short time
+Using SecPAL, the file server determines that Alice can say who
+reads her data.  Alice gives the file server a statement that
+the cluster can read her file (for a short time
 period).
 \begin{lstlisting}
 'alice says 'cluster' canRead('data.db')
   where currentTime() < 01/02/2003.
 \end{lstlisting}
-Dutifully the file server provides the cluster with the data
-it required.  The cluster runs the search and hands the results back to Alice.
+The file server gives the cluster the data.
+The cluster runs the search and hands the results back to Alice.
 
 \begin{figure}
   \centering
@@ -259,8 +249,9 @@ it required.  The cluster runs the search and hands the results back to Alice.
   \label{fig:unbounded-example}
 \end{figure}
 
-This simple example shows how different principals can make decisions using delegation mechanisms, and by sharing assertions.
-SecPAL allows for more complicated delegation relationships, however. When checking who could access Alice's data, the file server allowed Alice the ability to delegate the decision of who could read her file by using the \texttt{can-say inf} verb.
+This simple example shows how different principals can make decisions using delegation mechanisms.
+SecPAL allows for more complicated delegation relationships, however. 
+The file server gave Alice the ability to delegate who could read her file by using the \texttt{can-say inf} verb.
 Alice might allow Bob to share her data set with others who might also be allowed to share it for a limited time (\autoref{fig:unbounded-example}).
 
 \begin{figure}
@@ -270,21 +261,22 @@ Alice might allow Bob to share her data set with others who might also be allowe
   \label{fig:roles-example}
 \end{figure}
 
-An alternative to the delegation to the HR server to determine if
-Alice was a researcher would be to use delegation with roles (shown in
-\autoref{fig:roles-example}).  HR may consist of many principals.  The
-cluster may be happy to accept the word of anyone who works in HR as
-if they were HR.  To do this the cluster adds a delegation to HR that
-they can name anyone who acts as them, and HR respond by saying that
+An alternative to the asking to the HR server directly if
+Alice is a researcher is to use roles (shown in
+\autoref{fig:roles-example}).  Many people work in HR.  The
+cluster might accept the word of any of them. 
+To do this the cluster delegates to HR to
+name anyone who acts as them. HR responds that
 Clyde can act for them.
 \begin{lstlisting}
 'cluster' says 'hr' can-say
   X can-act-as 'hr'.
+
 'hr' says 'clyde' can-act-as 'hr'.
 \end{lstlisting}
 Now on the cluster Clyde's word is as good as HR's.
-Clyde sends the necessary facts about Alice and the program can be run as before.
-It is important to note that any restrictions on HR also apply to Clyde.  He still cannot delegate the decision further.
+Clyde sends the necessary facts about Alice. The program now runs as before.
+Note that any restrictions on HR also apply to Clyde.  He still cannot delegate the decision further.
 
 \begin{figure}
   \centering
@@ -293,26 +285,24 @@ It is important to note that any restrictions on HR also apply to Clyde.  He sti
   \label{fig:depth-example}
 \end{figure}
 
-As an alternative to roles, depth-bounded delegation with the
-\emph{can-say} statement could also have been used
-(\autoref{fig:depth-example}).  In this case instead of delegating the
-decision of who is a researcher to HR, the cluster delegates the
-\emph{decision of who can make the decision} to HR.  HR makes the
-delegation to Clyde, and the process continues as before.
+Depth-bounded delegation with the
+is an alternative to roles
+(\autoref{fig:depth-example}).  Instead of letting HR state who is a researcher to HR, the cluster lets HR
+\emph{decide who decides}.  HR
+delegates to Clyde and the process continues as before.
 Depth-bounded delegation allows delegation statements to be chained to
 an arbitrary (but finite) depth, without allowing for unbounded
-delegation.  It is often preferable to roles as it allows HR to
-delegate some but not all decisions to others.  If the role assignment
+delegation.  It is preferable to roles as it allows HR to
+delegate some but not all decisions to others.  If role assignment
 is used then, on the cluster, anywhere \texttt{'hr'} follows the
 \texttt{says} in an assertion, then it can be replaced with
-\texttt{'clyde'}: making them effectively equivalent.
+\texttt{'clyde'}: they are the same.
 
-SecPAL's delegation mechanisms can describe a large number of
-different relationships, whilst remaining conceptually and
-semantically extremely simple.  This power makes SecPAL an
-attractive authorization language for situations where entities are
-distributed and there is no central decision maker: whatever
-relationship each of the entities have SecPAL can describe it.
+SecPAL's delegation mechanisms can describe many different relationships. Yet it remains conceptually and
+semantically simple.  This power makes SecPAL
+attractive for situations where entities are
+distributed and there is no central decision point. Whatever
+relationship the entities have, SecPAL can describe it.
 
 \section{Policy Languages}
 
@@ -341,37 +331,32 @@ relationship each of the entities have SecPAL can describe it.
   \caption{Timeline of the development of different policy languages.}
 \end{figure}
 
-This thesis focuses on an instantiation of SecPAL to describe the trust
-relationships and decisions in the mobile ecosystem. In this section we provide
-a survey of other policy languages and their genealogy.
+We have focused on SecPAL to describe the policies of the mobile ecosystem. In this section we give
+a survey of other policy languages.
 
-PolicyMaker~\cite{blaze_decentralized_1996} was created to give a language for
-permitted actions. It grew out of the logics of authentication of Wobber, Abadi,
-Burrows and Lampson~\cite{wobber_authentication_1994,abadi_calculus_1991}; as
-well as a dissatisfaction with identification mechanisms such as X.509 and PGP
-certificates, which had given a mechanism for identifying users; but which at
-the time did not give any means to link the users to what users were allowed to
-do.
+PolicyMaker~\cite{blaze_decentralized_1996} is a language for permitted actions.
+It grew out of the logics of authentication of Wobber, Abadi, Burrows and
+Lampson~\cite{wobber_authentication_1994,abadi_calculus_1991}; as well as a
+dissatisfaction with identification mechanisms such as X.509 and PGP
+certificates. These mechanisms identified users but could not link them to what they could do.
 
-To describe the authorizations, trust information is contained within assertions.
-A collection of assertions form a policy. An assertion has a source (either
-the local policy document or a public key). The source \emph{asserts} that a key
-(or more complex arrangements such as three of four keys) is permitted to
-perform any action that matches the \emph{filter}. The filter itself is
-essentially an arbitrary program that can decide if an action is permitted.
-Blaze~\etal~provide examples using regular expressions and a reduced version of
-AWK~\cite{aho_awk-pattern_1979} they call \emph{AWKWARD}, though they note that
-any programming language could be used. The collection of these authorizations
-on a machine forms the policy for the device which can be queried by a
-PolicyMaker key \emph{requesting} a given action.
+To describe the authorizations, assertions hold trust information.
+Many assertions form a policy. An assertion has a source (either
+the local policy document or a public key). The source \emph{asserts} that the holder of a key
+(or more complex arrangements such as three of four keys) can do any action that matches the \emph{filter}. The filter itself is
+an arbitrary program that can make a yes/no decision.
+Blaze~\etal~give examples using regular expressions and a reduced version of
+AWK~\cite{aho_awk-pattern_1979}. They note, however, that
+any programming language could be used. The device policy can be queried by a
+key holder \emph{requesting} a given action.
 
 Blaze~\etal~give an example of this scheme being used as part of an email
-server. A user, Alice, identified by key \texttt{0x12345678} is permitted to
+server. A user, Alice, identified by key \texttt{0x12345678} can
 send emails with the from header set to Alice and the organization set to Bob
 Labs.
 
-A PolicyMaker instance is installed on a server and allowed to receive queries and give answers.
-The policy is installed on the server as follows:
+PolicyMaker is installed on a server. It receives queries and gives answers.
+The policy is on the server is:
 
 \begin{lstlisting}
 policy ASSERTS
@@ -380,8 +365,8 @@ policy ASSERTS
     (Organization: Bob Labs)';
 \end{lstlisting}
 
-When Alice tries to send an email using a PolicyMaker enhanced SMTP
-client she signs and sends her message using her key.  The mail-server
+When Alice sends an email using a PolicyMaker enhanced SMTP
+client she signs her message with her key.  The mail server
 checks the signature and queries the policy server with her message:
 
 \begin{lstlisting}
@@ -392,17 +377,14 @@ checks the signature and queries the policy server with her message:
              Hello World!';
 \end{lstlisting}
 
-If Alice's request is accepted then the SMTP server will send the
-message.  If it doesn't match the policy then it won't.
+If Alice's message is okay then the SMTP server will send it.  If it does not match the policy then it will not.
 
-PolicyMaker was used as the basis for the KeyNote Trust Management
-System~\cite{blaze_role_1999,blaze_keynote:_1998} which simplified the
-filter languages from any arbitrary language to a purpose built one
-based on C that always returned a boolean answer, allowed the policy
+PolicyMaker is the basis for KeyNote~\cite{blaze_role_1999,blaze_keynote:_1998}.  KeyNote simplifies the
+ arbitrary filter languages, offering instead one
+based on C that always returned a boolean answer. KeyNote allows the policy
 server to do the signature verification instead of the querying
-application, and tweaked the syntax for readability.  It was designed
-to trade some of the generality of PolicyMaker for a more realistic
-scenario using public-key infrastructure.  The equivalent policy for KeyNote could be written:
+application. It also make the syntax more readable.  KeyNote also trades PolicyMaker's generality for a more realistic
+scenario using public-key infrastructure.  The prior policy for KeyNote could be written:
 
 \begin{lstlisting}
 Authorizer: "POLICY"
@@ -423,15 +405,14 @@ guarantee polynomial time checking: a function must be authentic (not fake
 another function's result), monotonic, and run in polynomial time for all inputs
 pertinent to a request.
 
-Another weakness of these languages is that they cannot express
-general relationships as the subjects of the policy cannot be a
-variable.  You cannot have, for example, a policy where the subject is
+A weakness of these languages is that they cannot express
+general relationships. You cannot have policy where the subject is
 a set of users.  The example policy could not be written as
 \emph{anyone working in R\&D can send email from Bob Labs.}
 
 %\subsection{SPKI/SDSI}
 
-In contrast to PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
+Unlike PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
 designed to associate keys with roles.  A user, Alice with key~$K_A$,
 can present a certificate that says she \textbf{can act as} (a role assignment) a \emph{Bob Labs
 employee} (authorized by Bob with key~$K_B$) for one~year.
@@ -440,32 +421,30 @@ employee} (authorized by Bob with key~$K_B$) for one~year.
   (K_A,~\text{\tt BobLabsEmployee},~K_B,~1~\text{year})
 \end{equation*}
 
-Bob can also create authorization certificates to permit his employees
-to send emails, and can optionally delegate the decision further.
+Bob can also create authorization certificates to let his employees
+to send emails. Optionally they can delegate the decision further.
 
 \begin{equation*}
  (K_B,~(K_B,~\text{\tt BobLabsEmployee}),~\bot,~\text{\ttfamily send\_email},~1~\text{year})
 \end{equation*}
 
-Where PolicyMaker lets an administrator check if a specific action was permitted
-by a specific user, SPKI/SDSI let administrators associate users with roles and
-roles with tasks. The SPKI/SDSI version of the email sending policy doesn't
+PolicyMaker checks if a specific whether to allow a specific user's action. SPKI/SDSI associates users with roles and
+roles with tasks. The SPKI/SDSI version of the email sending policy does not
 specify that all emails sent by Employees must have a field listing the lab as
-the sending organization; that part of the policy must be implemented by
-whatever implements the \texttt{send\_email} functionality. One of the large
+the sending organization. That part of the policy must be added by
+whatever implements the \texttt{send\_email} functionality. One of the
 advantages of SPKI/SDSI is that it allows a higher-level view of the policy by
 associating groups of users with a role, and roles with allowed actions.
 
-A weakness of SPKI/SDSI was that the language was not designed
-with a formal semantics.  The language's precise meaning must be inferred from
-RFC 2693 which loosely defined it in English~\cite{ellison_spki_1999}. There were
-several later attempts to fit a semantics to the
-language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001},
-however not all covered every aspect of SPKI/SDSI's features, and there was no standard semantics.
+SPKI/SDSI does not have a formal semantics.  The language's precise meaning must be inferred from
+RFC 2693, which loosely defined it in English~\cite{ellison_spki_1999}. There are
+several later attempts at fitting semantics to the
+language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001}.
+Not all covered every aspect of SPKI/SDSI's features, however. No definitive standard has appeared.
 
 The focus on roles leads to the RT family of
-languages~\cite{ninghui_li_design_2002}, which associates policy
-decisions with roles similar to how \ac{RBAC} systems associate access
+languages~\cite{ninghui_li_design_2002}. RT associates policy
+decisions with roles. This is similar to how \ac{RBAC} systems associate access
 decisions to the roles a user holds.  Policies are expressed as Horn
 clauses.  A rule such as:
 
@@ -474,53 +453,51 @@ Bob.employee :- alice.
 Bob.employee.sendEmail :- Bob.employee.
 \end{lstlisting}
 
-Should be read as \emph{Bob says Alice is an employee.  Bob says an
+Is read as \emph{Bob says Alice is an employee.  Bob says an
 employee can send emails if they are an employee.}  Li~\etal{}
-describe many different variants of RT each with increasing numbers of
-features.  The most basic variant is
-\RT{0}{}~\cite{li_distributed_2003}, but \RT{1}{} adds support for
-parameterized roles, and \RT{2}{} adds logical objects on top of the
-roles.  As well as these variants, the RT family of languages have
-support for optional feature sets: \RT{}{T} allows for policies with
+describe many different variants of RT each with more features.  The most basic variant is
+\RT{0}{}~\cite{li_distributed_2003}. \RT{1}{} adds support for
+parameterized roles. \RT{2}{} adds logical objects on top of the
+roles.  As well as these variants, the RT family of languages
+supports optional feature sets: \RT{}{T} allows for policies with
 thresholds (i.e. Alice can send an email if two out of three of the
-board members approve it), \RT{}{C} adds constraints, and \RT{}{D}
+board members approve it). \RT{}{C} adds constraints. Finally, \RT{}{D}
 adds delegation~\cite{ninghui_li_design_2002}.
 
-Unlike PolicyMaker, the RT family of languages was tractable, they could
-guarantee that a query will be answered soundly in polynomial time in the size
-of the policy. To give this guarantee, researchers showed languages such as
-Binder~\cite{detreville_binder_2002} and
-Delegation~Logic~\cite{li_delegation_2003,li_practically_2000} could be reduced
-to Datalog, a database language with known complexity guarantees and fast
-evaluation based on Prolog.
+Unlike PolicyMaker, the RT family of languages was tractable. Li~\etal~guarantee
+that a query will be answered soundly in polynomial time in the size of the
+policy. To give this guarantee, the researchers showed the languages could be
+reduced to Datalog. Datalog is a database language with known complexity
+guarantees and fast evaluation. It is similar Prolog. They also showed similar
+languages, like Binder~\cite{detreville_binder_2002} and
+Delegation~Logic~\cite{li_delegation_2003,li_practically_2000}, could be
+described using Datalog as well.
 
-One limitation of Datalog is that it cannot describe structured data: for
-example consider an administrator who wishes to write a policy rule that says
-Alice can send email between 9am and 5pm. We can imagine in the policy rule
-having some function to fetch the time and another to compare whether it is
-within that range. In Datalog we cannot trivially write this function and
-instead have to enumerate each possible time in that domain and state whether it
-is within that period. More generally whenever there is data that has structure
-such as file paths, times or numeric intervals, Datalog databases can become
-overly large.
+Datalog is limited in that it cannot describe structured data. Consider a rule
+that lets Alice send email between 9am and 5pm. We might want some function to
+compare whether a time is within a range. In Datalog we cannot trivially write
+this function. We would have to say for each possible time if it is in that
+period. Generally, when there is data that has structure such as file paths,
+times or numeric intervals: Datalog databases can become overly large.
 
-To solve this problem Li~\etal{}~proposed a modified version of
-Datalog called Datalog\textsuperscript{C}~\cite{li_datalog_2003},
+To solve this Li~\etal{}~modified
+Datalog to create Datalog\textsuperscript{C}~\cite{li_datalog_2003}.
+Datalog\textsuperscript{C} is
 based on Constraint
-Datalog~\cite{revesz_constraint_1995,revesz_safe_1998}, that better
-supported constraints and kept Datalog's tractability, with a focus on
+Datalog~\cite{revesz_constraint_1995,revesz_safe_1998} and
+supports constraints whilst keeping Datalog's tractability. It focuses on
 the constraints typical to a policy languages instead of those for
 database programming.
 
-Showing a policy language can be translated to Datalog\textsuperscript{C} allows the language author 
+Showing a policy language is translatable to Datalog\textsuperscript{C} allows the language author 
 to prove that evaluating policies in their language can be done with the same time and space complexities as Datalog\textsuperscript{C}.
-Datalog\textsuperscript{C} has been used as a foundation for many
+Datalog\textsuperscript{C} is a foundation for many
 other policy languages for this reason including SecPAL as well as RT.  
 
-Ponder, like SecPAL, was a language for specifying policies for distributed
+Ponder, like SecPAL, is a language for specifying policies for distributed
 systems~\cite{damianou_ponder_2001}. Ponder supports positive and negative
-authorization, delegation, obligation, roles and constraints which are used to
-extract the attributes of principals, as well as state and temporal information.
+authorization, delegation, obligation, roles and constraints. It uses constraints to
+extract the attributes of principals, read state, and deal with time.
 A policy that trainee engineers are not allowed to send emails could be written:
 
 \begin{lstlisting}
@@ -532,31 +509,29 @@ inst auth- engineersCanEmail {
 }
 \end{lstlisting}
 
-Since Ponder allowed positive and negative policies, conflicts could occur where
-an entity satisfied rules that they both could and could not complete an action.
-Ponder did not resolve the conflicts itself, but rather detected them using
+Since Ponder allows positive and negative policies, conflicts can occur.
+Ponder does not resolve the conflicts itself. Instead it detects them using
 static analysis and reports them to the policy author as bugs in the policy
-specification. Ponder was followed by Ponder2~\cite{twidle_ponder2:_2009} which
-simplified the language and enabled it to enforce policies in decentralized
-environments. Ponder also provided a control language called \emph{PonderTalk}
-that enabled the decision engine to send messages to the objects it was
-managing.
+specification. Ponder2~\cite{twidle_ponder2:_2009} added to the language by
+simplifying it and letting it to enforce policies in decentralized
+environments. Ponder2 also provides a control language called \emph{PonderTalk};
+which lets the decision engine send messages to the objects it
+manages.
 
-Cassandra is a trust management language used to model large systems,
-in particular the NHS Spine: a system designed to enable healthcare
-workers to share patient
+Cassandra is a trust management language to model large systems.
+It was demonstrated on the NHS Spine: a system to let healthcare
+workers share patient
 data~\cite{becker_cassandra:_2004,becker_cassandra:_2004-1}.  The
-language is similar to the RT family, sharing both a backend and some
-syntax, however Cassandra focuses on roles rather than general access
-control mechanisms.  Rather than having principals hold or be given
-roles, principals \emph{activate} roles when they need to act in that
-capacity.  This allows a single principal to hold different roles with
-different access capabilities at different times and at different
-locations.  For example a \emph{hospital} \emph{admin} allows a
+language is similar to RT, using both a Datalog\textsuperscript{C} and some
+of its syntax. Cassandra, however, focuses on roles instead of general access
+control mechanisms.  Principals \emph{activate} roles when they need to act in its
+capacity.  This lets one principal hold different roles, with
+different capabilities, at different times and at different
+locations.  A \emph{hospital} \emph{admin} might allow a
 \emph{clinician} access to a \emph{patient}'s records if they
-currently hold the role of \emph{Clinician} at the hospital, and can
+have the role of \emph{Clinician} at the hospital, and can
 \emph{activate} the role of \emph{Treating Clinician} for that patient
-at this \emph{hospital}.
+at this \emph{hospital}:
 
 \begin{lstlisting}
 hospital@admin.permits(clinician, Read-Records(patient)) <-
@@ -565,10 +540,20 @@ hospital@admin.permits(clinician, Read-Records(patient)) <-
 \end{lstlisting}
 
 Cassandra allows for powerful control of different roles, and enables
-delegation by allowing third-parties to activate and deactivate roles
-on others.  It was applied successfully to modeling access control
-with electronic healthcare records.
+delegation by allowing third-parties to activate and remove roles
+on others.  
+Becker worked on Cassandra for his doctorate.  He went on to work on SecPAL.
 
+\section{Moving Forward}
+
+This chapter described SecPAL, and many other policy languages.
+In the next chapter we show how we took SecPAL and instantiated it to describe the policies surrounding mobile devices.
+In doing so we created AppPAL.  We describe the language and our implementation of it in \autoref{chap:apppal}.
+
+AppPAL fits into this background of policy languages by extending SecPAL.
+It does not, particularly, have new language features to describe new policies.
+Its novelty does not comes from how it describes policies.
+Instead it is its application to a domain that has not before had its policies captured that is novel. 
 
 \end{document}
 

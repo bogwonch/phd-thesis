@@ -1,5 +1,5 @@
 #! /bin/bash
-detex="detex -e lstlisting,figure,table,tabular,quote"
+detex="detex -e lstlisting,figure,table,tabular,quote,policyrule"
 
 total_word_count=$($detex chapters/*.tex | wc -w)
 for f in chapters/*.tex; do 
