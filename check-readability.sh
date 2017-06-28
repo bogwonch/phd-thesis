@@ -17,5 +17,5 @@ else:
 "
 done | column -t
 echo
-$detex chapters/*.tex | style | awk '/Flesch/ {print "Overall: " $3}'
+$detex chapters/*.tex | style | awk '/Flesch/ {$1=$2=""; print "Overall: " $0}'
 echo
