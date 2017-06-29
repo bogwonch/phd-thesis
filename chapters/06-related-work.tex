@@ -41,9 +41,8 @@ the infon:
 alice said com.rovio.angrybirds is a good app.
 \end{lstlisting}
 
-Bob is free to do with this information as he wishes.  He may be
-willing to accept app recommendations from anyone and may have a rule
-to learn that fact:
+Bob is free to do with this information as he wishes. He might accept app
+recommendations from anyone and may have a rule to learn facts:
 
 \begin{lstlisting}
 with M: String, P: Principal
@@ -60,10 +59,9 @@ support for sending infons if the recipient has completed an action:
 for example only sending an app recommendation if the recipient has
 asked for it.
 DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
-ideas further and showed how DKAL programs that described how infons
-should be shared could be used as executable protocols.
+ideas further and showed how to create executable protocols from DKAL programs.
 
-DKAL improved over SecPAL by giving a means for transferring and reacting to
+DKAL improves over SecPAL by giving a means for transferring and reacting to
 information. These might be helpful to describe how protocols worked within the
 mobile ecosystem and for expanding how obligation policies would be triggered.
 The authors of DKAL showed that all SecPAL policies could be expressed in
@@ -80,31 +78,29 @@ from Oracle. As a standard, it is important to summarize and briefly describe
 why we chose to base our own work on SecPAL, a comparatively obscure policy
 language, instead of the more well known XACML.
 
-XACML policies are expressed as sets of \emph{rules} that describe
-whether a specific action should be allowed or denied. When making a
-\emph{request} if a rule's target matches the request then the
-appropriate action should be taken. Rules are combined into policies
-and may contain many rules which can contradict each other if multiple
-ones match a given request. To handle contradictions between rules a
-\emph{combining algorithm} may be used to decide how to
-proceed. Typical algorithms include:
+XACML policies are expressed as sets of \emph{rules} that describe whether a
+specific action should be allowed or denied. When making a \emph{request} if a
+rule's target matches it then the appropriate action should be taken. Rules are
+combined into policies containing many rules which can contradict each other if
+multiple ones match a given request. To handle contradictions a \emph{combining
+algorithm} is used to decide how to proceed. Typical algorithms include:
 
 \begin{description}
-  \item[Permit-overrides] where if a single rule gives a permit result then the request is permitted.
-  \item[Deny-overrides] where if a single rule gives a deny result then then the request is denied.
-  \item[First-applicable] where the rules are given an order of precedence and the first rule in the order that gives a result decides the outcome.
-  \item[Only-one-applicable] where only one rule may match, and if there are multiple matches an error is returned.
+  \item[Permit-overrides]. If a rule gives a permit result then the request is permitted.
+  \item[Deny-overrides]. If a rule gives a deny result then then the request is denied.
+  \item[First-applicable]. The rules have an order of precedence. The first rule that gives a result decides the outcome.
+  \item[Only-one-applicable]. Only one rule may match. If there are multiple matches an error is returned.
 \end{description}
 
-XACML does not have well-defined semantics. XACML's designers used natural
-language to describe the semantics of XACML. This has made the semantics
-notoriously difficult to interpret~\cite{ramli_detecting_2015}. There have been
-several attempts to describe XACML's semantics
+XACML's designers used natural language to describe the semantics of XACML. This
+makes the semantics notoriously difficult to
+interpret~\cite{ramli_detecting_2015}. There have been several attempts to
+describe XACML's semantics
 formally~\cite{ramli_xacml_2012,ramli_logic_2014,bryans_reasoning_2005}. Some of
-these translations have only described a subset of XACML's
-syntax~\cite{halpern_using_2008}, others describe older versions of XACML which
+these translations only describe a subset of XACML's
+syntax~\cite{halpern_using_2008}. Others describe older versions of XACML which
 are not compatible with the latest language versions~\cite{ahn_reasoning_2010},
-and others have been found to contain mistakes caused by ambiguities in the
+Others have been found to contain mistakes caused by ambiguities in the
 XACML specification~\cite{bruns_access-control_2008,halpern_using_2008}. All
 these attempts help us understand XACML, but the lack of a single standard
 semantics make it less attractive to extend to a new domain. As the language
@@ -151,7 +147,7 @@ difficult to read. For example a simple policy that grants a principal,
 </xacml3:Policy>
 \end{lstlisting}
 
-To help developers write policies alternative notations are available that
+To help developers write policies, alternative notations are available that
 compile into XACML's XML notation. ALFA is an alternate notation for
 XACML~\cite{oasis_xacml_technical_comitee_abbreviated_2015} maintained by the
 XACML developers. The equivalent ALFA policy of the above \emph{allow Alice all}
@@ -169,8 +165,8 @@ namespace alice {
 }
 \end{lstlisting}
 
-The ALFA policy is far more succinct than the XACML one and shows the
-policy's meaning far more clearly than the equivalent XACML version.
+The ALFA policy is more concise and shows the
+policy's meaning more clearly than the XACML version.
 There is an (Eclipse based) compiler for ALFA policies into
 XACML~\cite{axiomaics_axiomatics_2012}, but there are not tools for
 translating XACML to ALFA.  This means that any XACML policies would
@@ -192,8 +188,8 @@ language. The standard gives one example of how delegation in XACML can be used:
 a company has a printer and Carol is responsible for saying who can use the
 printer. She delegates to Bob who in turn grants Alice the right to use the
 printer. An excerpt from the XACML delegation policy example is shown in
-\autoref{lst:xacml-deleg}. Full policy set is split into three smaller
-policy \footnote{An individual decision in XACML is called a \emph{policy}, a
+\autoref{lst:xacml-deleg}. The full policy set is split into three smaller
+policy\footnote{An individual decision in XACML is called a \emph{policy}, a
 collection of policies is called a \emph{policy set}.}
 
 \begin{figure}
