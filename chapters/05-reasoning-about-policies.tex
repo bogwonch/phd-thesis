@@ -281,6 +281,7 @@ rule that bans international calls. We add a second rule stating that it is
 allowed if someone exempts it. A third lets the employee's manager 
 make the exemption.
 
+\noindent\begin{minipage}{\linewidth}
 \begin{policyrule}{NHS}
   All mobile devices will be configured for national access only. Premium/international calls will be barred.
   International call barring and roaming arrangements can be lifted for specific periods, to be stipulated on request, on approval of the relevant manager/budget holder.
@@ -299,6 +300,7 @@ make the exemption.
   if Manager isManagerOf(Staff).
   \end{lstlisting}
 \end{policyrule}
+\end{minipage}
 
 Table~\ref{tab:prefix} shows a count of the different predicates used in the
 policies. As in \autoref{chap:apppal}, we use prefixes to distinguish
@@ -476,7 +478,6 @@ delegated parties.
 \begin{lstlisting}
 'company' says 'hr-department' can-say
   Employee:E hasManager(Employee:M).
-
 'company' says Manager can-say
   Employee canInstall(App:A)
   if Employee hasManager(Manager).

@@ -110,9 +110,10 @@ contrast, SecPAL's semantics are given precisely by
 Becker~\cite{becker_secpal:_2006}.
 
 Whilst SecPAL was designed for readability, XACML policies are verbose and
-difficult to read. For example a simple policy that grants a principal,
-\emph{Alice}, permission to do whatever she liked would be written as:
+difficult to read. For example, to describe a simple policy that grants a principal,
+\emph{Alice}, permission to do whatever; we might write:
 
+\noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
 <xacml3:Policy xmlns:xacml3="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
   PolicyId="http://axiomatics.com/alfa/identifier/alice.policy"
@@ -146,6 +147,7 @@ difficult to read. For example a simple policy that grants a principal,
   </xacml3:Rule>
 </xacml3:Policy>
 \end{lstlisting}
+\end{minipage}
 
 To help developers write policies, alternative notations are available that
 compile into XACML's XML notation. ALFA is an alternate notation for
@@ -153,6 +155,7 @@ XACML~\cite{oasis_xacml_technical_comitee_abbreviated_2015} maintained by the
 XACML developers. The equivalent ALFA policy of the above \emph{allow Alice all}
 policy would be:
 
+\noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
 namespace alice {
   policy policy {
@@ -164,6 +167,7 @@ namespace alice {
   }
 }
 \end{lstlisting}
+\end{minipage}
 
 The ALFA policy is more concise and shows the
 policy's meaning more clearly than the XACML version.

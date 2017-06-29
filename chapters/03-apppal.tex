@@ -4,8 +4,9 @@
 \label{chap:apppal}
 
 \begin{figure}
-  \centering
+  \centering\noindent
   \includegraphics[width=\textwidth]{figures/policies-ecosystem.pdf}
+  \medskip
   \caption[Entities in the mobile ecosystem]{Entities in the mobile ecosystem
     and some of the policies surrounding them.}
   \label{fig:ecosystem}
@@ -120,7 +121,7 @@ it's policies. Namely we need a policy language that can express:
     and their invocation.
 
 \end{description}
-
+%
 SecPAL was chosen as other languages lacked features that SecPAL supported.
 PolicyMaker~\cite{blaze_decentralized_1996} would support constraints, but is in
 general intractable; whereas Becker proved a SecPAL policy was decidable in
@@ -308,6 +309,7 @@ To implement the policy they publish the following AppPAL rules:
 Alice wishes to install the app \emph{\ttfamily ms.office} for business purposes.
 To satisfy the policy and install the app she needs to collect the following statements.
 
+\medskip
 \begin{itemize}
     %\newand{\weitemsize}[0]{\footnotesize}
   \item \lstinline!'nhs-trust' says 'ms.office' isInstallable.!
@@ -330,7 +332,7 @@ To satisfy the policy and install the app she needs to collect the following sta
       \item \lstinline!'nhs-trust' says 'bob' isEmployee.!
     \end{enumerate}
 \end{itemize}
-
+%
 Alice obtains the statements by contacting the speakers. Each may either give
 her the statement she needs or may give her more rules. For example, the
 \ac{MIG} and \ac{IGC} may authorize the app or they might give a list of
@@ -393,7 +395,7 @@ further to describe other policies, such as \ac{BYOD} policies.
 \label{ssec:types}
 
 \newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#1}\emph{#2}}}
-\begin{table}
+\begin{table}\footnotesize\sffamily\centering
   \begin{tabular}{l l}
     \toprule
     Prefix                      & Meaning                                            \\
@@ -426,7 +428,7 @@ When we need to describe the conditions for an action going ahead we use the can
   often helpful to restrict their type to a given domain.  For example Alice
   might trust Bob to describe what apps are good, but not what websites.
   \begin{lstlisting}
-    'alice' says 'bob' can-say X isGood if X isApp.
+'alice' says 'bob' can-say X isGood if X isApp.
   \end{lstlisting}
   Additionally SecPAL requires that all variables in the head of a statement be
   used in the body\footnote{The rule ensures that all queries terminate.}.
@@ -451,9 +453,9 @@ When we need to describe the conditions for an action going ahead we use the can
 
   If a device requires its owner to grant a permission we might write:
   \begin{lstlisting}
-    'device' says User:U can-say
-    App:A hasBeenGrantedPermission(Permission:P)
-    if 'device' isOwnedBy(U).
+'device' says User:U can-say
+  App:A hasBeenGrantedPermission(Permission:P)
+  if 'device' isOwnedBy(U).
   \end{lstlisting}
 
   Often predicates fall into common patterns and groups, for example
@@ -471,9 +473,9 @@ When we need to describe the conditions for an action going ahead we use the can
   devices report if a user is using a company device unacceptably:
 
   \begin{lstlisting}
-    'company' says User:U hasBehavedUnacceptably
-    if U hasAccessedWebpage(W),
-    W isPornographic.
+'company' says User:U hasBehavedUnacceptably
+  if U hasAccessedWebpage(W),
+     W isPornographic.
   \end{lstlisting}
 
 \item[\bfseries\texttt{subject \emph{can}Action}]
@@ -489,20 +491,22 @@ When we need to describe the conditions for an action going ahead we use the can
   An obligation.  The \emph{subject} should carry out the \emph{action}.
   An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
 
+  \begin{minipage}{\linewidth}
   \begin{lstlisting}
-    'company' says Device:D mustInform('it', 'login-failure')
-    if D hasUnsuccesfulLogins(N)
-    where N >= 3.
+'company' says Device:D mustInform('it', 'login-failure')
+  if D hasUnsuccesfulLogins(N)
+  where N >= 3.
   \end{lstlisting}
+  \end{minipage}
 
   AppPAL does not state how quickly a user should complete their obligation, or
   enforce that they even perform it.  These additional checks could be created
   by using additional predicates:
 
   \begin{lstlisting}
-    'mum' says 'alice' hasSatisfiedObligationToCall
-    if 'alice' mustCall,
-    'alice' hasCalled.
+'mum' says 'alice' hasSatisfiedObligationToCall
+  if 'alice' mustCall,
+     'alice' hasCalled.
   \end{lstlisting}
 
   \emph{Must} predicates are mostly goals, as they describe the conditions when
@@ -510,11 +514,15 @@ When we need to describe the conditions for an action going ahead we use the can
   above, but they are unusual.
 \end{description}
 
-This differs from the approach taken with SecPAL4P and SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}.
-Both these languages add extra phrases to SecPAL's grammar.
-For example SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether to carry out an action.
-If Alice, a policy author, wished to use SecPAL4P to say that someone can forget her email address she could write:\footnote{%
-Example taken from~\cite{becker_framework_2009}  SecPAL4P also has relaxed safety rules, that permit the variables $x$ and $t$ to be in the head of the rule, but not the body.}
+\noindent This differs from the approach taken with SecPAL4P and
+SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}. Both these
+languages add extra phrases to SecPAL's grammar. For example SecPAL4P adds a
+\emph{may} and \emph{will} phrase to describe whether to carry out an action. If
+Alice, a policy author, wished to use SecPAL4P to say that someone can forget
+her email address she could write:\footnote{% Example taken
+  from~\cite{becker_framework_2009} SecPAL4P also relaxes safety rules, that
+  permit the variables $x$ and $t$ to be in the head of the rule, but not the
+  body.}
 \begin{lstlisting}
 Alice says x may delete Email within t
 \end{lstlisting}
@@ -523,8 +531,20 @@ An analogous AppPAL rule would be:
 'alice' says User:X canDeleteWithin('email', Time:t)
   where currentTime() < t.
 \end{lstlisting}
-The AppPAL is arguably slightly less succinct, but more explicit than the SecPAL4DSA.
+The AppPAL is, arguably, slightly less succinct, but more explicit than the SecPAL4DSA.
 
+\begin{figure}[b]\centering
+  \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
+  \newcommand{\terminal}[1]{\textbf{#1}}
+  \begin{tabular}{r c l}
+    \footnotesize
+    \nonterminal{E}         & $\Coloneqq$ & \nonterminal{Variable} $\vert$ \terminal{'constant'} \\
+    \nonterminal{Variable}  & $\coloneqq$ & \new{\terminal{Type}\terminal{:}\terminal{Var}} $\vert$ \terminal{Var}
+  \end{tabular}
+  \caption[ Changes to SecPAL's syntax to support types. ]{Changes to SecPAL's
+    syntax to support types.  Changed terms are shown in red.}
+  \label{fig:type-changes}
+\end{figure}
 
 \subsection{Type Notation}
 
@@ -542,18 +562,6 @@ If a policy rule contains a lot of variables, however these typing conditions ca
 To simplify the policy rules, AppPAL adds a sugared notation for typing
 statements by extending SecPAL's grammar for variables (\autoref{fig:type-changes}).
 
-\begin{figure}\centering
-  \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
-  \newcommand{\terminal}[1]{\textbf{#1}}
-  \begin{tabular}{r c l}
-    \footnotesize
-    \nonterminal{E}         & $\Coloneqq$ & \nonterminal{Variable} $\vert$ \terminal{'constant'} \\
-    \nonterminal{Variable}  & $\coloneqq$ & \new{\terminal{Type}\terminal{:}\terminal{Var}} $\vert$ \terminal{Var}
-  \end{tabular}
-  \caption[ Changes to SecPAL's syntax to support types. ]{Changes to SecPAL's
-    syntax to support types.  Changed terms are shown in red.}
-  \label{fig:type-changes}
-\end{figure}
 
 Expansion of the AppPAL types into SecPAL conditions is described in \autoref{lst:type-expansion}.
 This is run when parsing AppPAL code, and adds a rule to AppPAL
@@ -744,7 +752,7 @@ AppPAL's developers with debugging.
   \label{tab:apppal-sets}
 \end{table}
 
-\begin{figure}
+\begin{figure}\footnotesize\sffamily\centering
   \begin{algorithm}[H]
     \Fn(){\FnEvaluate{AC, RT, Q, D}}{
       \If{$RT$.\FnContains{(Q, D)}}{
@@ -780,7 +788,32 @@ AppPAL's developers with debugging.
   \caption{Pseudocode for evaluating a query.}
   \label{alg:eval1}
 \end{figure}
-\begin{figure}
+\begin{figure}\footnotesize\sffamily\centering
+  \begin{algorithm}[H]
+    \Fn(){\FnCond{AC, RT, Q, D}}{
+      \For{a $\in$ \FnAssertions{AC}}{
+        $u$ $\gets$ Q.\FnUnify{a.\FnHead{}}\;
+        \If{u.\FnValid{}}{
+          $a$ $\gets$ $a$.\FnApply{u}\;
+           \For{$\theta$ $\in$ \FnVarSubs{AC, a}}{
+            $a^\prime$ $\gets$ a.\FnApply{$\theta$}\;
+            \If{\FnVariables($a^\prime$) = $\emptyset$}{
+              \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, RT, b, D}=Success}{
+                \If{\FnCheckConstraint{a$^\prime$.constraint}=True}{
+                  \Return{Success}
+                }
+              }
+            }
+          }
+        }
+      }
+      \Return{Failure}
+    }
+  \end{algorithm}
+  \caption{Pseudocode for using the cond-rule.}
+  \label{alg:eval3}
+\end{figure}
+\begin{figure}\footnotesize\sffamily\centering
   \begin{algorithm}[H]
     \Fn(){\FnCanSayCanActAs{AC, RT, Q, D}}{
       \For{c $\in$ \FnConstants{AC}}{
@@ -819,31 +852,6 @@ AppPAL's developers with debugging.
   \caption{Pseudocode for using the can-say and can-act-as rules.}
   \label{alg:eval2}
 \end{figure}
-\begin{figure}
-  \begin{algorithm}[H]
-    \Fn(){\FnCond{AC, RT, Q, D}}{
-      \For{a $\in$ \FnAssertions{AC}}{
-        $u$ $\gets$ Q.\FnUnify{a.\FnHead{}}\;
-        \If{u.\FnValid{}}{
-          $a$ $\gets$ $a$.\FnApply{u}\;
-           \For{$\theta$ $\in$ \FnVarSubs{AC, a}}{
-            $a^\prime$ $\gets$ a.\FnApply{$\theta$}\;
-            \If{\FnVariables($a^\prime$) = $\emptyset$}{
-              \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, RT, b, D}=Success}{
-                \If{\FnCheckConstraint{a$^\prime$.constraint}=True}{
-                  \Return{Success}
-                }
-              }
-            }
-          }
-        }
-      }
-      \Return{Failure}
-    }
-  \end{algorithm}
-  \caption{Pseudocode for using the cond-rule.}
-  \label{alg:eval3}
-\end{figure}
 
 \subsection{Soundness and Completeness of Decision Procedure}
 
@@ -868,7 +876,7 @@ It helps makes the algorithm fast, albeit at the cost of soundness and
 completeness. If AppPAL were incorporated into a production system, the
 designers would need to have a strategy to manage the $RT$ and delete old
 results. A simple strategy, such as clearing any statements older than 10
-minutes, may likely be enough for many scenarios.
+minutes, may be enough for most scenarios.
 
 The arguments in the rest of the section assume that the result of evaluating a
 constraint does not change over time. This allows us to argue the basic
@@ -985,7 +993,8 @@ Most typical policies (such as those discussed in \autoref{chap:apps-and-stores}
 I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
 
 \begin{table}
-  \centering\sffamily\footnotesize
+  \centering\sffamily\scriptsize\noindent
+  \begin{minipage}{0.35\textwidth}
     \begin{tabular}{c c r@{.}l}
       \toprule
       Delegations & Principals & \multicolumn{2}{c}{Time (s)} \\
@@ -1006,7 +1015,10 @@ I believe the policy checking performance of AppPAL is acceptable as unless a po
       1 to 3 & 1000 & 15&28 \\
       \bottomrule
     \end{tabular}
-    \includegraphics[width=0.70\linewidth]{figures/benchmarks.pdf}
+    \end{minipage}
+    \begin{minipage}{0.64\textwidth}
+    \includegraphics[width=\linewidth]{figures/benchmarks.pdf}
+    \end{minipage}
   \caption{Benchmarking results on a Nexus 4 Android phone.}
   \label{tab:benchmarks}
 \end{table}
@@ -1166,6 +1178,7 @@ approved an app in practice.
 When we run the satisfiability checker on this policy
 it reports that (among other information) no app is installable.
 
+\noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
 [INFO]: loaded 1/1 files of 6 assertions
@@ -1186,6 +1199,7 @@ lack any statements to that effect from the delegated party:
 (via 'igc') 'nhs-trust' says * isApproved
 (via 'mig') 'nhs-trust' says * isUsableNonClinically
 \end{lstlisting}
+\end{minipage}
 
 As well as reporting which decisions it cannot make, it also reports the
 specific assertions as well. It also reports the assertions that may be
@@ -1211,11 +1225,13 @@ then it is assumed false. When we run the satisfiability checker, we find no
 problems as all the decisions are now satisfiable as there is a decision about
 \emph{some} variable; even if that variable isn't useful in practice.
 
+\noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
 [I]: loaded 1/1 files of 11 assertions
 [I]: no satisfiability problems
 \end{lstlisting}
+\end{minipage}
 
 The satisfiability checker acts as a quick sanity checker that a policy contains
 enough facts and assertions; unlike AppPAL-proper which can check how and
