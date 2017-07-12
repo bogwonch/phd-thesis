@@ -9,6 +9,16 @@ gives the background for our work. In \autoref{chap:apppal} we describe our
 changes to SecPAL and how we instantiate it to create a policy language to
 describe the policies of the mobile ecosystem.
 
+One approach to designing a policy language is to base it on a logic of
+authorization. Authorization logics~\cite{abadi_calculus_1991} describe rules
+for deciding when to allow certain actions in a reasoned way. A common use case
+for these logics is building access control systems. A user is allowed to read a
+file if he or she has the proper permissions. In applying logics of
+authorization to policy language the policy language describes who can get
+access to what, but the authorization logic gives a formal description of how we
+make that decision. We want to use authorization policy language to capture the trust
+relationships in the mobile ecosystem.
+
 \section{SecPAL}
 
 SecPAL is an authorization language developed by Becker~\etal~to
