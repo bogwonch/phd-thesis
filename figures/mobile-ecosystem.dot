@@ -18,7 +18,7 @@ digraph mobileecosystem {
 	device1 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
 	device2 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
 	device3 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Phone</TD></TR></TABLE>>];
-	device3w [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Company Phone</TD></TR></TABLE>>];
+	device3 [label=<<TABLE border="0" cellborder="0"><TR><TD><IMG SRC="/home/user/phd-thesis/figures/mobile-phone.png"/></TD></TR><TR><TD>Company Phone</TD></TR></TABLE>>];
 
 	{ rank=same device1 device2 device3 device3w }
 
