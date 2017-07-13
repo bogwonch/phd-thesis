@@ -72,8 +72,14 @@ enforce the policies. Regulation, such as \ac{HIPAA}, may also affect some
 companies.
 
 In this section we will start to introduce by example AppPAL: an authorization language for
-the policies of the mobile ecosystem. We will describe AppPAL in greater detail
+the policies of the mobile ecosystem, based on SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail
 in \autoref{chap:apppal} and throughout the thesis. 
+We have implemented SecPAL to explore its use and build our own policy language called AppPAL to capture the policies
+of the mobile ecosystem. Moreover, when we show an AppPAL
+snippet in \framebox{\texttt{teletype font}} it can be parsed
+and used as part of a policy\footnote{Sometimes with minimal edits as some constraints used are not
+implemented.} with our \emph{AppPAL} interpreter (described in \autoref{chap:apppal}).
+
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
