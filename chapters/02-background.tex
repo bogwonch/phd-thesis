@@ -307,7 +307,7 @@ assertion, then it can be replaced with \texttt{'clyde'}: they are the same.
 SecPAL's delegation mechanisms can describe many different relationships. Yet it
 remains conceptually and semantically simple. This power makes SecPAL attractive
 for situations where entities are distributed and there is no central decision
-point. %Whatever relationship the entities have, SecPAL can describe it.
+point.  
 
 \section{Policy Languages}
 
@@ -317,6 +317,7 @@ section we give a survey of some other influential policy languages. A timeline
 of the development of the languages mentioned here is shown in
 \autoref{fig:policy-language-chronology}.
 
+\paragraph{PolicyMaker.}
 PolicyMaker~\cite{blaze_decentralized_1996} is a language for permitted actions.
 It grew out of the logics of authentication of Wobber, Abadi, Burrows and
 Lampson~\cite{wobber_authentication_1994,abadi_calculus_1991}; as well as a
@@ -364,6 +365,7 @@ checks the signature and queries the policy server with her message:
 
 If Alice's message is okay then the SMTP server will send it.  If it does not match the policy then it will not.
 
+\paragraph{KeyNote.}
 PolicyMaker is the basis for KeyNote~\cite{blaze_role_1999,blaze_keynote:_1998}.
 KeyNote simplifies the arbitrary filter languages, offering instead one based on
 C that always returns a boolean answer. KeyNote allows the policy server to do
@@ -397,6 +399,7 @@ Bob Labs.}
 
 %\subsection{SPKI/SDSI}
 
+\paragraph{SPKI/SDSI.}
 Unlike PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
 designed to associate keys with roles.  A user, Alice with key~$K_A$,
 can present a certificate that says she \textbf{can act as} (a role assignment) a \emph{Bob Labs
@@ -427,6 +430,7 @@ several later attempts at fitting semantics to the
 language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001}.
 Not all covered every aspect of SPKI/SDSI's features, however. No definitive standard has appeared.
 
+\paragraph{RT.}
 The focus on roles led to the RT family of
 languages~\cite{ninghui_li_design_2002}. RT associates policy
 decisions with roles. This is similar to how \ac{RBAC} systems associate access
@@ -504,6 +508,7 @@ done with the same time and space complexities as Datalog\textsuperscript{C}.
 Datalog\textsuperscript{C} is used as a foundation for many other policy
 languages including SecPAL as well as RT.
 
+\paragraph{Ponder.}
 Ponder, like SecPAL, is a language for specifying policies for distributed
 systems~\cite{damianou_ponder_2001}. Ponder supports positive and negative
 authorization, delegation, obligation, roles and constraints. It uses
@@ -530,6 +535,7 @@ policies for decentralized environments. Ponder2 also provides a control
 language called \emph{PonderTalk}, which lets the decision engine send messages
 to the objects it manages.
 
+\paragraph{Cassandra.}
 Cassandra is a trust management language to model large systems.
 It was demonstrated on the NHS Spine: a system to let healthcare
 workers share patient
@@ -556,6 +562,7 @@ delegation by allowing third-parties to activate and remove roles
 on others.  
 Becker worked on Cassandra for his doctorate.  He went on to work on SecPAL.
 
+\paragraph{SecPAL Extensions.}
 We started this chapter, by describing SecPAL. Since SecPAL was first described
 various tweaks and extensions were made to the language. SecPAL was extended to
 add a $\forall$ and $\exists$ statement for queries. This allowed it to answer
