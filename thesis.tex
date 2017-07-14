@@ -8,24 +8,44 @@
 \submityear{2017} 
 \abstract{%
 
-  This thesis looks at developing an authorization logic to describe the
-  informal security policies in the mobile ecosystem. Natural language policies describe
-  BYOD agreements and terms and conditions. Users have privacy preferences that
-  they may never express as a policy but which guide their actions. Software
-  running on mobile devices has trust relationships with servers and stores.
-  Whilst earlier work has looked on checking and enforcing policies with low-level
-  controls, this work aims to capture these informal policy's intents and the trust
-  relationships within them separating the policy specification from its
-  enforcement. This allows us to analyze the informal policies precisely, measure
-  their use in practice, and look for idioms.
+The policies, in particular the security policies, of mobile devices such as
+phones and tablet computers, that describe how we should use these devices are
+often informally specified. Users have preferences for some apps over others.
+Some users may avoid apps which can access large amounts of their personal data,
+whilst others may not care. A user is unlikely to write down these policies or
+describe them using a formal policy language. This is unfortunate as without a
+formal description of the policy we cannot precisely reason about them. We
+cannot help users to pick the apps they want if we cannot describe their
+policies.
+  
+Companies have mobile security policies that define how an employee should use
+devices from home at work. A company might describe the policy in a natural
+language document for employees to read and agree to. They might also use some
+software installed on employee's devices to enforce it. Without a link between
+the specification of the policy in the natural language document and the
+implementation of the policy with the tool, understanding how they are related
+can be hard.
 
-  We show how AppPAL instantiates SecPAL and our implementation of it as an
-  authorization logic for mobile ecosystems. We show how we can check AppPAL
-  policies for common errors. Using AppPAL we show that policies describing users
-  privacy preferences do not seem to match the apps users install. We explore the
-  differences between app stores and how to create new ones based on policy. We
-  look at five BYOD policies and discover previously unexamined idioms within
-  them.
+This thesis looks at developing an authorization logic, called AppPAL, to
+capture the informal security policies of the mobile ecosystem, which we define
+as the interactions surrounding the use of mobile devices in a particular
+setting. This includes the policies of the users, the devices, the app stores,
+and the environments the users bring the devices into.
+%
+Whilst earlier work has looked on checking and enforcing policies with low-level
+controls, this work aims to capture these informal policy's intents and the
+trust relationships within them separating the policy specification from its
+enforcement. This allows us to analyze the informal policies precisely, and
+reason about how they are used.
+
+We show how AppPAL instantiates SecPAL, a policy language designed for access
+control in distributed environments. We describe AppPAL's implementation as an
+authorization logic for mobile ecosystems. We show how we can check AppPAL
+policies for common errors. Using AppPAL we show that policies describing users
+privacy preferences do not seem to match the apps users install. We explore the
+differences between app stores and how to create new ones based on policy. We
+look at five BYOD policies and discover previously unexamined idioms within
+them. This suggests aspects of BYOD policies not managed by current BYOD tools.
 
 }
 

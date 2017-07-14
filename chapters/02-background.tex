@@ -57,7 +57,7 @@ SecPAL policies are evaluated with respect to an assertion context \emph{AC},
 either permits or disallows further delegation. SecPAL evaluation produces an
 assertion of the form:
 \begin{equation*}
- AC, D \models \texttt{\mathit{A} says \mathit{fact}.} 
+ AC, D \models \texttt{{\itshape A} says {\itshape fact}.} 
 \end{equation*} This means that by using that AC, and with delegation either
 allowed ($D = \mathtt{inf}$) or not ($D = \mathtt{0}$), SecPAL could show that
 $A$ would say the \emph{fact.}
@@ -209,7 +209,6 @@ researcher attempting to run a query on a cluster using data from a file-server
 Alice requests the cluster run a search on her data.  Her data is on the file-server.
 The cluster has a SecPAL policy that only researchers can run the search:
 It also has a rule that says the human resources department (HR) can say who is a researcher.
-\begin{minipage}{\textwidth}\noindent
 \begin{lstlisting}
 'cluster' says X canRun('grep')
   if X isResearcher.
@@ -217,7 +216,6 @@ It also has a rule that says the human resources department (HR) can say who is 
 'cluster' says 'hr' can-say
   X isResearcher.
 \end{lstlisting}
-\end{minipage}
 The cluster queries HR if Alice is a researcher. HR responds by saying she is.
 \begin{lstlisting}
 'hr' says 'alice' isResearcher.
@@ -316,8 +314,33 @@ the mobile ecosystem further in \autoref{chap:apppal}, but to sumarise its
 ability to delegate and capture policies makes it a good starting point.
 
 
-
 \section{Policy Languages}
+\begin{figure}
+  \centering\sffamily\scriptsize
+  \begin{chronology}[5]{1987}{2017}{\textwidth}
+    \event{1988}{X.509}
+    \event{1991}{A Calculus for Access Control~\cite{abadi_calculus_1991}}
+    \event{1994}{Authentication in the Taos OS~\cite{wobber_authentication_1994}}
+    \event{1996}{PolicyMaker~\cite{blaze_decentralized_1996}}
+    \event{1998}{KeyNote~\cite{blaze_keynote:_1998}}
+    \event{1999}{SPKI/SDSI\cite{ellison_spki_1999}}
+    \event{2000}{Delegation Logic~\cite{li_practically_2000}}
+    \event{2001}{Ponder~\cite{damianou_ponder_2001}, XACML}
+    \event{2002}{RT~\cite{li_design_2002}, Binder~\cite{detreville_binder_2002}}
+    \event{2004}{Cassandra~\cite{becker_cassandra:_2004}}
+    \event{2005}{XACML 2.0}
+    \event{2006}{SecPAL~\cite{becker_secpal:_2006}}
+    \event{2008}{DKAL~\cite{gurevich_dkal:_2008}}
+    \event{2009}{DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009}, Ponder2~\cite{twidle_ponder2:_2009}, SecPAL4P~\cite{becker_framework_2009}}
+    \event{2010}{XACML 3.0~\cite{oasis_extensible_2013}}
+    \event{2011}{SecPAL4DSA~\cite{aziz_secpal4dsa:_2011}}
+    \event{2013}{DKAL$\star$~\cite{jeannin_dkal*:_2013}}
+    \event{2016}{AppPAL~\cite{hallett_apppal_2016}}
+  \end{chronology}
+  \caption{Timeline of the development of different policy languages.}
+  \label{fig:policy-language-chronology}
+\end{figure}
+
 
 We have introduced SecPAL to describe policies, and will study it further in the
 rest of the thesis to describe the policies of the mobile ecosystem. In this
@@ -325,7 +348,7 @@ section we give a survey of some other influential policy languages. A timeline
 of the development of the languages mentioned here is shown in
 \autoref{fig:policy-language-chronology}.
 
-\paragraph{PolicyMaker.}
+\paragraph*{PolicyMaker.}
 PolicyMaker~\cite{blaze_decentralized_1996} is a language for permitted actions.
 It grew out of the logics of authentication of Wobber, Abadi, Burrows and
 Lampson~\cite{wobber_authentication_1994,abadi_calculus_1991}; as well as a
@@ -350,14 +373,12 @@ Labs.
 PolicyMaker is installed on a server. It receives queries and gives answers.
 The policy is on the server is:
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 policy ASSERTS
   pgp:'0x12345678'
   WHERE PREDICATE=regexp:'(From: Alice) &&
     (Organization: Bob Labs)';
 \end{lstlisting}
-\end{minipage}
 
 When Alice sends an email using a PolicyMaker enhanced SMTP
 client she signs her message with her key.  The mail server
@@ -373,7 +394,7 @@ checks the signature and queries the policy server with her message:
 
 If Alice's message is okay then the SMTP server will send it.  If it does not match the policy then it will not.
 
-\paragraph{KeyNote.}
+\paragraph*{KeyNote.}
 PolicyMaker is the basis for KeyNote~\cite{blaze_role_1999,blaze_keynote:_1998}.
 KeyNote simplifies the arbitrary filter languages, offering instead one based on
 C that always returns a boolean answer. KeyNote allows the policy server to do
@@ -407,7 +428,7 @@ Bob Labs.}
 
 %\subsection{SPKI/SDSI}
 
-\paragraph{SPKI/SDSI.}
+\paragraph*{SPKI/SDSI.}
 Unlike PolicyMaker, SPKI/SDSI~\cite{ellison_spki_1999} was
 designed to associate keys with roles.  A user, Alice with key~$K_A$,
 can present a certificate that says she \textbf{can act as} (a role assignment) a \emph{Bob Labs
@@ -438,7 +459,7 @@ several later attempts at fitting semantics to the
 language~\cite{joseph_y._halpern_logic_1999,abadi_sdsis_1998,howell_formal_2000,dwaine_clarke_certificate_2001}.
 Not all covered every aspect of SPKI/SDSI's features, however. No definitive standard has appeared.
 
-\paragraph{RT.}
+\paragraph*{RT.}
 The focus on roles led to the RT family of
 languages~\cite{ninghui_li_design_2002}. RT associates policy
 decisions with roles. This is similar to how \ac{RBAC} systems associate access
@@ -460,32 +481,6 @@ supports optional feature sets: \RT{}{T} allows for policies with
 thresholds (i.e. Alice can send an email if two out of three of the
 board members approve it). \RT{}{C} adds constraints. Finally, \RT{}{D}
 adds delegation~\cite{ninghui_li_design_2002}.
-
-\begin{figure}
-  \centering\sffamily\scriptsize
-  \begin{chronology}[5]{1987}{2017}{\textwidth}
-    \event{1988}{X.509}
-    \event{1991}{A Calculus for Access Control~\cite{abadi_calculus_1991}}
-    \event{1994}{Authentication in the Taos OS~\cite{wobber_authentication_1994}}
-    \event{1996}{PolicyMaker~\cite{blaze_decentralized_1996}}
-    \event{1998}{KeyNote~\cite{blaze_keynote:_1998}}
-    \event{1999}{SPKI/SDSI\cite{ellison_spki_1999}}
-    \event{2000}{Delegation Logic~\cite{li_practically_2000}}
-    \event{2001}{Ponder~\cite{damianou_ponder_2001}, XACML}
-    \event{2002}{RT~\cite{li_design_2002}, Binder~\cite{detreville_binder_2002}}
-    \event{2004}{Cassandra~\cite{becker_cassandra:_2004}}
-    \event{2005}{XACML 2.0}
-    \event{2006}{SecPAL~\cite{becker_secpal:_2006}}
-    \event{2008}{DKAL~\cite{gurevich_dkal:_2008}}
-    \event{2009}{DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009}, Ponder2~\cite{twidle_ponder2:_2009}, SecPAL4P~\cite{becker_framework_2009}}
-    \event{2010}{XACML 3.0~\cite{oasis_extensible_2013}}
-    \event{2011}{SecPAL4DSA~\cite{aziz_secpal4dsa:_2011}}
-    \event{2013}{DKAL$\star$~\cite{jeannin_dkal*:_2013}}
-    \event{2016}{AppPAL~\cite{hallett_apppal_2016}}
-  \end{chronology}
-  \label{fig:policy-language-chronology}
-  \caption{Timeline of the development of different policy languages.}
-\end{figure}
 
 Unlike PolicyMaker, the RT family of languages is tractable. Li~\etal~prove a guarantee
 that a query will be answered soundly in polynomial time in the size of the
@@ -516,7 +511,7 @@ done with the same time and space complexities as Datalog\textsuperscript{C}.
 Datalog\textsuperscript{C} is used as a foundation for many other policy
 languages including SecPAL as well as RT.
 
-\paragraph{Ponder.}
+\paragraph*{Ponder.}
 Ponder, like SecPAL, is a language for specifying policies for distributed
 systems~\cite{damianou_ponder_2001}. Ponder supports positive and negative
 authorization, delegation, obligation, roles and constraints. It uses
@@ -524,7 +519,6 @@ constraints to extract the attributes of principals, read state, and deal with
 time. A policy that trainee engineers are not allowed to send emails could be
 written:
 
-\noindent\begin{minipage}{\textwidth}\medskip
 \begin{lstlisting}
 inst auth- engineersCanEmail {
   subject e =/Engineer;
@@ -533,7 +527,6 @@ inst auth- engineersCanEmail {
   when e.status() == ``trainee'';
 }
 \end{lstlisting}
-\end{minipage}
 
 Since Ponder allows positive and negative policies, conflicts can occur. Ponder
 does not resolve the conflicts itself. Instead it detects them using static
@@ -543,7 +536,7 @@ policies for decentralized environments. Ponder2 also provides a control
 language called \emph{PonderTalk}, which lets the decision engine send messages
 to the objects it manages.
 
-\paragraph{Cassandra.}
+\paragraph*{Cassandra.}
 Cassandra is a trust management language to model large systems.
 It was demonstrated on the NHS Spine: a system to let healthcare
 workers share patient
@@ -570,14 +563,14 @@ delegation by allowing third-parties to activate and remove roles
 on others.  
 Becker worked on Cassandra for his doctorate.  He went on to work on SecPAL.
 
-\paragraph{SecPAL Extensions.}
+\paragraph*{SecPAL Extensions.}
 We started this chapter, by describing SecPAL. Since SecPAL was first described
 various tweaks and extensions were made to the language. SecPAL was extended to
-add a $\forall$ and $\exists$ statement for queries. This allowed it to answer
+allow existential queries. This allowed it to answer
 queries such as \emph{``does Alice say Bob can read any of her files?''} or
 \emph{``do all Alice's apps meet her installation policy?''}, which could only
 be answered by manually making multiple queries before. 
-
+%
 Becker also described the possibility of dynamic assertion retrieval, which
 would allow SecPAL to fetch and add assertions to it's assertion context when
 making queries. In the case of delegation this would allow a delegated

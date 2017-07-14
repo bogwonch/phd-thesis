@@ -91,21 +91,22 @@ terms for authentication and who each principal trusts to make what decisions.
 For example, an app might trust Google to manage accounts. Google will only
 authorize a user if the user has authorized the app, and will only allow the app
 access to the data the user has explicitly authorized:
+
+%\noindent\begin{minipage}{\linewidth}%\vspace{\baselineskip}
 \begin{lstlisting}
 'app' says 'google' can-say 
   'app' canLink(User:U, Account:A).
 
 'google' says App:A canLink(User:U, Account:Acc)
-  if U hasAuthorized(A),
-     U hasAccount(Acc).
+  if U hasAuthorized(A), U hasAccount(Acc).
 
 'google' says User:U can-say U hasAuthorized(App:A)
-  if U isAuthenticatedWith(Token),
-     Token isValid.
+  if U isAuthenticatedWith(Token), Token isValid.
 
 'google' says User:U can-say App:A canAccess(Data:D)
   if D isOwnedBy(U).
 \end{lstlisting}
+%\end{minipage}
 
 Users may install apps manually themselves, but they might also buy and download
 apps from one or more app stores. They trust these app stores to sell them
