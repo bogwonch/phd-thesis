@@ -277,10 +277,17 @@ Computer Science}}
 %% regulations. I have removed all of the old code (ca. 1996) that attempted
 %% to compensate for particular printers in the Department of Computer
 %% Science.
+%\ifthenelse{\boolean{draftthesis}}
+%    {\geometry{a4paper,twoside,left=2cm,right=2cm,top=2cm,bottom=2cm,twosideshift=0cm}}
+%    {\if@twoside
+%        \geometry{a4paper,twoside,left=3.25cm,right=3.25cm,top=2cm,bottom=4cm,twosideshift=.75cm}
+%     \else
+%        \geometry{a4paper,left=4cm,top=2cm,right=2.5cm,bottom=4cm}
+%    \fi}
 \ifthenelse{\boolean{draftthesis}}
-    {\geometry{a4paper,twoside,left=2cm,right=2cm,top=2cm,bottom=2cm,twosideshift=0cm}}
+    {\geometry{a4paper,twoside,left=2cm,right=2cm,top=2cm,bottom=2cm}}
     {\if@twoside
-        \geometry{a4paper,twoside,left=3.25cm,right=3.25cm,top=2cm,bottom=4cm,twosideshift=.75cm}
+        \geometry{a4paper,twoside,left=3.25cm,right=3.25cm,top=2cm,bottom=4cm}
      \else
         \geometry{a4paper,left=4cm,top=2cm,right=2.5cm,bottom=4cm}
     \fi}
