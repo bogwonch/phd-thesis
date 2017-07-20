@@ -3,30 +3,29 @@
 \chapter{App Stores and App Preferences}
 \label{chap:apps-and-stores}
 
-Apps and app stores are a key part of the mobile ecosystem; an app being the key
+Apps and app stores are a key part of the mobile ecosystem, an app being the key
 form of software and the app store as their primary mode of distribution. In
 this chapter we explore the stores and the policies surrounding them. We compare
 the differences in terms and conditions between the various marketplaces and
 make comparisons between them. We look at how users have privacy preferences
 about the which apps they want to use, but by using AppPAL versions of common
-user privacy preferences show how they do not seem to follow them in practice.
-Finally we describe how AppPAL can be used to create new app stores by checking
-for apps that can be shown to follow a policy, and offering them in a web
-app-based store.
+user privacy preferences show how Android users do not seem to follow them in
+practice. Finally we describe how AppPAL can be used to create new app stores by
+checking for apps that can be shown to follow a policy, and offering them in a
+web app-based store.
 
 \section{App Stores}
 
-App stores are the primary mechanism for distributing software on smart phones.
-Whilst iOS has just one store (Apple's App store), the Android ecosystem is more
+Whilst iOS has just one store (Apple's App Store), the Android ecosystem is more
 diverse with multiple stores available for multiple different purposes. The
 dominant app store on Android is Google Play. Unlike iOS, Google isn't the sole
 app vendor however. Some device vendors add their own stores to their devices as
 a feature: Amazon do this with their Kindle Fire tablets, where Kindle owners
 can download discounted apps. Some vendors, such as Samsung, add their own store
 this to highlight apps that use features specific to their phones (KNOX in
-Samsung's case). In some regions (most notably China), using Google products is
+Samsung's case). In some regions (such as China), using Google services is
 problematic. People in these countries use local, regionally focused app stores
-(such as QiHoo360, and Yandex) instead.
+(such as QiHoo360 or Yandex) instead.
 
 For a manufacturer to install Google's store they must comply with the Android
 \ac{CDD}~\cite{google_android_2016}. The \ac{CDD} describes how to configure the
@@ -38,16 +37,17 @@ For manufacturers like \emph{Jolla} whose devices do not run
 Android\footnote{They run Sailfish, which is based off of the Linux Foundation's
 Mer operating system.}, but can emulate some parts of the Dalvik virtual machine
 enough to run Android apps, third-party stores like Yandex and Aptoide allow the
-device to still benefit from apps designed for the Android ecosystem.
+device to still benefit from apps designed for the Android ecosystem, without having to pass Google's test suites.
 
 In this section we will focus on five different app stores: Apple's App Store,
 Amazon's app store, Aptoide, Google Play and Yandex. Apple's App Store is for
 iOS, but the rest are for Android operating systems. Amazon's app store was
-opened in 2011 and was the primary app store for Amazon's Kindle tablets
-released later that year. Like Apple's and Google's stores it is a store
-controlled by a device manufacturer.
+opened in 2011 and was the primary app store for Amazon's Android-based Kindle
+tablets\footnote{The Kindle Fire models, as opposed to the regular Kindle
+models.}. Like Apple and Google's stores, the store is controlled by the device
+manufacturer.
 
-Yandex is a store primarily for the Russian and eastern European markets and it
+Yandex is a store primarily for the Russian and eastern European markets. It
 features many Russian language apps. Some manufacturers, such as Nokia,
 installed Yandex over Google's app store on devices sold in Russia.
 
@@ -60,16 +60,17 @@ repository of apps, and point Aptoide to it. Aptoide claim users and developers
 have created over 220,000 stores using Aptoide. Notably the F-Droid app store
 which sells only open source apps was created from a fork of Aptoide's code.
 Aptoide tries to detect malware in its own repositories
-(\autoref{fig:aptoide-malware}), alerting their customers if not removing it.
-Not all apps are subject to these checks however. Searching the store it was
-quickly possible to find an app designed to root
+(\autoref{fig:aptoide-malware}), like many other store vendors. Unlike others
+rather than removing the malware Aptoide alert their customers that the app may
+be dangerous. Not all apps are subject to these checks however. Searching the
+store it was quickly possible to find an app designed to root
 phones~(\autoref{fig:aptoide-root})
 
 We chose these stores to focus on as they represent a range of different app
-stores. From the largest of marketplaces from Apple and Google, to smaller
-markets for specific devices like Amazon, specific regions like Yandex, and for
+stores. From the largest of marketplaces (Apple and Google) to smaller
+markets for specific devices (Amazon) specific regions (Yandex) and for
 companies and users looking to create their own stores for their own devices
-using providers like Aptoide.
+(Aptoide).
 
 \begin{figure}
   \centering
@@ -86,15 +87,15 @@ using providers like Aptoide.
 \end{figure}
 
 
-\subsection{Exploring Differences in Terms Between Markets}
+\subsection{Exploring Differences in Terms Between App Stores}
 
 With the various app stores available, a user or developer might be
-interested in the differences between them.  Different stores require
+interested in the differences between the app stores.  Different stores require
 different amounts of identification from their users to buy and sell
 apps, or offer different terms and conditions.
 
-The precise terms for using these stores are hidden in user and
-developer agreements.  These hide within pages of legalese what the
+The precise terms for using these app stores are hidden in user and
+developer agreements.  The agreements hide within pages of legalese what the
 stores are \emph{contractually} allowed to do with a user's data and a
 developer's app.
 
@@ -104,8 +105,8 @@ the terms and conditions themselves take. For most of the stores the terms are
 single files or web pages written in English easily accessible from the store
 homepages~\cite{yandex_yandex.store_nodate,aptoide_aptoide_nodate,google_google_nodate,amazon_amazon.co.uk_nodate}.
 
-Apple's terms documents are split into many files and websites, and it isn't
-immediately obvious how each is related. The user agreements for all app
+Apple's terms documents are split into many files and websites, and it is not
+immediately clear how each document is related. The user agreements for all app
 software and hardware are kept on one site in hierarchical menus with each
 product, version of a product, and for each country appearing to have a separate
 terms document. In practice many products share the same linked contracts,
@@ -297,9 +298,9 @@ access certain \emph{system} permissions Android requires that an app be signed
 by the same key that signed the OS installation. In the Play store model Google
 no third-party developer in their store would have access to that key, but in
 the Amazon model they could (if they desired) distribute system apps for their
-Kindle devices. Having a different signing model isn't necessarily bad, but it
-changes the trust assumptions associated with Android; which a user may not
-necessarily be aware of.
+Kindle devices. Having a different signing model is not inherently wrong, but it
+changes the trust assumptions associated with Android which a user may not
+necessarily be aware of. We discuss this further in \autoref{ssec:signing}.
 
 %\todo{
 %  Describe how a developer may have preferences about which app store to submit to, and state these differences could be encoded in apppal.
@@ -388,7 +389,8 @@ basis of an AppPAL description of the rules. Similar techniques could also be
 applied to app store terms to clarify and describe the policies precisely; going
 beyond the comparison of the text of the policies presented here.
 
-\subsubsection{Why Who Signed the App Matters}
+\subsection{Why Who Signed the App Matters}
+\label{ssec:signing}
 
 Some stores may make changes to the apps they sell. For Android users this is
 important as it changes the trust relationships around who can provide updates
@@ -433,7 +435,7 @@ memory) and be able to share code.
      Key isValid
 \end{lstlisting}
 
-To submit an app to the Play Store Google require that the apps key must be
+To submit an app to the Play Store Google require that the key the app was signed with must be
 valid until 2033, and more generally they recommend keys are valid for at least
 25 years. 
 
@@ -448,7 +450,7 @@ If an app is re-signed by a store to alter an app then it loses the
 relationships set up by its original key. The store must now provide (or
 re-sign) updates for the app it sold.
 If the new key is also used to sign other apps then the app
-may leak (or take) information from other apps shared with the same key.
+may leak (or take) information from other apps shared by the same key.
 Assumptions that data is private to one particular app start to break down if
 apps are re-signed.  The user's trust model must now become:
 
@@ -589,8 +591,8 @@ satisfied which policies.
 
 The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
 users seem to follow Lin~\etal's policies most of the
-time.h
-the \emph{unconcerned} policy, most users did not seem to follow the
+time. Even for the least onerous
+\emph{unconcerned} policy, most users did not seem to follow the
 policy most of the time.  This suggests that there is a disconnect
 between user's privacy preferences and their behavior (reminiscent of
 the \emph{privacy paradox}\footnote{The privacy paradox is that whilst
@@ -605,7 +607,7 @@ policies most of the time.  This suggests that while users may have
 privacy preferences most are not attempting to enforce them.  This
 suggests that policy enforcement tools, like AppPAL, may help users
 enforce their personally desirable policies which they cannot do
-easily using the current ad hoc, manual means available.
+easily using the current ad-hoc manual means available.
 
 It is also interesting to discover when people install apps classified
 as malware.  McAfee classify malware into several categories, and
@@ -725,7 +727,7 @@ help make decisions, in this case about which apps make the cut for a store,
 automatically. For a company seeking to enforce a policy about which apps are
 installable they could use it to offer their employees choice about apps,
 without having to remove the default store entirely. If an AV vendor integrated
-their own checks into AppPAL then they could trivially create a \emph{safe} app
+their own checks into AppPAL then they could create a \emph{safe} app
 store where all apps have been demonstrably vetted by their software and
 engineers.
 
