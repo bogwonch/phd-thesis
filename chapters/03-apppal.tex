@@ -464,7 +464,7 @@ describing app installation policies, however it was later extended
 further to describe other policies, such as \ac{BYOD} policies.
 
 \subsection{Predicate Conventions}
-\label{ssec:types}
+\label{ssec:predicate-conventions}
 
 \newcommand{\descPred}[2]{\emph{subject} \texttt{\textbf{#1}\emph{#2}}}
 \begin{table}\footnotesize\sffamily\centering
@@ -1250,8 +1250,8 @@ As the policy document notes, none of the groups or committees have ever
 approved an app in practice.
 When we run the satisfiability checker on this policy
 it reports that (among other information) no app is installable.
-%
-\begin{minipage}{\textwidth}
+
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 $\$$ java -jar Lint.jar --satisfiability example.policy
 [INFO]: loaded 1/1 files of 6 assertions
