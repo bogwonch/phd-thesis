@@ -25,7 +25,7 @@ The coarseness of Android's permission system, and its relative inflexibility,
 has led to a line of research into \emph{fine-grained} permissions systems.
 These systems add extra permissions controls, and allow greater control of their
 enforcement. We describe several notable examples and what extra controls
-or new enforcement means they offered.
+or new enforcement means the fine-grained permissions systems offered.
 
 \section{DKAL}
 
@@ -54,12 +54,12 @@ with M: String, P: Principal
 
 DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009} simplifies DKAL
 language removing SecPAL's constructs for roles (the \emph{can-act-as} statement)
-as they could not find a use for them in practice.  It also adds
+as Gurevich~\etal{} could not find a use for them in practice.  It also adds
 support for sending infons if the recipient has completed an action:
 for example only sending an app recommendation if the recipient has
 asked for it.
-DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took these
-ideas further and showed how to create executable protocols from DKAL programs.
+DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took the ideas of information sharing
+further and showed how to create executable protocols from DKAL programs.
 
 DKAL improves over SecPAL by giving a means for transferring and reacting to
 information. These might be helpful to describe how protocols worked within the
@@ -86,10 +86,10 @@ multiple ones match a given request. To handle contradictions a \emph{combining
 algorithm} is used to decide how to proceed. Typical algorithms include:
 
 \begin{description}
-  \item[Permit-overrides]. If a rule gives a permit result then the request is permitted.
-  \item[Deny-overrides]. If a rule gives a deny result then then the request is denied.
-  \item[First-applicable]. The rules have an order of precedence. The first rule that gives a result decides the outcome.
-  \item[Only-one-applicable]. Only one rule may match. If there are multiple matches an error is returned.
+  \item[Permit-overrides.] If a rule gives a permit result then the request is permitted.
+  \item[Deny-overrides.] If a rule gives a deny result then then the request is denied.
+  \item[First-applicable.] The rules have an order of precedence. The first rule that gives a result decides the outcome.
+  \item[Only-one-applicable.] Only one rule may match. If there are multiple matches an error is returned.
 \end{description}
 
 XACML's designers used natural language to describe the semantics of XACML. This
@@ -111,7 +111,7 @@ Becker~\cite{becker_secpal:_2006}.
 
 Whilst SecPAL was designed for readability, XACML policies are verbose and
 difficult to read. For example, to describe a simple policy that grants a principal,
-\emph{Alice}, permission to do whatever; we might write:
+\emph{Alice}, permission to do whatever she wants we might write:
 
 \noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
@@ -276,7 +276,7 @@ could have been replicated using XACML instead of AppPAL. Idioms found in BYOD
 policies could be described in XACML as easily as they could in AppPAL. We could
 have described app usage patterns using XACML and queried what apps they had
 installed using that policy instead. But we used AppPAL as it felt a better fit.
-Ultimately how we used the policy language is more interesting, we feel, that
+Ultimately how we used the policy language is more interesting, we feel, than
 which policy language we used.
 
 \section{Fine-Grained Permission Systems}

@@ -2,38 +2,51 @@
 \begin{document}
 \chapter{Conclusion}
 
-This thesis looks at capturing informal security policies precisely. We have
-focussed on the policies of the mobile ecosystem, though the work could apply to
-other domains. We have tried to capture the trust relationships within the
-policies. This allows us to make precise comparisons and study the policies
-rigorously. We instantiated and implemented AppPAL from the SecPAL authorization
-language. We use AppPAL to describe the policies of the mobile ecosystem.
+This thesis looked at capturing the security policies of the
+mobile ecosystem precisely. We have tried to capture the trust
+relationships within the policies using the AppPAL policy language we
+instantiated from SecPAL. This allowed us to make precise comparisons
+between different policies, and study the way policies were used in
+practice rigorously.
 
-By taking user app installation data, and privacy
-preferences found by researchers talking to users~\cite{lin_modeling_2014},
-we modeled the user's preferences using AppPAL. We showed an example of the
-privacy paradox: that user's privacy preferences do not seem to influence which
-apps they install in practice.
+In \autoref{chap:apps-and-stores}, by taking user app installation
+data, and privacy preferences found by researchers talking to
+users~\cite{lin_modeling_2014}, we modeled user's preferences using
+AppPAL. We showed an example of the privacy paradox: that user's
+privacy preferences do not seem to influence which apps they install
+in practice.  We also surveyed some of the different terms and
+conditions between app marketplaces.  We highlighted some of the
+similarities and differences and showed how these could be captured
+using AppPAL.
 
-We examined BYOD policies and
-translated them into AppPAL. We identified idioms of
-acknowledgment and delegation that 
-had not been looked at by existing research and \ac{MDM} tools. These particular
-idioms were of particular interest as they described social and often unenforced
-aspects of policies. Prior work has looked predominantly at
-the technical aspects of policies.   Our work focuses on the more informal aspects.
+In \autoref{chap:byod}, we examined BYOD policies and translated them
+into AppPALin order to compare them. We identified idioms of
+acknowledgment and delegation that had not been looked at by existing
+research and \ac{MDM} tools. These particular idioms were of
+particular interest as they described social and often unenforced
+aspects of policies, that prior work has looked less at, predominantly
+focussing on the technical aspects of policies.  Our work showed that these less technical aspects also play an important role in policies.
 
-Our work contributes to the literature by showing how to model informal language policies,
-and use them as the basis for precise comparisons and reasoning.
-AppPAL lets us separate policy specification from implementation. This makes
-our policies independent of any particular tool. We can abstract the checking
-process away from the reason the policy requires we do the checks.
+Our work contributes to the literature by showing how to capture the
+security policies of the mobile ecosystem precisely, and use the
+formal policies as the basis for comparisons and reasoning. Whilst
+AppPAL does not have any new semantic language features, our work is
+novel as it shows the application of policy languages to a new domain.
 
-In some policies, \emph{who} has performed a
-check is more important to the policy than \emph{what} check
-they actually did. Existing research has looked at ways of enforcing
-policies mechanistically. Sometimes just trusting the subject to follow them
-on their own, however, is enough to satisfy the policy. 
+One benefit of AppPAL is that it lets us separate policy specification
+from implementation. We can describe the policies of the mobile
+ecosystem at a higher level than other tools, delegating to the
+low-level tools when we need and when we want them to do their
+analysis. This makes our policies independent of any particular tool,
+and lets us abstract the checking process away from the reasons the
+policy requires we do the checks.
+
+In some policies, \emph{who} has performed a check is more important
+to the policy than \emph{what} check they actually did. Existing
+research has looked at ways of enforcing policies
+mechanistically. Sometimes, however, just trusting the subject to
+follow them on their own, however, is enough.  Capturing these trust
+relationships lets us see precisely how a policy is satisfied.
 
 Our work is not without its limitations. There are many policies in the mobile
 ecosystem that we didn't fully look at; such as the differences between OSs, the
