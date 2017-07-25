@@ -55,7 +55,7 @@ language policies and preferences to the tools used to implement them? How can
 we compare different policies and highlight similarities and differences between
 them precisely?
 
-\section{The Need For Policies}
+\section{The Policies of the Mobile Ecosystem}
 
 As mobile devices are increasingly capable and hold ever-increasing amounts of
 information, users and businesses need to manage how the devices behave.
@@ -84,7 +84,6 @@ policies of the mobile ecosystem. Moreover, when we show an AppPAL snippet in
 policy\footnote{Sometimes with minimal edits as some constraints used are not
 implemented.} with our \emph{AppPAL} interpreter (described in
 \autoref{chap:apppal}).
-
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
@@ -172,19 +171,20 @@ may in turn delegate to IT departments, to write rules, which may
 delegate back to the users to state what rules they're willing to
 follow.
 
-A company looking to control their employee's mobile devices at work might write
-a \ac{BYOD} policy. They might also use \ac{MDM} software to control some
-aspects of their devices. The company might write these with varying degrees of
-formality but often they use natural language. This adds vagueness
+A company looking to control their employee's mobile devices at work
+might write a \ac{BYOD} policy that their employees agree to
+follow. They might also use \ac{MDM} software to control some aspects
+of their devices. The company might write these with varying degrees
+of formality but often they use natural language. This adds vagueness
 and can lead to confusion about how the company upholds the policy. By
 describing the policy in a formal language we can express the policy
-rigorously. We can start to make comparisons between users, and with rules
-for checking the policy start to help the user to make decisions more
-accurately, or measure the extent a user follows their stated policy. Using
-formal languages we can model the policies precisely, helping clarify their
-meanings and make precise comparisons between different policies. We could tie the
-rules in the \ac{BYOD} policies to the \ac{MDM} tools used to
-check them.
+rigorously. We can start to make comparisons between users, and with
+rules for checking the policy start to help the user to make decisions
+more accurately, or measure the extent a user follows their stated
+policy. Using formal languages we can model the policies precisely,
+helping clarify their meanings and make precise comparisons between
+different policies. We could tie the rules in the \ac{BYOD} policies
+to the \ac{MDM} tools used to check them.
 
 If a company needs to use apps which conform with a policy such as
 \ac{HIPAA} they could use static analysis tools to check for some
@@ -211,164 +211,46 @@ ecosystem.  They represent an important aspect of the ecosystem that a
 policy language should catch to describe the
 relationships and policies within it.
 
-% \section{History of Mobile Devices}
-% 
-% \begin{figure}\sffamily\scriptsize
-%   \centering
-%   \begin{chronology}[5]{1993}{2017}{\textwidth}
-%     \event{1993}{Apple Newton}
-%     \event{1994}{IBM Simon}
-%     \event{1996}{Palm Pilot}
-%     \event{1998}{Symbian}
-%     \event{1999}{BlackBerry}
-%     \event{2000}{\stackanchor{Java Micro Edition and Windows Mobile}{First mobile virus (Timofonica) discovered}}
-%     \event{2003}{Nokia N-Gage}
-%     \event{2005}{iOS released, Commwarrior-A worm discovered}
-%     \event{2008}{Android, iPhone and App Store}
-%     \event{2010}{\stackanchor{Windows Mobile becomes Windows Phone}{iPad}}
-%     \event{2012}{Symbian discontinued}
-%     \event{2013}{Sailfish OS}
-%     \event{2015}{\stackanchor{Windows Phone discontinued}{non-Android BlackBerry devices discontinued}}
-%   \end{chronology}
-%   \caption{Timeline of mobile device developments.}
-%   \label{fig:timeline-mobile}
-% \end{figure}
-% 
-% Some of the earliest mobile devices were the \acp{PDA} devices such as Apple's
-% Newton and the Palm Pilot. They were portable miniature computers designed to
-% store personal information, calendars and notes.  In the 1990s mobile phones were just portable
-% telephones, but with the IBM Simon in 1994 these devices started to have the features of a \ac{PDA}, becoming what would later be called a
-% \emph{smart phone}. These early smart phones had a telephone connection, unlike
-% the \acp{PDA}. The earliest smart phones could use email and fax, as well as
-% managing personal information. They were somewhat underpowered compared to the
-% \ac{PDA} devices, however.
-% 
-% In 1998 Symbian released their OS. Symbian devices could install apps, written
-% in C++ or Java (if the phone supported JME). They had cameras, could play music.
-% They even had early malware which would illicitly send texts to premium rate
-% numbers. They were the forebears of the \emph{modern} smart phone. They were
-% also starting to become affordable, with the lowest end models starting to be
-% affordable. Advertisers marketed devices, like Nokia's N-Gage which had games users could buy for their devices, to
-% teenagers. Others, such as
-% the BlackBerry, were for business users.
-% 
-% By the mid-2000s the devices were ubiquitous. In 1999 Microsoft released Windows Mobile. Apple released the first version of iOS the same year. 
-% The first modern app store was for iOS in
-% 2008\footnote{Earlier attempts resembled Linux package managers.}.
-% With increasing amounts of personal information available on these devices
-% malware authors started to take note. The first mobile virus was found in 2000
-% which sent text messages\footnote{The Timofonica virus infected Windows PCs to
-% send text messages via a web based SMS gateway. It was not harmful, only
-% irritating.}. By 2005 researchers found the self-replicating Commwarrior worm that ran entirely on smartphones.
-% 
-% Despite increasing amount of malware, in a blog post from 2006 for Symantec,
-% Chien noted that adware and privacy invading apps might become a bigger
-% threat~\cite{eric_chien_spyware_2006}. These would likely need new controls to
-% help manage user's privacy preferences, an idea that would be picked up by the
-% fine-grained permissions research (see \autoref{sec:fine-grained-permissions}).
-% 
-% \begin{quote}
-%   ``While threats exist and are actively spreading, we are probably
-%   still years away from the situation we have with the Microsoft Windows
-%   [$\cdots$] We have already seen spyware applications for mobile devices
-%   (e.g. Spyware.Flexispy) that can monitor activities on the mobile
-%   device and then send them to a remote server. [$\cdots$] Just as
-%   worrying is the fact that the adware market is just beginning to take
-%   notice of mobile devices. Already some Bluetooth advertising schemes
-%   have been tested, where a bus stop is outfitted with a device that
-%   just spams out messages via Bluetooth.
-% 
-%   [$\cdots$]
-%   
-%   So, while worms and Trojans already exist for the mobile
-%   platforms, spyware and adware applications are just now gaining a
-%   foothold in the mobile device space. Spyware and adware pose a
-%   potentially large security issue in the near future, as the companies
-%   that produce such applications are less affected by the natural
-%   limiting factors.''
-% \end{quote}
-% 
-% \subsection{Modern Mobile Devices}
-% 
-% In 2008 Apple released the first iPhone, and shortly after Google
-% released the Android OS.  Symbian released its last version in
-% 2012.  Android had replaced it as the dominant OS on most devices.  
-% 
-% Android and iOS differ from past efforts, and conventional desktop OSs, as they
-% made it far harder to run arbitrary programs. Apple's devices cannot
-% run code that Apple has not signed or install software from outside of its App
-% Store, which Apple control. Android devices offer a similar app marketplace,
-% but where there is less checking of each
-% app~\cite{oberheide_dissecting_2012}. Whilst Android users can install software
-% from other sources, the option is hidden by default. As well as restrictions to
-% software, the OSs are also better hardened. Devices no longer have an all-powerful
-% \emph{root} account, and APIs provide controlled access to
-% sensitive data to restrict malicious behaviors; such as stopping SMSs being
-% sent programatically to premium rate accounts.
-% 
-% Mobile devices store an increasing amount of personal data about their users.
-% They contain address books, records of phone calls, and GPS logs of where their
-% users had been. With iOS and Android users have become more aware about privacy
-% issues with their devices, in part because of increased media coverage of
-% privacy issues.
-% 
-% A survey by Chin~et~al{.} found that users were more concerned about
-% privacy on their mobile devices than on their
-% laptops~\cite{chin_measuring_2012}. They found that users of a smart phone were
-% more likely to install an app that came recommended from a friend, was popular
-% or was free. To subsidize the cost of producing free apps, and to better
-% understand how users used their apps, some developers have added adware and
-% tracking libraries to their apps. These libraries add
-% crash and error tracking, as well as collecting personal data. The developers can sell this data to
-% advertisers to subsidize the app's price~\cite{seungyeop_han_study_2012}.
-% 
-% Many researchers have proposed finer privacy controls, to help users who are increasingly concerned about their
-% privacy and apps which are increasingly privacy invading~\cite{jeon_dr._2012,beresford_mockdroid:_2011,conti_crepe:_2010,backes_appguard_2013}.  
-% In general, however, users seem confused about how permissions work~\cite{felt_android_2012}. 
-% 
-% Android and iOS have permissions where users are asked by their
-% devices if an app can use certain data when it first requests access to it.
-% Users can revoke that decision later if they wish.
-% Android's switched to an current \emph{ask on use} permissions model in 2015. 
-% Many older Android devices which cannot control permissions are
-% still in use. In June 2016 only 10\% of devices used the latest version of
-% Android, with around 5\% using a version more than five years old. In contrast 79\% of iOS devices use the latest
-% OS, 16\% use the one before and only 5\% use anything
-% older~\cite{apple_app_2017}. This means that many Android user's cannot benefit
-% from improved privacy controls.
-% 
-% %\begin{figure}
-% %\centering
-% %\includegraphics[width=\linewidth]{figures/android-versions.pdf}
-% %\caption[Historical Android version's distribution.]{Historical Android
-% %  version's distribution~\cite{erikrespo_android_2017}.}
-% %\label{fig:android-versions}
-% %\end{figure}
-% 
-% The data devices store is highly personal. Smart watches
-% record and shared a user's pulse with others. Mobile health apps track and
-% check medical conditions. In the US, the \ac{HIPAA} regulation requires that
-% healthcare providers transmit medical information securely, but many apps have
-% basic security problems~\cite{fahl_why_2012}, and many of the healthcare apps
-% do not handle information securely~\cite{knorr_privacy_2015}.
-% 
-% Software is predominantly distributed through app stores.
-% To install an app on an early mobile device the user would
-% download it on a traditional computer and then transfer it to the
-% mobile, where they could install it using a package manager.  App
-% stores have made this simpler by allowing users to find
-% an install apps straight from their device.  Whilst the app store is
-% the normal method of installing apps, apps can still be downloaded and
-% installed manually by side-loading on Android or through iTunes for
-% iOS.
-% 
-% On Android Google's Play Store is often the
-% default app store but users are free to choose other marketplaces if they wish.
-% One choice is Amazon's Appstore.  It is the default for Amazon's
-% Kindle Fire tablets, and has special offers for Amazon customers.
-% Other marketplaces are regional.  In China, where Google web services
-% cannot be used, alternative markets such as Qihoo360 and Baidu have
-% appeared.
+
+In this thesis we will come back to these ideas of user's personal
+privacy policies and BYOD policies as they show two different aspects
+of how policies are used within the mobile ecosystem.
+%
+User's privacy preferences are very informal and may not be something
+a user would ever consider writing down.  Rather a user's privacy
+preferences guide which apps they might use. A user might even be
+willing to use an app that does not match their preferences in some
+cases, such as using the Facebook app (which requests much data on a
+user's device) whilst being generally unhappy sharing their data with
+their software.
+%
+In contrast a BYOD policy can exist as a formal agreement (though
+often \emph{informally} specified) between the company and its
+employees.  An employee might reasonably expect to face consequences
+if their employer discovers they broke some of the BYOD rules.
+
+Superficially these policies also resemble classic DAC and MAC
+policies: the company \emph{mandates} the BYOD policy, the user uses
+their \emph{discretion} when picking the apps they use on their phone.
+An interesting aspect of the mobile ecosystem is that the policies are
+more complicated than simple MAC and DAC distinctions and use aspects
+of both.  In \autoref{chap:byod} we will look at how companies use
+employee's discretion to judge if aspects of the company's BYOD
+agreements (such as ethical policies) have been followed.  A user who
+uses a tool, such as a \emph{fine grained permissions system} (such as
+one described in \autoref{sec:fine-grained-permissions}) or create a
+curated app store (we give a method to do so using a policy in
+\autoref{sec:an-apppal-enhanced-store}), will end up writing a
+MAC-style policy describing how their phone should behave or what apps
+the store should sell.
+
+BYOD policies and privacy preferences are only of a subset of the
+policies we might see in the mobile ecosystem.  We will survey some
+other policies in the course of the thesis including app store terms
+and conditions, and the app signing models built into the mobile OSs,
+but we chose to focus on BYOD and privacy preferences as they covered
+a range of policy styles, high and low-level policy topics and could
+showcase some of what makes the mobile ecosystem fascinating.
 
 \section{Thesis Outline and Publications}
 
@@ -377,10 +259,10 @@ Some of the work described has been presented at various conferences, workshops 
 We describe the publications, and show where they fit into the various chapters.
 
 \begin{itemize}
-\item \emph{Chapter 2: Background.} 
+\item \textbf{Chapter 2: Background.} 
   Describes Becker~\etal's work on SecPAL, and gives an overview of work developing policy languages.
 
-\item \emph{Chapter 3: Instantiating and Evaluating SecPAL.} 
+\item \textbf{Chapter 3: Instantiating and Evaluating SecPAL.} 
   Introduces AppPAL as a language instantiating SecPAL to describe the policies
   of the mobile ecosystem. We introduce the language through examples before
   showing how we implemented it. We also describe some modifications to the
@@ -395,7 +277,7 @@ We describe the publications, and show where they fit into the various chapters.
     we might use SecPAL to model policies in the mobile ecosystem.
   \end{itemize}
 
-\item \emph{Chapter 4: App Stores and App Preferences.} 
+\item \textbf{Chapter 4: App Stores and App Preferences.} 
   Having described AppPAL, start to describe the differences betweeen different
   app stores and survey their different terms and conditions. We use AppPAL to
   capture descriptions of user's app privacy preferences; and measure the extent
@@ -409,7 +291,7 @@ We describe the publications, and show where they fit into the various chapters.
   \item\emph{Poster: Using Authorization Logic to Capture User Policies in Mobile Ecosystems~\cite{hallett_poster:_2015}.}  Presents early work measuring the extent users seem to follow an AppPAL translation of user privacy prefences.
   \end{itemize}
 
-\item \emph{Chapter 5: Applying AppPAL to BYOD Policies.}
+\item \textbf{Chapter 5: Applying AppPAL to BYOD Policies.}
   We move from describing \emph{user-centric} policies, to ones companies might
   want to enforce. We look at how we can capture BYOD policies using AppPAL by
   looking at five BYOD policies (which are given in Appendix A). In capturing the
@@ -424,10 +306,10 @@ We describe the publications, and show where they fit into the various chapters.
   \item\emph{Specifying BYOD Policies with Authorization Logic~\cite{hallett_specifying_2016}.} PhD symposium paper describing early work capturing BYOD policies with AppPAL.  Shows how we could use AppPAL to look for common problems, such as completeness.
   \end{itemize}
 
-\item \emph{Chapter 6: Future Work.}
+\item \textbf{Chapter 6: Future Work.}
   Describes possible future work, including a probabilistic variant of AppPAL.
  
-\item \emph{Chapter 7: Related Work.} 
+\item \textbf{Chapter 7: Related Work.} 
   Describes XACML and DKAL, to related policy languages. We also give an overview
   of the various \emph{fine-grained permissions systems} for Android that can be
   used to enforce some policies.
