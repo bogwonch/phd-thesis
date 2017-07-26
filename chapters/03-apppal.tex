@@ -19,19 +19,21 @@ selling software, developers building apps, wireless access points devices
 connect to, and the companies and networks the devices and their users work
 within.
 
-Every entity in the ecosystem has its own policies. For example, there is a
-contract between the store selling apps and the developer programming them. The
-stores have content policies as to which apps they will sell. The app developers
-may have policies as to which stores they will sell their apps in. Not all
-policies are as formal as a contract: a user may have preferences about which
-kinds of apps he wants to install but may not write these preferences down.
-Instead he might pick apps to install from a store based on his best guess as to
-whether it matches his preferences. The mobile ecosystem is a \emph{distributed
-system}. Phones, users and stores are not aware of each other until they
-interact---there is no list of every app store, every device and every user.
-They must make policy decisions on their own without relying on a central
-authority to make decisions for them. They can, if required, delegate to others
-for their policies and knowledge.
+Every entity in the ecosystem has its own policies. For example, there
+is a contract between the store selling apps and the developer
+programming them. The stores have content policies as to which apps
+they will sell. The app developers may have policies as to which
+stores they will sell their apps in. Not all policies are as formal as
+a contract: a user may have preferences about which kinds of apps he
+wants to install but may not write these preferences down.  Instead,
+he might pick apps to install from a store based on his best guess
+whether it matches his preferences. The mobile ecosystem is a
+\emph{distributed system}. Phones, users and stores are not aware of
+each other until they interact---there is no list of every app store,
+every device and every user.  They must make policy decisions on their
+own without relying on a central authority to make decisions for
+them. They can, if required, delegate to others for their policies and
+knowledge.
 
 Formal languages let us write policies without ambiguity and describes precisely
 the process behind making decisions. A policy written in a formal language
@@ -62,62 +64,69 @@ access control decisions from a variety of domains. Different policy languages
 are described in greater detail in \autoref{chap:background}.
 
 The mobile ecosystem has specific requirements for a policy language to describe
-its policies. Namely we need a policy language that can express:
+its policies. Namely, we need a policy language that can express:
 
 \begin{description}
-\item[Delegation.] Sometimes entities may wish to share information and policy
-  excerpts. A user might delegate to an expert user to help them decide what
-  policies they want to use. A store might use information from an app vetting
-  firm to decide what apps to sell. A company might want HR and IT departments to
-  be responsible for some decisions, and they in turn might wish to give specific
-  HR or IT workers specific decisions to make. Capturing these relationships lets
-  us describe precisely who makes what decisions in the mobile ecosystem.
+\item[Delegation.] Sometimes entities may wish to
+share information and policy rules. A user might delegate to an
+expert user to help them decide what policies they want to use. An app
+store might use information from an app vetting firm to decide what
+apps to sell. A company might want HR and IT departments to be
+responsible for some decisions, and they in turn might wish to give
+specific HR or IT workers specific decisions to make. Capturing these
+relationships lets us describe precisely who makes what decisions in
+the mobile ecosystem.
 
-\item[Locality.] In the mobile ecosystem different devices can have different
-  policies. For example, two users of mobile phones may disagree about what makes
-  an app \emph{installable} (i{.}e{.}~acceptable to install). Equally, the
-  policies a store may wish to enforce are very different from the policies a user
-  may wish to enforce. Each entity in the ecosystem also expects to enforce their
-  own policies---there is no overarching enforcer of policies, rather users
-  enforce whatever preferences they have, stores enforce their own rules through
-  whatever means they see fit. Being able to point to the location a decision is
-  made is important when considering delegation: a user might ask a friend if an
-  app is good: we want to distinguish between the friend telling the user
-  directly, and the friend giving the user sufficient information to draw the
-  conclusion themselves.
+\item[Locality.] In the mobile ecosystem different devices can have
+different policies. For example, two users of mobile phones may
+disagree about what makes an app \emph{installable}
+(i{.}e{.}~acceptable to install). Equally, the policies a store may
+wish to enforce are very different from the policies a user may wish
+to enforce. Each entity in the ecosystem also expects to enforce their
+own policies---there is no overarching enforcer of policies, rather
+users enforce whatever preferences they have, stores enforce their own
+rules through whatever means they see fit. Being able to point to the
+location a decision is made is important when considering delegation:
+a user might ask a friend if an app is good: we want to distinguish
+between the friend telling the user directly, and the friend giving
+the user sufficient information to draw the conclusion themselves.
 
-\item[Access external information.] There are many tools and sources that can
-  give us information about apps (as well as other subjects). These tools each
-  give information in their own way: be it employee data through an SQL database,
-  terminal output through a command line analysis tool, or HTML output onto an app
-  store's webpage. We want to be able to make use of this information when writing
-  policies, but we should not rely on all tools standardising on our policy
-  language as a universal information transfer mechanism. We want our policy
-  language to be able to capture the policies which use these external sources
-  without forcing the tools themselves to work in any particular manner. In other
-  words, the policy \emph{specification should be separate from its enforcement}.
+\item[Access external information.] There are many tools and sources
+that can give us information about apps (as well as other
+subjects). These tools each give information in their own way: be it
+employee data through an SQL database, terminal output through a
+command line analysis tool, or HTML output onto an app store's
+webpage. We want to be able to make use of this information when
+writing policies, but we should not rely on all tools standardising on
+our policy language as a universal information transfer mechanism. We
+want our policy language to be able to capture the policies which use
+these external sources without forcing the tools themselves to work in
+any particular manner. In other words, the policy \emph{specification
+should be separate from its enforcement}.
 
-\item[Constraints.] As well as external information, we'd also wish our policy
-  language to capture dynamic information such as the time of day or the current
-  location of a device. This information is sometimes encorporated into a policy
-  language through \emph{constraints}. This would allow us to start to create
-  rules that depend on the context of the user. For example a company boss might
-  want to check what time their employees get into work. To do this the boss
-  requires their employees install an app that gives him their location. Employees
-  might allow their boss to check on them during the work day, but during the
-  weekend and the evenings the employee would rather their boss could not see
-  where they were.
+\item[Constraints.] As well as external information, we'd also wish
+our policy language to capture dynamic information such as the time of
+day or the current location of a device. This information is sometimes
+incorporated into a policy language through \emph{constraints}. This
+would allow us to start to create rules that depend on the context of
+the user. For example a company boss might want to check what time
+their employees get into work. To do this the boss requires their
+employees install an app that gives him their location. Employees
+might allow their boss to check on them during the work day, but
+during the weekend and the evenings the employee would rather their
+boss could not see where they were.
 
-\item[Flexibility of Policy Style.] The mobile ecosystem encompasses many
-  different scenarios. A company looking to enforce a mobile device policy would
-  use a MAC-style policy, but a user trying to filter what APIs an app can access
-  may write a policy in a DAC-style. A user trying to describe might be happy to
-  install an app with certain permissions if the app has a particular purpose. For
-  example a user might be happy to install a file management app that can access a
-  memory card, but not happy to install a flashlight with the same set of
-  permissions---a policy reminiscent of an RBAC or ABAC policy. We want to capture
-  all these policies, and we would want our policy language to be agnostic to any
-  particular policy style.
+\item[Flexibility of Policy Style.] The mobile ecosystem encompasses
+many scenarios. A company looking to enforce a mobile device
+policy would use a MAC-style policy, but a user trying to filter what
+APIs an app can access may write a policy in a DAC-style. A user
+trying to describe might be happy to install an app with certain
+permissions if the app has a particular purpose. For example a user
+might be happy to install a file management app that can access a
+memory card, but not happy to install a torch app with the same set
+of permissions---a policy reminiscent of an RBAC or ABAC policy. We
+want to capture all these policies, and we would want our policy
+language to be agnostic to any particular policy style.
 
 \end{description}
 
@@ -164,7 +173,7 @@ its policies. Namely we need a policy language that can express:
 
 We chose SecPAL as the basis for our policy language for mobile ecosystems as it
 provides the features we wanted. By using its \emph{can-say} and
-\emph{can-act-as} phrases we can capture many different delegation patters (as
+\emph{can-act-as} phrases we can capture different delegation patters (as
 described in~\autoref{ssec:delegation_in_secpal}).
 
 Every assertion in SecPAL is made by an explicit speaker, who should sign each
@@ -172,7 +181,7 @@ statement with a key. This gives locality to statements. If we have an assertion
 from Alice that she thinks an app is good then it must have come directly from
 Alice. If we just have assertions from Alice that describe the general process
 for deciding if an app is good or not, then we might reasonably believe that the
-decision as to whether Alice would consider an individual app good or not might
+decision whether Alice would consider an individual app good or not might
 be made elsewhere.
 
 SecPAL's constraint mechanism (the \emph{where} part of an assertion) lets us
@@ -180,10 +189,44 @@ implement the constraints we described but also allows us to access external
 information. Constraint functions can be written to run a particular tool, or
 make a query to a database, allowing us access to external information.
 
-SecPAL policies are style agnostic, and does not prescribe a particular
-style to write poliices in. SecPAL can describe MAC, DAC, RBAC (through the
-\emph{can-act-as} statement) or ABAC (through constraints) style policies with
-equal ease, capturing each policy in the style that is most natural fit.
+SecPAL policies are style agnostic, and the language does not
+prescribe a particular style to write polices in.
+It is easy to capture idiomatic policy styles using SecPAL.  For example, a classic example of a DAC-style policy are UNIX file permissions.  
+The decision by an OS whether to allow a user (U) to read a file (F) based on the permissions on the filesystem (FS) can be written in SecPAL:
+\begin{lstlisting}
+'os' says User:U canRead(File:F)
+  if F hasOwner(U),
+     F hasPermissionsMask('400').
+
+'os' says User:U canRead(File:F)
+  if F hasGroup(G),
+     U isMemberOf(G),
+     F hasPermissionsMask('040').
+
+'os' says User:U canRead(File:F)
+if F hasPermissionsMask('004').
+
+'os' says 'fs' can-say File:F hasOwner(User:U).
+'os' says 'fs' can-say File:F hasPermissionsMask(Mask:M).
+\end{lstlisting}
+Similarly, we can also capture the \emph{simple} and
+\emph{star} MAC rules of the Bell-LaPadula model (the \emph{read-down,
+write-up} rules) using SecPAL:
+\begin{lstlisting}
+'admin' says User:U canRead(File:F)
+  if U isSecurityLevel(LU),
+     F isSecurityLevel(LF)
+  where LU >= LF.
+
+'admin' says User:U canWrite(File:F)
+  if U isSecurityLevel(LU),
+     F isSecurityLevel(LF)
+  where LU <= LF.
+\end{lstlisting} Writing RBAC, or ABAC-style policies is similarly
+easy.  Unlike some languages, such as Cassandra~\cite{becker_cassandra:_2004} or RT~\cite{li_design_2002}, which encourage
+a certain style of policy, SecPAL doesn't say \emph{how} a policy
+should be written, it instead lets the policy author write their rules
+as they see best.
 
 As well meeting our requirements for a policy language, we believe SecPAL is
 readable and has evaluation rules that are easy to understand and unsurprising.
@@ -279,7 +322,7 @@ Store\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an
 \emph{app store} is a generic term for an on-device store selling apps.}. If a
 user is willing to install a special certificate, from a developer or business,
 however they may install apps through the browser or a computer connected to the
-device. Apple control these special certificates, issuing and revoking them.
+device. Apple controls these special certificates, issuing and revoking them.
 They must also be authorized by the device's owner.
 \begin{lstlisting}
 'device' says App isInstallable
@@ -327,11 +370,11 @@ Alternatively if the user has enabled \emph{developer-mode} then they may instal
   'user' hasAuthorized(Setting:X).
 \end{lstlisting}
 
-This glosses over some of the details of certificate handling (though the
+This glosses over some details of certificate handling (though the
 example could be extended further). It also ignores how the system might update
 apps. It does, however, provide a far more precise version of the differences in
 app installation between the two platforms. For iOS, to install an app Apple
-have to authorize it, either by signing the app or the issuer. In contrast for
+have to authorize it, either by signing the app or the issuer. In contrast, for
 Android, to the device can install any app if the device owner is willing to
 enable the relevant setting.
 
@@ -423,7 +466,7 @@ AppPAL, to check whether she can install the app. Additional to the decision, if
 a proof is found, a tool like AppPAL can output a proof
 tree\footnote{Technically a DAG.} to show how it made the decision
 (\autoref{fig:exemplar-proof}). The proof tree shows the AppPAL assertions used
-to prove each statement at varying levels of the tree: from the the top level
+to prove each statement at varying levels of the tree: from the top-level
 goal which, in this case, used the \emph{cond} rule first shown in \autoref{fig:secpal-rules}.
 
 \begin{center}
@@ -753,7 +796,7 @@ When implementing SecPAL we considered using a Datalog$^C$ backend but could not
 find an implementation. We also explored using a Datalog implementation (such as
 Z3 or Datomic) to build SecPAL but in practice no implementation could fully
 support Datalog$^C$. We also wanted our implementation to run on an Android
-device (we were interested in having user's enforce policies on their phone),
+device (we were interested in having users enforce policies on their phone),
 and all the Datalog libraries we found could not be ported trivially.
 
 Rather than implementing Datalog$^C$ ourselves, AppPAL implements SecPAL's
@@ -790,14 +833,14 @@ are also extracted and marked as \emph{derivable}. This allows some queries to
 be decided automatically and some rules to be flagged as unusable in the
 assertion context. This lets AppPAL reject some queries quickly: if a query has
 a speaker that isn't voiced then we cannot query what the speaker says. If a
-rule relies on un-derivable predicates then it cannot be used to make decisions.
+rule relies on un-derivable predicates, then it cannot be used to make decisions.
 
 A results table ($RT$) is also created. All ground facts in the assertion context are
 added to the results table as proven facts. The table stores partial results and
 previously established proofs. The table is indexed by queries and a delegation
 depth, partial results (i.e. that the evaluation of this query is ongoing). This
 allows previous results to reused without re-computation or constraint
-re-evaluation. It also prevents AppPAL proofs growing infinite in size (and the
+re-evaluation. It also prevents AppPAL proofs growing unboundedly (and the
 decision process not terminating). If when searching for a proof we meet a query
 that we are currently evaluating, i.e.~one that exists higher in the current
 proof tree, we treat it as false. Multiple queries will share the same results
@@ -959,10 +1002,10 @@ regularly.
 \paragraph*{Soundness Argument}
 A query is \texttt{Evaluate}-d at a given delegation depth, against a given
 $AC$ and $RT$. If the query has been made before,
-then the result will be present in $RT$, and will be reused. Therefore in
+then the result will be present in $RT$, and will be reused. Therefore, in
 showing the decision process is sound we must show that only queries that can be
 proven are ever marked as successful in $RT$. Since this is only done in the
-\texttt{Evaluate} function we must argue that evaluate itself is sound.
+\texttt{Evaluate} function, we must argue that evaluate itself is sound.
 
 A query is only marked as successful if the \texttt{Cond} on
 \texttt{CanSay-CanActAs} functions return success. These functions implement the
@@ -980,9 +1023,9 @@ possible substitutions of the remaining free variables (satisfying the
 \emph{cond} rules condition that there must be no free variables) and tries to
 evaluate each statement in the body of $a$. If all evaluate successfully (the
 first condition in the \emph{eval} rule), then the constraint is checked (the
-final condition of the \emph{cond} rule). If it is successful then the
+final condition of the \emph{cond} rule). If it is successful, then the
 \texttt{Cond} function returns success. Since this process is analogous to the
-\emph{cond} rule this process must also be sound.
+\emph{cond} rule, this process must also be sound.
 
 Since the \texttt{Evaluate} rule can only mark a query as proven in $RT$ if it
 follows the evaluation rules of AppPAL the algorithm must be sound as there are
@@ -990,19 +1033,19 @@ no other means to insert a successful result into the table.
 
 \paragraph*{Completeness Argument}
 
-When evaluating queries we look through all possible assertions in $AC$ to find
+When evaluating queries, we look through all possible assertions in $AC$ to find
 a statement that could prove it. Finding a valid proof involves looking through
 all possible variable substitutions in \texttt{Cond}, delegators in
 \texttt{CanSay}, and renamings in \texttt{CanActAs}. When arguing the
-algorithm's soundness we argued that it implements AppPAL's evaluation rules
+algorithm's soundness, we argued that it implements AppPAL's evaluation rules
 correctly. If a valid proof exists it will be found through the evaluation rules
 since the search space consists of all possible assertions and renamings.
-Therefore the algorithm is complete.
+Therefore, the algorithm is complete.
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
 
-Someone using AppPAL might wish it to check apps before installation. Since
+Someone who uses AppPAL might wish it to check apps before installation. Since
 policy checks may involve inspecting many rules and constraints one may ask
 whether the checking will be acceptably fast. Downloading and installing an app
 takes about 30 seconds on a typical Android phone over WiFi. If checking a
@@ -1122,7 +1165,7 @@ We have implemented preliminary checkers for two of these properties. The code
 is included with AppPAL. The output shown in \framebox{\texttt{teletype}} is
 output by the tools we have produced, and the diagrams shown in
 \autoref{ssec:redundancy} are produced when running the tools in debug mode.
-Additionally a checker for \emph{consistency} could be implemented by using the
+Additionally, a checker for \emph{consistency} could be implemented by using the
 same technique as the Ponder authorization language and disallowing predicates
 of the form \texttt{can$\star$} and
 \texttt{cannot$\star$}~\cite{damianou_ponder_2001}.
@@ -1133,16 +1176,16 @@ of the form \texttt{can$\star$} and
 An assertion is \emph{satisfiable} if there are sufficient facts
 such that the assertion's conditions can be met.  We care about this
 property when writing policies as it means that our assertions affect
-something.  If an assertion is \emph{unsatisfiable} then this may
+something.  If an assertion is \emph{unsatisfiable,} then this may
 indicate that we have failed to specify one of the conditions it
 depends upon.
 
-When an assertion is satisfiable there is a combination of facts that could
-satisfy its conditionals. If there are no facts that could ever satisfy the rule
-then the policy may have a bug. An analogy can be drawn to an \emph{conditional
-always false bug} in a conventional programming language: we have code (or in
-this case a rule) that can never be used as the conditions for using it can
-never occur.
+When an assertion is satisfiable, there is a combination of facts that
+could satisfy its conditionals. If there are no facts that could ever
+satisfy the rule, then the policy may have a bug. An analogy can be
+drawn to an \emph{conditional always false bug} in a conventional
+programming language: we have code (or in this case a rule) that can
+never be used as the conditions for using it can never occur.
 
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
@@ -1308,7 +1351,7 @@ $\$$ java -jar Lint.jar --satisfiability example.policy
 
 The satisfiability checker acts as a quick sanity checker that a policy contains
 enough facts and assertions; unlike AppPAL-proper which can check how and
-whether a specific statement would be be made.  
+whether a specific statement would be made.  
 
 %The code in \autoref{alg:reachable} produces a set of pairs of predicates and
 %speakers where the pair of a speaker and a predicate indicates that that
@@ -1407,7 +1450,7 @@ dashed ones can be removed to remove the irrelevance.
   \label{fig:irrelevance}
 \end{figure}
 
-In contrast unreachability occurs when a fact does not take part in the minimal
+In contrast, unreachability occurs when a fact does not take part in the minimal
 derivation tree of a fact.  As a simple example consider the following policy:
 
 \begin{lstlisting}
@@ -1455,7 +1498,7 @@ $G$:
   p_1 \not= p_2~\wedge~\text{facts}(p_1) = \text{facts}(p_2)                 & \implies G\text{ has equivalent proofs.}
 \end{align*}
 
-Additionally if two different goals ($G$ and $G^\prime$) have
+Additionally, if two different goals ($G$ and $G^\prime$) have
 equivalent proofs, i.e. there are multiple proofs that both rely on the same ground facts, then we report this as it implies the two
 statements may not be independent.
 
