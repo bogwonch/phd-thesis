@@ -16,10 +16,10 @@ and the trust relationships within them.
 The SecPAL authorization language, and the AppPAL instantiation, let policy
 authors to make use of static analysis tools to make decisions, and allow
 principals to make statements about apps through delegation. When these
-decisions are made they are made with certainty. If a principal says an app is
-safe to access the network then we believe that that principal definitely
+decisions are made, they are made with certainty. If a principal says an app is
+safe to access the network, then we believe that that principal definitely
 believes the app is safe on a network. When a static analysis tool finds that an
-app isn't malware then we believe that app to not be malware. This isn't
+app isn't malware, then we believe that app to not be malware. This isn't
 realistic. Static analysis tools can produce false results. A principal might be
 merely fairly confident that an app can access the network safely but not
 absolutely certain.
@@ -32,7 +32,7 @@ statement is.
 
 SecPAL was designed to make access control decisions. The decision whether to
 install allow a user access to a file or not is a binary one: either they can
-access it or they cannot. Similarly the decision process for these decisions is
+access it or they cannot. Similarly, the decision process for these decisions is
 also binary: a user is either logged in or not, a network address is either in
 the network or outside it, someone can act as someone else's manager or they can
 not. Not all decisions are binary however.
@@ -103,7 +103,7 @@ trusting of Charlie.
 \end{lstlisting}
 
 How should she combine the information to get an overall rating of the game? If
-Alice wants to only install an apps that are both good and safe how should she
+Alice wants to only install apps that are both good and safe how should she
 trade off the plausibility against each other? Is she willing to install a more
 dangerous app if it is highly reviewed?
 
@@ -121,7 +121,7 @@ expressiveness.
 
 Whilst some work went into developing the ideas behind a plausible SecPAL
 variant, we did not finish this work because there are several hard problems
-surrounding it. In particular it is far from clear how to combine probabilistic
+surrounding it. In particular, it is far from clear how to combine probabilistic
 statements in a consistent, and sound manner. Several choices are possible but
 more research is needed to understand the right way to do it and how to develop
 Plausible SecPAL into a full, and useful language.
@@ -129,14 +129,15 @@ Plausible SecPAL into a full, and useful language.
 
 \subsection{Guarantees for Plausible SecPAL} 
 
-In \autoref{appendix:probabilistic} we suggest how we might implement Plausible
-SecPAL by modifying Becker~\etal's original design. However we implement it, we
-should consider carefully how we might \emph{combine} information and
-plausibilities. Combining probabilities of events when you cannot guarantee
-independence is hard, and the same is true of plausibility. Strategies such as
-taking the product, minimum of combined statements may be too simple. We suggest
-the following properties should hold no matter what combination mechanism is
-used:
+In \autoref{appendix:probabilistic} we suggest how we might implement
+Plausible SecPAL by modifying Becker~\etal's original
+design. Regardless of how we implement it, we should consider
+carefully how we might \emph{combine} information and
+plausibilities. Combining probabilities of events when you cannot
+guarantee independence is hard, and the same is true of
+plausibility. Strategies such as taking the product, minimum of
+combined statements may be too simple. We suggest the following
+properties should hold no matter what combination mechanism is used:
 
 \begin{enumerate}
 \item \label{enum:1} If all facts are completely plausible, then evaluation should be
@@ -152,16 +153,16 @@ produce different results to standard SecPAL. We wish to be able to reason about
 scenarios where we have partial plausibility, but this addition shouldn't change
 our ability to reason when each speaker has total belief in their assertions. If
 everything is completely plausible, then the reasoning should be equivalent to
-SecPAL where the perfect plausibility is assumed. Similarly if a speaker
-believes a fact to be completely implausible then Rule~\ref{enum:0} ensures that
+SecPAL where the perfect plausibility is assumed. Similarly, if a speaker
+believes a fact to be completely implausible, then Rule~\ref{enum:0} ensures that
 fact is used to derive other facts. SecPAL operates under a \emph{closed world
 assumption}, that is that the assertion context contains (or at least can
-derive) \emph{all} known facts. If a statement is missing then it is false. If a
+derive) \emph{all} known facts. If a statement is missing, then it is false. If a
 speaker believes a statement to be perfectly implausible then it should be
 equivalent to falsehood in standard SecPAL and should not be used further.
 
 Rule~\ref{enum:grow} applies to assertions with a conditional part (i.e.~an
-\texttt{if}). If this rule were not the case we might be able to grow the
+\texttt{if}). If this rule were not the case, we might be able to grow the
 plausibility of a fact by applying a rule that contained its own derived fact in
 its condition. For example consider the following rule:
 \begin{lstlisting}
@@ -184,7 +185,7 @@ describing \emph{must} predicates.  Whilst a policy author could write these
 rules by hand, AppPAL has tools to automate creating rules like this.
 
 As well as automating creating the policy, we could also start to check other
-properties to check the policy is well formed. Using the example of installing
+properties to check the policy is well-formed. Using the example of installing
 an app; if \emph{Alice says Bob must install
   an app}, then it implies that there should be a rule where \emph{Alice says
 Bob has installed that app}.  We might also expect there to be a rule that
@@ -192,7 +193,7 @@ Bob has installed that app}.  We might also expect there to be a rule that
 
 This can be taken further: actions where Alice \emph{can} do something might
 naturally lead to assertions where Alice \emph{has} done something.  If a policy
-author wished to enforce this relationship then we can start to reason about how the
+author wished to enforce this relationship, then we can start to reason about how the
 assertion context has changed over time.
 
 \begin{table}\centering
@@ -254,7 +255,7 @@ valid, but if the statement in red was removed it would be rejected.
 Interesting examples are not just limited to \emph{can} and \emph{has}: if Alice
 says Bob \emph{must} do some $\phi$, then we would expect that at some point in
 the future (if not immediately) that Alice will say that Bob \emph{can} complete
-the obligation to $\phi$. Furthermore we would also expect Alice to acknowledge
+the obligation to $\phi$. Furthermore, we would also expect Alice to acknowledge
 that at some future point Bob \emph{has} done $\phi$ as she required.
 
 \begin{equation*}
@@ -341,16 +342,17 @@ comparing to results from other languages (such as XACML):
   Measuring users' comprehension of AppPAL would test whether the syntax offers an
   advantage over other languages.
 
-\item Can users predict the decision made by AppPAL given a policy and a
-  scenario? As well as being readable SecPAL was designed to have intuitive
-  semantics. We would hope that a user should be able to follow and understand the
-  decision process made by AppPAL, but we should test it with users to be sure. A
-  key requirement for a policy language should be it's predictability as we do not
-  want the language to make surprising decisions (for its users), and allow or
-  deny actions that users intuitively believe should not be permitted given a
-  policy. Testing whether users can predict decisions given a policy and whether
-  they can explain, in high-level terms, the decision process would give some
-  measure of the language's intuitiveness.
+\item Can users predict the decision made by AppPAL given a policy and
+a scenario? As well as being readable SecPAL was designed to have
+intuitive semantics. We would hope that a user should be able to
+follow and understand the decision process made by AppPAL, but we
+should test it with users to be sure. A key requirement for a policy
+language should be how predictable it is as we do not want the language
+to make surprising decisions (for its users), and allow or deny
+actions that users intuitively believe should not be permitted given a
+policy. Testing whether users can predict decisions given a policy and
+whether they can explain, in high-level terms, the decision process
+would give some measure of the language's intuitiveness.
   
 \item Can users modify or create an AppPAL policy given set of requirements? If
   AppPAL is comprehensible and predictable we would hope that a user could tweak

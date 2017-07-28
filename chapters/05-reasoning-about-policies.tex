@@ -77,7 +77,7 @@ BYOD policies used inside companies.
 \end{enumerate}
 
 Each policy is split into a series of rules employees
-should follow. Typically the policy is describing what employees should
+should follow. Typically,, the policy is describing what employees should
 do and what will happen under certain circumstances. For example the NHS policy
 states that:
 
@@ -87,7 +87,7 @@ states that:
 \end{policyrule}
 
 The Siren policy matches this style. It states what conditions will lead to the
-company wiping an employees device:
+company wiping an employee's device:
 
 \begin{policyrule}{Sirens}
 The employee's device may be remotely wiped if: $\bullet$ The device is lost or
@@ -127,12 +127,12 @@ and those that may depend on a specific business's situation (SHOULD).
   business's specific situation.
 \end{policyrule}
 
-The Edinburgh policy goes further. The policy groups rules by device type
-and gives a security level.  The policy expects high and medium risk users
-to follow everything, and low risk users to
-consider following the rules marked with a $\nabla$.  For example, the policy groups together the
-rule for remote wiping devices with the rules specific to mobile
-devices and tablets. 
+The Edinburgh policy goes further, grouping rules by device type and
+giving a security level to each rule.  The policy expects high and
+medium risk users to follow everything, and low risk users to consider
+following the rules marked with a $\nabla$.  For example, the policy
+groups together the rule for remote wiping devices with the rules
+specific to mobile devices and tablets.
 
 \begin{policyrule}{Edinburgh}
   $\nabla$ Configure your device to enable you to remote-wipe it should it become lost.
@@ -490,7 +490,7 @@ certain rules or policies. These include acknowledging the company may do
 certain actions. Requiring subjects to acknowledge and agree to follow other
 policies is interesting as these are not necessarily technical restrictions on
 employee behavior. An administrator cannot configure a device so that a user is
-aware of an ethical policy. Rather they must trust that when the
+aware of an ethical policy. Rather, they must trust that when the
 user says they've read the policy, they actually did so.
 
 In some cases this is used by companies to justify their actions.  A
@@ -593,7 +593,7 @@ the concerns and delegation relationships as they are not handled well by
 existing \ac{MDM} tools. The policies also have rules that the \ac{MDM} tools do
 manage well: configuring, provisioning and managing devices. The \ac{MDM} tools
 fail, however, to give a means to control \emph{how} they to configure
-themselves. Typically an IT administrator configures them manually.
+themselves. Typically, an IT administrator configures them manually.
 
 AppPAL exists as a tool for checking whether a policy is satisfied.
 It is reasonable to ask what would a company have to do to
@@ -608,13 +608,13 @@ AppPAL offers a company the means to describe the policy precisely and check if
 it satisfied. To enforce the policy the company would need to add actions on top
 of these checks. If AppPAL checks a policy and finds a user must install an app
 or disable a feature on their phone, then the company might want to configure
-their \ac{MDM} software to do some thing to correct it. If AppPAL found an
+their \ac{MDM} software to do something to correct it. If AppPAL found an
 employee had not met the obligation to sign a contract, then the company might
 want to email a reminder to the employee.
 
 AppPAL doesn't remove the need for \ac{MDM} software. Much of an \ac{MDM} tool
 could be re-implemented as part of AppPAL: but this is an unnecessary
-duplication of work. Rather AppPAL should be used to configure and with other
+duplication of work. Rather, AppPAL should be used to configure and with other
 existing tools. An \ac{MDM} package could enforce a password policy, and enable
 remote wipe. Google's \emph{For Work} tools can enforce access control policies
 for company's documents, as can Microsoft's Office Suite. The settings on an

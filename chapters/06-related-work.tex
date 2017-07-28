@@ -76,7 +76,7 @@ scenarios. It is an attribute based policy language, but can also describe
 role-based policies. It has tooling and enforcement infrastructure available
 from Oracle. As a standard, it is important to summarize and briefly describe
 why we chose to base our own work on SecPAL, a comparatively obscure policy
-language, instead of the more well known XACML.
+language, instead of the more well-known XACML.
 
 XACML policies are expressed as sets of \emph{rules} that describe whether a
 specific action should be allowed or denied. When making a \emph{request} if a
@@ -86,10 +86,10 @@ multiple ones match a given request. To handle contradictions a \emph{combining
 algorithm} is used to decide how to proceed. Typical algorithms include:
 
 \begin{description}
-  \item[Permit-overrides.] If a rule gives a permit result then the request is permitted.
-  \item[Deny-overrides.] If a rule gives a deny result then then the request is denied.
+  \item[Permit-overrides.] If a rule gives a \emph{permit} result, then the request is permitted.
+  \item[Deny-overrides.] If a rule gives a \emph{deny} result, then the request is denied.
   \item[First-applicable.] The rules have an order of precedence. The first rule that gives a result decides the outcome.
-  \item[Only-one-applicable.] Only one rule may match. If there are multiple matches an error is returned.
+  \item[Only-one-applicable.] Only one rule may match. If there are multiple matches, then an error is returned.
 \end{description}
 
 XACML's designers used natural language to describe the semantics of XACML. This
@@ -176,7 +176,7 @@ XACML~\cite{axiomaics_axiomatics_2012}, but there are not tools for
 translating XACML to ALFA.  This means that any XACML policies would
 need to be rewritten to take advantage of ALFA's syntax, and that any
 tweaks made to a XACML policy cannot be trivially reintegrated into
-the ALFA version.  Furthermore any analysis of XACML's semantics cannot
+the ALFA version.  Furthermore, any analysis of XACML's semantics cannot
 be trivially used to understand the semantics of ALFA.
 
 Other notations exist including graphical
@@ -254,7 +254,7 @@ if A hasOwner(O).
   \label{fig:xacml-architecture}
 \end{figure}
 
-XACML also defines a reference architecture for anyone seeking to use XACML,
+XACML also defines a reference architecture for anyone who looks to use XACML,
 shown in \autoref{fig:xacml-architecture}. The architecture consists of five
 major \emph{policy points}: the PEP stands between the users and the files (for
 example) they are trying to access. The PEP sends a query to the PDP (which
@@ -270,7 +270,7 @@ decision point may have to retrieve policies and decisions from multiple sources
 (which may in turn require more decisions and policies to be retrieved).
 
 Ultimately we chose to use SecPAL as the basis for our work instead of XACML as
-it had well defined semantics, and was a better fit to describe the
+it had well-defined semantics, and was a better fit to describe the
 decentralized policies of the mobile ecosystem. A lot of the results of our work
 could have been replicated using XACML instead of AppPAL. Idioms found in BYOD
 policies could be described in XACML as easily as they could in AppPAL. We could
@@ -306,10 +306,10 @@ entire app, can you just reject the behavior you don't like?
 Ontang~\etal's SAINT tool~\cite{ongtang_semantically_2012} did just
 that for inter-app communication, allowing the user to express a
 policy about the circumstances two apps could share data or call
-functionality.  Similarly Apex~\cite{nauman_apex:_2010} allowed user's
+functionality.  Similarly, Apex~\cite{nauman_apex:_2010} allowed user's
 to specify at install time constraints as to when a permission could
 be used.  
-%This allowed them to write policies where an apps ability to send SMS messages
+%This allowed them to write policies where an app's ability to send SMS messages
 %could be denied if the app had already sent a message within the last hour, for
 %example, or deny access to location data outside of working hours.
 CRePE~\cite{conti_crepe:_2010} took
