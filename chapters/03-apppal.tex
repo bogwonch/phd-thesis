@@ -22,12 +22,14 @@ within.
 Every entity in the ecosystem has its own policies. For example, there
 is a contract between the store selling apps and the developer
 programming them. The stores have content policies as to which apps
-they will sell. The app developers may have policies as to which
-stores they will sell their apps in. Not all policies are as formal as
-a contract: a user may have preferences about which kinds of apps he
-wants to install but may not write these preferences down.  Instead,
-he might pick apps to install from a store based on his best guess
-whether it matches his preferences. The mobile ecosystem is a
+they will sell, often prohibiting sexual or illicit content. The app
+developers may have preferences as to which stores they will sell
+their apps in, favoring stores with higher market shares, or which
+take smaller cuts of the app sale price. Not all policies are as
+formal as a contract: a user may have preferences about which kinds of
+apps he wants to install but may not write these preferences down.
+Instead, he might pick apps to install from a store based on his best
+guess whether it matches his preferences. The mobile ecosystem is a
 \emph{distributed system}. Phones, users and stores are not aware of
 each other until they interact---there is no list of every app store,
 every device and every user.  They must make policy decisions on their
@@ -35,36 +37,42 @@ own without relying on a central authority to make decisions for
 them. They can, if required, delegate to others for their policies and
 knowledge.
 
-Formal languages let us write policies without ambiguity and describes precisely
-the process behind making decisions. A policy written in a formal language
-describes what decisions can be made. Translating policies into a formal
-language allows for rigorous comparisons of different policies, preferences and
-rules in mobile ecosystems. Writing the policy in a formal language gives a precise meaning and \emph{perhaps} allows it to
-be checked automatically, if the policy is decidable.
+Formal languages let us write policies without ambiguity and describes
+precisely the process behind making decisions. A policy written in a
+formal language describes what decisions can be made. Translating
+policies into a formal language allows for rigorous comparisons of
+different policies, preferences and rules in mobile
+ecosystems. Writing the policy in a formal language gives a precise
+meaning and \emph{perhaps} allows it to be checked automatically, if
+the policy is decidable.
 
-Becker~et~al{.} designed SecPAL to make access control decisions in distributed
-systems~\cite{becker_secpal:_2006}. SecPAL is expressive, has a clear and
-intuitive syntax, is decidable and extensible. That SecPAL is extensible is
-important as we can apply the language to a new domain by instantiating it with
-predicates and constraints.
+Becker~et~al{.} designed SecPAL to make access control decisions in
+distributed systems~\cite{becker_secpal:_2006}. SecPAL is expressive,
+has a clear and intuitive syntax, is decidable and extensible. That
+SecPAL is extensible is important as we can apply the language to a
+new domain by instantiating it with predicates and constraints.
 
-This chapter introduces how SecPAL is instantiated to describe the policies
-surrounding mobile ecosystems. We explain why SecPAL is a good choice to describe policies
-in the mobile ecosystem. I introduce AppPAL as an instantiation and
-implementation of SecPAL for mobile device policies.
+This chapter introduces how SecPAL is instantiated to describe the
+policies surrounding mobile ecosystems. We explain why SecPAL is a
+good choice to describe policies in the mobile ecosystem. I introduce
+AppPAL as an instantiation and implementation of SecPAL for mobile
+device policies.
 
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
-There are many policy languages. Some target specific domains: such as Ponder
-which targets firewalls, OS's and databases~\cite{damianou_ponder_2001}. Others,
-such as Cassandra, focus on credential management~\cite{becker_cassandra:_2004}.
-Some are general like XACML~\cite{oasis_extensible_2013}: designed to express
-access control decisions from a variety of domains. Different policy languages
-are described in greater detail in \autoref{chap:background}.
+There are many policy languages. Some target specific domains: such as
+Ponder which targets firewalls, OS's and
+databases~\cite{damianou_ponder_2001}. Others, such as Cassandra,
+focus on credential management~\cite{becker_cassandra:_2004}.  Some
+are general like XACML~\cite{oasis_extensible_2013}: designed to
+express access control decisions from a variety of domains. Different
+policy languages are described in greater detail in
+\autoref{chap:background}.
 
-The mobile ecosystem has specific requirements for a policy language to describe
-its policies. Namely, we need a policy language that can express:
+The mobile ecosystem has specific requirements for a policy language
+to describe its policies. Namely, we need a policy language that can
+express:
 
 \begin{description}
 \item[Delegation.] Sometimes entities may wish to
@@ -127,49 +135,7 @@ memory card, but not happy to install a torch app with the same set
 of permissions---a policy reminiscent of an RBAC or ABAC policy. We
 want to capture all these policies, and we would want our policy
 language to be agnostic to any particular policy style.
-
 \end{description}
-
-%One way they
-%  might enforce their policy would be to remove the location permissions from the
-%  app once they leave work, and enable them again in the mornings. This process is
-%  manual and error-prone: a user might forget. Alternatively a phone that could
-%  use SecPAL as part of its permission system, could be programmed to only allow
-%  that permission when the employee wishes it.
-%
-% As part of an assertion, a SecPAL
-%  constraint can also contain a \emph{constraint}. The constraint can contain
-%  extra checks that use information from outside the information contained in
-%  SecPAL statements; for instance a policy author could have a rule that is only
-%  valid in the afternoon. To do this they might add a constraint which checks the
-%  time of day and is only valid after noon. Constraints can contain equality
-%  checks, and logical operators such as \emph{and, or, \emph{or} not}.
-%  Additionally, SecPAL can use constraints to refer to external functions, to
-%  bring in information from outside of the language.
-%
-%  As well as contextual information, such as the time of day or user's
-%  location, and system information from the user's phone; constraints can be used
-%  to run and access static analysis results. These tools can infer complex app
-%  properties, but it isn't always clear to users when they need to be run and how
-%  they should be configured. SecPAL's constraints give us a way where we can run
-%  and use results from these tools automatically as part of the policy checking
-%  process. SecPAL effectively acts as a \emph{glue layer} between the tools and
-%  their invocation.
-
-%
-%SecPAL was chosen as other languages lacked features that SecPAL supported.
-%PolicyMaker~\cite{blaze_decentralized_1996} would support constraints, but is in
-%general intractable; whereas Becker proved a SecPAL policy was decidable in
-%polynomial time.  The RT family of
-%languages~\cite{li_datalog_2003,ninghui_li_design_2002,li_distributed_2003}
-%satisfy most of out needs, but it isn't clear how the policies express locality.
-%Furthermore these languages are role-based.  This makes them a natural fit for
-%scenarios that model credentials or employees authorizations within a company,
-%but the question of what \emph{role} different apps have becomes complex.
-%Ultimately SecPAL was chosen because it fit our needs, had a natural syntax and
-%semantics which could describe hypothetical policies surrounding the mobile
-%ecosystem.
-
 
 We chose SecPAL as the basis for our policy language for mobile ecosystems as it
 provides the features we wanted. By using its \emph{can-say} and
@@ -228,8 +194,8 @@ a certain style of policy, SecPAL doesn't say \emph{how} a policy
 should be written, it instead lets the policy author write their rules
 as they see best.
 
-As well meeting our requirements for a policy language, we believe SecPAL is
-readable and has evaluation rules that are easy to understand and unsurprising.
+As well meeting our requirements for a policy language, we agree with Becker~\etal's assertion that SecPAL is
+readable and has evaluation rules that are easy to understand and unsurprising~\cite{becker_secpal:_2006}.
 This again makes SecPAL a good fit to describe the policies of the mobile
 ecosystem as even someone unfamiliar with SecPAL might be able to look at an
 assertion and be reasonably expected to understand what the assertion means.
@@ -244,9 +210,10 @@ AppPAL describes the policies in the mobile ecosystem. The grammar is mostly the
 same as SecPAL, but a typing syntax which hides an additional
 typing condition (described fully in~\autoref{ssec:types}). 
 
-One example of the policies AppPAL might describe is a user selecting which apps they
-want to use on their phone. Suppose a user, Alice, decides that an individual
-app (Angry Birds, for example) is okay to use on her phone. This is written as:
+One example of the policies AppPAL might describe is a user selecting
+which apps they want to use on their phone. Suppose a user, Alice,
+decides that an individual app (Angry Birds, for example) is okay to
+use on her phone. This is written as:
 
 \begin{lstlisting}
 'alice' says 'com.rovio.angrybirds' isInstallable.
@@ -268,15 +235,17 @@ Additionally Alice may allow her workplace to dictate some apps that must be ins
 'alice' says 'workplace' can-say
   'alice' mustInstall('com.microsoft.office.word').
 \end{lstlisting}
-This policy works with single apps:
-Alice decides which apps to install and lists them.
-This is an accurate description of how users currently interact with stores and their devices.
-Users may have more complicated rules for deciding what to install, but following the rules is usually left to the user's own self-discipline.
+This policy works with single apps: Alice decides which apps to
+install and lists them.  This is an accurate description of how users
+currently interact with stores and their devices.  Users may have more
+complicated rules for deciding what to install, but following the
+rules is usually left to the user's own self-discipline.
 
-Policy languages allow for greater generality.
-A cautious user may only install Android apps with certain permissions\footnote{Permissions are the access control mechanism for device features used by Android.}.
-\begin{lstlisting}
-'user' says App isInstallable
+Policy languages allow for greater generality.  A cautious user may
+only install Android apps with certain
+permissions\footnote{Permissions are the access control mechanism for
+  device features used by Android.}.
+\begin{lstlisting} 'user' says App isInstallable
   if App hasntPermission('CAMERA'),
      App hasntPermission('INTERNET'),
 \end{lstlisting}
@@ -339,9 +308,12 @@ They must also be authorized by the device's owner.
 
 'device' says Authority:A can-say A hasAuthorized(Certificate:C).
 \end{lstlisting}
-In contrast, an Android user is free to install any signed app (though who signed it is not immediately important).
-Unless the user has enabled \emph{side-loading}, the app must come from the Play Store, as opposed to a file downloaded through another app store or the internet.
-Alternatively if the user has enabled \emph{developer-mode} then they may install apps through the \ac{ADB}.
+In contrast, an Android user is free to install any signed app (though
+who signed it is not immediately important).  Unless the user has
+enabled \emph{side-loading}, the app must come from the Play Store, as
+opposed to a file downloaded through another app store or the
+internet.  Alternatively, if the user has enabled
+\emph{developer-mode} then they may install apps through the \ac{ADB}.
 \begin{lstlisting}
 'device' says App isInstallable
   if App hasSource('play-store'),
@@ -382,14 +354,16 @@ enable the relevant setting.
 
 \subsection{Worked Example of Policy Checking}
 
-As a worked example consider a user Alice, trying to install an app on her work phone.
-Alice works for a hospital trust: they have a published mobile device policy. 
-The trust policy states that if Alice wants to install an app Alice has to clear it with her immediate manager.
-If it is for clinical use then Alice also has to clear it with the \ac{CACPG}.
-If it is for business use then Alice also has to clear it with the \ac{MIG}.
-Finally the \ac{IGC} should clear the app.
-This is a relatively complicated policy but realistic:
-it comes from an actual NHS trust's BYOD rules (shown with an AppPAL translation in \autoref{appendix:byod}).
+As a worked example consider a user Alice, trying to install an app on
+her work phone.  Alice works for a hospital trust and the trust has a
+mobile device policy.  The trust's policy states that if Alice wants to
+install an app Alice has to clear it with her immediate manager.  If
+it is for clinical use then Alice also has to clear it with the
+\ac{CACPG}.  If it is for business use then Alice also has to clear it
+with the \ac{MIG}.  Finally, the \ac{IGC} should clear the app.  This
+is a relatively complicated policy but realistic: it comes from an
+actual NHS trust's BYOD rules (shown with an AppPAL translation in
+\autoref{appendix:byod}).
 
 To implement the policy the trust publishes the following AppPAL rules:
 \begin{lstlisting}
@@ -419,8 +393,9 @@ To implement the policy the trust publishes the following AppPAL rules:
   if Manager isResponsibleFor(Device).
 \end{lstlisting}
 
-Suppose Alice wishes to install the app \emph{\ttfamily ms.office} for business purposes.
-To satisfy the policy and install the app she needs to collect the following statements.
+Suppose Alice wishes to install the app \emph{\ttfamily ms.office} for
+business purposes.  To satisfy the policy and install the app she
+needs to collect the following statements.
 
 \medskip
 \begin{itemize}
@@ -496,8 +471,8 @@ If two nodes depend on the same sub-goals then the proof will be reused.
 \label{sec:instantiating}
 
 SecPAL is a generic language.  In SecPAL's
-grammar~(\autoref{fig:secpal-grammar}) predicates and constraint
-functions that describe the decisions and checks done in a particular
+grammar~(\autoref{fig:secpal-grammar}), predicates and constraint
+functions describe the decisions and checks done in a particular
 domain.  The choice of predicates and constraints defines the
 decisions the SecPAL instantiation can talk about.
 
@@ -525,40 +500,37 @@ further to describe other policies, such as \ac{BYOD} policies.
   \label{tab:predicate-prefixes}
 \end{table}
 
-When instantiating SecPAL we use predicates based on four verbs: \emph{can}, \emph{has}, \emph{is} and \emph{must}.
-These verbs describe facts common to many policies.
-An \emph{is} predicate states that its subject has a given property.
-A \emph{can} predicate describes permissible actions.
-For example in a \ac{BYOD} policy a company might describe what apps a device can install, and what company data a user can get access to.
-A user might have a privacy preference describing what parts of their personal data an app can share.
-App stores have steps to go through before a developer can sell their app~\cite{oberheide_dissecting_2012,google_google_2017}.
-When we need to describe the conditions for an action going ahead we use the can statement.
-
+When instantiating SecPAL we use predicates based on four verbs:
+\emph{can}, \emph{has}, \emph{is} and \emph{must}.  These verbs
+describe facts common to many policies, such as permitted actions, completed actions, describing properties of entities and obligations respectively.  
 \begin{description}
-\item[\bfseries\texttt{subject \emph{is}Properly}]
+\item[\bfseries\texttt{subject \emph{is}Property}]
   A statement that says the \emph{subject} has a given \emph{property}.
   A~common example of this is to restrict variables to a given type.
   An example might be that \lstinline!'angry-birds' isApp! or that \lstinline!'jennie' isEmployee!.
-  Constants in SecPAL are untyped (they are in effect just symbols) so it is
-  often helpful to restrict their type to a given domain.  For example Alice
-  might trust Bob to describe what apps are good, but not what websites.
+  Constants and variables in SecPAL are untyped, so it is
+  often helpful to restrict their type to a given domain.  For example, Alice
+  might trust Bob to describe which apps are good, but not what websites.
   \begin{lstlisting}
 'alice' says 'bob' can-say X isGood if X isApp.
   \end{lstlisting}
-  Additionally SecPAL requires that all variables in the head of a statement be
-  used in the body\footnote{The rule ensures that all queries terminate.}.
-  Assigning a type by using an \emph{is} statement is sufficient to satisfy this rule.
+  Additionally, SecPAL requires that all variables in the head of a
+  statement be used in the body (the restriction helps the language to
+  be reducible to Datalog\textsuperscript{C}, and thus ensure all
+  queries terminate): assigning a type by using an \emph{is} statement
+  is sufficient to satisfy the rule.
 
-  Not all constants or variables must have a property or type, but some may have multiple
-  ones, for example an app might have the \emph{good} property, the \emph{app}
-  type, and be \emph{installable}.  Each of these properties is expressed using
-  the \emph{is} statement.  There is no obligation to provide a type to
-  variables, but when writing policies we have found them helpful as they help
+  Not all constants or variables need have a property or type, but
+  some may have multiple ones, for example an app might have the
+  \emph{good} property, the \emph{app} type, and be \emph{installable}.
+  Each of these properties is expressed using the \emph{is} statement.
+  There is no obligation to provide a type to variables or constants,
+  but when writing policies we have found them helpful as they help
   specify precisely the domain a rule should operate on.
 
-  \emph{Is} predicates are sometimes used as goals for queries, for example to test whether
-  an app \emph{isInstallable} or not.  They also often occur frequently inside
-  assertion bodies, as described.
+  \emph{Is} predicates are sometimes used as goals for queries, for
+  example to test whether an app \emph{isInstallable} or not.  They also
+  often occur frequently inside assertion bodies, as described.
 
 \item[\bfseries\texttt{subject \emph{has}Action}]
   Describes actions the \emph{subject} has completed.
@@ -573,7 +545,7 @@ When we need to describe the conditions for an action going ahead we use the can
   if 'device' isOwnedBy(U).
   \end{lstlisting}
 
-  Often predicates fall into common patterns and groups, for example
+  Often, has predicates fall into common patterns and groups, for example
   \emph{hasRequested} and \emph{hasBeenGranted} here.  There is no requirement
   for the predicates to be named in such a way---\emph{hasBeenGranted} could be
   named \emph{canUseFeaturesAssociatedWith}.  In practice when describing
@@ -582,10 +554,11 @@ When we need to describe the conditions for an action going ahead we use the can
   satisfying a policy.  In \autoref{sec:lint} an early implementation of a tool
   for checking for duplicated predicates is described.
 
-  \emph{Has} predicates are rarely used as queries as they describe actions
-  already taken.  They might be used as a goal if a policy needs to describe
-  actions occurring in a given order.  For example, a~company might require that
-  devices report if a user is using a company device unacceptably:
+  \emph{Has} predicates are rarely used as top-level queries as they
+  describe actions already taken.  They might be used as a goal if a
+  policy needs to describe actions occurring in a given order.  For
+  example, a~company might require that devices report if a user is
+  using a company device unacceptably:
 
   \begin{lstlisting}
 'company' says User:U hasBehavedUnacceptably
@@ -596,11 +569,42 @@ When we need to describe the conditions for an action going ahead we use the can
 \item[\bfseries\texttt{subject \emph{can}Action}]
   An authorization.
   The \emph{subject} may perform the \emph{action}.
-  For example \lstinline!Device:D canInstall(App:A)! to say what apps a device can install or \lstinline!App:A canConnectTo(URL:U)! to describe a limitation on app network abilities.
+  \emph{Can} predicates are used to describe access control decisions.
+  For example, a company might wish to limit access to a server to
+  employees who working in R\&D.  To do so they might write a policy
+  such as:
+  \begin{lstlisting}
+'company' says User:U canConnectTo('192.168.20.22')
+  if U isInDepartment('r&d').
+  \end{lstlisting}
+  Other examples of policies involving \emph{can} predicates might include a
+  user describing whether an app is allowed access to their photographs,
+  or an app store deciding whether to allow a developer to sell their
+  app in the store.
 
   \emph{Can} predicates are frequently used as goals in queries.  They can be
   used to describe access control decisions, and as such are often the source of
-  a query whether a subject \emph{can do} some action.
+  a query whether a subject \emph{can do} some action. 
+
+  There is no obligation on someone who uses a policy that has \emph{can}
+  predicates, to also generate an assertion using a \emph{has} predicate
+  when an action is performed.  For example, an app store may have terms
+  and conditions that any user can read.
+  \begin{lstlisting}
+'app-store' say User:U canReadTermsAndConditions.
+\end{lstlisting}
+A user, Alice, might read these terms and conditions having satisfied
+the rule that she can do so.  Having done so it might be reasonable to
+expect the store to add to its knowledge base an assertion that:
+ \begin{lstlisting}
+'app-store' says 'alice' hasReadTermsAndConditions.   
+  \end{lstlisting}
+  There are no obligations for the store to add assertions in this
+  manner however.  In \autoref{sec:patterns-with-predicates} we discuss
+  some potential ways we could use these relationships for auditing and
+  policy compression, if the relationships were to be enforced, but as
+  AppPAL exists currently we do not require mechanisms for converting
+  \emph{can} predicates into \emph{has} ones.
 
 \item[\bfseries\texttt{subject \emph{must}Action}]
   An obligation.  The \emph{subject} should carry out the \emph{action}.
@@ -614,7 +618,7 @@ When we need to describe the conditions for an action going ahead we use the can
   \end{lstlisting}
   \end{minipage}
 
-  AppPAL does not state how quickly a user should complete their obligation, or
+  AppPAL does not state how quickly a subject should complete their obligation, or
   enforce that they even perform it.  These additional checks could be created
   by using additional predicates:
 
@@ -626,18 +630,19 @@ When we need to describe the conditions for an action going ahead we use the can
 
   \emph{Must} predicates are mostly goals, as they describe the conditions when
   its subject must do something.  There are exceptions, such as the example
-  above, but they are unusual.
+  above where \emph{must} predicate is a condition, but they are unusual.  If a policy were to contain a particular \emph{must} predicate as a condition, but never as a goal, then the policy would be unsatisfiable---something we can check for as described in \autoref{ssec:checking-satisfiability}.
 \end{description}
 
-\noindent This differs from the approach taken with SecPAL4P and
-SecPAL4DSA~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}. Both these
-languages add extra phrases to SecPAL's grammar. For example SecPAL4P adds a
-\emph{may} and \emph{will} phrase to describe whether to carry out an action. If
-Alice, a policy author, wished to use SecPAL4P to say that someone can forget
-her email address she could write:\footnote{% Example taken
-  from~\cite{becker_framework_2009} SecPAL4P also relaxes safety rules, that
-  permit the variables $x$ and $t$ to be in the head of the rule, but not the
-  body.}
+\noindent Our predicate conventions differ in the approach to the ones
+added with the SecPAL4P and SecPAL4DSA
+languages~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}. Both
+these languages add extra phrases to SecPAL's grammar. For example
+SecPAL4P adds a \emph{may} and \emph{will} phrase to describe whether
+to carry out an action. If Alice, a policy author, wished to use
+SecPAL4P to say that someone can forget her email address she could
+write:\footnote{
+  SecPAL4P also relaxes safety rules that permit the variables $x$ and
+  $t$ to be in the head of the rule, but not the body.}
 \begin{lstlisting}
 Alice says x may delete Email within t
 \end{lstlisting}
@@ -646,9 +651,9 @@ An analogous AppPAL rule would be:
 'alice' says User:X canDeleteWithin('email', Time:t)
   where currentTime() < t.
 \end{lstlisting}
-The AppPAL is, arguably, slightly less succinct, but more explicit than the SecPAL4DSA.
+The AppPAL version is, arguably, slightly less succinct, but more explicit than the SecPAL4DSA.
 
-\begin{figure}[b]\centering
+\begin{figure}[]\centering
   \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
   \newcommand{\terminal}[1]{\textbf{#1}}
   \begin{tabular}{r c l}
@@ -664,37 +669,46 @@ The AppPAL is, arguably, slightly less succinct, but more explicit than the SecP
 \subsection{Type Notation}
 \label{ssec:types}
 
-When writing a policy, it is common, though not strictly always required, to use conditions in facts that limit the scope of a variable.
-To do this we use \emph{is}-predicates, that give their subject a type.
-For example \emph{Alice} might declare that \emph{Bob} is responsible for saying which apps she can install.
-This can be written in SecPAL as follows:
+When writing a policy, it is common to use conditions in facts that
+limit the scope of a variable.  To do this we use
+\emph{is}-predicates, that give their subject a type.  For example
+\emph{Alice} might declare that \emph{Bob} is responsible for saying
+which apps she can install.  This can be written in SecPAL as follows:
 \begin{lstlisting}
 'alice' says 'bob' can-say App isInstallable
   if App isApp.
 \end{lstlisting}
-When writing this we added a condition \lstinline{if App isApp}, that Bob can only talk about Apps as being installable.
-Generalizing this pattern we use predicates starting with \emph{is} to give types to their subjects.
-If a policy rule contains a lot of variables, however these typing conditions can become very verbose.
-To simplify the policy rules, AppPAL adds a sugared notation for typing
-statements by extending SecPAL's grammar for variables (\autoref{fig:type-changes}).
+When writing this we added a condition \lstinline{if App isApp}, that
+Bob can only talk about Apps as being installable.  Generalizing this
+pattern we use predicates starting with \emph{is} to give types to
+their subjects.  If a policy rule contains a lot of variables, however
+these typing conditions can become very verbose.  To simplify the
+policy rules, AppPAL adds a sugared notation for typing statements by
+extending SecPAL's grammar for variables (\autoref{fig:type-changes}).
 
+Expansion of the AppPAL types into SecPAL conditions is described in
+\autoref{lst:type-expansion-alg}.  This is run when parsing AppPAL code,
+and adds a rule to AppPAL that if a variable in the head of an
+assertion has a type then it is removed and a condition that the
+variable is that type is added to the body of the assertion.  If a
+variable in the body of an assertion has a type, then AppPAL's parser
+reports it as an error when reading the policy.  If a variable needs
+multiple types, they can be added by adding additional \emph{if}
+predicates to the body.
 
-Expansion of the AppPAL types into SecPAL conditions is described in \autoref{lst:type-expansion}.
-This is run when parsing AppPAL code, and adds a rule to AppPAL
-  that if a variable in the head of an assertion has a type
-  then it is removed and a condition that the variable is that type is added to the body of the assertion.
-If a variable in the body of an assertion has a type; then it is an error.
-
-\begin{figure}\centering
-  AppPAL:
-\begin{lstlisting}
+\begin{figure}\centering\noindent\sffamily\footnotesize
+\begin{minipage}[t]{0.50\textwidth}
+  \noindent
+  \textbf{AppPAL}
+  \begin{lstlisting}
 X says T1:A predicate(T2:B, T3:C) 
   if ... .
 \end{lstlisting}
-
-  $\Downarrow$
-
-  SecPAL:
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.40\textwidth}
+  \noindent
+  \textbf{SecPAL}
 \begin{lstlisting}
 X says A predicate(B, C) 
   if A isT1, 
@@ -702,41 +716,46 @@ X says A predicate(B, C)
      C isT3, 
      ... .
 \end{lstlisting}
+\end{minipage}
   \caption{De-sugaring from AppPAL types to SecPAL.}
   \label{lst:type-expansion}
 \end{figure}
 
-%\SetKwFunction{FnExpandTypes}{Expand Types}
-%\SetKwFunction{FnFact}{new Fact}
-%\SetKwFunction{FnStr}{to String}
-%\SetKwFunction{FnAdd}{Add}
-%\begin{algorithm}
-%  \Fn(){\FnExpandTypes}{Assertion}{
-%    \For{v $\in$ Assertion.\FnHead{}}{
-%      \If{$\exists$ v.\FnType{}}{
-%        f $\gets$ \FnFact{v, ``is''+v.\FnType{}.\FnStr{}}\;
-%        Assertion.\FnBody{}.\FnAdd{f}\;
-%      }
-%    }
-%    \Return{Assertion}\;
-%  }
-%  \caption{Procedure used to expand types from AppPAL into SecPAL.}
-%  \label{lst:type-expansion}
-%\end{algorithm}
+\begin{figure}\footnotesize\sffamily\centering
+\SetKwFunction{FnExpandTypes}{Expand Types}
+\SetKwFunction{FnFact}{new Fact}
+\SetKwFunction{FnStr}{to String}
+\SetKwFunction{FnAdd}{Add}
+\begin{algorithm}[H]
+  \Fn(){\FnExpandTypes{Assertion}}{
+    \For{v $\in$ Assertion.\FnHead{}}{
+      \If{$\exists$ v.\FnType{}}{
+        f $\gets$ \FnFact{v, ``is''+v.\FnType{}}\;
+        Assertion.\FnBody{}.\FnAdd{f}\;
+      }
+    }
+    \Return{Assertion}\;
+  }
+\end{algorithm}
+  \caption{Procedure to expand types from AppPAL into SecPAL.}
+  \label{lst:type-expansion-alg}
+\end{figure}
 
 Using this sugared notation, the earlier example becomes:
 \begin{lstlisting}
 'alice' says 'bob' can-say App:A isInstallable
 \end{lstlisting}
 
-For a more complex example consider the following example taken from a BYOD policy.
+For a more complex example consider the following example taken from a
+BYOD policy.
 \begin{lstlisting}
 'company' says Device:D canConnectToAP(AP:X)
   if X isOwnedByCompany.
 \end{lstlisting}
 
-The rule states that the company will only allow devices to connect to company owned access points.
-The syntactic sugar expands into the following equivalent policy.
+The rule states that the company will only allow devices to connect to
+company owned access points.  The syntactic sugar expands into the
+following equivalent policy.
 
 \begin{lstlisting}
 'company' says Device canConnectToAP(X)
@@ -749,7 +768,43 @@ This is a fairly simple refinement of SecPAL's syntax, but it improves the
 readability. It avoids hiding the condition that the company must own the access
 point among typing statements aiding readability. It also helps avoid errors
 in policies caused by the policy author forgetting to give a type to a variable.
-To our knowledge this is the first attempt to add 
+
+The typing syntax can also lead to scenarios where the typing \emph{is} predicates are checked multiple times when querying a policy.  For example, in the following hypothetical policy if Alice queried whether \emph{Angry Birds} was installable she might check three (or more) times if \texttt{'alice' says 'angry-birds' isApp.}
+\begin{lstlisting}
+'alice' says App:A isInstallable
+  if A isAGame.
+
+'alice' says App:A isAGame
+  if A hasCategory('game').
+
+'alice' says 'google-play' can-say App:A hasCategory('game').
+\end{lstlisting}
+In practice, however, this isn't an issue as our
+implementation (described in \autoref{sec:implementation} caches the
+results from queries when evaluating policies.  We also describe in
+\autoref{ssec:redundancy} a method for detecting when conditions are
+redundant.
+
+We also make no attempt to detect when types are clashing or
+inconsistent.  For example, we might expect that an object could be an
+app, or a device but not both.  If a policy were to contain, for
+example assertions that:
+\begin{lstlisting}
+'alice' says 'angry-birds' isApp.
+'alice' says 'angry-birds' isDevice.
+\end{lstlisting}
+We might speculate the policy may contain errors as we wouldn't expect
+Angry Birds to be both an app and a device.  AppPAL does not by itself
+check for such errors, however, if desired a policy author could add
+an assertion to their policy to check for such type-errors.
+\begin{lstlisting}
+'alice' says 'policy' hasTypeErrors
+  if X isApp,
+     X isDevice.
+\end{lstlisting}
+
+To our knowledge this is the first attempt to add types to SecPAL.
+
 
 \section{Implementation}
 \label{sec:implementation}
@@ -1063,8 +1118,9 @@ as they model the slowest kinds of policies to test---though worse ones could be
 designed by delegating even more or triggering an expensive constraint check.
 
 \noindent
-\begin{minipage}{.32\textwidth}
-\begin{lstlisting}[caption={Excerpt of policy from 1 to 1 benchmark.}, basicstyle=\ttfamily\footnotesize]
+\begin{figure}\centering\footnotesize\sffamily
+\begin{minipage}[t]{.32\textwidth}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 '0' says '1' can-say
   X isInstallable.
 '1' says '2' can-say
@@ -1073,8 +1129,8 @@ designed by delegating even more or triggering an expensive constraint check.
   X isInstallable.
 \end{lstlisting}
 \end{minipage}\hfill
-\begin{minipage}{.32\textwidth}
-\begin{lstlisting}[caption={Excerpt of policy from 1 to 2 benchmark.}, basicstyle=\ttfamily\footnotesize]
+\begin{minipage}[t]{.32\textwidth}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 '2' says '4' can-say
   X isInstallable.
 '2' says '5' can-say
@@ -1085,8 +1141,8 @@ designed by delegating even more or triggering an expensive constraint check.
   X isInstallable.
 \end{lstlisting}
 \end{minipage}\hfill
-\begin{minipage}{.32\textwidth}
-\begin{lstlisting}[caption={Excerpt of policy from 1 to 3 benchmark.}, basicstyle=\ttfamily\footnotesize]
+\begin{minipage}[t]{.32\textwidth}
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 '4' says '12' can-say
   X isInstallable.
 '4' says '13' can-say
@@ -1101,6 +1157,9 @@ designed by delegating even more or triggering an expensive constraint check.
   X isInstallable.
 \end{lstlisting}
 \end{minipage}
+\caption{Excerpts from the 1~to~1, 1~to~2 and 1~to~3 benchmarks.}
+\label{fig:benchmark-excerpts}
+\end{figure}
 
 For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
@@ -1172,6 +1231,7 @@ of the form \texttt{can$\star$} and
 
 
 \subsection{Checking Satisfiability}
+\label{ssec:checking-satisfiability}
 
 An assertion is \emph{satisfiable} if there are sufficient facts
 such that the assertion's conditions can be met.  We care about this

@@ -27,7 +27,7 @@ them. Companies have policies as to what apps and devices employees can use in
 the office. The precise trust relationships, however, are often hidden in
 informal, or natural language, descriptions of the policies.
 
-As the devices have become more powerful there has been an increasing wish to
+As the devices have become more powerful, there has been an increasing wish to
 control the devices. Companies expect devices to follow their corporate policies
 within their networks and trust users to abide by their policies as well as use
 tools to enforce some aspects of them. Some users may have reservations about
@@ -37,13 +37,13 @@ necessarily care) precisely how the store checked the app.
 
 These devices exist within the \emph{mobile ecosystem}: which we define as
 \textbf{the interactions surrounding the use of smart phones and tablet
-computers in a given setting}. Figure~\ref{fig:mobile-ecosystem} shows some of the relationships
+computers in a given setting}. Figure~\ref{fig:mobile-ecosystem} shows some relationships
 between devices, their users and their preferences, the stores, companies and
-all these principal's policies. Users have phones or other mobile devices. They
-may own personal devices or have a company one. They may have their own
+all these principal's policies. Users have phones or other mobile devices. The users
+may own personal or have company provided devices. They may have their own
 preferred ways of using the device, or they have to follow policies written
-by their employer. They download apps, written by developers from app stores,
-all with their own policies and some of the stores may delegate some aspects of
+by their employer. Users download apps, written by developers from app stores,
+all with their own policies and some stores may delegate some aspects of
 their quality control to external vetting software.
 
 Prior work focused on how systems and tools can check and enforce more
@@ -217,17 +217,17 @@ privacy policies and BYOD policies as they show two different aspects
 of how policies are used within the mobile ecosystem.
 %
 User's privacy preferences are very informal and may not be something
-a user would ever consider writing down.  Rather a user's privacy
+a user would ever consider writing down.  Rather, a user's privacy
 preferences guide which apps they might use. A user might even be
 willing to use an app that does not match their preferences in some
-cases, such as using the Facebook app (which requests much data on a
-user's device) whilst being generally unhappy sharing their data with
-their software.
+cases, such as using the Facebook app (which can access lots of data
+on a user's device) whilst being generally unhappy sharing their data
+with their software.
 %
 In contrast a BYOD policy can exist as a formal agreement (though
 often \emph{informally} specified) between the company and its
 employees.  An employee might reasonably expect to face consequences
-if their employer discovers they broke some of the BYOD rules.
+if their employer discovers they broke the BYOD rules.
 
 Superficially these policies also resemble classic DAC and MAC
 policies: the company \emph{mandates} the BYOD policy, the user uses
@@ -255,7 +255,7 @@ showcase some of what makes the mobile ecosystem fascinating.
 \section{Thesis Outline and Publications}
 
 The rest of this thesis is organised into the following chapters.
-Some of the work described has been presented at various conferences, workshops and PhD symposiums through the course of the PhD.
+Some work described has been presented at various conferences, workshops and PhD symposiums through the course of the PhD.
 We describe the publications, and show where they fit into the various chapters.
 
 \begin{itemize}
@@ -270,7 +270,7 @@ We describe the publications, and show where they fit into the various chapters.
   our tools for analyzing AppPAL policies for satisfiability and redundancy
   errors.
   
-  Some of the early examples were taken from our paper:
+  Some early examples were taken from our paper:
   \begin{itemize}
   \item\emph{Towards an authorization framework for app security
       checking~\cite{hallett_towards_2014}.} A PhD symposium paper describing how
@@ -282,10 +282,10 @@ We describe the publications, and show where they fit into the various chapters.
   app stores and survey their different terms and conditions. We use AppPAL to
   capture descriptions of user's app privacy preferences; and measure the extent
   users follow these preferences when selecting apps by comparing with records of
-  user's app installation history. Finally we describe a tool for generating
+  user's app installation history. Finally, we describe a tool for generating
   \emph{curated} app stores on the basis of a policy.
   
-  Some of the implementation described, and work on capturing user's privacy preferences is included in our papers:
+  The implementation described, and work on capturing user's privacy preferences is included in our papers:
   \begin{itemize}
   \item\emph{AppPAL for Android~\cite{hallett_apppal_2016}.} Describes AppPAL as an instantiation of SecPAL.  Presents evaluation algorithm.  Shows how to capture user privacy preferences as AppPAL policies and tries to find examples of users following the policies in a user app-installation dataset.
   \item\emph{Poster: Using Authorization Logic to Capture User Policies in Mobile Ecosystems~\cite{hallett_poster:_2015}.}  Presents early work measuring the extent users seem to follow an AppPAL translation of user privacy prefences.
