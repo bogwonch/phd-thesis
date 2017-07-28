@@ -812,7 +812,7 @@ To our knowledge this is the first attempt to add types to SecPAL.
 Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available
 online\footnote{\url{https://github.com/apppal/libapppal}}. The library creates
-an AppPAL instance. This instance can be given several policies to enforce. The
+an AppPAL instance with an empty cache. This instance can be given several policies to enforce. The
 architecture is shown in \autoref{fig:apppal-inputs-outputs}. The instance is
 queried and will give decisions based on whether the queried assertion is valid
 according to the policy. As part of the constraint checking AppPAL can also be
@@ -820,15 +820,15 @@ connected to external databases, systems, and static analysis tools. These can
 give AppPAL with more information external to that provided by SecPAL at the
 time of checking, and connect AppPAL to tools to enforce the policies.
 
-Implementing AppPAL as a library allows us to embed into a variety of
+Implementing AppPAL as a library allows us to embed it into a variety of
 situations. AppPAL can be part of an app store checking the apps sold against a
 policy. Running on a device, AppPAL can check apps before installation by the
 package manager. There is also a command-line version which is useful for
 testing and modeling policies. Our implementation can make the inferences, on
-an Android device or on a command line but it is not integrated into Android. It
+an Android device or on a command line, but it is not integrated into Android. It
 is future work to evaluate how AppPAL policies might work in practice and be
-tied into a mobile operating system to enforce policies in practice. This work
-looks primarily and modeling the policies and preference and providing a
+tied into a mobile operating system to enforce policies in practice. The work
+here looks primarily and modeling the policies and preference and providing a
 framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown
@@ -837,15 +837,17 @@ description of SecPAL~\cite{becker_secpal:_2006} which describes evaluation
 through Datalog$^C$. Datalog$^C$ is a variant of Datalog extended to support
 constraints~\cite{li_datalog_2003}. 
 
-Becker used a translation from SecPAL to Datalog$^C$ in order to prove certain
-properties about SecPAL: namely decidability and tractability (with polynomial
-data complexity). In order to implement SecPAL efficiently he described a novel
-Datalog evaluation algorithm using tabling, as the \emph{bottom up} methods were
-inefficient with a changing assertion context, and the \emph{top down} methods
-(such as SLD resolution) could run into infinite loops when evaluating
-\emph{can-say} or \emph{can-act-as} statements. To solve these issues Becker
-proposed an algorithm that extended SLD resolution with a table to prune
-infinite search trees by tracking which rules had been used before.
+Becker used a translation from SecPAL to Datalog$^C$ in order to prove
+certain properties about SecPAL: namely decidability and tractability
+(with polynomial data complexity in the size of the policy). To
+implement SecPAL efficiently he described a novel Datalog evaluation
+algorithm using tabling, as the \emph{bottom up} methods were
+inefficient with a changing assertion context, and the \emph{top down}
+methods (such as SLD resolution) could run into infinite loops when
+evaluating \emph{can-say} or \emph{can-act-as} statements. To solve
+these issues Becker proposed an algorithm that extended SLD resolution
+with a table to prune infinite search trees by tracking which rules
+had been used before.
 
 When implementing SecPAL we considered using a Datalog$^C$ backend but could not
 find an implementation. We also explored using a Datalog implementation (such as
@@ -858,7 +860,7 @@ Rather than implementing Datalog$^C$ ourselves, AppPAL implements SecPAL's
 evaluation rules directly, and incorporates Becker's tabling to avoid infinite
 loops. Our implementation is na\"ive and not the optimal method for evaluating
 queries. Faster solutions might use answer-set programming and an SMT solver to
-answer queries. For all policies we tried our implementation was fast
+answer queries. For all policies we tried, our implementation was fast
 enough---answering all but the most complex queries in seconds
 (\autoref{ssec:benchmarks}).
 
@@ -873,12 +875,12 @@ enough---answering all but the most complex queries in seconds
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-Pseudo-code for evaluation algorithm used by AppPAL is described
+Pseudocode for the evaluation algorithm used by AppPAL is described
 in~Figures~\ref{alg:eval1},~\ref{alg:eval2}~and~\ref{alg:eval3}.
 
-To make queries against a policy AppPAL is first given one or more policy files.
+To make queries against a policy, AppPAL is first given one or more policy files.
 AppPAL parses the files and adds the assertions within them to the \ac{AC}. The
-AC is then preprocessed to extract more information; summarized in
+AC is then preprocessed to extract more information; this is summarized in
 \autoref{tab:apppal-sets}. If a constant is used before a \emph{says} statement,
 or it is used as the subject of a \emph{can-say} fact then the constant is
 marked as \emph{voiced}. A constant is \emph{voiced} if it is the speaker of a
@@ -1026,18 +1028,19 @@ AppPAL's developers with debugging.
 
 \subsection{Soundness and Completeness of Decision Procedure}
 
-The algorithm as described is neither sound or complete as it makes use of a
-results table $RT$, but has no means to invalidate results in it. This causes
-problems when handling constraints, in particular temporal ones. 
+The algorithm as described is neither sound nor complete as it makes
+use of a results table $RT$, but has no means to invalidate results in
+it. This causes problems when handling constraints, in particular
+temporal ones.
 
 Consider a constraint that states that the current time must be between
-9~\textsc{am} and 3~\textsc{pm}. At 8:59~\textsc{am} we try and evaluate a query
+9~\textsc{am} and 3~\textsc{pm}. At 8:59~\textsc{am} we try to evaluate a query
 that depends on this constraint being true (i.e. all possible proof trees use
 this constraint). No proof can be found so the \texttt{Evaluate} function
 correctly returns failure and the $RT$ is updated accordingly. At
 9:01~\textsc{am} the query is re-run. Since a past result already exists in $RT$
 it is reused and evaluate returns failure again, despite the constraint now
-being satisfiable. Therefore the algorithm is incomplete as it has failed to
+being satisfiable. Therefore, the algorithm is incomplete as it has failed to
 find a proof when one exists. A similar argument for soundness can be made by
 evaluating a query successfully at 2:59~\textsc{pm} and then again at
 3:01~\textsc{pm}. A successful result may be returned which is unsound.
@@ -1050,9 +1053,8 @@ results. A simple strategy, such as clearing any statements older than 10
 minutes, may be enough for most scenarios.
 
 The arguments in the rest of the section assume that the result of evaluating a
-constraint does not change over time. This allows us to argue the basic
-correctness of the algorithm, but with a caveat that the $RT$ must be cleaned
-regularly.
+constraint does not change over time. This allows us to argue the
+correctness of the algorithm, assuming that the $RT$ cache is correct.
 
 \paragraph*{Soundness Argument}
 A query is \texttt{Evaluate}-d at a given delegation depth, against a given
@@ -1208,7 +1210,7 @@ decide a query and the number of rules in the policy, as it could
 be. Is a decision reachable given the rules and facts contained in the
 policy?  Does an assertion context contain enough statements to use a
 given rule? If there are multiple ways of deciding whether some
-statement is true or not does one rule require fewer statements than
+statement is true or not, does one rule require fewer statements than
 any other? Does one rule require only a subset of the facts of another
 rule, implying the second is redundant?
 
@@ -1247,14 +1249,15 @@ drawn to an \emph{conditional always false bug} in a conventional
 programming language: we have code (or in this case a rule) that can
 never be used as the conditions for using it can never occur.
 
+Satisfiability can be defined inductively as the least set satisfiable such that:
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
                                                               \wedge~ & (\text{conditionals}(A) = \emptyset \\
                                                                       & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
 \end{align*}
 
-This is a similar idea to the notions of \emph{satisfiability} in Datalog (and
-more generally logic programming). A Datalog predicate, found by satisfying a
+This is a similar idea to the notions of \emph{satisfiability} in Datalog (and,
+more generally, in logic programming). A Datalog predicate, found by satisfying a
 rule, is satisfiable if there are sufficient ground facts in the database to
 deduce it. Formally, satisfiability in Datalog is defined
 as~\cite{alon_levy_equivalence_1993}:
@@ -1265,7 +1268,7 @@ as~\cite{alon_levy_equivalence_1993}:
   non-empty relationship for $s$.
 \end{quote}
 
-Our satisfiability checker works by examining which assertions each principal can say from a given assertion context.
+Our satisfiability checker works by examining which assertions each principal could possibly say from a given assertion context.
 When checking the satisfiability we ask whether there is a mechanism in the policy for the principal to use a given predicate, using the following rules:
 
 \begin{center}\footnotesize
@@ -1351,7 +1354,7 @@ this in AppPAL as:
 What apps in practice are approved for use?
 As the policy document notes, none of the groups or committees have ever
 approved an app in practice.
-When we run the satisfiability checker on this policy
+When running the satisfiability checker on this policy,
 it reports that (among other information) no app is installable.
 
 \noindent\begin{minipage}{\textwidth}
@@ -1482,7 +1485,7 @@ user in both assertions.  In the first there is irrelevance because
 \emph{U} is stated as being a user twice, where once would have been
 sufficient.  In the second there is a single check that \emph{U} is a
 user but it is irrelevant as the check had already been done when
-checking is \emph{U} had lost the device (since only users can lose
+checking if \emph{U} had lost the device (since only users can lose
 devices in the first assertion).
 
 \begin{lstlisting}
@@ -1549,7 +1552,7 @@ facts.  One proof ($A$) is made redundant by another proof ($B$) if
 the set of ground facts used in $B$ is a subset of the ground facts
 used in $A$. Whenever $A$ is satisfied $B$ will also be, but when $B$
 is satisfied $A$ may not be: consequently $A$ is redundant as $B$ can
-be used to prove its goal with fewer facts.  For any goal
+be used to prove its goal with fewer facts.  Informally, for any goal
 $G$:
 
 \begin{align*}
@@ -1557,6 +1560,7 @@ $G$:
   p_1 \not= p_2~\wedge~\text{facts}(p_1) \subset \text{facts}(p_2)           & \implies G\text{ has unreachable proofs.} \\
   p_1 \not= p_2~\wedge~\text{facts}(p_1) = \text{facts}(p_2)                 & \implies G\text{ has equivalent proofs.}
 \end{align*}
+Where $\text{proofs}(G)$ is the set of all possible proof trees for a goal $G$.
 
 Additionally, if two different goals ($G$ and $G^\prime$) have
 equivalent proofs, i.e. there are multiple proofs that both rely on the same ground facts, then we report this as it implies the two
