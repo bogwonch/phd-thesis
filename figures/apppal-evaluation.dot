@@ -1,7 +1,10 @@
 digraph apppaleval {
   //rankdir=LR;
   compound=true;
-  graph [splines=ortho]
+  graph [splines=ortho fontname="helvetica"]
+  node [fontname="helvetica"]
+  edge [fontname="helvetica"]
+
 
   {
     rank=same;
@@ -9,6 +12,7 @@ digraph apppaleval {
     policy2 [shape=note label="Policy"];
     policy3 [shape=note label="Policy"];
   }
+  ac [shape=cylinder label="AC"];
   {
     rank=same;
     query [shape=plaintext label="Query\n?- 'alice' says..."];
@@ -21,9 +25,10 @@ digraph apppaleval {
     answer [shape=record label="{ Yes/No | Optional proof tree }"];
   }
 
-  policy1 -> apppal;
-  policy2 -> apppal;
-  policy3 -> apppal;
+  policy1 -> ac;
+  policy2 -> ac;
+  policy3 -> ac;
+  ac -> apppal;
   query -> apppal;
   apppal -> answer;
 
