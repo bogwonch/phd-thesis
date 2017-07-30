@@ -245,7 +245,8 @@ Policy languages allow for greater generality.  A cautious user may
 only install Android apps with certain
 permissions\footnote{Permissions are the access control mechanism for
   device features used by Android.}.
-\begin{lstlisting} 'user' says App isInstallable
+\begin{lstlisting}
+'user' says App isInstallable
   if App hasntPermission('CAMERA'),
      App hasntPermission('INTERNET'),
 \end{lstlisting}
@@ -653,7 +654,7 @@ An analogous AppPAL rule would be:
 \end{lstlisting}
 The AppPAL version is, arguably, slightly less succinct, but more explicit than the SecPAL4DSA.
 
-\begin{figure}[]\centering
+\begin{figure}\centering
   \newcommand{\nonterminal}[1]{$\langle$#1$\rangle$}
   \newcommand{\terminal}[1]{\textbf{#1}}
   \begin{tabular}{r c l}
@@ -856,13 +857,13 @@ support Datalog$^C$. We also wanted our implementation to run on an Android
 device (we were interested in having users enforce policies on their phone),
 and all the Datalog libraries we found could not be ported trivially.
 
-Rather than implementing Datalog$^C$ ourselves, AppPAL implements SecPAL's
-evaluation rules directly, and incorporates Becker's tabling to avoid infinite
-loops. Our implementation is na\"ive and not the optimal method for evaluating
-queries. Faster solutions might use answer-set programming and an SMT solver to
-answer queries. For all policies we tried, our implementation was fast
-enough---answering all but the most complex queries in seconds
-(\autoref{ssec:benchmarks}).
+Instead of implementing Datalog$^C$ ourselves, AppPAL implements
+SecPAL's evaluation rules directly and adds Becker's tabling
+method to avoid infinite loops. Our implementation is na\"ive and not
+the optimal method for evaluating queries. Faster solutions might use
+answer-set programming and an SMT solver to answer queries. For all
+policies we tried, our implementation was fast enough---answering all
+but the most complex queries in seconds (\autoref{ssec:benchmarks}).
 
 
 \begin{figure}
