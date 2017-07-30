@@ -3,15 +3,16 @@
 \chapter{Future Work}
 \label{chap:future-work}
 
-We have described the policies of the mobile ecosystem and how to use AppPAL to
-describe them. We have argued that AppPAL is a good language for describing
-these policies, however there are also areas where AppPAL could be improved to
-further to describe more kinds of policies and to aid policy authors, as well as
-examining further aspects of the mobile ecosystem. This chapter suggests areas
-we did not look at and how they might expand our knowledge of mobile ecosystems
-and the trust relationships within them.
+We have described the policies of the mobile ecosystem and how to use
+AppPAL to describe them. We have argued that AppPAL is a good language
+for describing these policies, however there are also areas where
+AppPAL could be improved to further to describe more kinds of policies
+and to aid policy authors, as well as examining further aspects of the
+mobile ecosystem. This chapter suggests areas for future research and
+some starting ideas as to how they might expand our knowledge of
+mobile ecosystems and the trust relationships within them.
 
-\section{Plausible SecPAL}
+\section{Probable SecPAL}
 
 The SecPAL authorization language, and the AppPAL instantiation, let policy
 authors to make use of static analysis tools to make decisions, and allow
@@ -25,10 +26,10 @@ merely fairly confident that an app can access the network safely but not
 absolutely certain.
 
 With current authorization languages you cannot quantify the belief a principal
-has in any statement. A principal cannot say how \emph{plausible} they think any
+has in any statement. A principal cannot say how \emph{probable} they think any
 statement is.
 
-\subsection{Examples of Plausibility}
+\subsection{Examples of Probability}
 
 SecPAL was designed to make access control decisions. The decision whether to
 install allow a user access to a file or not is a binary one: either they can
@@ -41,44 +42,46 @@ not. Not all decisions are binary however.
   \centering
   \includegraphics[width=0.99\linewidth]{figures/android-malware.png}
   \includegraphics[width=0.99\linewidth]{figures/towelroot.png}
-  \caption[VirusTotal results for two Android apps.]{VirusTotal results for 57
-    antivirus packages scanning a sample of the BaseBridge Android malware, and 64
-    antivirus packages analyzing a download of the (relatively safe) Towelroot
-    rooting app.}
+  \caption[VirusTotal results for two Android apps.]{VirusTotal
+    results for 57 antivirus packages scanning a sample of the BaseBridge
+    Android malware, and 64 antivirus packages analyzing a download of the
+    (relatively safe) Towelroot rooting app.  The tools do not agree on
+    the results.}
   \label{fig:android-malware}
 \end{figure}
 
-A user, Alice, may have a policy. That will only install safe apps, ones they
-know are not malware. She could use an \ac{AV} program, but these tools are not
-infallible. Some change their mind about apps over time. Others are heuristic
-based and may only be capable of judging an app based on sufficiently many
-malware indicators being present. Instead of using one \ac{AV} program, Alice
-opts to use \emph{VirusTotal}; a web service for running files through multiple
-\ac{AV} programs. Even for known malware samples VirusTotal rarely gives
-absolute answers instead giving the number of \ac{AV} programs that flagged
-it~(\autoref{fig:android-malware}). Alice acknowledges this and writes her
-policy accordingly:
+A user, Alice, may have a policy. That will only install safe apps,
+ones they know are not malware. She could use an \ac{AV} program, but
+these tools are not infallible. Some change their mind about apps over
+time. Others are heuristic based and may only be capable of judging an
+app based on sufficiently many malware indicators being
+present. Instead of using one \ac{AV} program, suppose that Alice opts
+to use \emph{VirusTotal}; a web service for running files through
+multiple \ac{AV} programs. Even for known malware samples VirusTotal
+rarely gives absolute answers instead giving the number of \ac{AV}
+programs that flagged it~(\autoref{fig:android-malware}). Alice
+acknowledges this and writes her policy accordingly:
 
 \begin{lstlisting}
 'alice' says App:A isInstallable
   if A isSafe
-  with plausibility at least 0.75.
+  with probability at least 0.75.
 
 'alice' says 'virustotal' can-say
   App:A isSafe
 
 'virustotal' says 'com.good.app' isSafe
-  with plausibility 0.95.
+  with probability 0.95.
 
 'virustotal' says 'com.malicious.app' isSafe
-  with plausibility 0.26.
+  with probability 0.26.
 \end{lstlisting}
 
-She can install the \texttt{com.good.app}, since the plausibility it is good is
+She can install the \texttt{com.good.app}, since the probability it is good is
 greater than her threshold but the \texttt{com.malicious.app} fails her test and
 is uninstallable. 
 
-In the first example VirusTotal gave Alice a value for how plausible it was the
+In the first example VirusTotal gave Alice a value for how probable it was the
 app was safe: but what if Alice has to decide this value herself? An example of
 this is app recommendations. Alice only wants to install apps that are really
 good. She has two friends, Bob and Charlie, who offer her reviews of a game. To
@@ -88,92 +91,92 @@ trusting of Charlie.
 \begin{lstlisting}
 'alice' says App:A isInstallable
   if A isGood
-  with plausibility
+  with probability
 
 'bob' says 'com.rovio.angrybirds' isGood
-  with plausibility 0.8.
+  with probability 0.8.
 
 'charlie' says 'com.rovio.angrybirds' isGood
-  with plausibility 0.9.
+  with probability 0.9.
 
 'alice' says 'bob' can-say App:A isGood.
 
 'alice' says 'charlie' can-say App:A isGood
-  with plausibility 0.9.
+  with probability 0.9.
 \end{lstlisting}
 
 How should she combine the information to get an overall rating of the game? If
 Alice wants to only install apps that are both good and safe how should she
-trade off the plausibility against each other? Is she willing to install a more
+trade off the probability against each other? Is she willing to install a more
 dangerous app if it is highly reviewed?
 
-Plausibility is similar to probability (plausibility incorporates the speakers
+Probability is similar to probability (probability incorporates the speakers
 \emph{belief} that the statement is true as opposed to just its likelihood) and
 various papers have proposed probabilistic variants of
 Datalog~\cite{fuhr_probabilistic_1995} or explored the semantics of
 probabilistic logics~\cite{halpern_analysis_1990}. Role-based access control
 languages have incorporated ideas about risk into their
 schemes~\cite{josang_analysing_2004,dimmock_using_2004,salim_approach_2011},
-which is a similar notion to plausibility and trust. These schemes do not seem
+which is a similar notion to probability and trust. These schemes do not seem
 to deal with delegation in the same manner as SecPAL however so incorporating
 similar ideas here may be interesting and allow SecPAL and AppPAL greater
 expressiveness.
 
-Whilst some work went into developing the ideas behind a plausible SecPAL
+Whilst some work went into developing the ideas behind a probable SecPAL
 variant, we did not finish this work because there are several hard problems
 surrounding it. In particular, it is far from clear how to combine probabilistic
 statements in a consistent, and sound manner. Several choices are possible but
 more research is needed to understand the right way to do it and how to develop
-Plausible SecPAL into a full, and useful language.
+Probable SecPAL into a full, and useful language.
 
 
-\subsection{Guarantees for Plausible SecPAL} 
+\subsection{Guarantees for Probable SecPAL} 
 
 In \autoref{appendix:probabilistic} we suggest how we might implement
-Plausible SecPAL by modifying Becker~\etal's original
+Probable SecPAL by modifying Becker~\etal's original
 design. Regardless of how we implement it, we should consider
 carefully how we might \emph{combine} information and
-plausibilities. Combining probabilities of events when you cannot
+probabilities. Combining probabilities of events when you cannot
 guarantee independence is hard, and the same is true of
-plausibility. Strategies such as taking the product, minimum of
+probability. Strategies such as taking the product, minimum of
 combined statements may be too simple. We suggest the following
 properties should hold no matter what combination mechanism is used:
 
 \begin{enumerate}
-\item \label{enum:1} If all facts are completely plausible, then evaluation should be
+\item \label{enum:1} If all facts are completely probable, then evaluation should be
   equivalent to standard SecPAL.
-\item \label{enum:0} If any fact is completely  implausible, then it should be equivalent
+\item \label{enum:0} If any fact is completely  improbable, then it should be equivalent
   to the statement not existing in the assertion context.
-\item \label{enum:grow} No derived statement should be more plausible than the conditions used
+\item \label{enum:grow} No derived statement should be more probable than the conditions used
   to derive it.
 \end{enumerate}
 
-Rule~\ref{enum:1} ensures that any plausibility additions do not start to
+Rule~\ref{enum:1} ensures that any probability additions do not start to
 produce different results to standard SecPAL. We wish to be able to reason about
-scenarios where we have partial plausibility, but this addition shouldn't change
+scenarios where we have partial probability, but this addition shouldn't change
 our ability to reason when each speaker has total belief in their assertions. If
-everything is completely plausible, then the reasoning should be equivalent to
-SecPAL where the perfect plausibility is assumed. Similarly, if a speaker
-believes a fact to be completely implausible, then Rule~\ref{enum:0} ensures that
+everything is completely probable, then the reasoning should be equivalent to
+SecPAL where the perfect probability is assumed. Similarly, if a speaker
+believes a fact to be completely improbable, then Rule~\ref{enum:0} ensures that
 fact is used to derive other facts. SecPAL operates under a \emph{closed world
 assumption}, that is that the assertion context contains (or at least can
 derive) \emph{all} known facts. If a statement is missing, then it is false. If a
-speaker believes a statement to be perfectly implausible then it should be
+speaker believes a statement to be perfectly improbable then it should be
 equivalent to falsehood in standard SecPAL and should not be used further.
 
 Rule~\ref{enum:grow} applies to assertions with a conditional part (i.e.~an
 \texttt{if}). If this rule were not the case, we might be able to grow the
-plausibility of a fact by applying a rule that contained its own derived fact in
+probability of a fact by applying a rule that contained its own derived fact in
 its condition. For example consider the following rule:
 \begin{lstlisting}
 'x' says 'y' p
   if 'y' p,
      'z' q.
-\end{lstlisting} Say we know already that by applying this rule the plausibility
-that \texttt{'x' says 'y' p} will be greater than the plausibility of the
+\end{lstlisting} Say we know already that by applying this rule the probability
+that \texttt{'x' says 'y' p} will be greater than the probability of the
 conditionals that \texttt{'x' says 'y' p} and \texttt{'x' says 'z' q}. Since the
 decision that \texttt{'x' says 'y' p} is also part of the conditions, we could
-repeatedly reapply this rule and raise the plausibility arbitrarily.
+repeatedly reapply this rule and raise the probability arbitrarily.
 
 \section{Patterns with Predicates}
 \label{sec:patterns-with-predicates}
@@ -201,7 +204,7 @@ assertion context has changed over time.
    \toprule
      $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\
      $P(\phi)$ & $\Rightarrow$ & At sometime in the past $\phi$ was true. \\
-     $G(\phi)$ & $\Rightarrow$ & $\phi$ will always true. \\
+     $G(\phi)$ & $\Rightarrow$ & $\phi$ will always be true. \\
      $H(\phi)$ & $\Rightarrow$ & $\phi$ was always true. \\
    \bottomrule
  \end{tabular}
@@ -209,7 +212,7 @@ assertion context has changed over time.
  \label{tab:temporal-operators}
 \end{table}
 
-Using the temporal operators, such as those established by
+Using temporal operators, such as those established by
 Prior~\cite{arthur_n._prior_past_1967} (\autoref{tab:temporal-operators}), we can
 start to write rules expressing the relationship between different predicates.
 Taking the earlier example, we might wish to add a rule that if Alice believes
@@ -285,19 +288,6 @@ interpreter would report an error.
 Further investigation into the relationships between predicates, and their
 semantics, might allow for interesting auditing possibilities with AppPAL and
 extend the language further.
-
-\section{Curation with AppPAL}
-
-We have shown in this dissertation how AppPAL can be used to describe different
-policies for BYOD, and for app installation preferences. A logical next step
-would be to start to use AppPAL to enforce these policies, and to study how
-users might use AppPAL to make decisions.
-
-This could be done by using AppPAL as a mechanism for \emph{curation}. AppPAL
-would be used as a tool for finding apps that match user's privacy policies. We
-described earlier how we could use AppPAL's \emph{genstore}-framework to build a
-curated app store on the basis of a policy. This could be extended to allow for
-policy-aware app searches.
 
 \section{AppPAL MDM}
 
