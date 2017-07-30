@@ -3,46 +3,36 @@
 \chapter{Related Work}
 \label{chap:related-work}
    
-There has been relevant work on policy languages concurrent with our own work
-capturing mobile security policies precisely. In this chapter we give an
-overview of DKAL which built on SecPAL to describe how information could be
-shared. We describe XACML an industrial standard for describing policies.
-XACML was extended recently to describe delegation relationships. We explain
-our reasons for choosing SecPAL as a basis for our work over it.
+There has been relevant work on policy languages concurrent with our
+own work capturing mobile security policies precisely. In this chapter
+we give an overview of DKAL, which built on SecPAL to describe how
+information could be shared. We describe XACML, an industrial standard
+for describing policies.  XACML was extended recently to describe
+delegation relationships. We explain our reasons for choosing SecPAL
+as a basis for our work over it.
 
-We also describe work developing fine-grained permissions systems for Android.
-Policy languages give us a mechanism to describe trust relationships and
-decisions \emph{in general}. Fine-grained permission systems are a type of
-policy language to control app behavior on Android. To access some APIs, such as
-access to private storage, Android apps must ask for a permission. Permissions
-are a coarse usage control mechanism. Until 2015 (and Android Marshmallow),
-users could not control which permissions an app had (by default).
-Not installing an app was the only means to stop an app accessing data.
-Android Marshmallow added the ability to disable many permissions of
-an app after installation.
-
-The coarseness of Android's permission system, and its relative inflexibility,
-has led to a line of research into \emph{fine-grained} permissions systems.
-These systems add extra permissions controls, and allow greater control of their
-enforcement. We describe several notable examples and what extra controls
-or new enforcement means the fine-grained permissions systems offered.
+We also describe work developing fine-grained permissions systems for
+Android.  Policy languages give us a mechanism to describe trust
+relationships and decisions \emph{in general}. Fine-grained permission
+systems are a type of policy language to control app behavior on
+Android. 
 
 \section{DKAL}
 
 The DKAL family of
 languages~\cite{jeannin_dkal*:_2013,gurevich_dkal:_2008,yuri_gurevich_dkal2---simplified_2009}
-grew from SecPAL as a policy language for a distributed
-system's interacting agents~\cite{blass_introduction_2012}. Assertions are
-communicated as signed statements called \emph{infons} between principals. For
-example Alice might wish to recommend Bob an app. Alice, therefore, sends to Bob
-the infon:
+grew from SecPAL as a policy language for a distributed system's
+interacting agents~\cite{blass_introduction_2012}. Assertions are
+communicated as signed statements called \emph{infons} between
+principals. For example Alice might wish to recommend Bob an
+app. Alice, therefore, sends to Bob the infon:
 
 \begin{lstlisting}
 alice said com.rovio.angrybirds is a good app.
 \end{lstlisting}
 
-Bob is free to do with this information as he wishes. He might accept app
-recommendations from anyone and may have a rule to learn facts:
+Bob is free to do with this information as he wishes. He might accept
+app recommendations from anyone and may have a rule to learn facts:
 
 \begin{lstlisting}
 with M: String, P: Principal
@@ -61,12 +51,13 @@ asked for it.
 DKAL\textsuperscript{$\star$}~\cite{jeannin_dkal*:_2013} took the ideas of information sharing
 further and showed how to create executable protocols from DKAL programs.
 
-DKAL improves over SecPAL by giving a means for transferring and reacting to
-information. These might be helpful to describe how protocols worked within the
-mobile ecosystem and for expanding how obligation policies would be triggered.
-The authors of DKAL showed that all SecPAL policies could be expressed in
-DKAL~\cite{gurevich_dkal:_2008}, so AppPAL could gain increased expressivity
-just by switching interpretters.
+DKAL improves over SecPAL by giving a means for transferring and
+reacting to information. These might be helpful to describe how
+protocols worked within the mobile ecosystem and for expanding how
+obligation policies would be triggered.  The authors of DKAL showed
+that all SecPAL policies could be expressed in
+DKAL~\cite{gurevich_dkal:_2008}. AppPAL could gain, if needed,
+increased expressivity just by switching interpretters.
 
 \section{XACML}
 
@@ -272,28 +263,45 @@ decision point may have to retrieve policies and decisions from multiple sources
 Ultimately we chose to use SecPAL as the basis for our work instead of XACML as
 it had well-defined semantics, and was a better fit to describe the
 decentralized policies of the mobile ecosystem. A lot of the results of our work
-could have been replicated using XACML instead of AppPAL. Idioms found in BYOD
-policies could be described in XACML as easily as they could in AppPAL. We could
-have described app usage patterns using XACML and queried what apps they had
-installed using that policy instead. But we used AppPAL as it felt a better fit.
-Ultimately how we used the policy language is more interesting, we feel, than
-which policy language we used.
+could be replicated in XACML instead of AppPAL. 
 
 \section{Fine-Grained Permission Systems}
 \label{sec:fine-grained-permissions}
 
-This section looks exclusively at Android as that is where the bulk of the
-research has been. It is relevant to our work as these alternative permissions
-schemes have been used to describe the policies about how users wish to use
-their devices. The majority of the work has looked at Android: perhaps because,
-unlike iOS, the operating system can be modified to incorporate new features.
+This section looks exclusively at Android as that is where the bulk of
+the research has been. It is relevant to our work as these alternative
+permissions schemes have been used to describe the policies about how
+users wish to use their devices. The majority of the work has looked
+at Android: perhaps because, unlike iOS, the operating system can be
+modified to incorporate new features.
 
-The permission system of iOS allows users to
-toggle an app's ability to perform certain actions (access photos,
-send notifications) through the settings, and prompts users for a
-default policy when the app first attempts to perform the action.
-From Android Marshmallow the permissions schemes of iOS and Android
-are very similar.
+%The permission system of iOS allows users to
+%toggle an app's ability to perform certain actions (access photos,
+%send notifications) through the settings, and prompts users for a
+%default policy when the app first attempts to perform the action.
+%From Android Marshmallow the permissions schemes of iOS and Android
+%are very similar.
+
+To access some APIs, such as access to private storage, Android apps
+must ask for a permission. Permissions are a coarse usage control
+mechanism. Until 2015 (and Android Marshmallow), users could not
+control which permissions an app had (by default) and not installing
+an app was the only way to stop an app accessing data, without
+modifying Android.  Since Android Marshmallow, users can disable many
+of an app's permissions after installation.
+
+The coarseness of Android's permission system, and its relative
+inflexibility, has led to a line of research into \emph{fine-grained}
+permissions systems.  These systems add extra permissions controls,
+and allow greater control of their enforcement. We describe several
+notable examples and what extra controls or new enforcement means the
+fine-grained permissions systems offered.  A fine-grained permissions
+system is designed to enforce app policies, whereas our work on AppPAL
+is about capturing the broader policies of the entire mobile
+ecosystem.  A fine-grained permissions system could be \emph{plugged
+into} AppPAL, via the constraints mechanisms, to allow enforcement of
+fine-grained permissions policies, if we wished to capture and use
+these tools.
 
 Some of the earliest work on fine-grained permissions systems for
 Android starts with Enck~\etal's work on
@@ -306,65 +314,31 @@ entire app, can you just reject the behavior you don't like?
 Ontang~\etal's SAINT tool~\cite{ongtang_semantically_2012} did just
 that for inter-app communication, allowing the user to express a
 policy about the circumstances two apps could share data or call
-functionality.  Similarly, Apex~\cite{nauman_apex:_2010} allowed user's
-to specify at install time constraints as to when a permission could
-be used.  
-%This allowed them to write policies where an app's ability to send SMS messages
-%could be denied if the app had already sent a message within the last hour, for
-%example, or deny access to location data outside of working hours.
-CRePE~\cite{conti_crepe:_2010} took
-these ideas further allowing permissions to be denied based on
-\emph{context} (for example the user was on a train, or the user was
-within Bluetooth range of their computer).
+functionality.  Similarly, Apex~\cite{nauman_apex:_2010} allowed
+user's to specify at install time constraints as to when a permission
+could be used.  CRePE~\cite{conti_crepe:_2010} took these ideas
+further allowing permissions to be denied based on \emph{context} (for
+example the user was on a train, or the user was within Bluetooth
+range of their computer).
 
-Dr{.}~Android and Mr{.}~Hide~\cite{jeon_dr._2012} was a fine-grained permission
-scheme that worked by rewriting apps to use guarded APIs.
-AppGuard~\cite{backes_appguard_2013} worked similarly to Dr{.}~Android, but
-allowed for controlled responses when a permission was denied---essentially
-ensuring that the app didn't crash if it didn't get access to the data it
-expected to. Aurasium~\cite{xu_aurasium:_2012} works by modifying apps to
-monitor system calls and IPC mechanisms via GOT hijacking in the Bionic libc,
-allowing their policies to effect native code which earlier tools ignored.
+Dr{.}~Android and Mr{.}~Hide~\cite{jeon_dr._2012} was a fine-grained
+permission scheme that worked by rewriting apps to use guarded APIs.
+AppGuard~\cite{backes_appguard_2013} worked similarly to
+Dr{.}~Android, but allowed for controlled responses when a permission
+was denied---essentially ensuring that the app didn't crash if it
+didn't get access to the data it expected
+to. Aurasium~\cite{xu_aurasium:_2012} works by modifying apps to
+monitor system calls and IPC mechanisms via GOT hijacking in the
+Bionic libc, allowing their policies to effect native code which
+earlier tools ignored.
 
-Jin~\etal{} developed a fine-grained permission system that targeted apps
-written using the PhoneGap framework, that enable developers to create portable
-native apps from web apps~\cite{jin_fine-grained_2015}. Dai~\etal{} proposed a
-fine-grained permissions scheme that controlled apps (and IoT devices) access to
+Jin~\etal{} developed a fine-grained permission system that targeted
+apps written using the PhoneGap framework, that enable developers to
+create portable native apps from web
+apps~\cite{jin_fine-grained_2015}. Dai~\etal{} proposed a fine-grained
+permissions scheme that controlled apps (and IoT devices) access to
 media stored on cloud based services based on a user's
 policies~\cite{dai_who_2017}.
-
-%SEAndroid was a set of patches to the Android kernel by the US
-%National~Security~Agency porting the SELinux discretionary access
-%control to Android~\cite{smalley_security_2013}.  The permissions
-%system in Android had been implemented by using the Linux groups
-%mechanisms.  When an app launched, the process would be created by
-%forking a copy of the privileged \emph{zygote} Dalvik virtual machine
-%process\footnote{A \emph{zygote} would run in the background permanently
-%semi-initialised to allow apps to start quickly.}, which would then
-%drop privileges and set gids based on the permissions the app declared.
-%
-%This implementation was problematic as it inherrited many of the
-%problems with Linux's discretionary access control model, had no
-%centralised policy document describing how permissions were used (the
-%policy was expressed by the permissions of the filesystem), but also
-%meant that the sandboxing mechanisms relied upon having this
-%privileged zygote running (as well as potentially other services).
-%
-%SEAndroid ported the basic SELinux security mechanisms to Android,
-%provided a default policy that described how the permissions and
-%sandboxing systems should work under a mandatory access control
-%scheme, and integrated it with the zygote system for starting
-%apps.\footnote{SELinux policies are usually applied on
-%\texttt{exec}-ing a process, not the \texttt{clone} used by the
-%zygote.}
-%
-%Whilst SEAndroid did not implement a fine-grained permissions system
-%by itself, it was merged into Android and would replace the original
-%permissions system.  By Android Marshmallow it was fully enabled, and
-%allowed an app's permissions to be granted or denied by the user as
-%the permissions system was far more flexible than the original DAC
-%implementation.
-
 
 \end{document}
 

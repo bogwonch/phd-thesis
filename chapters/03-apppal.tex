@@ -965,11 +965,11 @@ AppPAL's developers with debugging.
   \begin{algorithm}[H]
     \Fn(){\FnCond{AC, RT, Q, D}}{
       \For{a $\in$ \FnAssertions{AC}}{
-        $u$ $\gets$ Q.\FnUnify{a.\FnHead{}}\;
+        $u$ $\gets$ $Q$.\FnUnify{a.\FnHead{}}\;
         \If{u.\FnValid{}}{
           $a$ $\gets$ $a$.\FnApply{u}\;
            \For{$\theta$ $\in$ \FnVarSubs{AC, a}}{
-            $a^\prime$ $\gets$ a.\FnApply{$\theta$}\;
+            $a^\prime$ $\gets$ $a$.\FnApply{$\theta$}\;
             \If{\FnVariables($a^\prime$) = $\emptyset$}{
               \If{$\forall$ b $\in$ a$^\prime$.\FnBody{}: \FnEvaluate{AC, RT, b, D}=Success}{
                 \If{\FnCheckConstraint{a$^\prime$.constraint}=True}{
@@ -999,23 +999,23 @@ AppPAL's developers with debugging.
       }
       \Return{Failure}
     }
-    
+   \; 
     \Fn(){\FnCanActAs{AC, RT, Q, D, c}}{
       $q_1 \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-act-as} $Q$.subject.\; 
-      $q_2 \gets$ $Q$.speaker \texttt{says} c $Q$.verbphrase.\;
+      $q_2 \gets$ $Q$.speaker \texttt{says} $c$ $Q$.verbphrase.\;
       $p_1 \gets$ \FnEvaluate{AC, RT, $q_1$, D} = $Proven$\;
       $p_2 \gets$ \FnEvaluate{AC, RT, $q_2$, D} = $Proven$\;
       \If{$p_{1} \wedge p_{2}$}{\Return $Proven$}
       \Else{\Return $Failure$}
     }
-    
+   \; 
     \Fn(){\FnCanSay{AC, RT, Q, D, c}}{
       $q_{1\infty} \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-say inf} $Q$.fact.\; 
       $q_{2\infty} \gets$ c \texttt{says} $Q$.fact.\;
       $p_{1\infty} \gets$ \FnEvaluate{AC, RT, $q_1$, $\infty$} = $Proven$\;
       $p_{2\infty} \gets$ \FnEvaluate{AC, RT, $q_2$, $\infty$} = $Proven$\;
       $q_1 \gets$ $Q$.speaker \texttt{says} $c$ \texttt{can-say} $Q$.fact.\; 
-      $q_2 \gets$ c \texttt{says} $Q$.fact.\;
+      $q_2 \gets$ $c$ \texttt{says} $Q$.fact.\;
       $p_1 \gets$ \FnEvaluate{AC, RT, $q_1$, 0} = $Proven$\;
       $p_2 \gets$ \FnEvaluate{AC, RT, $q_2$, 0} = $Proven$\;
       \If{$(p_{1\infty} \wedge p_{2\infty})\vee(p_{1} \wedge p_{2})$}{\Return $Proven$}
@@ -1056,39 +1056,80 @@ The arguments in the rest of the section assume that the result of evaluating a
 constraint does not change over time. This allows us to argue the
 correctness of the algorithm, assuming that the $RT$ cache is correct.
 
-\paragraph*{Soundness Argument}
-A query is \texttt{Evaluate}-d at a given delegation depth, against a given
-$AC$ and $RT$. If the query has been made before,
-then the result will be present in $RT$, and will be reused. Therefore, in
-showing the decision process is sound we must show that only queries that can be
-proven are ever marked as successful in $RT$. Since this is only done in the
-\texttt{Evaluate} function, we must argue that evaluate itself is sound.
+\subsubsection*{Soundness Argument}
 
-A query is only marked as successful if the \texttt{Cond} on
-\texttt{CanSay-CanActAs} functions return success. These functions implement the
-three AppPAL evaluation rules. The \texttt{CanSay-CanActAs} rule searches
-through possible variables for possible candidates for either of the rules, and
-then the individual \texttt{CanSay} and \texttt{CanActAs} rules which implement
-their respective evaluation rules. If \texttt{Evaluate} is sound then these must
-also be sound as they are analogous to the \emph{can-say} and \emph{can-act-as}
-AppPAL evaluation rules.
+\begin{equation*}
+  \mathtt{Evaluate}(AC, RT, Q, D) = \textit{Success} \implies
+  AC, D \models Q.
+\end{equation*}
 
-The \texttt{Cond} function implements the \emph{cond} rule. It searches for
-assertions $a$ in the $AC$ that unify with the query (i.e. have a head that is
-equal to the query under a variable renaming $u$). For each $a$ we try all
-possible substitutions of the remaining free variables (satisfying the
-\emph{cond} rules condition that there must be no free variables) and tries to
-evaluate each statement in the body of $a$. If all evaluate successfully (the
-first condition in the \emph{eval} rule), then the constraint is checked (the
-final condition of the \emph{cond} rule). If it is successful, then the
-\texttt{Cond} function returns success. Since this process is analogous to the
-\emph{cond} rule, this process must also be sound.
+\paragraph*{Base Case.}  For the base case we argue that the
+\texttt{Evaluate} function is sound when not making recursive calls.
+A query is \texttt{Evaluate}-d at a given delegation depth, against a
+given $AC$ and $RT$. If the query has been made before, then the
+result will be present in $RT$, and will be reused. Therefore, in
+showing \texttt{Evaluate} is sound we must show that only queries that
+can be proven are ever marked as successful in $RT$.
 
-Since the \texttt{Evaluate} rule can only mark a query as proven in $RT$ if it
-follows the evaluation rules of AppPAL the algorithm must be sound as there are
-no other means to insert a successful result into the table.
+The \texttt{Evaluate} function calls \texttt{Cond} function which
+implements SecPAL's \emph{cond} rule.  It searches the AC for unifying
+assertions (i.e. those assertions which have a head that is equal to
+the query under a variable renaming), then searches for possible
+variable substitutions to remove all variables.If the body is missing
+(i.e. the unifying assertion has no conditionals) and the constraint
+is true, then \texttt{Cond} will return success, and the results table
+will be updated accordingly.  This corresponds to SecPAL's \emph{cond}
+rule (we have \fade{grayed out} the recursive case), hence we would
+argue it is sound as there is no other means for our evaluation
+algorithm to mark a result as true in $RT$ without recursively calling
+\texttt{Evaluate}, and it is analogous to the SecPAL evaluation's
+minimal case.
 
-\paragraph*{Completeness Argument}
+{\footnotesize
+\begin{equation*}
+  \infer[\textsf{\scriptsize cond}]{%
+    AC, D \models A\texttt{~says~}fact\theta
+  }{%
+    \begin{array}[c]{c}
+      \left(A\texttt{~says~}\text{fact}\fade{\texttt{~if~}\text{fact}_1,~\ldots,~\text{fact}_k}~\texttt{where}~c\right) \in AC \\
+      \fade{AC,D\models A\texttt{~says~}\text{fact}_i\theta \; \forall i \in \{1\cdots k\}}
+    \end{array}
+    & \models{c\theta}
+    & \textsf{vars}(\text{fact}\theta) = \emptyset)
+  }
+\end{equation*}
+}
+
+\paragraph*{Inductive Step.}  Assuming the base case is correct and
+\texttt{Evaluate} is sound without recursion, we must argue that
+\texttt{Evaluate} in the non-recursive case also.
+
+The \texttt{CanSay-CanActAs} rule searches through all possible
+constants for candidates that are either subjects (constants that
+occur immediately after the \emph{says} statement) or speakers
+(entities that make statements).  For each constant it finds it
+attempts to use the \texttt{CanActAs} or \texttt{CanSay} rules with
+the discovered constant as the renaming or delegator.  The
+\texttt{CanActAs} and \texttt{CanSay} functions implement their
+respective evaluation rules directly, calling \texttt{Evaluate} to
+check their conditions.  The \texttt{Cond} function in the recursive
+case is the same as the non-recursive case but if an assertion has a
+query has conditions, then each is checked by making the call to
+\texttt{Evaluate}, as the \emph{cond} rule requires.
+
+The \texttt{Cond}, \texttt{CanSay} and \texttt{CanActAs} functions
+called by \texttt{Evaluate} act the same as their evaluation rule
+equivalents, each calling \texttt{Evaluate} to check their conditions,
+as would the evaluation rules be used to check statements higher in
+the generated proof tree.  We argue the evaluation algorithm is
+therefore sound by induction.
+
+\subsubsection*{Completeness Argument}
+
+\begin{equation*}
+  \mathtt{Evaluate}(AC, RT, Q, D) = \textit{Success} \implies
+  AC, D \models Q.
+\end{equation*}
 
 When evaluating queries, we look through all possible assertions in $AC$ to find
 a statement that could prove it. Finding a valid proof involves looking through

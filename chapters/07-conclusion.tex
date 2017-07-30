@@ -9,26 +9,9 @@ instantiated from SecPAL. This allowed us to make precise comparisons
 between different policies, and study the way policies were used in
 practice rigorously.
 
-In \autoref{chap:apps-and-stores}, by taking user app installation
-data, and privacy preferences found by researchers talking to
-users~\cite{lin_modeling_2014}, we modeled user's preferences using
-AppPAL. We showed an example of the privacy paradox: that user's
-privacy preferences do not seem to influence which apps they install
-in practice.  We also surveyed the different terms and
-conditions between app marketplaces.  We highlighted some similarities and differences and showed how these could be captured
-using AppPAL.
-
-In \autoref{chap:byod}, we examined BYOD policies and translated them
-into AppPALin order to compare them. We identified idioms of
-acknowledgment and delegation that had not been looked at by existing
-research and \ac{MDM} tools. These particular idioms were of
-particular interest as they described social and often unenforced
-aspects of policies, that prior work has looked less at, predominantly
-focussing on the technical aspects of policies.  Our work showed that these less technical aspects also play an important role in policies.
-
 Our work contributes to the literature by showing how to capture the
-security policies of the mobile ecosystem precisely, and use the
-formal policies as the basis for comparisons and reasoning. Whilst
+security policies of the mobile ecosystem, and how to use
+the formal policies as the basis for comparisons and reasoning. Whilst
 AppPAL does not have any new semantic language features, our work is
 novel as it shows the application of policy languages to a new domain.
 
@@ -47,36 +30,39 @@ mechanistically. Sometimes, however, just trusting the subject to
 follow them on their own, however, is enough.  Capturing these trust
 relationships lets us see precisely how a policy is satisfied.
 
-Our work is not without its limitations. There are many policies in the mobile
-ecosystem that we didn't fully look at; such as the differences between OSs, the
-differences between store contents. We have shown that by using AppPAL we can
-gain a better understanding of the policies, however. This includes the policy's
-implications and the trust relationships between companies, people and tools
-they use.
+Our work is not without its limitations. There are many policies in
+the mobile ecosystem that we didn't fully look at; these include
+policies such as the differences between OSs and the differences between
+store contents. We have shown that by using AppPAL we can gain a
+better understanding of the policies, however. This includes the
+policy's implications and the trust relationships between companies,
+people and tools they use.
 
 \hspace{1em}
 
-\noindent In his Turing award lecture \emph{on trusting trust} Ken Thompson asked a
-question~\cite{ken_thompson_reflections_1984}:
+\noindent In his Turing award lecture \emph{on trusting trust} Ken
+Thompson asked a question~\cite{ken_thompson_reflections_1984}:
 \begin{quotation}\itshape\noindent
-  ``To what extent should one trust a statement that a program is free of Trojan
-  horses? Perhaps it is more important to trust the people who wrote the
-  software.''
+  ``To what extent should one trust a statement that a program is free
+  of Trojan horses? Perhaps it is more important to trust the people who
+  wrote the software.''
 \end{quotation}
 He concluded:
 \begin{quotation}\itshape\noindent
-  ``The moral is obvious. You can't trust code that you did not totally create
-  yourself. (Especially code from companies that employ people like me.)
-  No amount of source-level verification or scrutiny will protect you from using untrusted code.''
+  ``The moral is obvious. You can't trust code that you did not
+  totally create yourself. (Especially code from companies that employ
+  people like me.)  No amount of source-level verification or scrutiny
+  will protect you from using untrusted code.''
 \end{quotation} 
 The same question could be asked of the policies in the mobile
-ecosystem. Thompson's conclusion is still true: there is no way to trust that
-any app you download is safe or good. There is no way to check employees
-are not circumventing a BYOD policy cleverly. It is hard
-for users to create all their own apps and OSs. Few companies can only run
-with only one employee. We can't trust people follow our policies. But we can
-understand the trust relationships within them. If we understand the trust
-relationships, we can decide what risks we take, and with whom.
+ecosystem. Thompson's conclusion is still true: there is no way to
+trust that any app you download is safe or good. There is no way to
+check employees are not circumventing a BYOD policy cleverly. It is
+hard for users to create all their own apps and OSs. Few companies can
+only run with only one employee. We can't trust people follow our
+policies. But we can understand the trust relationships within
+them. If we understand the trust relationships, we can decide what
+risks we take, and with whom.
 
 \end{document}
 
