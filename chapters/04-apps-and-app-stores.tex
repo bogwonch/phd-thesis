@@ -6,11 +6,10 @@
 Apps and app stores are a key part of the mobile ecosystem, an app being the key
 form of software and the app store as their primary mode of distribution. In
 this chapter we explore the stores and the policies surrounding them. We compare
-the differences in terms and conditions between the various marketplaces and
-make comparisons between them. We look at how users have privacy preferences
-about the which apps they want to use, but by using AppPAL versions of common
-user privacy preferences show how Android users do not seem to follow them in
-practice. Finally we describe how AppPAL can be used to create new app stores by
+the terms and conditions between the various marketplaces. We look at how users have privacy preferences
+about the which apps they want to use. But by using AppPAL versions of common
+user privacy preferences, we show how Android users do not seem to follow them in
+practice. Finally, we describe how AppPAL can be used to create new app stores by
 checking for apps that can be shown to follow a policy, and offering them in a
 web app-based store.
 
@@ -20,7 +19,7 @@ Whilst iOS has just one store (Apple's App Store), the Android ecosystem is more
 diverse with multiple stores available for multiple different purposes. The
 dominant app store on Android is Google Play. Unlike iOS, Google isn't the sole
 app vendor however. Some device vendors add their own stores to their devices as
-a feature: Amazon do this with their Kindle Fire tablets, where Kindle owners
+a feature: Amazon does this with their Kindle Fire tablets, where Kindle owners
 can download discounted apps. Some vendors, such as Samsung, add their own store
 this to highlight apps that use features specific to their phones (KNOX in
 Samsung's case). In some regions (such as China), using Google services is
@@ -30,7 +29,7 @@ problematic. People in these countries use local, regionally focused app stores
 For a manufacturer to install Google's store they must comply with the Android
 \ac{CDD}~\cite{google_android_2016}. The \ac{CDD} describes how to configure the
 Android operating system and what features a device must have to run Android. If
-a manufacturer cannot pass the \ac{CTS} that tests conformance with the \ac{CDD}
+a manufacturer cannot pass the \ac{CTS} that tests conformance with the \ac{CDD},
 then they cannot install the Play Store.
 
 For manufacturers like \emph{Jolla} whose devices do not run
@@ -41,17 +40,18 @@ device to still benefit from apps designed for the Android ecosystem, without ha
 
 In this section we will focus on five different app stores: Apple's App Store,
 Amazon's app store, Aptoide, Google Play and Yandex. Apple's App Store is for
-iOS, but the rest are for Android operating systems. Amazon's app store was
-opened in 2011 and was the primary app store for Amazon's Android-based Kindle
-tablets\footnote{The Kindle Fire models, as opposed to the regular Kindle
-models.}. Like Apple and Google's stores, the store is controlled by the device
-manufacturer.
+iOS, but the rest are for Android operating systems.
+
+Amazon's app store was opened in 2011 and was the primary app store
+for Amazon's Android-based Kindle tablets\footnote{The Kindle Fire
+models, as opposed to the regular Kindle models.}. Like Apple and
+Google's stores, the store is controlled by the device manufacturer.
 
 Yandex is a store primarily for the Russian and eastern European markets. It
 features many Russian language apps. Some manufacturers, such as Nokia,
 installed Yandex over Google's app store on devices sold in Russia.
 
-Aptoide is a an open-source app store, and software for creating new app stores.
+Aptoide is an open-source app store, and software for creating new app stores.
 Unlike many other app stores it provides specialized app stores targeted for
 Android based Smart TVs (Aptiode TV), and for users with slow internet
 connections (Aptoide Lite). Aptoide doesn't provide access to fixed sets of
@@ -100,8 +100,8 @@ stores are \emph{contractually} allowed to do with a user's data and a
 developer's app.
 
 A comparison of the terms and conditions is given in
-\autoref{tab:terms-and-conditions}. It is also worthwhile comparing the forms
-the terms and conditions themselves take. For most of the stores the terms are
+\autoref{tab:terms-and-conditions} (starting on page~\pageref{tab:top-of-byod}). It is also worthwhile comparing the forms
+the terms and conditions themselves take. For most of the stores, the terms are
 single files or web pages written in English easily accessible from the store
 homepages~\cite{yandex_yandex.store_nodate,aptoide_aptoide_nodate,google_google_nodate,amazon_amazon.co.uk_nodate}.
 
@@ -112,11 +112,12 @@ product, version of a product, and for each country appearing to have a separate
 terms document. In practice many products share the same linked contracts,
 within a single country. Developer terms and agreements are kept in a different
 website and presented as a list of eleven policies. The iTunes terms and
-conditions, which form the bulk of the agreements for using the iOS app store,
-are also available in comic-book format ~\cite{r._sikoryak_terms_2017}.
+conditions, which form the bulk of the agreements for using the iOS app store.
+The iTunes terms and conditions are even available in comic-book format ~\cite{r._sikoryak_terms_2017}.
 
 \afterpage{{\tiny\sffamily\centering\raggedright
   \newcolumntype{R}{>{\raggedright\arraybackslash}p{0.13\linewidth}}
+  \label{tab:top-of-byod}
   \begin{longtable}{RRRRRR}
     \toprule
  & Apple & Amazon & Aptoide & Google & Yandex \\
@@ -299,7 +300,7 @@ by the same key that signed the OS installation. In the Play store model Google
 no third-party developer in their store would have access to that key, but in
 the Amazon model they could (if they desired) distribute system apps for their
 Kindle devices. Having a different signing model is not inherently wrong, but it
-changes the trust assumptions associated with Android which a user may not
+changes the trust assumptions associated with Android, which a user may not
 necessarily be aware of. We discuss this further in \autoref{ssec:signing}.
 
 %\todo{
@@ -307,17 +308,19 @@ necessarily be aware of. We discuss this further in \autoref{ssec:signing}.
 %  Mention how that would allow greater clarity in determining differences in stores as apppal is clearer than natural language.
 %}
 
-The terms and conditions are dense technical documents. Yet despite their
-intimidating nature, the differences between each app store agreement is often
-small. By encoding the key differences into a formal language (such as AppPAL)
-we can start to clarify the small distinctions then a developer or user can
-choose the app stores they are happy to submit to based on the store's policies,
-and a company could automate the enforcement of the policy. For example in the
-case of refunds the differences in policy could be written as shown in
-\autoref{lst:refunds}. The differences in support agreements is shown in
-\autoref{lst:support}. Again the differences are small: only differing in the
-number of hours developers have to respond and whether there is a need to
-respond to issues from the store itself more urgently.
+The terms and conditions are dense technical documents. Yet despite
+their intimidating nature, the differences between each app store
+agreement is often small. By encoding the key differences into a
+formal language (such as AppPAL) we can clarify the distinctions
+between the stores. A developer, or user, can then choose the app
+stores they are happy to submit to based on the store's policies, and
+a company could automate the enforcement of the policy. For example,
+in the case of refunds the differences in policy could be written as
+shown in \autoref{lst:refunds}. The differences in support agreements
+is shown in \autoref{lst:support}. Again the differences are small:
+only differing in the number of hours developers have to respond and
+whether there is a need to respond to issues from the store itself
+more urgently.
 
 %   Refunds
 % Apple    & 14 days.
@@ -415,7 +418,7 @@ The standard Android trust model says that the developer of the app should be th
 \end{lstlisting}
 
 When upgrading an app the upgrade is only accepted if the certificates match
-(and the version number is higher). Additionally if two apps have been signed by
+(and the version number is higher). Additionally, if two apps have been signed by
 the same key, they will share the same process space (enabling them to share
 memory) and be able to share code.
 
@@ -435,9 +438,9 @@ memory) and be able to share code.
      Key isValid
 \end{lstlisting}
 
-To submit an app to the Play Store Google require that the key the app was signed with must be
-valid until 2033, and more generally they recommend keys are valid for at least
-25 years. 
+To submit an app to the Play Store Google requires that the key the
+app was signed with must be valid until 2033, and more generally they
+recommend keys are valid for at least 25 years\footnote{The validity of the key is somewhat surprising.  We believe that this is to ensure the key outlives the app and so avoid issues with the developer's keys expiring whilst they are still  providing updates to the app.}.
 
 \begin{lstlisting}
 'play-store' says App:A isAcceptable
@@ -446,7 +449,7 @@ valid until 2033, and more generally they recommend keys are valid for at least
   where expiryDate(Key) > 2033.
 \end{lstlisting}
 
-If an app is re-signed by a store to alter an app then it loses the
+If an app is re-signed by a store to alter an app, then it loses the
 relationships set up by its original key. The store must now provide (or
 re-sign) updates for the app it sold.
 If the new key is also used to sign other apps then the app
@@ -470,7 +473,7 @@ For a user, finding the right apps is tricky.  Users need to discover
 which ones are not going to abuse their data.  This is difficult as it
 isn't obvious how apps use the data each has access to (including data
 generated by the app or data already on the device).  Consider a user
-attempting to buy a flashlight app.  The Play store shows users a long
+attempting to buy a torch app.  The Play store shows users a long
 list of apps when they browse.  Clicking through each app they can
 find the permissions each requests but not the reasons why each was
 needed.  They can see review scores from users but not from tools to
@@ -488,18 +491,22 @@ relate to their device~\cite{felt_android_2012,thompson_when_2013}.
 Nevertheless, the device user must make the decision which apps to use
 and which permissions to grant.
 
-Some apps are highly undesirable.  There are many \acp{PUP} being sold
-for Android
+Some apps are highly undesirable.  One class of apps are called
+\acp{PUP}.  They represent apps which whilst they are not exactly
+malicious, are designed to do things which may annoy users, such as
+displaying pop-up notifications for adverts or altering wallpapers on
+the device.  There are many \acp{PUP} being sold for Android
 devices~\cite{truong_company_2014,vanja_svajcer_classifying_2013}.
 Employees are increasingly using their own phones for work and an
 employer may restrict which apps their employees can use.  The IT
 department may set a \emph{mobile device policy}---a series of rules
 describing what kinds of apps employees can used and how---to prevent
 information leaks.  Some users worry that apps will misuse their
-personal data---sending their address book or location to an
-advertiser without their permission.  Such a user avoids apps which
-can get access to their location, or address book; so they may apply their own
-personal, informal, security policies when downloading and running apps.
+personal data---sending their address book or location to an advertiser
+without their permission.  Such a user avoids apps which can get
+access to their location, or address book; so they may apply their own
+personal, informal, security policies when downloading and running
+apps.
 
 \begin{table}\centering\sffamily\footnotesize
 \newcommand{\tabtitle}[1]{\textbf{\footnotesize #1}}
@@ -519,10 +526,12 @@ personal, informal, security policies when downloading and running apps.
   \label{tab:lin-perms}
 \end{table}
 
+\subsection{Measuring Users}
+
 To what extent do users follow personal policies informally?  In a
 study of 725 Android users, Lin~\etal{} found four patterns that
 characterize user privacy preferences for
-apps~\cite{lin_modeling_2014} demonstrating a refinement of Westin's
+apps~\cite{lin_modeling_2014}, demonstrating a refinement of Westin's
 privacy segmentation index~\cite{harris_interactive_privacy_2002}.
 Lin~\etal~identified four types of user.  The \emph{Conservative} (C)
 users were uncomfortable allowing an app access to any personal data
@@ -547,7 +556,7 @@ captured by Carat~\cite{oliner_carat:_2013}.
 
 The Carat data set was collected as part of a UC~Berkley and University
 of Helsinki experiment to measure the energy usage of apps.  As part
-of the experiment users of the Carat app allowed the app to collect
+of the experiment, users of the Carat app allowed the app to collect
 which apps were installed on their device.  The data set was anonymized
 by replacing the app names with hashes of the apps package identifier,
 and usernames with an increasing integer key.
@@ -593,15 +602,14 @@ The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
 users seem to follow Lin~\etal's policies most of the
 time. Even for the least onerous
 \emph{unconcerned} policy, most users did not seem to follow the
-policy most of the time.  This suggests that there is a disconnect
-between user's privacy preferences and their behavior (reminiscent of
-the \emph{privacy paradox}\footnote{The privacy paradox is that whilst
+policy most of the time.  This suggests that user's privacy preferences are somewhat disconnected from their behavior (assuming the user population
+studied by Lin~\etal~was similar to the data in the Carat study).
+This is reminiscent of
+the \emph{privacy paradox} that states that whilst
 people will say they are very concerned about their privacy, they do
 not alter their behavior to protect it.  It was first noticed by
 psychologists looking at how people use social networks; though has
-appeared in many other areas since.}); assuming the user population
-studied by Lin~\etal~was similar to the data in the Carat study.
-
+appeared in many other areas since. 
 A few users, however, did seem to install apps meeting one of these
 policies most of the time.  This suggests that while users may have
 privacy preferences most are not attempting to enforce them.  This
@@ -628,7 +636,7 @@ dangerous apps and those who install poor quality ones.
 'mcafee' says 'pup' can-act-as 'malware'.
 \end{lstlisting}
 
-If a user is enforcing a privacy policy we might also expect them to
+If a user is enforcing a privacy policy, we might also expect them to
 be more selective about the apps they install.  If a user is being
 selective we might expect them to install less malware and \acp{PUP},
 as they often request many permissions. We can check this by using
@@ -686,7 +694,7 @@ install malware generally.
 \label{sec:an-apppal-enhanced-store}
 
 Using AppPAL we can describe users preferences for apps, and we can describe
-the differences between some of the stores.  A natural continuation of this is
+the differences between some stores.  A natural continuation of this is
 to start to generate new app stores, based on a user's policy, that only sell
 apps that a user might find acceptable.
 
@@ -712,7 +720,7 @@ as:
   predicates where \emph{App hasCategory(Category)} which will be used to organize
   the apps into categories in the store.
 \item GenStore runs, and for every app checks whether it is \emph{sellable}.
-  Additionally it checks apps for each category (apps can belong to multiple
+  Additionally, it checks apps for each category (apps can belong to multiple
   categories), if defined. From this the GenStore builds a database
   (\autoref{fig:genstore-schema}) documenting which apps are available, their
   categories and some additional metadata.
