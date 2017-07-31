@@ -1,5 +1,8 @@
 digraph genstore {
   rankdir=LR;
+  graph [fontname="Helvetica"];
+  edge [fontname="Helvetica"];
+  node [fontname="Helvetica"];
 
   app_pool [shape=folder, label="Available Apps"];
   policies [shape=note, label="Policies"];
@@ -8,6 +11,7 @@ digraph genstore {
   proof_trees [shape=signature, label="Proof trees"];
   database [shape=cylinder, label="Database"];
   html_css [shape=box3d, label="Web app store"];
+
 
   {rank=same; genstore policies}
   {rank=same; app_selection database html_css proof_trees}
