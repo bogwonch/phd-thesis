@@ -3,28 +3,32 @@
 \chapter{App Stores and App Preferences}
 \label{chap:apps-and-stores}
 
-Apps and app stores are a key part of the mobile ecosystem, an app being the key
-form of software and the app store as their primary mode of distribution. In
-this chapter we explore the stores and the policies surrounding them. We compare
-the terms and conditions between the various marketplaces. We look at how users have privacy preferences
-about the which apps they want to use. But by using AppPAL versions of common
-user privacy preferences, we show how Android users do not seem to follow them in
-practice. Finally, we describe how AppPAL can be used to create new app stores by
-checking for apps that can be shown to follow a policy, and offering them in a
-web app-based store.
+Apps and app stores are a key part of the mobile ecosystem, an app
+being the key form of software and the app store as their primary mode
+of distribution. In this chapter we explore the stores and the
+policies surrounding them. We compare the terms and conditions between
+the various marketplaces. We look at how users have privacy
+preferences about the which apps they want to use. But by using AppPAL
+versions of common user privacy preferences, we show how Android users
+do not seem to follow them in practice. Finally, we describe how
+AppPAL can be used to create new app stores by checking for apps that
+can be shown to follow a policy, and offering them in a web app-based
+store.
 
 \section{App Stores}
 
-Whilst iOS has just one store (Apple's App Store), the Android ecosystem is more
-diverse with multiple stores available for multiple different purposes. The
-dominant app store on Android is Google Play. Unlike iOS, Google isn't the sole
-app vendor however. Some device vendors add their own stores to their devices as
-a feature: Amazon does this with their Kindle Fire tablets, where Kindle owners
-can download discounted apps. Some vendors, such as Samsung, add their own store
-this to highlight apps that use features specific to their phones (KNOX in
-Samsung's case). In some regions (such as China), using Google services is
-problematic. People in these countries use local, regionally focused app stores
-(such as QiHoo360 or Yandex) instead.
+Whilst iOS has just one store (Apple's App Store), the Android
+ecosystem is more diverse with multiple stores available for multiple
+different purposes. The dominant app store on Android is Google
+Play. Unlike iOS, Google isn't the sole app vendor however. Some
+device vendors add their own stores to their devices as a feature:
+Amazon does this with their Kindle Fire tablets, where Kindle owners
+can download discounted apps. Some vendors, such as Samsung, add their
+own store this to highlight apps that use features specific to their
+phones (KNOX in Samsung's case). In some regions (such as China),
+using Google services is problematic. People in these countries use
+local, regionally focused app stores (such as QiHoo360 or Yandex)
+instead.
 
 For a manufacturer to install Google's store they must comply with the Android
 \ac{CDD}~\cite{google_android_2016}. The \ac{CDD} describes how to configure the
@@ -526,22 +530,72 @@ apps.
   \label{tab:lin-perms}
 \end{table}
 
-\subsection{Measuring Users}
+\subsection{Privacy Preferences}
 
 To what extent do users follow personal policies informally?  In a
 study of 725 Android users, Lin~\etal{} found four patterns that
 characterize user privacy preferences for
 apps~\cite{lin_modeling_2014}, demonstrating a refinement of Westin's
-privacy segmentation index~\cite{harris_interactive_privacy_2002}.
-Lin~\etal~identified four types of user.  The \emph{Conservative} (C)
-users were uncomfortable allowing an app access to any personal data
-for any reason.  The \emph{Unconcerned} (U) users felt okay allowing
-access to most data for almost any reason.  The \emph{Advanced} (A)
-users were comfortable allowing apps access to location data but not
-if it was for advertising.  Opinions in the largest cluster,
-\emph{Fencesitters} (F), varied but were broadly against collection of
-personal data for advertising.  We wrote AppPAL policies to describe
-each of these behaviors as sets of prohibited permissions, shown in
+privacy segmentation~\cite{harris_interactive_privacy_2002}.
+
+Westin grouped the people into three categories based on their
+responses to surveys.  \emph{Privacy Fundamentalists} were highly
+concerned with their privacy and actively distrusted businesses
+governments and technology with their personal data and disputed any
+need from these groups to collect the data.  \emph{Privacy
+Unconcerned} people, in contrast, were not concerned with giving a way
+information and who trusted others to not mismanage information about
+them.  The third group, the \emph{Privacy Pragmatists}, were more
+considered and would have some personal policy that described when
+they were happy to give up (or protect) their privacy.
+
+Lin~\etal~identified four types of user when assessing user's personal
+app privacy policies.  The \emph{Conservative} (C) users were
+uncomfortable allowing an app access to any personal data for any
+reason.  The \emph{Unconcerned} (U) users felt okay allowing access to
+most data for almost any reason.  \emph{Advanced} (A) users were
+comfortable allowing apps access to location data but not if it was
+for advertising.  Opinions in the largest cluster, \emph{Fencesitters}
+(F), varied but were broadly against collection of personal data for
+advertising.
+
+Lin \etal's four groups roughly map to Westin's three, with
+\emph{Conservatives} being \emph{Privacy Fundamentalists},
+\emph{Unconcerned} users being \emph{Privacy Unconcerned}, and the
+\emph{Advanced} and \emph{Fencesitter} users together acting as the
+\emph{Privacy Pragmatists.}  A criticism of Westin's privacy groups is
+that he did not distinguish between pragmatic people and those who
+gave vague responses in the \emph{Privacy Pragamatists}
+group~\cite{urban_privacy_2014}. Lin~\etal's groups seem to support
+their \emph{Advanced} and \emph{Fencesitter} groups seem to cover both
+aspects of the \emph{Privacy Pragmatist} group.  Lin~\etal~and
+Westin's groups differ, however, in terms of size.  In general,
+Lin~\etal~found more unconcerned users, and less fundamentalist or
+conservative users then Westin estimated existed in the general
+population (\autoref{tab:lin-westin}).
+
+\begin{table}
+  \centering\sffamily\footnotesize
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Westin Privacy Segment}            & \textbf{Lin \etal{} Privacy Preference} \\
+    \midrule
+    Privacy Fundamentalist (25\%)              & Conservative (12\%)                     \\
+    \midrule
+    \multirow{2}{*}{Privacy Pragmatist (55\%)} & Advanced (18\%)                         \\
+                                               & Fencesitter (22\%)                      \\
+    \midrule
+    Privacy Unconcerned (20\%)                 & Unconcerned (48\%)                      \\
+    \bottomrule
+  \end{tabular}
+  \caption{Lin and Westin privacy groups and their sizes.}
+  \label{tab:lin-westin}
+\end{table}
+
+\subsection{Measuring Users}
+
+We wrote AppPAL policies to describe
+each of Lin \etal's behaviors as sets of prohibited permissions, shown in
 \autoref{tab:lin-perms}.  These simplify the privacy policies
 identified by Lin~\etal~as we do not take into account the reason each
 app might have requested each permission (we could write more precise
@@ -617,6 +671,8 @@ suggests that policy enforcement tools, like AppPAL, may help users
 enforce their personally desirable policies which they cannot do
 easily using the current ad-hoc manual means available.
 
+\subsection{Privacy Policies and Malware}
+
 It is also interesting to discover when people install apps classified
 as malware.  McAfee classify malware into several categories, and
 provided us with a data set of apps classified as malware and
@@ -669,7 +725,6 @@ could also be attributed to the users selecting their apps more
 carefully to enforce their policy: a careful user is unlikely to
 install malware generally.
 
-
 \begin{figure*}
   \centering
   \subfloat[Advanced policy and malware]{%
@@ -689,6 +744,40 @@ install malware generally.
   \label{fig:lin_malware_graphs}
 \end{figure*}
 
+\subsection{Discussion}
+
+In capturing the privacy preferences, and in comparing them to user
+installation data, we have shown that most users use apps irrespective
+of how uncomfortable they are with the permissions the app request.  A
+small set of users do seem to enforce these policies at least
+sometimes, however.  Our comparison is not without some limitations:
+
+\begin{itemize}
+\item We do not have the full user purchase history, and we can only
+  find out about apps whose names match those in available databases. So
+  a user may have apps installed that break the policy without us
+  knowing.
+
+\item The downloaded apps used for experiment may not be the same
+  version that users had, in particular, their permissions may
+  differ. Permissions tend to increase in apps over
+  time~\cite{wei_permission_2012}, so a user may actually be more
+  conservative than our analysis suggests.
+
+\item The Android permission system has changed over time.  In
+  particular, our app installation data comes from before users had the
+  ability to revoke individual permissions from apps.  Android's current
+  permissions model makes it easier for a user to follow a policy as
+  they do not have to chose between going against their privacy
+  preferences and not installing an app.  If we were to repeat the study
+  with modern data, and looking at which apps had their permissions
+  requests denied, we might expect to see more users following a policy
+  (if users do wish to follow a privacy preference most of the time).
+\end{itemize}
+
+To avoid most of these limitations we would need to collect our own
+data, and work with users to better understand and capture their
+privacy preferences.  This is future work however.
 
 \section{An AppPAL Enhanced Store}
 \label{sec:an-apppal-enhanced-store}
