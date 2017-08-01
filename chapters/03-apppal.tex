@@ -12,12 +12,12 @@
   \label{fig:ecosystem}
 \end{figure}
 
-The mobile ecosystem (which we define as the devices, users, stores, developers
-and policies surrounding the ways we use mobile devices) contains many
-interacting entities, including devices interacting with their users, app stores
-selling software, developers building apps, wireless access points devices
-connect to, and the companies and networks the devices and their users work
-within.
+The mobile ecosystem (which we define as the devices, users, stores,
+developers and policies surrounding the ways we use mobile devices)
+contains many interacting entities, including devices interacting with
+their users, app stores selling software, developers building apps,
+wireless access points devices connect to, and the companies and
+networks the devices and their users work within.
 
 Every entity in the ecosystem has its own policies. For example, there
 is a contract between the store selling apps and the developer
@@ -1064,7 +1064,9 @@ correctness of the algorithm, assuming that the $RT$ cache is correct.
   AC, D \models Q.
 \end{equation*}
 
-\paragraph*{Base Case.}  For the base case we argue that the
+
+
+\paragraph*{Base Case.} For the base case we argue that the
 \texttt{Evaluate} function is sound when not making recursive calls.
 A query is \texttt{Evaluate}-d at a given delegation depth, against a
 given $AC$ and $RT$. If the query has been made before, then the
@@ -1101,9 +1103,10 @@ minimal case.
 \end{equation*}
 }
 
-\paragraph*{Inductive Step.}  Assuming the base case is correct and
-\texttt{Evaluate} is sound without recursion, we must argue that
-\texttt{Evaluate} in the non-recursive case also.
+\paragraph*{Inductive Step.}  For a terminating, assuming the base
+case is correct and \texttt{Evaluate} is sound without recursion, we
+must argue that \texttt{Evaluate} in the non-recursive case also.
+For the non-terminating case, Evaluate will either return \texttt{Failure} (in the case of a circular argument) or not return if the size of the policy is infinite.
 
 The \texttt{CanSay-CanActAs} rule searches through all possible
 constants for candidates that are either subjects (constants that
@@ -1128,18 +1131,50 @@ therefore sound by induction.
 \subsubsection*{Completeness Argument}
 
 \begin{equation*}
-  \mathtt{Evaluate}(AC, RT, Q, D) = \textit{Success} \implies
   AC, D \models Q.
+  \implies
+  \mathtt{Evaluate}(AC, RT, Q, D) = \textit{Success} 
 \end{equation*}
 
-When evaluating queries, we look through all possible assertions in $AC$ to find
-a statement that could prove it. Finding a valid proof involves looking through
-all possible variable substitutions in \texttt{Cond}, delegators in
-\texttt{CanSay}, and renamings in \texttt{CanActAs}. When arguing the
-algorithm's soundness, we argued that it implements AppPAL's evaluation rules
-correctly. If a valid proof exists it will be found through the evaluation rules
-since the search space consists of all possible assertions and renamings.
-Therefore, the algorithm is complete.
+% Assume the RT is kept empty
+
+\paragraph{Base Case.}  Consider the case where a query has been
+evaluated with AppPAL's evaluation rules and found true. Suppose the
+height of proof tree used to derive it is 1, that is to say that we
+have only used the \emph{cond} rule once to show the query is
+valid. In this case the query must be unifiable with a fact in the AC
+(i.e. one with no \emph{if} part).  If this is the case, when using
+the \texttt{Evaluate} function we will call \texttt{Cond}, which will
+search the AC for assertions to unify with.  Since (at least) one
+assertion must exist (without an \emph{if}) for the \emph{cond} rule
+to return true, then we will find it and \texttt{Evaluate} will always
+also return \texttt{Success.}
+
+\paragraph{Induction Hypothesis.}  Suppose know that for any proof
+tree for a query $q$ (given an $AC$) of height $n$, then running
+\texttt{Evaluate} with that query and $AC$ will return
+\texttt{Success} (with at least $n - 1$ recursive calls to
+\texttt{Evaluate}).  Our hypothesis is that for a proof tree of height
+$n+1$, then \texttt{Evaluate} will also return success (given the same
+$AC$ and $q$), with at least $n$ recursive calls to \texttt{Evaluate}.
+
+\paragraph{Inductive Step.}  The \texttt{Evaluate} function will (in
+the worst case) search the entire $AC$ for a rule which will unify
+with the currently evaluated query, and evaluate to \texttt{Success}.
+We argue that evaluate implements each of the AppPAL evaluation rules
+by comparison between the code and the inference rules.
+
+For a proof tree of height $n+1$, where $n>0$, we will use one of the
+\emph{cond}, \emph{can-say} or \emph{can-act-as} rules to derive the
+proof tree at height $n$.  Each of the \texttt{Cond}, \texttt{CanSay},
+and \texttt{CanActAs} functions which implement these evaluation rules
+will call \texttt{Evaluate} at least once (corresponding to the
+dependent proofs in the proof tree).  The induction hypothesis says
+that these will be complete and will have at most $n-1$ recursive
+calls to \emph{Evaluate}.  So at height $n+1$ the algorithm must be
+complete as if the proof tree is valid, \texttt{Evaluate} would be
+able to evaluate the corresponding assertions and with recursive depth
+$n$ (the height of the proof tree minus the current call).
 
 \subsection{Benchmarks}
 \label{ssec:benchmarks}
