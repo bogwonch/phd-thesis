@@ -8,8 +8,7 @@
 \submityear{2017} 
 \abstract{%
 
-The policies, in particular the security policies, of mobile devices such as
-phones and tablet computers, that describe how we should use these devices are
+The security policies of mobile devices that describe how we should use these devices are
 often informally specified. Users have preferences for some apps over others.
 Some users may avoid apps which can access large amounts of their personal data,
 whilst others may not care. A user is unlikely to write down these policies or
@@ -18,13 +17,14 @@ formal description of the policy we cannot precisely reason about them. We
 cannot help users to pick the apps they want if we cannot describe their
 policies.
   
-Companies have mobile security policies that define how an employee should use
-devices from home at work. A company might describe the policy in a natural
-language document for employees to read and agree to. They might also use some
-software installed on employee's devices to enforce it. Without a link between
-the specification of the policy in the natural language document and the
-implementation of the policy with the tool, understanding how they are related
-can be hard.
+Companies have mobile security policies that define how an employee
+should use smart phone devices and tablet computers from home at
+work. A company might describe the policy in a natural language
+document for employees to read and agree to. They might also use some
+software installed on employee's devices to enforce the company rules. Without a link
+between the specification of the policy in the natural language
+document and the implementation of the policy with the tool,
+understanding how they are related can be hard.
 
 This thesis looks at developing an authorization logic, called AppPAL, to
 capture the informal security policies of the mobile ecosystem, which we define
@@ -53,40 +53,45 @@ them. This suggests aspects of BYOD policies not managed by current BYOD tools.
 \begin{preliminary}
   \maketitle
   \begin{acknowledgements}
-    %I am grateful to many people for their help in completing my PhD. In
-    %particular I would like to thank the following people:
-    %
-    %Thank you to my supervisors David Aspinall and Bj\"orn Franke for their
-    %advice, criticism, help, patience, and always offering to edit my papers.
-    %Thank you to Andy Gordon and Martin Hofmann for the helpful discussions early on,
-    %introducing me to SecPAL and to using formal logic to model this domain.
-    %Thank you to Daniel Franzen, Marcin Szymczak, Arthur Chan, Catherine Crompton and
-    %the rest of IF~5.24 for listening to my rants and helpful discussions over the
-    %years. Thank you to Dan Page for his help early in my career, and for suggesting
-    %I apply for this job. A second thank you to David Aspinall for helping me move
-    %back home to be a proper father to my son, before I really should have and for
-    %sorting out the paperwork when the university eventually noticed. Thank you to my
-    %friends and family for supporting me over the past years, especially Di for her
-    %camaraderie in completing this. Thank you to EasyJet for roughly 307 safe flights
-    %between Edinburgh and Bristol (and one slightly terrifying one).
+    I am grateful to many people for their help in completing my PhD. In
+    particular I would like to thank the following people:
+    
+    Thank you to my supervisors David Aspinall and Bj\"orn Franke for their
+    advice, criticism, help, patience, and always offering to edit my papers.
+    Thank you to Andy Gordon and Martin Hofmann for the helpful discussions early on,
+    introducing me to SecPAL and to using formal logic to model this domain.
+    Thank you to Daniel, Marcin, Arthur, Catherine and
+    the rest of IF~5.24 for listening to my rants and helpful discussions over the
+    years. Thank you to Dan Page for his help early in my career, and for suggesting
+    I apply for this job. A second thank you to David Aspinall for helping me move
+    back home to be a dad before I really should have. Thank you to my
+    friends and family for supporting me over the past years, especially Di for her
+    camaraderie in completing this. Also, thanks to EasyJet for roughly 312 flights
+    between Edinburgh and Bristol.
 
-    %Finally, thank you to Emma and Jim. Thank you Emma for your unwavering
-    %support and for letting me work when I should be helping with the baby, and
-    %thankyou Jim for keeping me awake and writing at all hours.
+    Finally, thank you to Emma and Jim. Thank you Emma for your unwavering
+    support and for letting me work when I should be helping with the baby, and
+    thankyou Jim for keeping me awake and writing at all hours.
   \end{acknowledgements}
   \standarddeclaration{}
   \dedication{
-    %This thesis is dedicated to Emma, for putting up with me.
+    This thesis is dedicated to Emma, for putting up with me.
 
-    %\vspace{8em}
+    \vspace{8em}
+
+    {\itshape\small
+      ``To what extent should one trust a statement that a program is free of
+      Trojan horses? Perhaps it is more important to trust the people who wrote
+      the software.''  --- \emph{Ken Thompson}}
+
+    \vspace{2em}
+    
+    {\itshape\small
+      ``You cannot have a secure Android phone for two reasons: 1) it is Android, 2) it is a phone.\\
+      Step 1, get google out of it.  Step 2, everything else'' --- \emph{The Grugq}}
+      
     %{\itshape
-    %  ``You cannot have a secure Android phone for two reasons: 1) it is Android, 2) it is a phone. 
-    %  step 1, get google out of it.  Step 2, everything else'' --- \emph{The Grugq}
-
-    %\vspace{2em}
-
-    %  ``It's too late to fire you, you better get a PhD'' --- \emph{David Aspinall}
-    %}
+      %``It's too late to fire you, you better get a PhD'' --- \emph{David Aspinall}}
   }
   \tableofcontents
   \listoffigures

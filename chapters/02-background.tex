@@ -14,7 +14,7 @@ language to describe the policies of the mobile ecosystem.
 One approach to designing a policy language is to base it on a logic
 of authorization. Authorization logics~\cite{abadi_calculus_1991}
 describe rules for deciding when to allow certain actions precisely. A
-common use case for these logics is building access control systems. A
+common use case for these logics is building access control systems. For example, a
 user is allowed to read a file if he or she has the proper
 permissions. In applying logics of authorization to policy language
 the policy language describes who can get access to what, but the
@@ -59,7 +59,7 @@ its expressiveness. SecPAL supports delegation (by using
 \emph{can-act-as} verbs) and arbitrary constraints. Delegation lets a
 principal state that assertions from other principals can be used in
 making a decision. Roles allow principals to state that the subject
-of an assertion is equivalent to another: effectively aliasing the
+of an assertion (\autoref{fig:assertion}) is equivalent to another: effectively aliasing the
 subjects to each other.
 
 SecPAL policies are evaluated with respect to an assertion context
@@ -106,11 +106,11 @@ $A$ would say the \emph{fact.}
     f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
     claim      & $\Coloneqq$ & f (\secpal{if} f$_1$,\dots, f$_n$)? (\secpal{where} c)?             \\
     c          & $\vert$     & e$^\prime_1 $\secpal{=} e$^\prime_2$                      & \bnfcomment{constraints}       \\
-    c          & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                      & \bnfcomment{constraints}       \\
+               & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                      & \bnfcomment{constraints}       \\
                & $\vert$     & \dots                                           \\
     e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)            \\  
-              & $\Coloneqq$ & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
-              & $\Coloneqq$ & integer           & \bnfcomment{numbers}     \\
+              & $\vert$ & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
+              & $\vert$ & integer           & \bnfcomment{numbers}     \\
   \end{tabular}
   \caption[BNF description of SecPAL.]{%
     BNF description of SecPAL as used in this thesis. As originally described by
@@ -194,7 +194,7 @@ the variables contained in the query. Conjunction and disjunction work
 as expected.  Negation is only allowed in an extremely limited form: a
 query is false if it has no variables and there is no way
 to show that the AC supports the query.  This limited form means that
-queries remain decidable: the rules inside the AC are not permitted to
+queries remain decidable: the assertions inside the AC are not permitted to
 use negation.
 
 \subsection{Delegation in SecPAL}
@@ -420,6 +420,7 @@ syntax more readable. KeyNote also trades PolicyMaker's generality for a more
 realistic scenario using public-key infrastructure. The prior policy for KeyNote
 could be written:
 
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 Authorizer: "POLICY"
 Licensees: "RSA:abc123"
@@ -431,6 +432,7 @@ Conditions: (app_domain == "RFC822-EMAIL") &&
     (name="Alice") &&
     (organization="Bob Labs");
 \end{lstlisting}
+\end{minipage}
 
 Checking whether a PolicyMaker or KeyNote policy is satisfied is
 NP-hard~\cite{blaze_compliance_1998}. PolicyMaker assertions can involve
@@ -578,11 +580,13 @@ have the role of \emph{Clinician} at the hospital, and can
 \emph{activate} the role of \emph{Treating Clinician} for that patient
 at this \emph{hospital}:
 
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 hospital@admin.permits(clinician, Read-Records(patient)) <-
   hospital@hasActivated(clinician, Clinician(hospital)),
   hospital@canActivate(clinician, TreatingClinician(hospital, patient))
 \end{lstlisting}
+\end{minipage}
 
 Cassandra allows for powerful control of different roles, and enables
 delegation by allowing third-parties to activate and remove roles

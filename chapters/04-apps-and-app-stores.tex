@@ -407,11 +407,13 @@ AppPAL.
 To install an app Android requires it to be signed with a key to
 identify the developer.
 
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 'android' says App:A isAcceptable
   if A isSignedWith(Key),
      Key isValid.
 \end{lstlisting}
+\end{minipage}
 
 The standard Android trust model says that the developer of the app should be the person that signed it.
 
@@ -633,24 +635,25 @@ taken from the Google Play Store and Android
 Observatory~\cite{barrera_understanding_2012}, we checked which apps
 satisfied which policies.
 
-\begin{figure*}
+\begin{figure}
   \centering
+  \newcommand{\myfigwidth}[0]{0.49\linewidth}
   \subfloat[Advanced policy]{%
-    \includegraphics[width=0.45\linewidth]{figures/lin_a.pdf} 
+    \includegraphics[width=\myfigwidth]{figures/lin_a.pdf} 
   }
   \subfloat[Conservative policy]{%
-    \includegraphics[width=0.45\linewidth]{figures/lin_c.pdf} 
+    \includegraphics[width=\myfigwidth]{figures/lin_c.pdf} 
   }\\
   \subfloat[Fencesitter policy]{%
-    \includegraphics[width=0.45\linewidth]{figures/lin_f.pdf} 
+    \includegraphics[width=\myfigwidth]{figures/lin_f.pdf} 
   }
   \subfloat[Unconcerned policy]{%
-    \includegraphics[width=0.45\linewidth]{figures/lin_u.pdf} 
-  }\\
+    \includegraphics[width=\myfigwidth]{figures/lin_u.pdf} 
+  }
   \vspace{2em}
   \caption[Adoption of Lin~\etal~policies.]{Adoption of the four Lin~\etal~policies among users from the Carat data set.  Most users do not appear to follow these policies most of the time.}
   \label{fig:lin_uptake_graphs}
-\end{figure*}
+\end{figure}
 
 The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
 users seem to follow Lin~\etal's policies most of the
@@ -699,17 +702,6 @@ as they often request many permissions. We can check this by using
 AppPAL policies to measure the amount of malware each user had
 installed.
 
-\begin{figure}
-  \centering
-  \subfloat[Malware only]{%
-    \includegraphics[width=0.45\linewidth]{figures/malware_np.pdf}
-  }
-  \subfloat[Malware and PUPs]{%
-    \includegraphics[width=0.45\linewidth]{figures/malware_nm.pdf}
-  }\\
-  \caption{Malware installation numbers in the Carat data set.}
-  \label{fig:malware}
-\end{figure}
 
 We found that 1\% of the users had a \ac{PUP} or malicious app
 installed.  Figure~\ref{fig:malware} shows that infection rates for
@@ -725,24 +717,36 @@ could also be attributed to the users selecting their apps more
 carefully to enforce their policy: a careful user is unlikely to
 install malware generally.
 
-\begin{figure*}
+\begin{figure}
   \centering
+  \subfloat[Malware only]{%
+    \includegraphics[width=0.45\linewidth]{figures/malware_np.pdf}
+  }
+  \subfloat[Malware and PUPs]{%
+    \includegraphics[width=0.45\linewidth]{figures/malware_nm.pdf}
+  }
+  \caption{Malware installation numbers in the Carat data set.}
+  \label{fig:malware}
+\end{figure}
+\begin{figure}
+  \centering
+  \newcommand{\myfigwidth}[0]{0.46\linewidth}
   \subfloat[Advanced policy and malware]{%
-    \includegraphics[width=0.45\linewidth]{figures/advanced-v-pup.pdf} 
+    \includegraphics[width=\myfigwidth]{figures/advanced-v-pup.pdf} 
   }
   \subfloat[Conservative policy and malware]{%
-    \includegraphics[width=0.45\linewidth]{figures/conservative-v-pup.pdf}
+    \includegraphics[width=\myfigwidth]{figures/conservative-v-pup.pdf}
   }\\
   \subfloat[Fencesitter policy and malware]{%
-    \includegraphics[width=0.45\linewidth]{figures/fencesitter-v-pup.pdf}
+    \includegraphics[width=\myfigwidth]{figures/fencesitter-v-pup.pdf}
   }
   \subfloat[Unconcerned policy and malware]{%
-    \includegraphics[width=0.45\linewidth]{figures/unconcerned-v-pup.pdf}
-  }\\
+    \includegraphics[width=\myfigwidth]{figures/unconcerned-v-pup.pdf}
+  }
   \vspace{2em}
   \caption[Plots of conformance to policies against malware installed.]{Graphs plotting a user's conformance with the Lin~\etal~policies against the amount of malware they had installed on their device.  Each dot represents a user.}
   \label{fig:lin_malware_graphs}
-\end{figure*}
+\end{figure}
 
 \subsection{Discussion}
 

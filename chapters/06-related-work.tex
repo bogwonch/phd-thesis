@@ -34,6 +34,7 @@ alice said com.rovio.angrybirds is a good app.
 Bob is free to do with this information as he wishes. He might accept
 app recommendations from anyone and may have a rule to learn facts:
 
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 with M: String, P: Principal
   upon
@@ -41,6 +42,7 @@ with M: String, P: Principal
   do
     learn P said M is a good app
 \end{lstlisting}
+\end{minipage}
 
 DKAL2~\cite{yuri_gurevich_dkal2---simplified_2009} simplifies DKAL
 language removing SecPAL's constructs for roles (the \emph{can-act-as} statement)
@@ -184,8 +186,7 @@ a company has a printer and Carol is responsible for saying who can use the
 printer. She delegates to Bob who in turn grants Alice the right to use the
 printer. An excerpt from the XACML delegation policy example is shown in
 \autoref{lst:xacml-deleg}. The full policy set is split into three smaller
-policy\footnote{An individual decision in XACML is called a \emph{policy}, a
-collection of policies is called a \emph{policy set}.}
+policy\footnote{An individual decision in XACML is called a \emph{policy}. Many policies form a \emph{policy set}.}
 
 \begin{figure}
   \begin{minipage}{1\textwidth}

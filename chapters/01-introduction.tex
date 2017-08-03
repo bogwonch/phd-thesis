@@ -35,16 +35,18 @@ what data an app can get access to and may wish to restrict the app's access.
 Users may rely on stores to vet the apps they sell, but will likely not know (or
 necessarily care) precisely how the store checked the app.
 
-These devices exist within the \emph{mobile ecosystem}: which we define as
-\textbf{the interactions surrounding the use of smart phones and tablet
-computers in a given setting}. Figure~\ref{fig:mobile-ecosystem} shows some relationships
-between devices, their users and their preferences, the stores, companies and
-all these principal's policies. Users have phones or other mobile devices. The users
-may own personal or have company provided devices. They may have their own
-preferred ways of using the device, or they have to follow policies written
-by their employer. Users download apps, written by developers from app stores,
-all with their own policies and some stores may delegate some aspects of
-their quality control to external vetting software.
+These devices exist within the \emph{mobile ecosystem}: which we
+define as \textbf{the interactions surrounding the use of smart phones
+and tablet computers in a given
+setting}. Figure~\ref{fig:mobile-ecosystem} shows some relationships
+between devices, their users and their preferences, the stores,
+companies and all these principal's policies. Users have phones or
+other mobile devices. The users may own personal or have company
+provided devices. They may have their own preferred ways of using the
+device, or they have to follow policies written by their
+employer. Users download apps, written by developers, from app stores;
+each store has their own policies and some stores may delegate some
+aspects of their quality control to external vetting software.
 
 Prior work focused on how systems and tools can check and enforce more
 sophisticated policies and ever finer controls. This thesis asks a different
@@ -77,13 +79,12 @@ review said about the app.
 In this section we will start to introduce by example AppPAL: an authorization
 language for the policies of the mobile ecosystem, based on
 SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail in
-\autoref{chap:apppal} and throughout the thesis. We have implemented SecPAL to
-explore its use and build our own policy language called AppPAL to capture the
-policies of the mobile ecosystem. Moreover, when we show an AppPAL snippet in
+\autoref{chap:apppal} and throughout the thesis. We have implemented AppPAL to
+explore its use and to capture the
+policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
 \framebox{\texttt{teletype font}} it can be parsed and used as part of a
 policy\footnote{Sometimes with minimal edits as some constraints used are not
-implemented.} with our \emph{AppPAL} interpreter (described in
-\autoref{chap:apppal}).
+implemented.} with our implementation.
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
@@ -237,14 +238,14 @@ more complicated than simple MAC and DAC distinctions and use aspects
 of both.  In \autoref{chap:byod} we will look at how companies use
 employee's discretion to judge if aspects of the company's BYOD
 agreements (such as ethical policies) have been followed.  A user who
-uses a tool, such as a \emph{fine grained permissions system} (such as
+uses a tool, such as a \emph{fine-grained permissions system} (such as
 one described in \autoref{sec:fine-grained-permissions}) or create a
 curated app store (we give a method to do so using a policy in
 \autoref{sec:an-apppal-enhanced-store}), will end up writing a
 MAC-style policy describing how their phone should behave or what apps
 the store should sell.
 
-BYOD policies and privacy preferences are only of a subset of the
+BYOD policies and privacy preferences are only a subset of the
 policies we might see in the mobile ecosystem.  We will survey some
 other policies in the course of the thesis including app store terms
 and conditions, and the app signing models built into the mobile OSs,
@@ -294,7 +295,7 @@ We describe the publications, and show where they fit into the various chapters.
 \item \textbf{Chapter 5: Applying AppPAL to BYOD Policies.}
   We move from describing \emph{user-centric} policies, to ones companies might
   want to enforce. We look at how we can capture BYOD policies using AppPAL by
-  looking at five BYOD policies (which are given in Appendix A). In capturing the
+  looking at five BYOD policies (which are included in Appendix A). In capturing the
   policies, we identify two idioms that existing MDM tooling does not capture. We
   also describe how AppPAL could be used to enforce a BYOD policy by integrating
   with existing tooling.
@@ -310,9 +311,9 @@ We describe the publications, and show where they fit into the various chapters.
   Describes possible future work, including a probabilistic variant of AppPAL.
  
 \item \textbf{Chapter 7: Related Work.} 
-  Describes XACML and DKAL, to related policy languages. We also give an overview
+  Describes XACML and DKAL: two related policy languages. We also give an overview
   of the various \emph{fine-grained permissions systems} for Android that can be
-  used to enforce some policies.
+  used to enforce some aspects of mobile device policies.
 \end{itemize}
 
 

@@ -324,8 +324,8 @@ Looking solely at the language a user study with AppPAL should seek to answer at
 least three questions looking at a range of users of varying technical skill and
 comparing to results from other languages (such as XACML):
 
-\begin{itemize}
-\item Can users comprehend the meaning of a policy written in AppPAL? Becker
+\begin{description}
+\item[Can users understand a policy written in AppPAL?] Becker
   designed SecPAL to be readable but didn't trial the language with users.
   Specifically SecPAL was designed to be less verbose than XACML, to abstract away
   the logic-based syntax of the RT family (which some administrators found
@@ -333,24 +333,24 @@ comparing to results from other languages (such as XACML):
   Measuring users' comprehension of AppPAL would test whether the syntax offers an
   advantage over other languages.
 
-\item Can users predict the decision made by AppPAL given a policy and
-a scenario? As well as being readable SecPAL was designed to have
-intuitive semantics. We would hope that a user should be able to
-follow and understand the decision process made by AppPAL, but we
-should test it with users to be sure. A key requirement for a policy
-language should be how predictable it is as we do not want the language
-to make surprising decisions (for its users), and allow or deny
-actions that users intuitively believe should not be permitted given a
-policy. Testing whether users can predict decisions given a policy and
-whether they can explain, in high-level terms, the decision process
-would give some measure of the language's intuitiveness.
+\item[Can users predict the decision made by AppPAL?] As well as being
+  readable SecPAL was designed to have intuitive semantics. We would
+  hope that a user should be able to follow and understand the decision
+  process made by AppPAL, but we should test it with users to be sure. A
+  key requirement for a policy language should be how predictable it is
+  as we do not want the language to make surprising decisions (for its
+  users), and allow or deny actions that users intuitively believe
+  should not be permitted given a policy. Testing whether users can
+  predict decisions given a policy and whether they can explain, in
+  high-level terms, the decision process would give some measure of the
+  language's intuitiveness.
   
-\item Can users modify or create an AppPAL policy given set of requirements? If
-  AppPAL is comprehensible and predictable we would hope that a user could tweak
-  or even create a policy to meet their own requirements. SecPAL was designed to
-  be expressive, but we should test whether users are capable of expressing the
-  policies they want using it.
-\end{itemize}
+\item[Can users modify or create an AppPAL policy?] If AppPAL is
+  comprehensible and predictable we would hope that a user could tweak
+  or even create a policy to meet their own requirements. SecPAL was
+  designed to be expressive, but we should test whether users are
+  capable of expressing the policies they want using it.
+\end{description}
 
 
 

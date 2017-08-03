@@ -43,7 +43,7 @@ networks~\cite{mobileiron_security_labs_q4_2015}. Whilst app wrapping
 can protect some apps, in general it is
 ineffective~\cite{hao_effectiveness_2013}.
 
-\section{Overview of Five BYOD Policies}
+\subsection{Overview of Five BYOD Policies}
 \label{sec:overview-of-five-byod-policies}
 
 This chapter looks at how we can apply AppPAL to
@@ -156,7 +156,7 @@ Our translation shows the text of the policy next to the AppPAL version in
 found from the translation process, and comments on \ac{MDM} policies in
 general.
 
-\section{Review of MDM software}
+\subsection{Review of MDM software}
 
 A company might use \ac{MDM} software to enforce their rules.  Many
 vendors offer \ac{MDM} solutions: including IBM (with their tool
@@ -185,7 +185,7 @@ the tools link to the report on their homepages as the report lists
   summarizes the visionary and leading \ac{MDM} packages.}  The tools are similar with the main difference being the UI
 and some extra features only some tools have.
 
-\begin{table}\centering\sffamily\footnotesize
+\begin{table}\centering\sffamily\scriptsize
   \begin{tabular}{l c c c c c c c c c}
     \toprule
     Feature                           & \rb{MaaS360} & \rb{Blackberry BES} & \rb{MobileIron} & \rb{Citrix XenMobile} & \rb{VMWare AirWatch} & \rb{Microsoft} & \rb{SOTI MobiControl} & \rb{Sophos} & \rb{Landdesk} \\
@@ -315,6 +315,7 @@ make the exemption.
 \end{policyrule}
 \end{minipage}
 
+\vspace{1em}
 Table~\ref{tab:prefix} shows a count of the different predicates used in the
 policies. As in \autoref{chap:apppal}, we use prefixes to distinguish
 different kinds of predicates. The use of each is also split by whether the
@@ -471,11 +472,14 @@ approve decisions for their staff.  There are groups that
 make decisions for the clinical and business halves of the NHS.
 If a clinical user wishes to use an app with a patient they must seek
 approval from two policy groups, as well as their line manager.
+
 Others make less use of different authorities.  In the Edinburgh
 policy, the records-management office states how to configure a low or
 high risk device.  There is no delegation to others to further specify
-aspects of the policy.  Delegation of responsibilities is an important
-part of BYOD policies.  MDM software seems largely to ignore it,
+aspects of the policy.
+
+Whilst delegation of responsibilities is an important
+part of BYOD policies, many MDM tools seem to largely to ignore it,
 however.  These tools instead allow IT staff to set fixed policies and
 push them to devices.  No further requesting of information is
 typically needed or required.
@@ -488,6 +492,7 @@ When we delegate, we can add conditionals to the can-say
 statement that enforces any relationship between the delegating and
 delegated parties.
 
+\noindent\begin{minipage}{\linewidth}
 \begin{lstlisting}
 'company' says 'hr-department' can-say
   Employee:E hasManager(Employee:M).
@@ -495,6 +500,7 @@ delegated parties.
   Employee canInstall(App:A)
   if Employee hasManager(Manager).
 \end{lstlisting}
+\end{minipage}
 
 \subsection{Acknowledgment}
 
@@ -515,37 +521,33 @@ employees would lose personal information if they had it on the device
 and the company needed to erase it.  In the case of the \ac{HiMSS} policy, the user agrees not to
 sue the company if this happens.
 
-\begin{center}
-  \noindent
-  %\begin{minipage}{0.49\linewidth}
-    \begin{policyrule}{HiMSS}
-      I agree to hold XYZ Health System harmless for any loss relating to the
-      administration of PDA/Smartphone connectivity to XYZ Health System systems
-      including, but not limited to, loss of personal information stored on a
-      PDA/Smartphone due to data deletion done to protect sensitive information
-      related to XYZ Health System, its patients, members or partners.
-      \normalfont
-      \begin{lstlisting}
+\begin{policyrule}{HiMSS}
+  I agree to hold XYZ Health System harmless for any loss relating to the
+  administration of PDA/Smartphone connectivity to XYZ Health System systems
+  including, but not limited to, loss of personal information stored on a
+  PDA/Smartphone due to data deletion done to protect sensitive information
+  related to XYZ Health System, its patients, members or partners.
+  \normalfont
+  \begin{lstlisting}
 'xyz-health-system' says
   'user' mustAcknowledge('data-loss-policy').
-      \end{lstlisting}
-    \end{policyrule}
-  %\end{minipage}
-  %\begin{minipage}{0.49\linewidth}
-    \begin{policyrule}{NHS}
-      Individuals who have personal data of any kind stored on a corporately
-      issued mobile device must be aware that in the event of loss of the device
-      the above data wipe will include removal of all personal data.
-      \normalfont
-      \begin{lstlisting}
+  \end{lstlisting}
+\end{policyrule}
+
+\noindent\begin{minipage}{\textwidth}
+\begin{policyrule}{NHS}
+  Individuals who have personal data of any kind stored on a corporately
+  issued mobile device must be aware that in the event of loss of the device
+  the above data wipe will include removal of all personal data.
+  \normalfont
+  \begin{lstlisting}
 'nhs-trust' says Staff:S can-say
   S hasAcknowledged('data-loss-policy').
 'nhs-trust' says
   Staff:S mustAcknowledge('data-loss-policy').
-      \end{lstlisting}
-    \end{policyrule}
-  %\end{minipage}
-\end{center}
+  \end{lstlisting}
+\end{policyrule}
+\end{minipage}
 
 The SANS, NHS and the Sirens company policies use acknowledgments to link to
 other sets of rules that employees should follow, such as the
