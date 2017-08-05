@@ -1,2676 +1,1384 @@
-
-
 @article{becker_secpal:_2006,
-  author =        {Becker, Moritz Y. and Fournet, Cédric and
-                   Gordon, Andrew D.},
-  journal =       {Journal of Computer Security},
-  title =         {{SecPAL}: {Design} and semantics of a decentralized
-                   authorization language},
-  year =          {2006},
-  abstract =      {We present a declarative authorization language.
-                   Policies and credentials are expressed using
-                   predicates defined by logical clauses, in the style
-                   of constraint logic programming. Access requests are
-                   mapped to logical authorization queries, consisting
-                   of predicates and constraints combined by
-                   conjunctions, disjunctions, and negations. Access is
-                   granted if the query succeeds against the current
-                   database of clauses. Predicates ascribe rights to
-                   particular principals, with flexible support for
-                   delegation and revocation. At the discretion of the
-                   delegator, delegated rights can be further delegated,
-                   either to a fixed depth, or arbitrarily deeply. Our
-                   language strikes a careful balance between syntactic
-                   and semantic simplicity, policy expressiveness, and
-                   execution efficiency. The syntax is close to natural
-                   language, and the semantics consists of just three
-                   deduction rules. The language can express many common
-                   policy idioms using constraints, controlled
-                   delegation, recursive predicates, and negated
-                   queries. We describe an execution strategy based on
-                   translation to Datalog with Constraints, and
-                   table-based resolution. We show that this execution
-                   strategy is sound, complete, and always terminates,
-                   despite recursion and negation, as long as simple
-                   syntactic conditions are met.},
+author =        {Becker, Moritz Y. and Fournet, Cédric and 
+Gordon, Andrew D.},
+journal =       {Journal of Computer Security},
+title =         {{SecPAL}: {Design} and semantics of a decentralized 
+authorization language},
+year =          {2006},
 }
+
 
 @inproceedings{fahl_why_2012,
-  address =       {New York, NY, USA},
-  author =        {Fahl, Sascha and Harbach, Marian and Muders, Thomas and
-                   Baumgärtner, Lars and Freisleben, Bernd and
-                   Smith, Matthew},
-  booktitle =     {Proceedings of the 2012 {ACM} {Conference} on
-                   {Computer} and {Communications} {Security}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2382196.2382205}},
-  pages =         {50--61},
-  publisher =     {ACM},
-  series =        {{CCS} '12},
-  title =         {Why {Eve} and {Mallory} {Love} {Android}: {An}
-                   {Analysis} of {Android} {SSL} (in){Security}},
-  year =          {2012},
-  abstract =      {Many Android apps have a legitimate need to
-                   communicate over the Internet and are then
-                   responsible for protecting potentially sensitive data
-                   during transit. This paper seeks to better understand
-                   the potential security threats posed by benign
-                   Android apps that use the SSL/TLS protocols to
-                   protect data they transmit. Since the lack of visual
-                   security indicators for SSL/TLS usage and the
-                   inadequate use of SSL/TLS can be exploited to launch
-                   Man-in-the-Middle (MITM) attacks, an analysis of
-                   13,500 popular free apps downloaded from Google's
-                   Play Market is presented. We introduce MalloDroid, a
-                   tool to detect potential vulnerability against MITM
-                   attacks. Our analysis revealed that 1,074 (8.0\%) of
-                   the apps examined contain SSL/TLS code that is
-                   potentially vulnerable to MITM attacks. Various forms
-                   of SSL/TLS misuse were discovered during a further
-                   manual audit of 100 selected apps that allowed us to
-                   successfully launch MITM attacks against 41 apps and
-                   gather a large variety of sensitive data.
-                   Furthermore, an online survey was conducted to
-                   evaluate users' perceptions of certificate warnings
-                   and HTTPS visual security indicators in Android's
-                   browser, showing that half of the 754 participating
-                   users were not able to correctly judge whether their
-                   browser session was protected by SSL/TLS or not. We
-                   conclude by considering the implications of these
-                   findings and discuss several countermeasures with
-                   which these problems could be alleviated.},
-  doi =           {10.1145/2382196.2382205},
-  isbn =          {978-1-4503-1651-4},
+address =       {New York, NY, USA},
+author =        {Fahl, Sascha and Harbach, Marian and Muders, Thomas and 
+Baumgärtner, Lars and Freisleben, Bernd and 
+Smith, Matthew},
+booktitle =     {Proceedings of the 2012 {ACM} {Conference} on 
+{Computer} and {Communications} {Security}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2382196.2382205}},
+pages =         {50--61},
+publisher =     {ACM},
+series =        {{CCS} '12},
+title =         {Why {Eve} and {Mallory} {Love} {Android}: {An} 
+{Analysis} of {Android} {SSL} (in){Security}},
+year =          {2012},
 }
+
 
 @inproceedings{hallett_towards_2014,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {Engineering {Secure} {Software} and {Systems}},
-  title =         {Towards an authorization framework for app security
-                   checking},
-  year =          {2014},
-  abstract =      {Abstract. Apps don’t come with any guarantees that
-                   they are not ma-licious. This paper introduces a PhD
-                   project designing the authorization framework used
-                   for App Guarden. App Guarden is a new project that
-                   uses a flexible assurance framework based on
-                   distribution of evidence, attestation and checking
-                   algorithms to make explicit why an app isn’t
-                   dangerous and to allow users to describe how they
-                   want apps on their devices to behave. We use the
-                   SecPAL policy language to implement a device policy
-                   and give a brief example of a policy being used.
-                   Finally we use SecPAL to describe some of the
-                   differences between current app markets. 1},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {Engineering {Secure} {Software} and {Systems}},
+title =         {Towards an authorization framework for app security 
+checking},
+year =          {2014},
 }
+
 
 @inproceedings{hallett_apppal_2016,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {Engineering {Secure} {Software} and {Systems}},
-  month =         apr,
-  publisher =     {Springer Verlag},
-  title =         {{AppPAL} for {Android}},
-  year =          {2016},
-  abstract =      {It can be difficult to find mobile apps that respect
-                   one’s security and privacy. Businesses rely on
-                   employees enforcing company mobile device policies
-                   correctly. Users must judge apps by the information
-                   shown to them by the store. Studies have found that
-                   most users do not pay attention to an apps
-                   permissions during installation [19] and most users
-                   do not understand how permissions relate to the
-                   capabilities of an app [30]. To address these
-                   problems and more, we present AppPAL: a
-                   machine-readable policy language for Android that
-                   describes precisely when apps are acceptable. AppPAL
-                   goes beyond existing policy enforcement tools, like
-                   Kirin [16], adding delegation relationships to allow
-                   a variety of authorities to contribute to a decision.
-                   AppPAL also acts as a “glue”, allowing connection
-                   to a variety of local constraint checkers (e.g.,
-                   static analysis tools, packager manager checks) to
-                   combine their results. As well as introducing AppPAL
-                   and some examples, we apply it to explore whether
-                   users follow certain intended policies in practice,
-                   finding privacy preferences and actual behaviour are
-                   not always aligned in the absence of a rigorous
-                   enforcement mechanism.},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {Engineering {Secure} {Software} and {Systems}},
+publisher =     {Springer Verlag},
+title =         {{AppPAL} for {Android}},
+year =          {2016},
 }
+
 
 @inproceedings{hallett_poster:_2015,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {Symposium on {Usable} {Privacy} and {Security}},
-  howpublished =
-  {\url{http://cups.cs.cmu.edu/soups/2015/posters/soups2015_posters-final9.pdf}},
-  title =         {Poster: {Using} {Authorization} {Logic} to {Capture}
-                   {User} {Policies} in {Mobile} {Ecosystems}},
-  year =          {2015},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {Symposium on {Usable} {Privacy} and {Security}},
+howpublished = 
+{\url{http://cups.cs.cmu.edu/soups/2015/posters/soups2015_posters-final9.pdf}},
+title =         {Poster: {Using} {Authorization} {Logic} to {Capture} 
+{User} {Policies} in {Mobile} {Ecosystems}},
+year =          {2015},
 }
+
 
 @inproceedings{hallett_capturing_2017,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {{IFIP} {Security} and {Privacy} {Conference}},
-  title =         {Capturing {Policies} for {BYOD}},
-  year =          {2017},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {{IFIP} {Security} and {Privacy} {Conference}},
+title =         {Capturing {Policies} for {BYOD}},
+year =          {2017},
 }
+
 
 @inproceedings{hallett_common_2017,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {Workshop on {Innovations} in {Mobile} {Privacy} and
-                   {Security}},
-  month =         apr,
-  title =         {Common {Concerns} in {BYOD} {Policies}},
-  year =          {2017},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {Workshop on {Innovations} in {Mobile} {Privacy} and 
+{Security}},
+title =         {Common {Concerns} in {BYOD} {Policies}},
+year =          {2017},
 }
+
 
 @inproceedings{hallett_specifying_2016,
-  author =        {Hallett, Joseph and Aspinall, David},
-  booktitle =     {{PhD} {Symposium} at {iFM}'16 on {Formal} {Methods}},
-  month =         jun,
-  publisher =     {Reykjavik University},
-  title =         {Specifying {BYOD} {Policies} with {Authorization}
-                   {Logic}},
-  year =          {2016},
-  abstract =      {BYOD policies are imprecisely specified using natural
-                   language. This creates ambiguity, may hide
-                   specification problems, and makes comparison harder.
-                   We show how we can use AppPAL (an authorisation
-                   logic) to formalise three BYOD policies. We identify
-                   potential problems in all three policies. This
-                   suggests authorisation logic may help in policy
-                   specification and enforcement.},
+author =        {Hallett, Joseph and Aspinall, David},
+booktitle =     {{PhD} {Symposium} at {iFM}'16 on {Formal} {Methods}},
+publisher =     {Reykjavik University},
+title =         {Specifying {BYOD} {Policies} with {Authorization} 
+{Logic}},
+year =          {2016},
 }
+
 
 @incollection{abadi_calculus_1991,
-  author =        {Abadi, M. and Burrows, M. and Lampson, B. and
-                   Plotkin, G.},
-  booktitle =     {Advances in {Cryptology} — {CRYPTO} ’91},
-  editor =        {Feigenbaum, Joan},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/3-540-46766-1_1}},
-  month =         aug,
-  note =          {DOI: 10.1007/3-540-46766-1\_1},
-  number =        {576},
-  pages =         {1--23},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {A {Calculus} for {Access} {Control} in {Distributed}
-                   {Systems}},
-  year =          {1991},
-  abstract =      {We study some of the concepts, protocols, and
-                   algorithms for access control in distributed systems,
-                   from a logical perspective. We account for how a
-                   principal may come to believe that another principal
-                   is making a request, either on his own or on someone
-                   else’s behalf. We also provide a logical language
-                   for access control lists, and theories for deciding
-                   whether requests should be granted.},
-  isbn =          {978-3-540-55188-1 978-3-540-46766-3},
-  language =      {en},
+author =        {Abadi, M. and Burrows, M. and Lampson, B. and 
+Plotkin, G.},
+booktitle =     {Advances in {Cryptology} — {CRYPTO} ’91},
+editor =        {Feigenbaum, Joan},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/3-540-46766-1_1}},
+number =        {576},
+pages =         {1--23},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {A {Calculus} for {Access} {Control} in {Distributed} 
+{Systems}},
+year =          {1991},
 }
+
 
 @book{kolovski_logic-based_2007,
-  author =        {Kolovski, Vladimir},
-  publisher =     {Department of Computer Science, University of
-                   Maryland},
-  title =         {Logic-{Based} {Access} {Control} {Policy}
-                   {Specification} and {Management}},
-  year =          {2007},
-  abstract =      {Abstract. Recently there has been a great amount of
-                   attention to access control languages that can cover
-                   large, open, distributed and heterogeneous
-                   environments like the Web. These languages aim to be
-                   flexible and extensible, with enough features to
-                   capture expressive and distributed security policies.
-                   However, with expressive languages such as XACML or
-                   WS-Policy, users have problems understanding the
-                   overall effects and consequences of their security
-                   policies. Even the task of checking that the policy
-                   will not result in leakage of permissions to an
-                   unintended or unauthorized principal is tedious and
-                   error-prone when done manually. As a result, there
-                   has been a great amount of research on logic-based
-                   policy management that provides analysis services to
-                   help find inconsistencies/differences between access
-                   control policies. This paper provides an overview of
-                   the existing approaches for security (access control)
-                   policy analysis. The survey covers both language
-                   proposals that have formal semantics and provide
-                   algorithms for policy analysis out of the box, and
-                   formalizations of already existing policy languages
-                   (WS-Policy, XACML, XrML, ODRL) that provide a formal
-                   semantics and analysis services previously
-                   unavailable for the particular language. 1},
+author =        {Kolovski, Vladimir},
+publisher =     {Department of Computer Science, University of 
+Maryland},
+title =         {Logic-{Based} {Access} {Control} {Policy} 
+{Specification} and {Management}},
+year =          {2007},
 }
+
 
 @techreport{ellison_spki_1999,
-  author =        {Ellison, C. and Frantz, B. and Lampson, B. and
-                   Rivest, R. and Thomas, B. and Ylonen, T.},
-  howpublished =  {\url{https://www.rfc-editor.org/info/rfc2693}},
-  institution =   {IETF},
-  number =        {RFC 2693},
-  title =         {{SPKI} {Certificate} {Theory}},
-  year =          {1999},
+author =        {Ellison, C. and Frantz, B. and Lampson, B. and 
+Rivest, R. and Thomas, B. and Ylonen, T.},
+howpublished =  {\url{https://www.rfc-editor.org/info/rfc2693}},
+institution =   {IETF},
+number =        {RFC 2693},
+title =         {{SPKI} {Certificate} {Theory}},
+year =          {1999},
 }
+
 
 @article{li_delegation_2003,
-  author =        {Li, Ninghui and Grosof, Benjamin N. and
-                   Feigenbaum, Joan},
-  howpublished =  {\url{http://doi.acm.org/10.1145/605434.605438}},
-  journal =       {ACM Trans. Inf. Syst. Secur.},
-  month =         feb,
-  number =        {1},
-  pages =         {128--171},
-  title =         {Delegation {Logic}: {A} {Logic}-based {Approach} to
-                   {Distributed} {Authorization}},
-  volume =        {6},
-  year =          {2003},
-  abstract =      {We address the problem of authorization in
-                   large-scale, open, distributed systems. Authorization
-                   decisions are needed in electronic commerce,
-                   mobile-code execution, remote resource sharing,
-                   privacy protection, and many other applications. We
-                   adopt the trust-management approach, in which
-                   "authorization" is viewed as a "proof-of-compliance"
-                   problem: Does a set of credentials prove that a
-                   request complies with a policy?We develop a
-                   logic-based language, called Delegation Logic (DL),
-                   to represent policies, credentials, and requests in
-                   distributed authorization. In this paper, we describe
-                   D1LP, the monotonic version of DL. D1LP extends the
-                   logic-programming (LP) language Datalog with
-                   expressive delegation constructs that feature
-                   delegation depth and a wide variety of complex
-                   principals (including, but not limited to, k-out-of-n
-                   thresholds). Our approach to defining and
-                   implementing D1LP is based on tractably compiling
-                   D1LP programs into ordinary logic programs (OLPs).
-                   This compilation approach enables D1LP to be
-                   implemented modularly on top of existing technologies
-                   for OLP, for example, Prolog.As a trust-management
-                   language, D1LP provides a concept of
-                   proof-of-compliance that is founded on
-                   well-understood principles of logic programming and
-                   knowledge representation. D1LP also provides a
-                   logical framework for studying delegation.},
-  doi =           {10.1145/605434.605438},
-  issn =          {1094-9224},
+author =        {Li, Ninghui and Grosof, Benjamin N. and 
+Feigenbaum, Joan},
+howpublished =  {\url{http://doi.acm.org/10.1145/605434.605438}},
+journal =       {ACM Trans. Inf. Syst. Secur.},
+number =        {1},
+pages =         {128--171},
+title =         {Delegation {Logic}: {A} {Logic}-based {Approach} to 
+{Distributed} {Authorization}},
+volume =        {6},
+year =          {2003},
+issn =          {1094-9224},
 }
+
 
 @techreport{oasis_extensible_2013,
-  author =        {{OASIS}},
-  howpublished =
-  {\url{http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.pdf}},
-  institution =   {OASIS},
-  month =         jan,
-  title =         {{eXtensible} {Access} {Control} {Markup} {Language}
-                   ({XACML}) {Version} 3.0},
-  year =          {2013},
+author =        {{OASIS}},
+howpublished = 
+{\url{http://docs.oasis-open.org/xacml/3.0/xacml-3.0-core-spec-os-en.pdf}},
+institution =   {OASIS},
+title =         {{eXtensible} {Access} {Control} {Markup} {Language} 
+({XACML}) {Version} 3.0},
+year =          {2013},
 }
+
 
 @article{ramli_logic_2014,
-  author =        {Ramli, Carroline Dewi Puspa Kencana and
-                   Nielson, Hanne Riis and Nielson, Flemming},
-  howpublished =
-  {\url{http://www.sciencedirect.com/science/article/pii/S0167642313001238}},
-  journal =       {Science of Computer Programming},
-  month =         apr,
-  pages =         {80--105},
-  series =        {Formal {Aspects} of {Component} {Software} ({FACS}
-                   2011 selected \& extended papers)},
-  title =         {The logic of {XACML}},
-  volume =        {83},
-  year =          {2014},
-  abstract =      {We study the international standard XACML 3.0 for
-                   describing security access control policies in a
-                   compositional way. Our main contributions are (i) to
-                   derive a logic that precisely captures the intentions
-                   of the standard, (ii) to formally define a semantics
-                   for the XACML 3.0 component evaluation, and (iii) to
-                   define a semantics for the XACML 3.0 standard
-                   combining operators. To guard against modeling
-                   artefacts we provide an alternative lattice based way
-                   of characterizing the policy combining operators and
-                   we formally prove the equivalence of these approaches
-                   thereby increasing our faith in either one. We then
-                   discuss several ways of extending XACML: one
-                   direction is to extend XACML with new combining
-                   operators, and another direction is to incorporate
-                   the notion of conflict into XACML. We conclude by
-                   discussing the possibility of analysing XACML
-                   policies for gaps and conflicts.},
-  doi =           {10.1016/j.scico.2013.05.003},
-  issn =          {0167-6423},
+author =        {Ramli, Carroline Dewi Puspa Kencana and 
+Nielson, Hanne Riis and Nielson, Flemming},
+howpublished = 
+{\url{http://www.sciencedirect.com/science/article/pii/S0167642313001238}},
+journal =       {Science of Computer Programming},
+pages =         {80--105},
+series =        {Formal {Aspects} of {Component} {Software} ({FACS} 
+2011 selected \& extended papers)},
+title =         {The logic of {XACML}},
+volume =        {83},
+year =          {2014},
+issn =          {0167-6423},
 }
+
 
 @inproceedings{bryans_reasoning_2005,
-  address =       {New York, NY, USA},
-  author =        {Bryans, Jery},
-  booktitle =     {Proceedings of the 2005 {Workshop} on {Secure} {Web}
-                   {Services}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/1103022.1103028}},
-  pages =         {28--35},
-  publisher =     {ACM},
-  series =        {{SWS} '05},
-  title =         {Reasoning {About} {XACML} {Policies} {Using} {CSP}},
-  year =          {2005},
-  abstract =      {In this work we explore the use of process algebra in
-                   formalising and analysing access control policies. We
-                   do this by considering a standard access control
-                   language (XACML) and show how the core concepts in
-                   the language can be represented in CSP. We then show
-                   how properties of these policies may also be
-                   described in CSP, and how model checking may be used
-                   to verify that a policy meets the property.We further
-                   consider how we may introduce a notion of workflow
-                   into this framework, and show that a simple
-                   appreciation of the workflow context may limit the
-                   things we need to verify about a policy.},
-  doi =           {10.1145/1103022.1103028},
-  isbn =          {978-1-59593-234-1},
+address =       {New York, NY, USA},
+author =        {Bryans, Jery},
+booktitle =     {Proceedings of the 2005 {Workshop} on {Secure} {Web} 
+{Services}},
+howpublished =  {\url{http://doi.acm.org/10.1145/1103022.1103028}},
+pages =         {28--35},
+publisher =     {ACM},
+series =        {{SWS} '05},
+title =         {Reasoning {About} {XACML} {Policies} {Using} {CSP}},
+year =          {2005},
 }
+
 
 @incollection{masi_formalisation_2012,
-  author =        {Masi, Massimiliano and Pugliese, Rosario and
-                   Tiezzi, Francesco},
-  booktitle =     {Engineering {Secure} {Software} and {Systems}},
-  editor =        {Barthe, Gilles and Livshits, Benjamin and
-                   Scandariato, Riccardo},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/978-3-642-28166-2_7}},
-  month =         feb,
-  note =          {00029 DOI: 10.1007/978-3-642-28166-2\_7},
-  number =        {7159},
-  pages =         {60--74},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {Formalisation and {Implementation} of the {XACML}
-                   {Access} {Control} {Mechanism}},
-  year =          {2012},
-  abstract =      {We propose a formal account of XACML, an OASIS
-                   standard adhering to the Policy Based Access Control
-                   model for the specification and enforcement of access
-                   control policies. To clarify all ambiguous and
-                   intricate aspects of XACML, we provide it with a more
-                   manageable alternative syntax and with a solid
-                   semantic ground. This lays the basis for developing
-                   tools and methodologies which allow software
-                   engineers to easily and precisely regulate access to
-                   resources using policies. To demonstrate feasibility
-                   and effectiveness of our approach, we provide a
-                   software tool, supporting the specification and
-                   evaluation of policies and access requests, whose
-                   implementation fully relies on our formal
-                   development.},
-  isbn =          {978-3-642-28165-5 978-3-642-28166-2},
-  language =      {en},
+author =        {Masi, Massimiliano and Pugliese, Rosario and 
+Tiezzi, Francesco},
+booktitle =     {Engineering {Secure} {Software} and {Systems}},
+editor =        {Barthe, Gilles and Livshits, Benjamin and 
+Scandariato, Riccardo},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/978-3-642-28166-2_7}},
+number =        {7159},
+pages =         {60--74},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {Formalisation and {Implementation} of the {XACML} 
+{Access} {Control} {Mechanism}},
+year =          {2012},
 }
+
 
 @article{wobber_authentication_1994,
-  author =        {Wobber, Edward and Abadi, Martín and
-                   Burrows, Michael and Lampson, Butler},
-  howpublished =  {\url{http://doi.acm.org/10.1145/174613.174614}},
-  journal =       {ACM Trans. Comput. Syst.},
-  month =         feb,
-  number =        {1},
-  pages =         {3--32},
-  title =         {Authentication in the {Taos} {Operating} {System}},
-  volume =        {12},
-  year =          {1994},
-  abstract =      {We describe a design for security in a distributed
-                   system and its implementation. In our design,
-                   applications gain access to security services through
-                   a narrow interface. This interface provides a notion
-                   of identity that includes simple principals, groups,
-                   roles, and delegations. A new operating system
-                   component manages principals, credentials, and secure
-                   channels. It checks credentials according to the
-                   formal rules of a logic of authentication. Our
-                   implementation is efficient enough to support a
-                   substantial user community.},
-  doi =           {10.1145/174613.174614},
-  issn =          {0734-2071},
+author =        {Wobber, Edward and Abadi, Martín and 
+Burrows, Michael and Lampson, Butler},
+howpublished =  {\url{http://doi.acm.org/10.1145/174613.174614}},
+journal =       {ACM Trans. Comput. Syst.},
+number =        {1},
+pages =         {3--32},
+title =         {Authentication in the {Taos} {Operating} {System}},
+volume =        {12},
+year =          {1994},
+issn =          {0734-2071},
 }
+
 
 @inproceedings{blaze_decentralized_1996,
-  author =        {Blaze, M. and Feigenbaum, J. and Lacy, J.},
-  booktitle =     {Proceedings 1996 {IEEE} {Symposium} on {Security} and
-                   {Privacy}},
-  month =         may,
-  pages =         {164--173},
-  title =         {Decentralized trust management},
-  year =          {1996},
-  abstract =      {We identify the trust management problem as a
-                   distinct and important component of security in
-                   network services. Aspects of the trust management
-                   problem include formulating security policies and
-                   security credentials, determining whether particular
-                   sets of credentials satisfy the relevant policies,
-                   and deferring trust to third parties. Existing
-                   systems that support security in networked
-                   applications, including X.509 and PGP, address only
-                   narrow subsets of the overall trust management
-                   problem and often do so in a manner that is
-                   appropriate to only one application. This paper
-                   presents a comprehensive approach to trust
-                   management, based on a simple language for specifying
-                   trusted actions and trust relationships. It also
-                   describes a prototype implementation of a new trust
-                   management system, called PolicyMaker, that will
-                   facilitate the development of security features in a
-                   wide range of network services},
-  doi =           {10.1109/SECPRI.1996.502679},
+author =        {Blaze, M. and Feigenbaum, J. and Lacy, J.},
+booktitle =     {Proceedings 1996 {IEEE} {Symposium} on {Security} and 
+{Privacy}},
+pages =         {164--173},
+title =         {Decentralized trust management},
+year =          {1996},
 }
+
 
 @inproceedings{blaze_keynote:_1998,
-  author =        {Blaze, Matt and Feigenbaum, Joan and
-                   Keromytis, Angelos D.},
-  booktitle =     {Security {Protocols}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/3-540-49135-X_9}},
-  month =         apr,
-  pages =         {59--63},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {{KeyNote}: {Trust} {Management} for {Public}-{Key}
-                   {Infrastructures}},
-  year =          {1998},
-  abstract =      {This paper discusses the rationale for designing a
-                   simple trust-management system for public-key
-                   infrastructures, called KeyNote. The motivating
-                   principles are expressibility, simplicity, and
-                   extensibility. We believe that none of the existing
-                   public-key infrastructure proposals provide as good a
-                   combination of these three factors.},
-  doi =           {10.1007/3-540-49135-X_9},
-  language =      {en},
+author =        {Blaze, Matt and Feigenbaum, Joan and 
+Keromytis, Angelos D.},
+booktitle =     {Security {Protocols}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/3-540-49135-X_9}},
+pages =         {59--63},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {{KeyNote}: {Trust} {Management} for {Public}-{Key} 
+{Infrastructures}},
+year =          {1998},
 }
+
 
 @inproceedings{li_practically_2000,
-  author =        {Li, Ninghui and Grosof, B. and Feigenbaum, J.},
-  booktitle =     {Proceeding 2000 {IEEE} {Symposium} on {Security} and
-                   {Privacy}. {S} {P} 2000},
-  pages =         {27--42},
-  title =         {A {Practically} {Implementable} and {Tractable}
-                   {Delegation} {Logic}},
-  year =          {2000},
-  abstract =      {We address the goal of making Delegation Logic (DL)
-                   into a practically implementable and tractable trust
-                   management system. DL (N. Li et al., 1999) is a logic
-                   based knowledge representation (i.e., language) for
-                   authorization in large scale, open, distributed
-                   systems. DL inferencing is computationally
-                   intractable and highly impractical to implement. We
-                   introduce a new version of Delegation Logic that
-                   remedies these difficulties. To achieve this, we
-                   impose a syntactic restriction and redefine the
-                   semantics somewhat. We show that, for this revised
-                   version of DL, inferencing is computationally
-                   tractable under the same commonly met restrictions
-                   for which Ordinary Logic Programs (OLP) inferencing
-                   is tractable (e.g., Datalog and bounded number of
-                   logical variables per rule). We give an
-                   implementation architecture for this version of DL;
-                   it uses a delegation compiler from DL to OLP and can
-                   modularly exploit a variety of existing OLP inference
-                   engines. As proof of concept, we have implemented a
-                   large expressive subset of this version of DL, using
-                   this architecture},
-  doi =           {10.1109/SECPRI.2000.848444},
+author =        {Li, Ninghui and Grosof, B. and Feigenbaum, J.},
+booktitle =     {Proceeding 2000 {IEEE} {Symposium} on {Security} and 
+{Privacy}. {S} {P} 2000},
+pages =         {27--42},
+title =         {A {Practically} {Implementable} and {Tractable} 
+{Delegation} {Logic}},
+year =          {2000},
 }
+
 
 @incollection{damianou_ponder_2001,
-  author =        {Damianou, Nicodemos and Dulay, Naranker and
-                   Lupu, Emil and Sloman, Morris},
-  booktitle =     {Policies for {Distributed} {Systems} and {Networks}},
-  editor =        {Sloman, Morris and Lupu, Emil C. and Lobo, Jorge},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/3-540-44569-2_2}},
-  note =          {DOI: 10.1007/3-540-44569-2\_2},
-  number =        {1995},
-  pages =         {18--38},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {The {Ponder} {Policy} {Specification} {Language}},
-  year =          {2001},
-  abstract =      {The Ponder language provides a common means of
-                   specifying security policies that map onto various
-                   access control implementation mechanisms for
-                   firewalls, operating systems, databases and Java. It
-                   supports obligation policies that are event triggered
-                   condition-action rules for policy based management of
-                   networks and distributed systems. Ponder can also be
-                   used for security management activities such as
-                   registration of users or logging and auditing events
-                   for dealing with access to critical resources or
-                   security violations. Key concepts of the language
-                   include roles to group policies relating to a
-                   position in an organisation, relationships to define
-                   interactions between roles and management structures
-                   to define a configuration of roles and relationships
-                   pertaining to an organisational unit such as a
-                   department. These reusable composite policy
-                   specifications cater for the complexity of large
-                   enterprise information systems. Ponder is
-                   declarative, strongly-typed and object-oriented which
-                   makes the language flexible, extensible and adaptable
-                   to a wide range of management requirements.},
-  isbn =          {978-3-540-41610-4 978-3-540-44569-2},
-  language =      {en},
+author =        {Damianou, Nicodemos and Dulay, Naranker and 
+Lupu, Emil and Sloman, Morris},
+booktitle =     {Policies for {Distributed} {Systems} and {Networks}},
+editor =        {Sloman, Morris and Lupu, Emil C. and Lobo, Jorge},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/3-540-44569-2_2}},
+number =        {1995},
+pages =         {18--38},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {The {Ponder} {Policy} {Specification} {Language}},
+year =          {2001},
 }
+
 
 @inproceedings{li_design_2002,
-  author =        {Li, Ninghui and Mitchell, J. C. and
-                   Winsborough, W. H.},
-  booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and
-                   {Privacy}},
-  pages =         {114--130},
-  title =         {Design of a role-based trust-management framework},
-  year =          {2002},
-  abstract =      {We introduce the RT framework, a family of role-based
-                   trust management languages for representing policies
-                   and credentials in distributed authorization. RT
-                   combines the strengths of role-based access control
-                   and trust-management systems and is especially
-                   suitable for attribute-based access control. Using a
-                   few simple credential forms, RT provides localized
-                   authority over roles, delegation in role definition,
-                   linked roles, and parameterized roles. RT also
-                   introduces manifold roles, which can be used to
-                   express threshold and separation-of-duty policies,
-                   and delegation of role activations. We formally
-                   define the semantics of credentials in the RT
-                   framework by presenting a translation from
-                   credentials to Datalog rules. This translation also
-                   shows that this semantics is algorithmically
-                   tractable.},
-  doi =           {10.1109/SECPRI.2002.1004366},
+author =        {Li, Ninghui and Mitchell, J. C. and 
+Winsborough, W. H.},
+booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and 
+{Privacy}},
+pages =         {114--130},
+title =         {Design of a role-based trust-management framework},
+year =          {2002},
 }
+
 
 @inproceedings{detreville_binder_2002,
-  author =        {DeTreville, J.},
-  booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and
-                   {Privacy}},
-  pages =         {105--113},
-  title =         {Binder, a logic-based security language},
-  year =          {2002},
-  abstract =      {We introduce the concept of a security language, used
-                   to express security statements in a distributed
-                   system. Most existing security languages encode
-                   security statements as schematized data structures,
-                   such as ACLs and X.509 certificates. In contrast,
-                   Binder is an open logic-based security language that
-                   encodes security statements as components of
-                   communicating distributed logic programs. Binder
-                   programs can be more expressive than statements in
-                   standard security languages, and the meanings of
-                   standard security constructs and operations such as
-                   certificates and delegation are simplified and
-                   clarified by their formulation in Binder. Translation
-                   into Binder has been used to explore the design of
-                   other new and existing security languages.},
-  doi =           {10.1109/SECPRI.2002.1004365},
+author =        {DeTreville, J.},
+booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and 
+{Privacy}},
+pages =         {105--113},
+title =         {Binder, a logic-based security language},
+year =          {2002},
 }
+
 
 @inproceedings{becker_cassandra:_2004,
-  author =        {Becker, M. Y. and Sewell, P.},
-  booktitle =     {Proceedings. {Fifth} {IEEE} {International}
-                   {Workshop} on {Policies} for {Distributed} {Systems}
-                   and {Networks}, 2004. {POLICY} 2004.},
-  month =         jun,
-  pages =         {159--168},
-  title =         {Cassandra: distributed access control policies with
-                   tunable expressiveness},
-  year =          {2004},
-  abstract =      {We study the specification of access control policy
-                   in large-scale distributed systems. Our work on
-                   real-world policies has shown that standard policy
-                   idioms such as role hierarchy or role delegation
-                   occur in practice in many subtle variants. A policy
-                   specification language should therefore be able to
-                   express this variety of features smoothly, rather
-                   than add them as specific features in an ad hoc way,
-                   as is the case in many existing languages. We present
-                   Cassandra, a role-based trust management system with
-                   an elegant and readable policy specification language
-                   based on Datalog with constraints. The expressiveness
-                   (and computational complexity) of the language can be
-                   adjusted by choosing an appropriate constraint
-                   domain. With just five special predicates, we can
-                   easily express a wide range of policies including
-                   role hierarchy, role delegation, separation of
-                   duties, cascading revocation, automatic credential
-                   discovery and trust negotiation. Cassandra has a
-                   formal semantics for query evaluation and for the
-                   access control enforcement engine. We use a
-                   goal-oriented distributed policy evaluation algorithm
-                   that is efficient and guarantees termination. Initial
-                   performance results for our prototype implementation
-                   have been promising.},
-  doi =           {10.1109/POLICY.2004.1309162},
+author =        {Becker, M. Y. and Sewell, P.},
+booktitle =     {Proceedings. {Fifth} {IEEE} {International} 
+{Workshop} on {Policies} for {Distributed} {Systems} 
+and {Networks}, 2004. {POLICY} 2004.},
+pages =         {159--168},
+title =         {Cassandra: distributed access control policies with 
+tunable expressiveness},
+year =          {2004},
 }
+
 
 @inproceedings{gurevich_dkal:_2008,
-  author =        {Gurevich, Y. and Neeman, I.},
-  booktitle =     {2008 21st {IEEE} {Computer} {Security} {Foundations}
-                   {Symposium}},
-  month =         jun,
-  pages =         {149--162},
-  title =         {{DKAL}: {Distributed}-{Knowledge} {Authorization}
-                   {Language}},
-  year =          {2008},
-  abstract =      {DKAL is a new declarative authorization language for
-                   distributed systems. It is based on existential
-                   fixed-point logic and is considerably more expressive
-                   than existing authorization languages in the
-                   literature. Yet its query algorithm is within the
-                   same bounds of computational complexity as e.g. that
-                   of SecPAL. DKAL's communication is targeted which is
-                   beneficial for security and for liability protection.
-                   DKAL enables flexible use of functions; in particular
-                   principals can quote (to other principals) whatever
-                   has been said to them. DKAL strengthens the trust
-                   delegation mechanism of SecPAL. A novel information
-                   order contributes to succinctness. DKAL introduces a
-                   semantic safety condition that guarantees the
-                   termination of the query algorithm.},
-  doi =           {10.1109/CSF.2008.8},
+author =        {Gurevich, Y. and Neeman, I.},
+booktitle =     {2008 21st {IEEE} {Computer} {Security} {Foundations} 
+{Symposium}},
+pages =         {149--162},
+title =         {{DKAL}: {Distributed}-{Knowledge} {Authorization} 
+{Language}},
+year =          {2008},
 }
+
 
 @techreport{yuri_gurevich_dkal2---simplified_2009,
-  author =        {Yuri Gurevich and Itay Neeman},
-  institution =   {Microsoft Research},
-  number =        {MSR-TR-2009-11},
-  title =         {{DKAL}2---{A} {Simplified} and {Improved}
-                   {Authorization} {Language}},
-  year =          {2009},
+author =        {Yuri Gurevich and Itay Neeman},
+institution =   {Microsoft Research},
+number =        {MSR-TR-2009-11},
+title =         {{DKAL}2---{A} {Simplified} and {Improved} 
+{Authorization} {Language}},
+year =          {2009},
 }
+
 
 @inproceedings{twidle_ponder2:_2009,
-  author =        {Twidle, K. and Dulay, N. and Lupu, E. and Sloman, M.},
-  booktitle =     {2009 {Fifth} {International} {Conference} on
-                   {Autonomic} and {Autonomous} {Systems}},
-  month =         apr,
-  pages =         {330--335},
-  title =         {Ponder2: {A} {Policy} {System} for {Autonomous}
-                   {Pervasive} {Environments}},
-  year =          {2009},
-  abstract =      {Policies form an important part of management and can
-                   be an effective means of implementing self-adaptation
-                   in pervasive systems. Most policy-based systems focus
-                   on large-scale networks and distributed systems.
-                   Consequently, they are often fragmented, dependent on
-                   infrastructure and lacking flexibility and
-                   extensibility. This paper presents Ponder2, a novel
-                   policy system that is suitable for a wide range of
-                   environments and applications. The design and
-                   implementation of Ponder2 emphasises simplicity,
-                   flexibility and extensibility and provides users with
-                   the ability to interact easily with the managed
-                   system. Ponder2 can interact with other software and
-                   hardware components and is being used in environments
-                   ranging from single devices, to personal area
-                   networks, ad-hoc networks and distributed systems. We
-                   also describe PonderTalk, a high-level object
-                   orientated language inspired by Smalltalk for
-                   configuring and controlling Ponder2 systems.large
-                   scale systems. It advocates a similar de-centralised
-                   model of autonomous agents co-operating with each
-                   other and composing into more complex configurations.
-                   However, many existing policy-based frameworks have
-                   not been conceived for such environments. Their
-                   design is dependent on centralised infrastructure
-                   support such as LDAP directories and CIM
-                   repositories. Their deployment model is often based
-                   on centralised provisioning and decision-making that
-                   does not offer the means for policy execution
-                   components to interact with each other, collaborate
-                   or federate into larger structure. Policy
-                   specification is seen as an off-line activity, and
-                   policy frameworks do not easily interact with the
-                   managed system. Consequently such frameworks are
-                   difficult to install, run and experiment with.
-                   Additionally, they usually do not scale to smaller
-                   devices omnipresent in pervasive systems.},
-  doi =           {10.1109/ICAS.2009.42},
+author =        {Twidle, K. and Dulay, N. and Lupu, E. and Sloman, M.},
+booktitle =     {2009 {Fifth} {International} {Conference} on 
+{Autonomic} and {Autonomous} {Systems}},
+pages =         {330--335},
+title =         {Ponder2: {A} {Policy} {System} for {Autonomous} 
+{Pervasive} {Environments}},
+year =          {2009},
 }
+
 
 @techreport{becker_framework_2009,
-  author =        {Becker, Moritz Y. and Malkis, Alexander and
-                   Bussard, Laurent},
-  institution =   {Microsoft Research},
-  number =        {MSR–TR–2009–128},
-  type =          {Technical {Report}},
-  title =         {A {Framework} for {Privacy} {Preferences} and
-                   {Data}-{Handling} {Policies}},
-  year =          {2009},
-  abstract =      {This paper presents SecPALP, a language for
-                   specifying both users' preferences on how their
-                   personally identifiable information (PII) should be
-                   treated by data-collecting services, and
-                   services'...},
+author =        {Becker, Moritz Y. and Malkis, Alexander and 
+Bussard, Laurent},
+institution =   {Microsoft Research},
+number =        {MSR–TR–2009–128},
+type =          {Technical {Report}},
+title =         {A {Framework} for {Privacy} {Preferences} and 
+{Data}-{Handling} {Policies}},
+year =          {2009},
 }
+
 
 @incollection{aziz_secpal4dsa:_2011,
-  author =        {Aziz, Benjamin and Arenas, Alvaro and
-                   Wilson, Michael},
-  booktitle =     {Secure and {Trust} {Computing}, {Data} {Management}
-                   and {Applications}},
-  month =         jun,
-  number =        {186},
-  pages =         {29--36},
-  publisher =     {Springer},
-  series =        {Communications in {Computer} and {Information}
-                   {Science}},
-  title =         {{SecPAL}4DSA: {A} {Policy} {Language} for
-                   {Specifying} {Data} {Sharing} {Agreements}},
-  year =          {2011},
-  abstract =      {Data sharing agreements are a common mechanism by
-                   which enterprises can legalise and express acceptable
-                   circumstances for the sharing of information and
-                   digital assets across their administrative
-                   boundaries. Such agreements, often written in some
-                   natural language, are expected to form the basis for
-                   the low-level policies that control the access to and
-                   usage of such digital assets. This paper contributes
-                   to the problem of expressing data sharing
-                   requirements in security policy languages such that
-                   the resulting policies can enforce the terms of a
-                   data sharing agreement. We extend one such language,
-                   SecPAL, with constructs for expressing permissions,
-                   obligations, penalties and risk, which often occur as
-                   clauses in a data sharing agreement.},
+author =        {Aziz, Benjamin and Arenas, Alvaro and 
+Wilson, Michael},
+booktitle =     {Secure and {Trust} {Computing}, {Data} {Management} 
+and {Applications}},
+number =        {186},
+pages =         {29--36},
+publisher =     {Springer},
+series =        {Communications in {Computer} and {Information} 
+{Science}},
+title =         {{SecPAL}4DSA: {A} {Policy} {Language} for 
+{Specifying} {Data} {Sharing} {Agreements}},
+year =          {2011},
 }
+
 
 @inproceedings{jeannin_dkal*:_2013,
-  author =        {Jeannin, Jean-Baptiste and Caso, Guido de and
-                   Chen, Juan and Gurevich, Yuri and Naldurg, Prasad and
-                   Swamy, Nikhil},
-  booktitle =     {Engineering {Secure} {Software} and {Systems}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/978-3-642-36563-8_10}},
-  month =         feb,
-  pages =         {139--154},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {{DKAL}*: {Constructing} {Executable} {Specifications}
-                   of {Authorization} {Protocols}},
-  year =          {2013},
-  abstract =      {Many prior trust management frameworks provide
-                   authorization logics for specifying policies based on
-                   distributed trust. However, to implement a security
-                   protocol using these frameworks, one usually resorts
-                   to a general-purpose programming language. To reason
-                   about the security of the entire system, one must
-                   study not only policies in the authorization logic,
-                   but also hard-to-analyze implementation code.This
-                   paper proposes dkal ⋆ , a language for constructing
-                   executable specifications of authorization protocols.
-                   Protocol and policy designers can use dkal ⋆ ’s
-                   authorization logic for expressing distributed trust
-                   relationships, and its small rule-based programming
-                   language to describe the message sequence of a
-                   protocol. Importantly, many low-level details of the
-                   protocol (e.g., marshaling formats or management of
-                   state consistency) are left abstract in dkal ⋆ ,
-                   but sufficient details must be provided in order for
-                   the protocol to be executable.We formalize the
-                   semantics of dkal ⋆ , giving it an operational
-                   semantics and a type system. We prove various
-                   properties of dkal ⋆ , including type soundness and
-                   a decidability property for its underlying logic. We
-                   also present an interpreter for dkal ⋆ ,
-                   mechanically verified for correctness and security.
-                   We evaluate our work experimentally on several
-                   examples.},
-  doi =           {10.1007/978-3-642-36563-8_10},
-  language =      {en},
+author =        {Jeannin, Jean-Baptiste and Caso, Guido de and 
+Chen, Juan and Gurevich, Yuri and Naldurg, Prasad and 
+Swamy, Nikhil},
+booktitle =     {Engineering {Secure} {Software} and {Systems}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/978-3-642-36563-8_10}},
+pages =         {139--154},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {{DKAL}*: {Constructing} {Executable} {Specifications} 
+of {Authorization} {Protocols}},
+year =          {2013},
 }
+
 
 @article{aho_awk-pattern_1979,
-  author =        {Aho, Alfred V. and Kernighan, Brian W. and
-                   Weinberger, Peter J.},
-  howpublished =
-  {\url{https://pdfs.semanticscholar.org/8f82/7d3d09ebe77887181414613e8cb47e32a8d2.pdf}},
-  journal =       {Softw., Pract. Exper.},
-  number =        {4},
-  pages =         {267--279},
-  title =         {Awk-a pattern scanning and processing language},
-  volume =        {9},
-  year =          {1979},
+author =        {Aho, Alfred V. and Kernighan, Brian W. and 
+Weinberger, Peter J.},
+howpublished = 
+{\url{https://pdfs.semanticscholar.org/8f82/7d3d09ebe77887181414613e8cb47e32a8d2.pdf}},
+journal =       {Softw., Pract. Exper.},
+number =        {4},
+pages =         {267--279},
+title =         {Awk-a pattern scanning and processing language},
+volume =        {9},
+year =          {1979},
 }
+
 
 @incollection{blaze_role_1999,
-  author =        {Blaze, Matt and Feigenbaum, Joan and Ioannidis, John and
-                   Keromytis, Angelos D.},
-  booktitle =     {Secure {Internet} {Programming}},
-  editor =        {Vitek, Jan and Jensen, Christian D.},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/3-540-48749-2_8}},
-  note =          {DOI: 10.1007/3-540-48749-2\_8},
-  number =        {1603},
-  pages =         {185--210},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {The {Role} of {Trust} {Management} in {Distributed}
-                   {Systems} {Security}},
-  year =          {1999},
-  abstract =      {Existing authorization mechanisms fail to provide
-                   powerful and robust tools for handling security at
-                   the scale necessary for today’s Internet. These
-                   mechanisms are coming under increasing strain from
-                   the development and deployment of systems that
-                   increase the programmability of the Internet.
-                   Moreover, this “increased flexibility through
-                   programmability” trend seems to be accelerating
-                   with the advent of proposals such as Active
-                   Networking and Mobile Agents. The trust-management
-                   approach to distributed-system security was developed
-                   as an answer to the inadequacy of traditional
-                   authorization mechanisms. Trust-management engines
-                   avoid the need to resolve “identities” in an
-                   authorization decision. Instead, they express
-                   privileges and restrictions in a programming
-                   language. This allows for increased flexibility and
-                   expressibility, as well as standardization of modern,
-                   scalable security mechanisms. Further advantages of
-                   the trust-management approach include proofs that
-                   requested transactions comply with local policies and
-                   system architectures that encourage developers and
-                   administrators to consider an application’s
-                   security policy carefully and specify it explicitly.
-                   In this paper, we examine existing authorization
-                   mechanisms and their inadequacies. We introduce the
-                   concept of trust management, explain its basic
-                   principles, and describe some existing
-                   trust-management engines, including PolicyMaker and
-                   KeyNote. We also report on our experience using
-                   trust-management engines in several
-                   distributed-system applications.},
-  isbn =          {978-3-540-66130-6 978-3-540-48749-4},
-  language =      {en},
+author =        {Blaze, Matt and Feigenbaum, Joan and Ioannidis, John and 
+Keromytis, Angelos D.},
+booktitle =     {Secure {Internet} {Programming}},
+editor =        {Vitek, Jan and Jensen, Christian D.},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/3-540-48749-2_8}},
+number =        {1603},
+pages =         {185--210},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {The {Role} of {Trust} {Management} in {Distributed} 
+{Systems} {Security}},
+year =          {1999},
 }
+
 
 @inproceedings{blaze_compliance_1998,
-  author =        {Blaze, Matt and Feigenbaum, Joan and Strauss, Martin},
-  booktitle =     {Financial {Cryptography}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/BFb0055488}},
-  month =         feb,
-  pages =         {254--274},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {Compliance checking in the {PolicyMaker} trust
-                   management system},
-  year =          {1998},
-  abstract =      {Emerging electronic commerce services that use
-                   public-key cryptography on a mass-market scale
-                   require sophisticated mechanisms for managing trust.
-                   For example, any service that receives a signed
-                   request for action is forced to answer the central
-                   question “Is the key used to sign this request
-                   authorized to take this action?” In some services,
-                   this question reduces to “Does this key belong to
-                   this person?” In others, the authorization question
-                   is more complicated, and resolving it requires
-                   techniques for formulating security policies and
-                   security credentials, determining whether particular
-                   sets of credentials satisfy the relevant policies,
-                   and deferring trust to third parties. Blaze,
-                   Feigenbaum, and Lacy [1] identified this trust
-                   management problem as a distinct and important
-                   component of network services and described a general
-                   tool for addressing it, the PolicyMaker trust
-                   management system.At the heart of a trust management
-                   system is an algorithm for compliance checking. The
-                   inputs to the compliance checker are a request, a
-                   policy, and a set of credentials. The compliance
-                   checker returns yes or no, depending on whether the
-                   credentials constitute a proof that the request
-                   complies with the policy. Thus a central challenge in
-                   trust management is to find an appropriate notion of
-                   “proof” and an efficient algorithm for checking
-                   proofs of compliance.In this paper, we present the
-                   notion of proof that is used in the current version
-                   of the PolicyMaker trust management system. We show
-                   that this notion of proof leads to a
-                   compliance-checking problem that is undecidable in
-                   its most general form and is NP-hard even if
-                   restricted in several natural ways. We identify a
-                   special case of the problem that is solvable in
-                   polynomial time and is widely applicable. The
-                   algorithm that we give for this special case has been
-                   implemented and is used in the current version of the
-                   PolicyMaker system.},
-  doi =           {10.1007/BFb0055488},
-  language =      {en},
+author =        {Blaze, Matt and Feigenbaum, Joan and Strauss, Martin},
+booktitle =     {Financial {Cryptography}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/BFb0055488}},
+pages =         {254--274},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {Compliance checking in the {PolicyMaker} trust 
+management system},
+year =          {1998},
 }
+
 
 @article{joseph_y._halpern_logic_1999,
-  author =        {{Joseph Y. Halpern} and {Ron van der Meyden}},
-  howpublished =
-  {\url{https://www.semanticscholar.org/paper/A-Logic-for-SDSI-s-Linked-Local-Name-Spaces-Halpern-Meyden/53f0cf943694ca1dc944065781b1ab2a99fd227b}},
-  journal =       {Journal of Computer Security},
-  title =         {A {Logic} for {SDSI}'s {Linked} {Local} {Name}
-                   {Spaces}},
-  year =          {1999},
+author =        {{Joseph Y. Halpern} and {Ron van der Meyden}},
+howpublished = 
+{\url{https://www.semanticscholar.org/paper/A-Logic-for-SDSI-s-Linked-Local-Name-Spaces-Halpern-Meyden/53f0cf943694ca1dc944065781b1ab2a99fd227b}},
+journal =       {Journal of Computer Security},
+title =         {A {Logic} for {SDSI}'s {Linked} {Local} {Name} 
+{Spaces}},
+year =          {1999},
 }
+
 
 @article{abadi_sdsis_1998,
-  author =        {Abadi, Martín},
-  howpublished =
-  {\url{http://content.iospress.com/articles/journal-of-computer-security/jcs104}},
-  journal =       {Journal of Computer Security},
-  month =         jan,
-  number =        {1-2},
-  pages =         {3--21},
-  title =         {On {SDSI}’s linked local name spaces},
-  volume =        {6},
-  year =          {1998},
-  abstract =      {Rivest and Lampson have recently introduced SDSI, a
-                   Simple Distributed Security Infrastructure. One of
-                   the important innovations of SDSI is the use of
-                   linked local name spaces. This paper suggests a
-                   logical explanation of SDSI’s local name spaces,
-                   as},
-  doi =           {10.3233/JCS-1998-61-202},
-  issn =          {0926-227X},
+author =        {Abadi, Martín},
+howpublished = 
+{\url{http://content.iospress.com/articles/journal-of-computer-security/jcs104}},
+journal =       {Journal of Computer Security},
+number =        {1-2},
+pages =         {3--21},
+title =         {On {SDSI}’s linked local name spaces},
+volume =        {6},
+year =          {1998},
+issn =          {0926-227X},
 }
+
 
 @inproceedings{howell_formal_2000,
-  author =        {Howell, Jon and Kotz, David},
-  booktitle =     {Computer {Security} - {ESORICS} 2000},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/10722599_9}},
-  month =         oct,
-  pages =         {140--158},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {A {Formal} {Semantics} for {SPKI}},
-  year =          {2000},
-  abstract =      {We extend the logic and semantics of authorization
-                   due to Abadi, Lampson, et al. to support restricted
-                   delegation. Our formal model provides a simple
-                   interpretation for the variety of constructs in the
-                   Simple Public Key Infrastructure (SPKI), and lends
-                   intuition about possible extensions. We discuss both
-                   extensions that our semantics supports and extensions
-                   that it cautions against.},
-  doi =           {10.1007/10722599_9},
-  language =      {en},
+author =        {Howell, Jon and Kotz, David},
+booktitle =     {Computer {Security} - {ESORICS} 2000},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/10722599_9}},
+pages =         {140--158},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {A {Formal} {Semantics} for {SPKI}},
+year =          {2000},
 }
+
 
 @article{dwaine_clarke_certificate_2001,
-  author =        {Dwaine Clarke and Jean-Emile Elien and
-                   Carl Ellison and Matt Fredette and
-                   Alexander Morcos and Ronald L. Rivest},
-  howpublished =
-  {\url{http://content.iospress.com/articles/journal-of-computer-security/jcs150}},
-  journal =       {Journal of Computer Security},
-  number =        {4},
-  title =         {Certificate chain discovery in {SPKI}/{SDSI}},
-  volume =        {9},
-  year =          {2001},
+author =        {Dwaine Clarke and Jean-Emile Elien and 
+Carl Ellison and Matt Fredette and 
+Alexander Morcos and Ronald L. Rivest},
+howpublished = 
+{\url{http://content.iospress.com/articles/journal-of-computer-security/jcs150}},
+journal =       {Journal of Computer Security},
+number =        {4},
+title =         {Certificate chain discovery in {SPKI}/{SDSI}},
+volume =        {9},
+year =          {2001},
 }
+
 
 @inproceedings{ninghui_li_design_2002,
-  author =        {Ninghui Li and Mitchell, J. C. and
-                   Winsborough, W. H.},
-  booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and
-                   {Privacy}},
-  pages =         {114--130},
-  title =         {Design of a role-based trust-management framework},
-  year =          {2002},
-  abstract =      {We introduce the RT framework, a family of role-based
-                   trust management languages for representing policies
-                   and credentials in distributed authorization. RT
-                   combines the strengths of role-based access control
-                   and trust-management systems and is especially
-                   suitable for attribute-based access control. Using a
-                   few simple credential forms, RT provides localized
-                   authority over roles, delegation in role definition,
-                   linked roles, and parameterized roles. RT also
-                   introduces manifold roles, which can be used to
-                   express threshold and separation-of-duty policies,
-                   and delegation of role activations. We formally
-                   define the semantics of credentials in the RT
-                   framework by presenting a translation from
-                   credentials to Datalog rules. This translation also
-                   shows that this semantics is algorithmically
-                   tractable.},
-  doi =           {10.1109/SECPRI.2002.1004366},
+author =        {Ninghui Li and Mitchell, J. C. and 
+Winsborough, W. H.},
+booktitle =     {Proceedings 2002 {IEEE} {Symposium} on {Security} and 
+{Privacy}},
+pages =         {114--130},
+title =         {Design of a role-based trust-management framework},
+year =          {2002},
 }
+
 
 @article{li_distributed_2003,
-  author =        {Li, Ninghui and Winsborough, William H. and
-                   Mitchell, John C.},
-  howpublished =
-  {\url{http://content.iospress.com/articles/journal-of-computer-security/jcs169}},
-  journal =       {Journal of Computer Security},
-  month =         jan,
-  number =        {1},
-  pages =         {35--86},
-  title =         {Distributed credential chain discovery in trust
-                   management*},
-  volume =        {11},
-  year =          {2003},
-  abstract =      {We introduce a simple Role-based Trust-management
-                   language RT 0 and a set-theoretic semantics for it.
-                   We also introduce credential graphs as a searchable
-                   representation of credentials in RT 0 and prove that
-                   reachability in credential graphs is sound},
-  doi =           {10.3233/JCS-2003-11102},
-  issn =          {0926-227X},
+author =        {Li, Ninghui and Winsborough, William H. and 
+Mitchell, John C.},
+howpublished = 
+{\url{http://content.iospress.com/articles/journal-of-computer-security/jcs169}},
+journal =       {Journal of Computer Security},
+number =        {1},
+pages =         {35--86},
+title =         {Distributed credential chain discovery in trust 
+management*},
+volume =        {11},
+year =          {2003},
+issn =          {0926-227X},
 }
+
 
 @incollection{li_datalog_2003,
-  author =        {Li, Ninghui and Mitchell, John C.},
-  booktitle =     {Practical {Aspects} of {Declarative} {Languages}},
-  editor =        {Dahl, Veronica and Wadler, Philip},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/3-540-36388-2_6}},
-  month =         jan,
-  note =          {DOI: 10.1007/3-540-36388-2\_6},
-  number =        {2562},
-  pages =         {58--73},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {Datalog with {Constraints}: {A} {Foundation} for
-                   {Trust} {Management} {Languages}},
-  year =          {2003},
-  abstract =      {Trust management (TM) is a promising approach for
-                   authorization and access control in distributed
-                   systems, based on signed distributed policy
-                   statements expressed in a policy language. Although
-                   several TM languages are semantically equivalent to
-                   subsets of Datalog, Datalog is not suffciently
-                   expressive for ifne-grained control of structured
-                   resources. We define the class of linearly
-                   decomposable unary constraint domains, prove that
-                   Datalog extended with constraints in any combination
-                   of such constraint domains is tractable, and show
-                   that permissions associated with structured resources
-                   fall into this class. We also present a concrete
-                   declarative TM language, RT C 1 , based on constraint
-                   Datalog, and use constraint Datalog to analyze
-                   another TM system, KeyNote, which turns out to be
-                   less expressive than RT C 1 in significant respects,
-                   yet less tractable in the worst case. Although
-                   constraint Datalog has been studied in the context of
-                   constraint databases, TM applications involve
-                   different kinds of constraint domains and have
-                   different computational complexity requirements.},
-  isbn =          {978-3-540-00389-2 978-3-540-36388-0},
-  language =      {en},
+author =        {Li, Ninghui and Mitchell, John C.},
+booktitle =     {Practical {Aspects} of {Declarative} {Languages}},
+editor =        {Dahl, Veronica and Wadler, Philip},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/3-540-36388-2_6}},
+number =        {2562},
+pages =         {58--73},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {Datalog with {Constraints}: {A} {Foundation} for 
+{Trust} {Management} {Languages}},
+year =          {2003},
 }
+
 
 @inproceedings{revesz_constraint_1995,
-  author =        {Revesz, Peter Z.},
-  booktitle =     {Semantics in {Databases}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/BFb0035010}},
-  month =         jan,
-  pages =         {209--246},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {Constraint databases: {A} survey},
-  year =          {1995},
-  abstract =      {Constraint databases generalize relational databases
-                   by finitely representable infinite relations. This
-                   paper surveys the state of the art in constraint
-                   databases: known results, remaining open problems and
-                   current research directions. The paper also describes
-                   a new algebra for databases with integer order
-                   constraints and a complexity analysis of evaluating
-                   queries in this algebra.},
-  doi =           {10.1007/BFb0035010},
-  language =      {en},
+author =        {Revesz, Peter Z.},
+booktitle =     {Semantics in {Databases}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/BFb0035010}},
+pages =         {209--246},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {Constraint databases: {A} survey},
+year =          {1995},
 }
+
 
 @inproceedings{revesz_safe_1998,
-  author =        {Revesz, Peter Z.},
-  booktitle =     {Principles and {Practice} of {Constraint}
-                   {Programming} — {CP}98},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/3-540-49481-2_26}},
-  month =         oct,
-  pages =         {355--369},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {Safe {Datalog} {Queries} with {Linear} {Constraints}},
-  year =          {1998},
-  abstract =      {In this paper we consider Datalog queries with linear
-                   constraints. We identify several syntactical subcases
-                   of Datalog queries with linear constraints, called
-                   safe queries, and show that the least model of safe
-                   Datalog queries with linear constraints can be
-                   evaluated bottomup in closed-form. These subcases
-                   include Datalog with only positive and upper-bound or
-                   only negative and lower bound constraints or only
-                   half-addition, upper and lower bound constraints. We
-                   also study other subcases where the recognition
-                   problem is decidable},
-  doi =           {10.1007/3-540-49481-2_26},
-  language =      {en},
+author =        {Revesz, Peter Z.},
+booktitle =     {Principles and {Practice} of {Constraint} 
+{Programming} — {CP}98},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/3-540-49481-2_26}},
+pages =         {355--369},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {Safe {Datalog} {Queries} with {Linear} {Constraints}},
+year =          {1998},
 }
+
 
 @inproceedings{becker_cassandra:_2004-1,
-  author =        {Becker, M. Y. and Sewell, P.},
-  booktitle =     {17th {IEEE} {Computer} {Security} {Foundations}
-                   {Workshop}, 2004. {Proceedings}},
-  month =         jun,
-  pages =         {139--154},
-  title =         {Cassandra: flexible trust management, applied to
-                   electronic health records},
-  year =          {2004},
-  abstract =      {We study the specification of access control policy
-                   in large-scale distributed systems. We present
-                   Cassandra, a language and system for expressing
-                   policy, and the results of a substantial case study,
-                   a security policy for a national electronic health
-                   record system, based on the requirements for the
-                   ongoing UK National Health Service procurement
-                   exercise. Cassandra policies are expressed in a
-                   language based on Datalog with constraints. The
-                   expressiveness of the language (and its computational
-                   complexity) can be tuned by choosing an appropriate
-                   constraint domain. Cassandra is role-based; it
-                   supports credential-based access control (e.g.
-                   between administrative domains); and rules can refer
-                   to remote policies (for automatic credential
-                   retrieval and trust negotiation). Moreover, the
-                   policy language is small, and it has a formal
-                   semantics for query evaluation and for the access
-                   control engine. For the case study we choose a
-                   constraint domain C0 that is sufficiently expressive
-                   to encode many policy idioms. The case study turns
-                   out to require many subtle variants of these; it is
-                   important to express this variety smoothly, rather
-                   than add them as ad hoc features. By ensuring only a
-                   constraint compact fragment of C0 is used, we
-                   guarantee a finite and computable fixed-point model.
-                   We use a top-down evaluation algorithm, for
-                   efficiency and to guarantee termination. The case
-                   study (with some 310 rules and 58 roles) demonstrates
-                   that this language is expressive enough for a
-                   real-world application; preliminary results suggest
-                   that the performance should be acceptable.},
-  doi =           {10.1109/CSFW.2004.1310738},
+author =        {Becker, M. Y. and Sewell, P.},
+booktitle =     {17th {IEEE} {Computer} {Security} {Foundations} 
+{Workshop}, 2004. {Proceedings}},
+pages =         {139--154},
+title =         {Cassandra: flexible trust management, applied to 
+electronic health records},
+year =          {2004},
 }
+
 
 @techreport{moritz_y_becker_secpal:_2009,
-  author =        {Moritz Y. Becker},
-  institution =   {Microsoft Research},
-  month =         sep,
-  number =        {MSR-TR-2009-127},
-  title =         {{SecPAL}: {Formalization} and {Extensions}},
-  year =          {2009},
+author =        {Moritz Y. Becker},
+institution =   {Microsoft Research},
+number =        {MSR-TR-2009-127},
+title =         {{SecPAL}: {Formalization} and {Extensions}},
+year =          {2009},
 }
+
 
 @article{barrera_secure_2011,
-  author =        {Barrera, D. and Oorschot, P. Van},
-  journal =       {IEEE Security Privacy},
-  month =         may,
-  number =        {3},
-  pages =         {42--48},
-  title =         {Secure {Software} {Installation} on {Smartphones}},
-  volume =        {9},
-  year =          {2011},
-  abstract =      {This overview of iOS, Android, BlackBerry, and
-                   Symbian security frameworks includes a novel
-                   classification of third-party-application
-                   installation models. It also discusses how controlled
-                   app marketplaces fit in the smartphone security
-                   ecosystem.},
-  doi =           {10.1109/MSP.2010.202},
-  issn =          {1540-7993},
+author =        {Barrera, D. and Oorschot, P. Van},
+journal =       {IEEE Security Privacy},
+number =        {3},
+pages =         {42--48},
+title =         {Secure {Software} {Installation} on {Smartphones}},
+volume =        {9},
+year =          {2011},
+issn =          {1540-7993},
 }
+
 
 @inproceedings{enck_defending_2011,
-  author =        {Enck, William},
-  booktitle =     {Information {Systems} {Security}},
-  editor =        {Jajodia, Sushil and Mazumdar, Chandan},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/978-3-642-25560-1_3}},
-  month =         dec,
-  note =          {DOI: 10.1007/978-3-642-25560-1\_3},
-  pages =         {49--70},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {Defending {Users} against {Smartphone} {Apps}:
-                   {Techniques} and {Future} {Directions}},
-  year =          {2011},
-  abstract =      {Smartphone security research has become very popular
-                   in response to the rapid, worldwide adoption of new
-                   platforms such as Android and iOS. Smartphones are
-                   characterized by their ability to run third-party
-                   applications, and Android and iOS take this concept
-                   to the extreme, offering hundreds of thousands of
-                   “apps” through application markets. In response,
-                   smartphone security research has focused on
-                   protecting users from apps. In this paper, we discuss
-                   the current state of smartphone research, including
-                   efforts in designing new OS protection mechanisms, as
-                   well as performing security analysis of real apps. We
-                   offer insight into what works, what has clear
-                   limitations, and promising directions for future
-                   research.},
-  isbn =          {978-3-642-25559-5 978-3-642-25560-1},
-  language =      {en},
+author =        {Enck, William},
+booktitle =     {Information {Systems} {Security}},
+editor =        {Jajodia, Sushil and Mazumdar, Chandan},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/978-3-642-25560-1_3}},
+pages =         {49--70},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {Defending {Users} against {Smartphone} {Apps}: 
+{Techniques} and {Future} {Directions}},
+year =          {2011},
 }
+
 
 @article{alon_levy_equivalence_1993,
-  author =        {Alon Levy and Inderpal Singh Mumick and
-                   Yehoshua Sagiv and Oded Shmueli},
-  journal =       {Proceeding of the 12th ACM SIGACT-SIGMOD-SIGART
-                   symposium on Principles of Database Systems},
-  title =         {Equivalence, query-reachability and satisfiability in
-                   {Datalog} extensions},
-  year =          {1993},
+author =        {Alon Levy and Inderpal Singh Mumick and 
+Yehoshua Sagiv and Oded Shmueli},
+journal =       {Proceeding of the 12th ACM SIGACT-SIGMOD-SIGART 
+symposium on Principles of Database Systems},
+title =         {Equivalence, query-reachability and satisfiability in 
+{Datalog} extensions},
+year =          {1993},
 }
+
 
 @article{alon_levy_constraints_1992,
-  author =        {Alon Levy and Yehoshua Sagiv},
-  journal =       {Proceedings of the eleventh ACM SIGACT-SIGMOD-SIGART
-                   symposium on Principles of database systems},
-  title =         {Constraints and redundancy in datalog},
-  year =          {1992},
+author =        {Alon Levy and Yehoshua Sagiv},
+journal =       {Proceedings of the eleventh ACM SIGACT-SIGMOD-SIGART 
+symposium on Principles of database systems},
+title =         {Constraints and redundancy in datalog},
+year =          {1992},
 }
+
 
 @misc{google_android_2016,
-  author =        {{Google}},
-  howpublished =
-  {\url{https://static.googleusercontent.com/media/source.android.com/en//compatibility/7.1/android-7.1-cdd.pdf}},
-  month =         dec,
-  publisher =     {Google},
-  title =         {Android 7.1 {Compatibility} {Definition}},
-  year =          {2016},
+author =        {{Google}},
+howpublished = 
+{\url{https://static.googleusercontent.com/media/source.android.com/en//compatibility/7.1/android-7.1-cdd.pdf}},
+publisher =     {Google},
+title =         {Android 7.1 {Compatibility} {Definition}},
+year =          {2016},
 }
+
 
 @misc{yandex_yandex.store_nodate,
-  author =        {{Yandex}},
-  howpublished =
-  {\url{http://yandex.com/legal/store_termsofuse/index.html}},
-  title =         {{YANDEX}.{STORE} {TERMS} {OF} {USE} — {Legal}
-                   documents},
+author =        {{Yandex}},
+year =          {2014},
+howpublished = 
+{\url{http://yandex.com/legal/store_termsofuse/index.html}},
+title =         {{YANDEX}.{STORE} {TERMS} {OF} {USE} — {Legal} 
+documents},
 }
+
 
 @misc{aptoide_aptoide_nodate,
-  author =        {{Aptoide}},
-  howpublished =  {\url{https://www.aptoide.com/page/terms?lang=en}},
-  title =         {Aptoide - {Terms} of {Service}},
-  abstract =      {Aptoide's Terms of Service.},
+author =        {{Aptoide}},
+year =          {2014},
+howpublished =  {\url{https://www.aptoide.com/page/terms}},
+title =         {Aptoide - {Terms} of {Service}},
 }
+
 
 @misc{google_google_nodate,
-  author =        {{Google}},
-  howpublished =
-  {\url{https://play.google.com/intl/en_uk/about/play-terms.html}},
-  title =         {Google {Play} {Terms} of {Service}},
+author =        {{Google}},
+year =          {2017},
+howpublished = 
+{\url{https://play.google.com/intl/en_uk/about/play-terms.html}},
+title =         {Google {Play} {Terms} of {Service}},
 }
+
 
 @misc{amazon_amazon.co.uk_nodate,
-  author =        {{Amazon}},
-  howpublished =
-  {\url{https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=201485660}},
-  title =         {Amazon.co.uk {Help}: {Amazon} {Appstore} for
-                   {Android} {Terms} of {Use}},
+author =        {{Amazon}},
+year =          {2014},
+howpublished =
+{\url{https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=201485660}},
+title =         {Amazon.co.uk {Help}: {Amazon} {Appstore} for 
+{Android} {Terms} of {Use}},
 }
+
 
 @book{r._sikoryak_terms_2017,
-  author =        {{R. Sikoryak}},
-  edition =       {01 edition},
-  month =         mar,
-  publisher =     {Drawn and Quarterly},
-  title =         {Terms and {Conditions}},
-  year =          {2017},
-  abstract =      {For his newest project, R. Sikoryak tackles the
-                   monstrously and infamously dense legal document,
-                   iTunes Terms and Conditions, the contract everyone
-                   agrees to but no one reads. In a word for word
-                   94-page adaptation, Sikoryak hilariously turns the
-                   agreement on its head each page fea- tures an avatar
-                   of Apple cofounder and legendary visionary Steve Jobs
-                   juxtaposed with a different classic strip such as
-                   Mort Walker s Beetle Bailey, or a contemporary
-                   graphic novel such as Craig Thompson s Blankets or
-                   Marjane Satrapi s Persepolis. Adapting the legalese
-                   of the iTunes Terms and Conditions into another me-
-                   dium seems like an unfathomable under- taking, yet
-                   Sikoryak creates a surprisingly readable document,
-                   far different from its original, purely textual
-                   incarnation and thus proving the accessibility and
-                   flexibili- ty of comics. When Sikoryak parodies Kate
-                   Beaton s Hark A Vagrant peasant comics with Steve
-                   Jobs discussing objectionable material or Homer
-                   Simpson as Steve Jobs warning of the penalties of
-                   copyright in-fringement, Terms and Conditions serves
-                   as a surreal record of our modern digital age where
-                   technology competes with en- duringly ironclad
-                   mediums.},
-  isbn =          {978-1-77046-274-8},
-  language =      {English},
+author =        {{R. Sikoryak}},
+edition =       {01 edition},
+publisher =     {Drawn and Quarterly},
+title =         {Terms and {Conditions}},
+year =          {2017},
 }
+
 
 @misc{apple_app_nodate,
-  author =        {{Apple}},
-  howpublished =
-  {\url{https://developer.apple.com/app-store/review/guidelines/}},
-  title =         {App {Store} {Review} {Guidelines} - {Apple}
-                   {Developer}},
+author =        {{Apple}},
+year =          {2017},
+howpublished = 
+{\url{https://developer.apple.com/app-store/review/guidelines/}},
+title =         {App {Store} {Review} {Guidelines} - {Apple} 
+{Developer}},
 }
+
 
 @misc{apple_itunes_2017,
-  author =        {{Apple}},
-  howpublished =
-  {\url{https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/pricingMatrix/recurring}},
-  month =         mar,
-  title =         {{iTunes} {Connect} - {All} {Prices} and {Currencies}
-                   - {App} {Store}},
-  year =          {2017},
+author =        {{Apple}},
+howpublished = 
+{\url{https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa/ra/ng/pricingMatrix/recurring}},
+title =         {{iTunes} {Connect} - {All} {Prices} and {Currencies} 
+- {App} {Store}},
+year =          {2017},
 }
+
 
 @inproceedings{felt_android_2012,
-  address =       {New York, NY, USA},
-  author =        {Felt, Adrienne Porter and Ha, Elizabeth and
-                   Egelman, Serge and Haney, Ariel and Chin, Erika and
-                   Wagner, David},
-  booktitle =     {Proceedings of the {Eighth} {Symposium} on {Usable}
-                   {Privacy} and {Security}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2335356.2335360}},
-  pages =         {3:1--3:14},
-  publisher =     {ACM},
-  series =        {{SOUPS} '12},
-  title =         {Android {Permissions}: {User} {Attention},
-                   {Comprehension}, and {Behavior}},
-  year =          {2012},
-  abstract =      {Android's permission system is intended to inform
-                   users about the risks of installing applications.
-                   When a user installs an application, he or she has
-                   the opportunity to review the application's
-                   permission requests and cancel the installation if
-                   the permissions are excessive or objectionable. We
-                   examine whether the Android permission system is
-                   effective at warning users. In particular, we
-                   evaluate whether Android users pay attention to,
-                   understand, and act on permission information during
-                   installation. We performed two usability studies: an
-                   Internet survey of 308 Android users, and a
-                   laboratory study wherein we interviewed and observed
-                   25 Android users. Study participants displayed low
-                   attention and comprehension rates: both the Internet
-                   survey and laboratory study found that 17\% of
-                   participants paid attention to permissions during
-                   installation, and only 3\% of Internet survey
-                   respondents could correctly answer all three
-                   permission comprehension questions. This indicates
-                   that current Android permission warnings do not help
-                   most users make correct security decisions. However,
-                   a notable minority of users demonstrated both
-                   awareness of permission warnings and reasonable rates
-                   of comprehension. We present recommendations for
-                   improving user attention and comprehension, as well
-                   as identify open challenges.},
-  doi =           {10.1145/2335356.2335360},
-  isbn =          {978-1-4503-1532-6},
+address =       {New York, NY, USA},
+author =        {Felt, Adrienne Porter and Ha, Elizabeth and 
+Egelman, Serge and Haney, Ariel and Chin, Erika and 
+Wagner, David},
+booktitle =     {Proceedings of the {Eighth} {Symposium} on {Usable} 
+{Privacy} and {Security}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2335356.2335360}},
+pages =         {3:1--3:14},
+publisher =     {ACM},
+series =        {{SOUPS} '12},
+title =         {Android {Permissions}: {User} {Attention}, 
+{Comprehension}, and {Behavior}},
+year =          {2012},
 }
+
 
 @inproceedings{thompson_when_2013,
-  address =       {New York, NY, USA},
-  author =        {Thompson, Christopher and Johnson, Maritza and
-                   Egelman, Serge and Wagner, David and King, Jennifer},
-  booktitle =     {Proceedings of the {Ninth} {Symposium} on {Usable}
-                   {Privacy} and {Security}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2501604.2501605}},
-  pages =         {1:1--1:14},
-  publisher =     {ACM},
-  series =        {{SOUPS} '13},
-  title =         {When {It}'s {Better} to {Ask} {Forgiveness} {Than}
-                   {Get} {Permission}: {Attribution} {Mechanisms} for
-                   {Smartphone} {Resources}},
-  year =          {2013},
-  abstract =      {Smartphone applications pose interesting security
-                   problems because the same resources they use to
-                   enhance the user experience may also be used in ways
-                   that users might find objectionable. We performed a
-                   set of experiments to study whether attribution
-                   mechanisms could help users understand how smartphone
-                   applications access device resources. First, we
-                   performed an online survey and found that, as
-                   attribution mechanisms have become available on the
-                   Android platform, users notice and use them. Second,
-                   we designed new attribution mechanisms; a qualitative
-                   experiment suggested that our proposed mechanisms are
-                   intuitive to understand. Finally, we performed a
-                   laboratory experiment in which we simulated
-                   application misbehaviors to observe whether users
-                   equipped with our attribution mechanisms were able to
-                   identify the offending applications. Our results show
-                   that, for users who notice application misbehaviors,
-                   these attribution mechanisms are significantly more
-                   effective than the status quo.},
-  doi =           {10.1145/2501604.2501605},
-  isbn =          {978-1-4503-2319-2},
+address =       {New York, NY, USA},
+author =        {Thompson, Christopher and Johnson, Maritza and 
+Egelman, Serge and Wagner, David and King, Jennifer},
+booktitle =     {Proceedings of the {Ninth} {Symposium} on {Usable} 
+{Privacy} and {Security}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2501604.2501605}},
+pages =         {1:1--1:14},
+publisher =     {ACM},
+series =        {{SOUPS} '13},
+title =         {When {It}'s {Better} to {Ask} {Forgiveness} {Than} 
+{Get} {Permission}: {Attribution} {Mechanisms} for 
+{Smartphone} {Resources}},
+year =          {2013},
 }
+
 
 @inproceedings{truong_company_2014,
-  address =       {New York, NY, USA},
-  author =        {Truong, Hien Thi Thu and Lagerspetz, Eemil and
-                   Nurmi, Petteri and Oliner, Adam J. and Tarkoma, Sasu and
-                   Asokan, N. and Bhattacharya, Sourav},
-  booktitle =     {Proceedings of the 23rd {International} {Conference}
-                   on {World} {Wide} {Web}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2566486.2568046}},
-  pages =         {39--50},
-  publisher =     {ACM},
-  series =        {{WWW} '14},
-  title =         {The {Company} {You} {Keep}: {Mobile} {Malware}
-                   {Infection} {Rates} and {Inexpensive} {Risk}
-                   {Indicators}},
-  year =          {2014},
-  abstract =      {There is little information from independent sources
-                   in the public domain about mobile malware infection
-                   rates. The only previous independent estimate
-                   (0.0009\%) [11], was based on indirect measurements
-                   obtained from domain-name resolution traces. In this
-                   paper, we present the first independent study of
-                   malware infection rates and associated risk factors
-                   using data collected directly from over 55,000
-                   Android devices. We find that the malware infection
-                   rates in Android devices estimated using two malware
-                   datasets (0.28\% and 0.26\%), though small, are
-                   significantly higher than the previous independent
-                   estimate. Based on the hypothesis that some
-                   application stores have a greater density of
-                   malicious applications and that advertising within
-                   applications and cross-promotional deals may act as
-                   infection vectors, we investigate whether the set of
-                   applications used on a device can serve as an
-                   indicator for infection of that device. Our analysis
-                   indicates that, while not an accurate indicator of
-                   infection by itself, the application set does serve
-                   as an inexpensive method for identifying the pool of
-                   devices on which more expensive monitoring and
-                   analysis mechanisms should be deployed. Using our two
-                   malware datasets we show that this indicator performs
-                   up to about five times better at identifying infected
-                   devices than the baseline of random checks. Such
-                   indicators can be used, for example, in the search
-                   for new or previously undetected malware. It is
-                   therefore a technique that can complement standard
-                   malware scanning. Our analysis also demonstrates a
-                   marginally significant difference in battery use
-                   between infected and clean devices.},
-  doi =           {10.1145/2566486.2568046},
-  isbn =          {978-1-4503-2744-2},
+address =       {New York, NY, USA},
+author =        {Truong, Hien Thi Thu and Lagerspetz, Eemil and 
+Nurmi, Petteri and Oliner, Adam J. and Tarkoma, Sasu and 
+Asokan, N. and Bhattacharya, Sourav},
+booktitle =     {Proceedings of the 23rd {International} {Conference} 
+on {World} {Wide} {Web}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2566486.2568046}},
+pages =         {39--50},
+publisher =     {ACM},
+series =        {{WWW} '14},
+title =         {The {Company} {You} {Keep}: {Mobile} {Malware} 
+{Infection} {Rates} and {Inexpensive} {Risk} 
+{Indicators}},
+year =          {2014},
 }
+
 
 @inproceedings{vanja_svajcer_classifying_2013,
-  author =        {Vanja Svajcer and Sean McDonald},
-  booktitle =     {Virus {Bulletin} {Conference}},
-  title =         {Classifying {PUAs} {In} {The} {Mobile} {Environment}},
-  year =          {2013},
+author =        {Vanja Svajcer and Sean McDonald},
+booktitle =     {Virus {Bulletin} {Conference}},
+title =         {Classifying {PUAs} {In} {The} {Mobile} {Environment}},
+year =          {2013},
 }
+
 
 @article{lin_modeling_2014,
-  author =        {Lin, Jialiu and Liu, Bin and Sadeh, Norman and
-                   Hong, Jason I.},
-  journal =       {Symposium On Usable Privacy and Security},
-  title =         {Modeling {Users}’ {Mobile} {App} {Privacy}
-                   {Preferences}: {Restoring} {Usability} in a {Sea} of
-                   {Permission} {Settings}},
-  year =          {2014},
+author =        {Lin, Jialiu and Liu, Bin and Sadeh, Norman and 
+Hong, Jason I.},
+journal =       {Symposium On Usable Privacy and Security},
+title =         {Modeling {Users}’ {Mobile} {App} {Privacy} 
+{Preferences}: {Restoring} {Usability} in a {Sea} of 
+{Permission} {Settings}},
+year =          {2014},
 }
+
 
 @techreport{harris_interactive_privacy_2002,
-  author =        {{Harris Interactive}},
-  howpublished =  {\url{http://www.ijsselsteijn.nl/slides/Harris.pdf}},
-  institution =   {Privacy \& American Business},
-  month =         feb,
-  number =        {Study No. 15229},
-  title =         {Privacy {On} and {Off} the {Internet}: {What}
-                   {Consumers} {Want}},
-  year =          {2002},
+author =        {{Harris Interactive}},
+howpublished =  {\url{http://www.ijsselsteijn.nl/slides/Harris.pdf}},
+institution =   {Privacy \& American Business},
+number =        {Study No. 15229},
+title =         {Privacy {On} and {Off} the {Internet}: {What} 
+{Consumers} {Want}},
+year =          {2002},
 }
+
 
 @article{urban_privacy_2014,
-  author =        {Urban, Jennifer M and Hoofnagle, Chris Jay},
-  journal =       {Symposium on {Usable} {Privacy} and {Security}},
-  title =         {The privacy pragmatic as privacy vulnerable},
-  year =          {2014},
+author =        {Urban, Jennifer M and Hoofnagle, Chris Jay},
+journal =       {Symposium on {Usable} {Privacy} and {Security}},
+title =         {The privacy pragmatic as privacy vulnerable},
+year =          {2014},
 }
+
 
 @misc{andrew_desnos_androguard_2012,
-  author =        {Andrew Desnos},
-  howpublished =  {\url{https://github.com/androguard/androguard}},
-  journal =       {GitHub},
-  month =         jun,
-  title =         {Androguard - {Reverse} engineering, {Malware} and
-                   goodware analysis of {Android} applications ... and
-                   more (ninja !)},
-  year =          {2012},
-  abstract =      {androguard - Reverse engineering, Malware and
-                   goodware analysis of Android applications ... and
-                   more (ninja !)},
+author =        {Andrew Desnos},
+howpublished =  {\url{https://github.com/androguard/androguard}},
+journal =       {GitHub},
+title =         {Androguard - {Reverse} engineering, {Malware} and 
+goodware analysis of {Android} applications ... and 
+more (ninja !)},
+year =          {2012},
 }
+
 
 @inproceedings{oliner_carat:_2013,
-  address =       {New York, NY, USA},
-  author =        {Oliner, Adam J. and Iyer, Anand P. and Stoica, Ion and
-                   Lagerspetz, Eemil and Tarkoma, Sasu},
-  booktitle =     {Proceedings of the 11th {ACM} {Conference} on
-                   {Embedded} {Networked} {Sensor} {Systems}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2517351.2517354}},
-  pages =         {10:1--10:14},
-  publisher =     {ACM},
-  series =        {{SenSys} '13},
-  title =         {Carat: {Collaborative} {Energy} {Diagnosis} for
-                   {Mobile} {Devices}},
-  year =          {2013},
-  abstract =      {We aim to detect and diagnose energy anomalies,
-                   abnormally heavy battery use. This paper describes a
-                   collaborative black-box method, and an implementation
-                   called Carat, for diagnosing anomalies on mobile
-                   devices. A client app sends intermittent,
-                   coarse-grained measurements to a server, which
-                   correlates higher expected energy use with client
-                   properties like the running apps, device model, and
-                   operating system. The analysis quantifies the error
-                   and confidence associated with a diagnosis, suggests
-                   actions the user could take to improve battery life,
-                   and projects the amount of improvement. During a
-                   deployment to a community of more than 500,000
-                   devices, Carat diagnosed thousands of energy
-                   anomalies in the wild. Carat detected all
-                   synthetically injected anomalies, produced no known
-                   instances of false positives, projected the battery
-                   impact of anomalies with 95\% accuracy, and, on
-                   average, increased a user's battery life by 11\%
-                   after 10 days (compared with 1.9\% for the control
-                   group).},
-  doi =           {10.1145/2517351.2517354},
-  isbn =          {978-1-4503-2027-6},
+address =       {New York, NY, USA},
+author =        {Oliner, Adam J. and Iyer, Anand P. and Stoica, Ion and 
+Lagerspetz, Eemil and Tarkoma, Sasu},
+booktitle =     {Proceedings of the 11th {ACM} {Conference} on 
+{Embedded} {Networked} {Sensor} {Systems}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2517351.2517354}},
+pages =         {10:1--10:14},
+publisher =     {ACM},
+series =        {{SenSys} '13},
+title =         {Carat: {Collaborative} {Energy} {Diagnosis} for 
+{Mobile} {Devices}},
+year =          {2013},
 }
+
 
 @misc{solar_designer_john_2013,
-  author =        {{Solar Designer}},
-  howpublished =  {\url{http://www.openwall.com/john/}},
-  title =         {John the {Ripper} password cracker},
-  year =          {2013},
+author =        {{Solar Designer}},
+howpublished =  {\url{http://www.openwall.com/john/}},
+title =         {John the {Ripper} password cracker},
+year =          {2013},
 }
+
 
 @inproceedings{barrera_understanding_2012,
-  address =       {New York, NY, USA},
-  author =        {Barrera, David and Clark, Jeremy and McCarney, Daniel and
-                   van Oorschot, Paul C.},
-  booktitle =     {Proceedings of the {Second} {ACM} {Workshop} on
-                   {Security} and {Privacy} in {Smartphones} and
-                   {Mobile} {Devices}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2381934.2381949}},
-  pages =         {81--92},
-  publisher =     {ACM},
-  series =        {{SPSM} '12},
-  title =         {Understanding and {Improving} {App} {Installation}
-                   {Security} {Mechanisms} {Through} {Empirical}
-                   {Analysis} of {Android}},
-  year =          {2012},
-  abstract =      {We provide a detailed analysis of two largely
-                   unexplored aspects of the security decisions made by
-                   the Android operating system during the app
-                   installation process: update integrity and UID
-                   assignment. To inform our analysis, we collect a
-                   dataset of Android application metadata and extract
-                   features from these binaries to gain a better
-                   understanding of how developers interact with the
-                   security mechanisms invoked during installation.
-                   Using the dataset, we find empirical evidence that
-                   Android's current signing architecture does not
-                   encourage best security practices. We also find that
-                   limitations of Android's UID sharing method force
-                   developers to write custom code rather than rely on
-                   OS-level mechanisms for secure data transfer between
-                   apps. As a result of our analysis, we recommend
-                   incrementally deployable improvements, including a
-                   novel UID sharing mechanism with applicability to
-                   signature-level permissions. We additionally discuss
-                   mitigation options for a security bug in Google's
-                   Play store, which allows apps to transparently obtain
-                   more privileges than those requested in the
-                   manifest.},
-  doi =           {10.1145/2381934.2381949},
-  isbn =          {978-1-4503-1666-8},
+address =       {New York, NY, USA},
+author =        {Barrera, David and Clark, Jeremy and McCarney, Daniel and 
+van Oorschot, Paul C.},
+booktitle =     {Proceedings of the {Second} {ACM} {Workshop} on 
+{Security} and {Privacy} in {Smartphones} and 
+{Mobile} {Devices}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2381934.2381949}},
+pages =         {81--92},
+publisher =     {ACM},
+series =        {{SPSM} '12},
+title =         {Understanding and {Improving} {App} {Installation} 
+{Security} {Mechanisms} {Through} {Empirical} 
+{Analysis} of {Android}},
+year =          {2012},
 }
+
 
 @inproceedings{wei_permission_2012,
-  author =        {Wei, Xuetao and Gomez, Lorenzo and Neamtiu, Iulian and
-                   Faloutsos, Michalis},
-  booktitle =     {Proceedings of the 28th Annual Computer Security
-                   Applications Conference},
-  organization =  {ACM},
-  pages =         {31--40},
-  title =         {Permission evolution in the android ecosystem},
-  year =          {2012},
+author =        {Wei, Xuetao and Gomez, Lorenzo and Neamtiu, Iulian and 
+Faloutsos, Michalis},
+booktitle =     {Proceedings of the 28th Annual Computer Security 
+Applications Conference},
+organization =  {ACM},
+pages =         {31--40},
+title =         {Permission evolution in the android ecosystem},
+year =          {2012},
 }
+
 
 @techreport{schulze_byod_2016,
-  author =        {Schulze, Holger},
-  institution =   {LinkedIn Information Security},
-  title =         {{BYOD} \& {Mobile} {Security} 2016 {Spotlight}
-                   {Report}},
-  year =          {2016},
+author =        {Schulze, Holger},
+institution =   {LinkedIn Information Security},
+title =         {{BYOD} \& {Mobile} {Security} 2016 {Spotlight} 
+{Report}},
+year =          {2016},
 }
+
 
 @misc{ibm_ibm_nodate,
-  author =        {{IBM}},
-  howpublished =
-  {\url{http://www-03.ibm.com/security/mobile/maas360.html}},
-  title =         {{IBM} {MaaS}360 - {Enterprise} {Mobility}
-                   {Management} ({EMM})},
+author =        {{IBM}},
+year =          {2016},
+howpublished = 
+{\url{http://www-03.ibm.com/security/mobile/maas360.html}},
+title =         {{IBM} {MaaS}360 - {Enterprise} {Mobility} 
+{Management} ({EMM})},
 }
+
 
 @misc{blackberry_secure_nodate,
-  author =        {{BlackBerry}},
-  howpublished =
-  {\url{http://us.blackberry.com/enterprise/android-for-work.html}},
-  title =         {Secure {Android} {Solution} – {BlackBerry} and
-                   {Android} for {Work}},
+author =        {{BlackBerry}},
+year =          {2016},
+howpublished = 
+{\url{http://us.blackberry.com/enterprise/android-for-work.html}},
+title =         {Secure {Android} {Solution} – {BlackBerry} and 
+{Android} for {Work}},
 }
+
 
 @techreport{mobileiron_security_labs_q4_2015,
-  author =        {{MobileIron Security Labs}},
-  institution =   {MobileIron Security Labs},
-  month =         dec,
-  title =         {Q4 {Mobile} {Security} and {Risk} {Review}},
-  year =          {2015},
+author =        {{MobileIron Security Labs}},
+institution =   {MobileIron Security Labs},
+title =         {Q4 {Mobile} {Security} and {Risk} {Review}},
+year =          {2015},
 }
+
 
 @article{hao_effectiveness_2013,
-  author =        {Hao, Hao and Singh, Vicky and Du, Wenliang},
-  journal =       {Proceedings of the 8th ACM SIGSAC symposium on
-                   Information, computer and communications security},
-  title =         {On the effectiveness of {API}-level access control
-                   using bytecode rewriting in {Android}},
-  year =          {2013},
-  abstract =      {Bytecode rewriting on Android applications has been
-                   widely adopted to implement fine-grained access
-                   control. It endows more flexibility and convenience
-                   without modifying the Android platform. Bytecode
-                   rewriting uses static analysis to identify the usage
-                   of security-sensitive API methods, before it
-                   instruments the bytecode to control the access to
-                   these API calls. Due to the significance of this
-                   technique, the effectiveness of its performance in
-                   providing fine-grained access control is crucial. We
-                   have provided a systematic evaluation to assess the
-                   effectiveness of API-level access control using
-                   bytecode rewriting on Android Operating System. In
-                   our evaluation, we have identified a number of
-                   potential attacks targeted at incomplete
-                   implementations of bytecode rewriting on Android OS,
-                   which can be applied to bypass access control imposed
-                   by bytecode rewriter. These attacks can either bypass
-                   the API-level access control or make such access
-                   control difficult to implement, exposing weak links
-                   in the bytecode rewriting process. Recommendations on
-                   engineering secure bytecode rewriting tools are
-                   presented based on the identified attacks. This work
-                   is the first systematic study on the effectiveness of
-                   using bytecode rewriting for API-level access
-                   control.},
+author =        {Hao, Hao and Singh, Vicky and Du, Wenliang},
+journal =       {Proceedings of the 8th ACM SIGSAC symposium on 
+Information, computer and communications security},
+title =         {On the effectiveness of {API}-level access control 
+using bytecode rewriting in {Android}},
+year =          {2013},
 }
+
 
 @techreport{nicholas_r._c._guerin_security_2008,
-  author =        {Nicholas R. C. Guerin},
-  institution =   {SANS},
-  month =         may,
-  title =         {Security {Policy} for the use of handheld devices in
-                   corporate environments},
-  year =          {2008},
+author =        {Nicholas R. C. Guerin},
+institution =   {SANS},
+title =         {Security {Policy} for the use of handheld devices in 
+corporate environments},
+year =          {2008},
 }
+
 
 @article{healthcare_information_and_management_systems_society_mobile_2012,
-  author =        {{Healthcare Information and
-                   Management Systems Society}},
-  journal =       {Healthcare Information and Management Systems
-                   Society},
-  title =         {Mobile {Security} {Toolkit}: {Sample} {Mobile}
-                   {Device} {User} {Agreement}},
-  year =          {2012},
+author =        {{Healthcare Information and 
+Management Systems Society}},
+journal =       {Healthcare Information and Management Systems 
+Society},
+title =         {Mobile {Security} {Toolkit}: {Sample} {Mobile} 
+{Device} {User} {Agreement}},
+year =          {2012},
 }
+
 
 @techreport{kennington_mobiles_2014,
-  author =        {Kennington, Gary and Pointer, Kevin and
-                   Morey, Christine and Budge, Linsey and Dunn, Vanessa and
-                   Ball, Sue},
-  institution =   {Torbay and Southern Devon Health and Care NHS Trust},
-  month =         mar,
-  title =         {Mobiles {Devices} {Policy}},
-  year =          {2014},
+author =        {Kennington, Gary and Pointer, Kevin and 
+Morey, Christine and Budge, Linsey and Dunn, Vanessa and 
+Ball, Sue},
+institution =   {Torbay and Southern Devon Health and Care NHS Trust},
+title =         {Mobiles {Devices} {Policy}},
+year =          {2014},
 }
+
 
 @techreport{williamson_bring_2015,
-  author =        {Williamson, David and Grzybowski, Anne and
-                   Graham, Susan},
-  howpublished =
-  {\url{http://www.ed.ac.uk/files/imports/fileManager/BYODPolicy.pdf}},
-  institution =   {University of Edinburgh},
-  month =         feb,
-  number =        {15},
-  type =          {Policy},
-  title =         {Bring {Your} {Own} {Device} {Policy}},
-  year =          {2015},
+author =        {Williamson, David and Grzybowski, Anne and 
+Graham, Susan},
+howpublished = 
+{\url{http://www.ed.ac.uk/files/imports/fileManager/BYODPolicy.pdf}},
+institution =   {University of Edinburgh},
+number =        {15},
+type =          {Policy},
+title =         {Bring {Your} {Own} {Device} {Policy}},
+year =          {2015},
 }
+
 
 @misc{code3pse.org_sample_nodate,
-  author =        {{Code3PSE.org}},
-  howpublished =  {\url{http://www.code3pse.com/public/media/22845.pdf}},
-  title =         {Sample {BYOD} {Policy}},
+author =        {{Code3PSE.org}},
+year =          {2016},
+howpublished =  {\url{http://www.code3pse.com/public/media/22845.pdf}},
+title =         {Sample {BYOD} {Policy}},
 }
+
 
 @techreport{rob_smith_magic_2016,
-  author =        {Rob Smith and Bryan Taylor and Chris Silva and
-                   Manjanath Bhat and Terrence Cosgrove and
-                   John Girard},
-  howpublished =
-  {\url{https://www.gartner.com/doc/reprints?id=1-390IMNG&ct=160608&st=sb}},
-  institution =   {Gartrer},
-  month =         jun,
-  number =        {G00279887},
-  title =         {Magic {Quadrant} for {Enterprise} {Mobility}
-                   {Management} {Suites}},
-  year =          {2016},
+author =        {Rob Smith and Bryan Taylor and Chris Silva and 
+Manjanath Bhat and Terrence Cosgrove and 
+John Girard},
+howpublished =
+{\url{https://www.gartner.com/doc/reprints?id=1-390IMNG&ct=160608&st=sb}},
+institution =   {Gartrer},
+number =        {G00279887},
+title =         {Magic {Quadrant} for {Enterprise} {Mobility} 
+{Management} {Suites}},
+year =          {2016},
 }
+
 
 @inproceedings{martinelli_enhancing_2016,
-  author =        {Martinelli, Fabio and Mori, Paolo and
-                   Saracino, Andrea},
-  booktitle =     {Symposium on {Applied} {Computing}},
-  title =         {Enhancing {Android} {Permission} {Through} {Usage}
-                   {Control}: {A} {BYOD} {Use}-case},
-  year =          {2016},
-  abstract =      {The Bring Your Own Device (BYOD) paradigm, where the
-                   employees of a company install an application on
-                   their mobile devices to access company privileged
-                   information, is becoming very popular in the business
-                   environment. In order to perform their tasks, BYOD
-                   applications typically require a large set of rights
-                   which, in Android mobile devices, must be statically
-                   granted in order to have the application installed.
-                   However, this access control model is too coarse
-                   grained for the BYOD scenario, because employees
-                   would like to have a finer control on the rights
-                   granted to such applications, for instance to protect
-                   their privacy when they are not on duty. To address
-                   this issue, we propose to enhance the Android
-                   permission system through a Usage Control-based
-                   framework enabling employees to write policies which
-                   are continuously enforced while BYOD applications are
-                   running. This framework acts as a dynamic permission
-                   manager, where usage control policies grants, revokes
-                   and restores permissions to running applications on
-                   the base of mutable attributes describing the current
-                   context. Context is observed by using Android device
-                   standard APIs to monitor attributes such as mobile
-                   device location, WiFi status, battery level, current
-                   date and time, and so on. External trusted attribute
-                   providers can also be exploited.},
+author =        {Martinelli, Fabio and Mori, Paolo and 
+Saracino, Andrea},
+booktitle =     {Symposium on {Applied} {Computing}},
+title =         {Enhancing {Android} {Permission} {Through} {Usage} 
+{Control}: {A} {BYOD} {Use}-case},
+year =          {2016},
 }
+
 
 @inproceedings{costantino_towards_2013,
-  author =        {Costantino, G. and Martinelli, F. and Saracino, A. and
-                   Sgandurra, D.},
-  booktitle =     {International {Conference} on {Information}
-                   {Assurance} and {Security}},
-  month =         dec,
-  title =         {Towards enforcing on-the-fly policies in {BYOD}
-                   environments},
-  year =          {2013},
-  abstract =      {The Bring Your Own Device (BYOD) paradigm is becoming
-                   extremely popular across all kind of organizations.
-                   In fact, employees are continually trying to
-                   incorporate their personal devices, e.g. smartphones
-                   and tablets, into the office to perform some of their
-                   work or simply to access the Internet with a device
-                   they trust or they are more familiar with.
-                   Unfortunately, several security issues may arise from
-                   all these external devices accessing the corporate
-                   network. To address these issues, in this paper we
-                   propose a framework that enforces on-the-fly
-                   instantiated policies inside organizations using
-                   trusted BYOD technologies. The proposed framework
-                   implements a role-based access control system based
-                   upon user identity and her current context. To this
-                   end, each user receives a specific policy from a
-                   server based upon the current role and context. The
-                   effective user identity is confirmed using OAuth 2.0,
-                   while the device integrity and policy enforcement is
-                   ensured by means of a on-device root-of-trust and an
-                   enforcer running on each device.},
+author =        {Costantino, G. and Martinelli, F. and Saracino, A. and 
+Sgandurra, D.},
+booktitle =     {International {Conference} on {Information} 
+{Assurance} and {Security}},
+title =         {Towards enforcing on-the-fly policies in {BYOD} 
+environments},
+year =          {2013},
 }
+
 
 @inproceedings{armando_bring_2013,
-  address =       {New York, NY, USA},
-  author =        {Armando, Alessandro and Costa, Gabriele and
-                   Merlo, Alessio},
-  booktitle =     {Proceedings of the 28th {Annual} {ACM} {Symposium} on
-                   {Applied} {Computing}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/2480362.2480707}},
-  pages =         {1852--1858},
-  publisher =     {ACM},
-  series =        {{SAC} '13},
-  title =         {Bring {Your} {Own} {Device}, {Securely}},
-  year =          {2013},
-  abstract =      {Modern mobile devices offer users powerful
-                   computational capabilities and complete
-                   customization. As a matter of fact, today smartphones
-                   and tablets have remarkable hardware profiles and a
-                   cornucopia of applications. Yet, the security
-                   mechanisms offered by most popular mobile operating
-                   systems offer only limited protection to the threats
-                   posed by malicious applications that may be
-                   inadvertently installed by the users and therefore
-                   they do not meet the security standards required in
-                   corporate environments. In this paper we propose a
-                   security framework for mobile devices that ensures
-                   that only applications complying with the
-                   organization security policy can be installed. This
-                   is done by inferring behavioral models from
-                   applications and by validating them against the
-                   security policy. We also present BYODroid, a
-                   prototype implementation of our proposed security
-                   framework for the Android OS.},
-  doi =           {10.1145/2480362.2480707},
-  isbn =          {978-1-4503-1656-9},
+address =       {New York, NY, USA},
+author =        {Armando, Alessandro and Costa, Gabriele and 
+Merlo, Alessio},
+booktitle =     {Proceedings of the 28th {Annual} {ACM} {Symposium} on 
+{Applied} {Computing}},
+howpublished =  {\url{http://doi.acm.org/10.1145/2480362.2480707}},
+pages =         {1852--1858},
+publisher =     {ACM},
+series =        {{SAC} '13},
+title =         {Bring {Your} {Own} {Device}, {Securely}},
+year =          {2013},
 }
+
 
 @inproceedings{armando_enabling_2014,
-  author =        {Armando, Alessandro and Costa, Gabriele and
-                   Merlo, Alessio and Verderame, Luca},
-  booktitle =     {{ACM} {Conference} on {Security} and {Privacy} in
-                   {Wireless} and {Mobile} {Networks}},
-  month =         aug,
-  title =         {Enabling {BYOD} through secure meta-market},
-  year =          {2014},
-  abstract =      {Mobile security is a hot research topic. Yet most of
-                   available techniques focus on securing individual
-                   applications and therefore cannot possibly tackle
-                   security weaknesses stemming from the...},
+author =        {Armando, Alessandro and Costa, Gabriele and 
+Merlo, Alessio and Verderame, Luca},
+booktitle =     {{ACM} {Conference} on {Security} and {Privacy} in 
+{Wireless} and {Mobile} {Networks}},
+title =         {Enabling {BYOD} through secure meta-market},
+year =          {2014},
 }
+
 
 @article{aktug_conspec_2008,
-  author =        {Aktug, Irem and Naliuka, Katsiaryna},
-  journal =       {Electronic Notes in Theoretical Computer Science},
-  month =         feb,
-  title =         {{ConSpec} – {A} {Formal} {Language} for {Policy}
-                   {Specification}},
-  year =          {2008},
-  abstract =      {The paper presents ConSpec, an automata based policy
-                   specification language. The language trades off clean
-                   semantics to language expressiveness; a formal
-                   semantics for the language is provided as security
-                   automata. ConSpec specifications can be used at
-                   different stages of the application lifecycle,
-                   rendering possible the formalization of various
-                   policy enforcement techniques.},
+author =        {Aktug, Irem and Naliuka, Katsiaryna},
+journal =       {Electronic Notes in Theoretical Computer Science},
+title =         {{ConSpec} – {A} {Formal} {Language} for {Policy} 
+{Specification}},
+year =          {2008},
 }
+
 
 @inproceedings{armando_developing_2016,
-  author =        {Armando, A. and Costa, G. and Merlo, A. and
-                   Verderame, L. and Wrona, K.},
-  booktitle =     {International {Conference} on {Military}
-                   {Communications} and {Information} {Systems}},
-  month =         may,
-  title =         {Developing a {NATO} {BYOD} security policy},
-  year =          {2016},
-  abstract =      {Mobile devices have an important role to play in the
-                   private as well as the professional activities of
-                   working people. However, their use can pose a serious
-                   threat to the security of the working environment.
-                   Many organizations therefore establish a specific
-                   bring your own device (BYOD) policy. This paper
-                   presents a proposal for how to foster a secure,
-                   policy-aware BYOD work environment. Our solution
-                   involves enforcement of fine-grained security
-                   policies for personal devices while relieving owners
-                   of having to make critical decisions and take
-                   responsibility for behavior of applications installed
-                   on their devices. We report our experience in
-                   developing and applying a security policy based on
-                   the existing guidelines of the NATO Communications
-                   and Information Agency (NCI Agency).},
+author =        {Armando, A. and Costa, G. and Merlo, A. and 
+Verderame, L. and Wrona, K.},
+booktitle =     {International {Conference} on {Military} 
+{Communications} and {Information} {Systems}},
+title =         {Developing a {NATO} {BYOD} security policy},
+year =          {2016},
 }
+
 
 @article{armando_formal_2014,
-  author =        {Armando, Alessandro and Costa, Gabriele and
-                   Merlo, Alessio and Verderame, Luca},
-  journal =       {International Journal of Information Security},
-  month =         aug,
-  title =         {Formal modeling and automatic enforcement of {Bring}
-                   {Your} {Own} {Device} policies},
-  year =          {2014},
-  abstract =      {The emerging Bring Your Own Device (BYOD) paradigm is
-                   pushing the adoption of employees’ personal mobile
-                   devices (e.g., smartphones and tablets) inside
-                   organizations for professional usage. However,
-                   allowing private, general purpose devices to interact
-                   with proprietary, possibly critical infrastructures
-                   enables obvious threats. Unfortunately, current
-                   mobile OSes do not seem to provide adequate security
-                   support for dealing with them. In this paper, we
-                   present a formal modeling and assessment of the
-                   security of mobile applications. In particular, we
-                   propose a security framework for verifying and
-                   enforcing BYOD security policies on Android devices.
-                   Interestingly, our approach is non-invasive and only
-                   requires minor platform modifications at application
-                   level. Finally, we provide empirical evidence of the
-                   practical feasibility of the approach by means of a
-                   prototype which we used to validate a set of real
-                   Android applications.},
+author =        {Armando, Alessandro and Costa, Gabriele and 
+Merlo, Alessio and Verderame, Luca},
+journal =       {International Journal of Information Security},
+title =         {Formal modeling and automatic enforcement of {Bring} 
+{Your} {Own} {Device} policies},
+year =          {2014},
 }
+
 
 @article{fuhr_probabilistic_1995,
-  author =        {Fuhr, Norbert},
-  journal =       {Proceedings of the 18th annual international ACM
-                   SIGIR conference on Research and development in
-                   information retrieval},
-  title =         {Probabilistic {Datalog}—a logic for powerful
-                   retrieval methods},
-  year =          {1995},
+author =        {Fuhr, Norbert},
+journal =       {Proceedings of the 18th annual international ACM 
+SIGIR conference on Research and development in 
+information retrieval},
+title =         {Probabilistic {Datalog}—a logic for powerful 
+retrieval methods},
+year =          {1995},
 }
+
 
 @article{halpern_analysis_1990,
-  author =        {Halpern, Joseph Y.},
-  howpublished =
-  {\url{http://www.sciencedirect.com/science/article/pii/000437029090019V}},
-  journal =       {Artificial Intelligence},
-  month =         dec,
-  number =        {3},
-  pages =         {311--350},
-  title =         {An analysis of first-order logics of probability},
-  volume =        {46},
-  year =          {1990},
-  abstract =      {We consider two approaches to giving semantics to
-                   first-order logics of probability. The first approach
-                   puts a probability on the domain, and is appropriate
-                   for giving semantics to formulas involving
-                   statistical information such as “The probability
-                   that a randomly chosen bird flies is greater than
-                   0.9.” The second approach puts a probability on
-                   possible worlds, and is appropriate for giving
-                   semantics to formulas describing degrees of belief
-                   such as “The probability that Tweety (a particular
-                   bird) flies is greater than 0.9.” We show that the
-                   two approaches can be easily combined, allowing us to
-                   reason in a straightforward way about statistical
-                   information and degrees of belief. We then consider
-                   axiomatizing these logics. In general, it can be
-                   shown that no complete axiomatization is possible. We
-                   provide axiom systems that are sound and complete in
-                   cases where a complete axiomatization is possible,
-                   showing that they do allow us to capture a great deal
-                   of interesting reasoning about probability.},
-  doi =           {10.1016/0004-3702(90)90019-V},
-  issn =          {0004-3702},
+author =        {Halpern, Joseph Y.},
+howpublished = 
+{\url{http://www.sciencedirect.com/science/article/pii/000437029090019V}},
+journal =       {Artificial Intelligence},
+number =        {3},
+pages =         {311--350},
+title =         {An analysis of first-order logics of probability},
+volume =        {46},
+year =          {1990},
+issn =          {0004-3702},
 }
+
 
 @incollection{josang_analysing_2004,
-  author =        {Jøsang, Audun and Presti, Stéphane Lo},
-  booktitle =     {Trust {Management}},
-  editor =        {Jensen, Christian and Poslad, Stefan and
-                   Dimitrakos, Theo},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/978-3-540-24747-0_11}},
-  month =         mar,
-  note =          {DOI: 10.1007/978-3-540-24747-0\_11},
-  number =        {2995},
-  pages =         {135--145},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {Analysing the {Relationship} between {Risk} and
-                   {Trust}},
-  year =          {2004},
-  abstract =      {Among the various human factors impinging upon making
-                   a decision in an uncertain environment, risk and
-                   trust are surely crucial ones. Several models for
-                   trust have been proposed in the literature but few
-                   explicitly take risk into account. This paper
-                   analyses the relationship between the two concepts by
-                   first looking at how a decision is made to enter into
-                   a transaction based on the risk information. We then
-                   draw a model of the invested fraction of the capital
-                   function of a decision surface. We finally define a
-                   model of trust composed of a reliability trust as the
-                   probability of transaction success and a decision
-                   trust derived from the decision surface.},
-  isbn =          {978-3-540-21312-3 978-3-540-24747-0},
-  language =      {en},
+author =        {Jøsang, Audun and Presti, Stéphane Lo},
+booktitle =     {Trust {Management}},
+editor =        {Jensen, Christian and Poslad, Stefan and 
+Dimitrakos, Theo},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/978-3-540-24747-0_11}},
+number =        {2995},
+pages =         {135--145},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {Analysing the {Relationship} between {Risk} and 
+{Trust}},
+year =          {2004},
 }
+
 
 @inproceedings{dimmock_using_2004,
-  address =       {New York, NY, USA},
-  author =        {Dimmock, Nathan and Belokosztolszki, András and
-                   Eyers, David and Bacon, Jean and Moody, Ken},
-  booktitle =     {Proceedings of the {Ninth} {ACM} {Symposium} on
-                   {Access} {Control} {Models} and {Technologies}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/990036.990062}},
-  pages =         {156--162},
-  publisher =     {ACM},
-  series =        {{SACMAT} '04},
-  title =         {Using {Trust} and {Risk} in {Role}-based {Access}
-                   {Control} {Policies}},
-  year =          {2004},
-  abstract =      {Emerging trust and risk management systems provide a
-                   framework for principals to determine whether they
-                   will exchange resources, without requiring a complete
-                   definition of their credentials and intentions. Most
-                   distributed access control architectures have far
-                   more rigid policy rules, yet in many respects aim to
-                   solve a similar problem. This paper elucidates the
-                   similarities between trust management and distributed
-                   access control systems by demonstrating how the OASIS
-                   access control system and its rôle-based policy
-                   language can be extended to make decisions on the
-                   basis of trust and risk analyses rather than on the
-                   basis of credentials alone. We apply our new model to
-                   the prototypical example of a file storage and
-                   publication service for the Grid, and test it using
-                   our Prolog-based OASIS implementation.},
-  doi =           {10.1145/990036.990062},
-  isbn =          {978-1-58113-872-6},
+address =       {New York, NY, USA},
+author =        {Dimmock, Nathan and Belokosztolszki, András and 
+Eyers, David and Bacon, Jean and Moody, Ken},
+booktitle =     {Proceedings of the {Ninth} {ACM} {Symposium} on 
+{Access} {Control} {Models} and {Technologies}},
+howpublished =  {\url{http://doi.acm.org/10.1145/990036.990062}},
+pages =         {156--162},
+publisher =     {ACM},
+series =        {{SACMAT} '04},
+title =         {Using {Trust} and {Risk} in {Role}-based {Access} 
+{Control} {Policies}},
+year =          {2004},
 }
+
 
 @inproceedings{salim_approach_2011,
-  author =        {Salim, F. and Reid, J. and Dawson, E. and
-                   Dulleck, U.},
-  booktitle =     {2011 {Sixth} {International} {Conference} on
-                   {Availability}, {Reliability} and {Security}
-                   ({ARES})},
-  month =         aug,
-  pages =         {1--8},
-  title =         {An {Approach} to {Access} {Control} under
-                   {Uncertainty}},
-  year =          {2011},
-  abstract =      {In dynamic and uncertain environments such as
-                   healthcare, where the needs of security and
-                   information availability are difficult to balance, an
-                   access control approach based on a static policy will
-                   be suboptimal regardless of how comprehensive it is.
-                   The uncertainty stems from the unpredictability of
-                   users' operational needs as well as their private
-                   incentives to misuse permissions. In Role Based
-                   Access Control (RBAC), a user's legitimate access
-                   request may be denied because its need has not been
-                   anticipated by the security administrator.
-                   Alternatively, even when the policy is correctly
-                   specified an authorised user may accidentally or
-                   intentionally misuse the granted permission. This
-                   paper introduces a novel approach to access control
-                   under uncertainty and presents it in the context of
-                   RBAC. By taking insights from the field of economics,
-                   in particular the insurance literature, we propose a
-                   formal model where the value of resources are
-                   explicitly defined and an RBAC policy (entailing
-                   those predictable access needs) is only used as a
-                   reference point to determine the price each user has
-                   to pay for access, as opposed to representing hard
-                   and fast rules that are always rigidly applied.},
-  doi =           {10.1109/ARES.2011.11},
+author =        {Salim, F. and Reid, J. and Dawson, E. and 
+Dulleck, U.},
+booktitle =     {2011 {Sixth} {International} {Conference} on 
+{Availability}, {Reliability} and {Security} 
+({ARES})},
+pages =         {1--8},
+title =         {An {Approach} to {Access} {Control} under 
+{Uncertainty}},
+year =          {2011},
 }
+
 
 @techreport{arthur_n._prior_past_1967,
-  author =        {Arthur N. Prior},
-  institution =   {Oxford University},
-  title =         {Past, {Present} and {Future}},
-  year =          {1967},
+author =        {Arthur N. Prior},
+institution =   {Oxford University},
+title =         {Past, {Present} and {Future}},
+year =          {1967},
 }
+
 
 @techreport{blass_introduction_2012,
-  author =        {Blass, Andreas and De Caso, Guido and Gurevich, Yuri},
-  howpublished =
-  {\url{http://research.microsoft.com/en-us/um/people/gurevich/Opera/216.pdf}},
-  institution =   {Microsoft Research},
-  number =        {MSR-TR-2012-108},
-  title =         {An introduction to {DKAL}},
-  year =          {2012},
+author =        {Blass, Andreas and De Caso, Guido and Gurevich, Yuri},
+howpublished = 
+{\url{http://research.microsoft.com/en-us/um/people/gurevich/Opera/216.pdf}},
+institution =   {Microsoft Research},
+number =        {MSR-TR-2012-108},
+title =         {An introduction to {DKAL}},
+year =          {2012},
 }
+
 
 @article{ramli_detecting_2015,
-  author =        {Ramli, Carroline Dewi Puspa Kencana},
-  howpublished =  {\url{http://arxiv.org/abs/1503.02732}},
-  journal =       {arXiv:1503.02732 [cs]},
-  month =         mar,
-  note =          {arXiv: 1503.02732},
-  title =         {Detecting {Incompleteness}, {Conflicting} and
-                   {Unreachability} {XACML} {Policies} using {Answer}
-                   {Set} {Programming}},
-  year =          {2015},
-  abstract =      {Recently, XACML is a popular access control policy
-                   language that is used widely in many applications.
-                   Policies in XACML are built based on many components
-                   over distributed resources. Due to the expressiveness
-                   of XACML, it is not trivial for policy administrators
-                   to understand the overall effect and consequences of
-                   XACML policies they have written. In this paper we
-                   show a mechanism and a tool how to analyses big
-                   access control policies sets such as (i)
-                   incompleteness policies, (ii) conflicting policies,
-                   and (iii) unreachable policies. To detect these
-                   problems we present a method using Answer Set
-                   Programming (ASP) in the context of XACML 3.0.},
+author =        {Ramli, Carroline Dewi Puspa Kencana},
+howpublished =  {\url{http://arxiv.org/abs/1503.02732}},
+journal =       {arXiv:1503.02732 [cs]},
+title =         {Detecting {Incompleteness}, {Conflicting} and 
+{Unreachability} {XACML} {Policies} using {Answer} 
+{Set} {Programming}},
+year =          {2015},
 }
+
 
 @incollection{ramli_xacml_2012,
-  author =        {Ramli, Carroline Dewi Puspa Kencana and
-                   Nielson, Hanne Riis and Nielson, Flemming},
-  booktitle =     {Logic-{Based} {Program} {Synthesis} and
-                   {Transformation}},
-  editor =        {Albert, Elvira},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/978-3-642-38197-3_7}},
-  month =         sep,
-  note =          {DOI: 10.1007/978-3-642-38197-3\_7},
-  number =        {7844},
-  pages =         {89--105},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {{XACML} 3.0 in {Answer} {Set} {Programming}},
-  year =          {2012},
-  abstract =      {We present a systematic technique for transforming
-                   XACML 3.0 policies in Answer Set Programming (ASP).
-                   We show that the resulting logic program has a unique
-                   answer set that directly corresponds to our
-                   formalisation of the standard semantics of XACML 3.0
-                   from [9]. We demonstrate how our results make it
-                   possible to use off-the-shelf ASP solvers to formally
-                   verify properties of access control policies
-                   represented in XACML, such as checking the
-                   completeness of a set of access control policies and
-                   verifying policy properties.},
-  isbn =          {978-3-642-38196-6 978-3-642-38197-3},
-  language =      {en},
+author =        {Ramli, Carroline Dewi Puspa Kencana and 
+Nielson, Hanne Riis and Nielson, Flemming},
+booktitle =     {Logic-{Based} {Program} {Synthesis} and 
+{Transformation}},
+editor =        {Albert, Elvira},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/978-3-642-38197-3_7}},
+number =        {7844},
+pages =         {89--105},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {{XACML} 3.0 in {Answer} {Set} {Programming}},
+year =          {2012},
 }
+
 
 @article{halpern_using_2008,
-  author =        {Halpern, Joseph Y. and Weissman, Vicky},
-  howpublished =  {\url{http://doi.acm.org/10.1145/1380564.1380569}},
-  journal =       {ACM Trans. Inf. Syst. Secur.},
-  month =         jul,
-  number =        {4},
-  pages =         {21:1--21:41},
-  title =         {Using {First}-{Order} {Logic} to {Reason} {About}
-                   {Policies}},
-  volume =        {11},
-  year =          {2008},
-  abstract =      {A policy describes the conditions under which an
-                   action is permitted or forbidden. We show that a
-                   fragment of (multi-sorted) first-order logic can be
-                   used to represent and reason about policies. Because
-                   we use first-order logic, policies have a clear
-                   syntax and semantics. We show that further
-                   restricting the fragment results in a language that
-                   is still quite expressive yet is also tractable. More
-                   precisely, questions about entailment, such as “May
-                   Alice access the file?”, can be answered in time
-                   that is a low-order polynomial (indeed, almost linear
-                   in some cases), as can questions about the
-                   consistency of policy sets.},
-  doi =           {10.1145/1380564.1380569},
-  issn =          {1094-9224},
+author =        {Halpern, Joseph Y. and Weissman, Vicky},
+howpublished =  {\url{http://doi.acm.org/10.1145/1380564.1380569}},
+journal =       {ACM Trans. Inf. Syst. Secur.},
+number =        {4},
+pages =         {21:1--21:41},
+title =         {Using {First}-{Order} {Logic} to {Reason} {About} 
+{Policies}},
+volume =        {11},
+year =          {2008},
+issn =          {1094-9224},
 }
+
 
 @inproceedings{ahn_reasoning_2010,
-  author =        {Ahn, Gail-joon and Hu, Hongxin and Lee, Joohyung and
-                   Meng, Yunsong},
-  booktitle =     {13th {International} {Workshop} on {Nonmonotonic}
-                   {Reasoning}},
-  title =         {Reasoning about {XACML} {Policy} {Descriptions} in
-                   {Answer} {Set} {Programming} ({Preliminary}
-                   {Report})},
-  year =          {2010},
-  abstract =      {The advent of emerging technologies such as Web
-                   services, service-oriented architecture, and cloud
-                   computing has en-abled us to perform business
-                   services more efficiently and effectively. However,
-                   we still suffer from unintended secu-rity leakages by
-                   unauthorized services while providing more convenient
-                   services to Internet users through such a
-                   cutting-edge technological growth. Furthermore,
-                   designing and man-aging Web access control policies
-                   are often error-prone due to the lack of logical and
-                   formal foundation. In this paper, we attempt to
-                   introduce a logic-based policy management ap-proach
-                   for Web access control policies especially focusing
-                   on XACML (eXtensible Access Control Markup Language)
-                   policies, which have become the de facto standard for
-                   speci-fying and enforcing access control policies for
-                   various appli-cations and services in current
-                   Web-based computing tech-nologies. Our approach
-                   adopts Answer Set Programming (ASP) to formulate
-                   XACML that allows us to leverage the features of ASP
-                   solvers in performing various logical reason-ing and
-                   analysis tasks, such as verifying policy properties
-                   and detecting violation of separation of duty (SoD)
-                   constraints in role-based access control (RBAC).},
+author =        {Ahn, Gail-joon and Hu, Hongxin and Lee, Joohyung and 
+Meng, Yunsong},
+booktitle =     {13th {International} {Workshop} on {Nonmonotonic} 
+{Reasoning}},
+title =         {Reasoning about {XACML} {Policy} {Descriptions} in 
+{Answer} {Set} {Programming} ({Preliminary} 
+{Report})},
+year =          {2010},
 }
+
 
 @inproceedings{bruns_access-control_2008,
-  author =        {Bruns, G. and Huth, M.},
-  booktitle =     {2008 21st {IEEE} {Computer} {Security} {Foundations}
-                   {Symposium}},
-  month =         jun,
-  pages =         {163--176},
-  title =         {Access-{Control} {Policies} via {Belnap} {Logic}:
-                   {Effective} and {Efficient} {Composition} and
-                   {Analysis}},
-  year =          {2008},
-  abstract =      {It is difficult to develop and manage large,
-                   multi-author access control policies without a means
-                   to compose larger policies from smaller ones.
-                   Ideally, an access-control policy language will have
-                   a small set of simple policy combinators that allow
-                   for all desired policy compositions. In citeBH07, a
-                   policy language was presented having policy
-                   combinators based on Belnap logic, a four-valued
-                   logic in which truth values correspond to policy
-                   results of "grant", "deny", "conflict", and
-                   "undefined". We show here how policies in this
-                   language can be analyzed, and study the
-                   expressiveness of the language. To support policy
-                   analysis, we define a query language in which policy
-                   analysis questions can be phrased. Queries can be
-                   translated into a fragment of first-order logic for
-                   which satisfiability and validity checks are
-                   computable by SAT solvers or BDDs. We show how policy
-                   analysis can then be carried out through model
-                   checking, validity checking, and assume-guarantee
-                   reasoning over such translated queries. We also
-                   present static analysis methods for the particular
-                   questions of whether policies contain gaps or
-                   conflicts. Finally, we establish expressiveness
-                   results showing that all em data independent policies
-                   can be expressed in our policy language.},
-  doi =           {10.1109/CSF.2008.10},
+author =        {Bruns, G. and Huth, M.},
+booktitle =     {2008 21st {IEEE} {Computer} {Security} {Foundations} 
+{Symposium}},
+pages =         {163--176},
+title =         {Access-{Control} {Policies} via {Belnap} {Logic}: 
+{Effective} and {Efficient} {Composition} and 
+{Analysis}},
+year =          {2008},
 }
+
 
 @techreport{oasis_xacml_technical_comitee_abbreviated_2015,
-  author =        {{OASIS XACML Technical Comitee}},
-  howpublished =
-  {\url{https://www.oasis-open.org/committees/download.php/55228/alfa-for-xacml-v1.0-wd01.doc}},
-  institution =   {OASIS},
-  pages =         {Working Draft 01},
-  title =         {Abbreviated {Language} for {Authorization}},
-  year =          {2015},
+author =        {{OASIS XACML Technical Comitee}},
+howpublished = 
+{\url{https://www.oasis-open.org/committees/download.php/55228/alfa-for-xacml-v1.0-wd01.doc}},
+institution =   {OASIS},
+pages =         {Working Draft 01},
+title =         {Abbreviated {Language} for {Authorization}},
+year =          {2015},
 }
+
 
 @misc{axiomaics_axiomatics_2012,
-  author =        {{Axiomaics}},
-  howpublished =
-  {\url{https://www.axiomatics.com/news/axiomatics-releases-free-plugin-for-the-eclipse-ide-to-author-xacml3-0-policies/}},
-  title =         {Axiomatics releases free plugin for the {Eclipse}
-                   {IDE} to author {XACML}3.0 policies - {Axiomatics}},
-  year =          {2012},
+author =        {{Axiomaics}},
+howpublished = 
+{\url{https://www.axiomatics.com/news/axiomatics-releases-free-plugin-for-the-eclipse-ide-to-author-xacml3-0-policies/}},
+title =         {Axiomatics releases free plugin for the {Eclipse} 
+{IDE} to author {XACML}3.0 policies - {Axiomatics}},
+year =          {2012},
 }
+
 
 @article{henrik_nergaard_scratch-based_2015,
-  author =        {Henrik Nergaard and Nils Ulltveit-Moe and
-                   {Terje Gj{\o}s{\ae}ter}},
-  howpublished =
-  {\url{http://semiah.eu/wp-content/uploads/2015/01/A-Scratch-based-Graphical-Policy-Editor-for-XACML.pdf}},
-  journal =       {International Conference on Information Systems
-                   Security and Privacy},
-  title =         {A scratch-based graphical policy editor for {XACML}},
-  year =          {2015},
+author =        {Henrik Nergaard and Nils Ulltveit-Moe and 
+{Terje Gj{\o}s{\ae}ter}},
+howpublished = 
+{\url{http://semiah.eu/wp-content/uploads/2015/01/A-Scratch-based-Graphical-Policy-Editor-for-XACML.pdf}},
+journal =       {International Conference on Information Systems 
+Security and Privacy},
+title =         {A scratch-based graphical policy editor for {XACML}},
+year =          {2015},
 }
+
 
 @inproceedings{zhang_synthesising_2004,
-  address =       {New York, NY, USA},
-  author =        {Zhang, Nan and Ryan, Mark and Guelev, Dimitar P.},
-  booktitle =     {Proceedings of the 2004 {ACM} {Workshop} on {Formal}
-                   {Methods} in {Security} {Engineering}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/1029133.1029141}},
-  pages =         {56--65},
-  publisher =     {ACM},
-  series =        {{FMSE} '04},
-  title =         {Synthesising {Verified} {Access} {Control} {Systems}
-                   in {XACML}},
-  year =          {2004},
-  abstract =      {The \textit{eXtensible Access Control Markup
-                   Language} (XACML) was proposed by the OASIS committee
-                   to be used as a standard language in e-business [6].
-                   However, policy files written in XACML are hard to
-                   read and analyse directly. In this paper, we present
-                   a tool which generates verified XACML scripts from
-                   access control system descriptions in simple but
-                   expressive language proposed in [3], which admits
-                   algorithmic verification of access control systems
-                   against appropriately formalised policies. This
-                   allows the generation of XACML scripts for systems
-                   that can be formally verified to be implementing the
-                   relevant policies.},
-  doi =           {10.1145/1029133.1029141},
-  isbn =          {978-1-58113-971-6},
+address =       {New York, NY, USA},
+author =        {Zhang, Nan and Ryan, Mark and Guelev, Dimitar P.},
+booktitle =     {Proceedings of the 2004 {ACM} {Workshop} on {Formal} 
+{Methods} in {Security} {Engineering}},
+howpublished =  {\url{http://doi.acm.org/10.1145/1029133.1029141}},
+pages =         {56--65},
+publisher =     {ACM},
+series =        {{FMSE} '04},
+title =         {Synthesising {Verified} {Access} {Control} {Systems} 
+in {XACML}},
+year =          {2004},
 }
+
 
 @techreport{oasis_xacml_2010,
-  author =        {{OASIS}},
-  institution =   {OASIS},
-  month =         aug,
-  title =         {{XACML} v3.0 {Administration} and {Delegation}
-                   {Profile}},
-  year =          {2010},
+author =        {{OASIS}},
+institution =   {OASIS},
+title =         {{XACML} v3.0 {Administration} and {Delegation} 
+{Profile}},
+year =          {2010},
 }
+
 
 @misc{axiomatics_going_2016,
-  author =        {{Axiomatics}},
-  howpublished =
-  {\url{https://www.axiomatics.com/blog/going-on-vacation-how-can-i-implement-delegation-in-xacml/}},
-  title =         {Going on vacation, how can {I} implement delegation
-                   in {XACML}? - {Axiomatics}},
-  year =          {2016},
+author =        {{Axiomatics}},
+howpublished = 
+{\url{https://www.axiomatics.com/blog/going-on-vacation-how-can-i-implement-delegation-in-xacml/}},
+title =         {Going on vacation, how can {I} implement delegation 
+in {XACML}? - {Axiomatics}},
+year =          {2016},
 }
+
 
 @inproceedings{enck_lightweight_2009,
-  address =       {New York},
-  author =        {Enck, William and Ongtang, Machigar and
-                   McDaniel, Patrick},
-  booktitle =     {16th {ACM} {Conference} on {Computer} and
-                   {Communications} {Security}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/1653662.1653691}},
-  pages =         {235--245},
-  publisher =     {ACM},
-  title =         {On lightweight mobile phone application
-                   certification},
-  year =          {2009},
-  abstract =      {Users have begun downloading an increasingly large
-                   number of mobile phone applications in response to
-                   advancements in handsets and wireless networks. The
-                   increased number of applications results in a greater
-                   chance of installing Trojans and similar malware. In
-                   this paper, we propose the Kirin security service for
-                   Android, which performs lightweight certification of
-                   applications to mitigate malware at install time.
-                   Kirin certification uses security rules, which are
-                   templates designed to conservatively match
-                   undesirable properties in security configuration
-                   bundled with applications. We use a variant of
-                   security requirements engineering techniques to
-                   perform an in-depth security analysis of Android to
-                   produce a set of rules that match malware
-                   characteristics. In a sample of 311 of the most
-                   popular applications downloaded from the official
-                   Android Market, Kirin and our rules found 5
-                   applications that implement dangerous functionality
-                   and therefore should be installed with extreme
-                   caution. Upon close inspection, another five
-                   applications asserted dangerous rights, but were
-                   within the scope of reasonable functional needs.
-                   These results indicate that security configuration
-                   bundled with Android applications provides practical
-                   means of detecting malware.},
-  doi =           {10.1145/1653662.1653691},
-  isbn =          {978-1-60558-894-0},
+address =       {New York},
+author =        {Enck, William and Ongtang, Machigar and 
+McDaniel, Patrick},
+booktitle =     {16th {ACM} {Conference} on {Computer} and 
+{Communications} {Security}},
+howpublished =  {\url{http://doi.acm.org/10.1145/1653662.1653691}},
+pages =         {235--245},
+publisher =     {ACM},
+title =         {On lightweight mobile phone application 
+certification},
+year =          {2009},
 }
+
 
 @article{ongtang_semantically_2012,
-  author =        {Ongtang, Machigar and McLaughlin, Stephen and
-                   Enck, William and McDaniel, Patrick},
-  howpublished =
-  {\url{http://onlinelibrary.wiley.com/doi/10.1002/sec.360/abstract}},
-  journal =       {Security and Communication Networks},
-  month =         jun,
-  number =        {6},
-  pages =         {658--673},
-  title =         {Semantically rich application-centric security in
-                   {Android}},
-  volume =        {5},
-  year =          {2012},
-  abstract =      {Smartphones are now ubiquitous. However, the security
-                   requirements of these relatively new systems and the
-                   applications they support are still being understood.
-                   As a result, the security infrastructure available in
-                   current smartphone operating systems is largely
-                   underdeveloped. In this paper, we consider the
-                   security requirements of smartphone applications and
-                   augment the existing Android operating system with a
-                   framework to meet them. We present Secure Application
-                   INTeraction (Saint), a modified infrastructure that
-                   governs install-time permission assignment and their
-                   run-time use as dictated by application provider
-                   policy. An in-depth description of the semantics of
-                   application policy is presented. The architecture and
-                   technical detail of Saint are given, and areas for
-                   extension, optimization, and improvement are
-                   explored. We demonstrate through a concrete example
-                   and study of real-world applications that Saint
-                   provides necessary utility for applications to assert
-                   and control the security decisions on the platform.
-                   Copyright © 2011 John Wiley \& Sons, Ltd.},
-  doi =           {10.1002/sec.360},
-  issn =          {1939-0122},
-  language =      {en},
+author =        {Ongtang, Machigar and McLaughlin, Stephen and 
+Enck, William and McDaniel, Patrick},
+howpublished = 
+{\url{http://onlinelibrary.wiley.com/doi/10.1002/sec.360/abstract}},
+journal =       {Security and Communication Networks},
+number =        {6},
+pages =         {658--673},
+title =         {Semantically rich application-centric security in 
+{Android}},
+volume =        {5},
+year =          {2012},
+issn =          {1939-0122},
 }
+
 
 @inproceedings{nauman_apex:_2010,
-  address =       {New York, NY, USA},
-  author =        {Nauman, Mohammad and Khan, Sohail and Zhang, Xinwen},
-  booktitle =     {Proceedings of the 5th {ACM} {Symposium} on
-                   {Information}, {Computer} and {Communications}
-                   {Security}},
-  howpublished =  {\url{http://doi.acm.org/10.1145/1755688.1755732}},
-  pages =         {328--332},
-  publisher =     {ACM},
-  series =        {{ASIACCS} '10},
-  title =         {Apex: {Extending} {Android} {Permission} {Model} and
-                   {Enforcement} with {User}-defined {Runtime}
-                   {Constraints}},
-  year =          {2010},
-  abstract =      {Android is the first mass-produced consumer-market
-                   open source mobile platform that allows developers to
-                   easily create applications and users to readily
-                   install them. However, giving users the ability to
-                   install third-party applications poses serious
-                   security concerns. While the existing security
-                   mechanism in Android allows a mobile phone user to
-                   see which resources an application requires, she has
-                   no choice but to allow access to all the requested
-                   permissions if she wishes to use the applications.
-                   There is no way of granting some permissions and
-                   denying others. Moreover, there is no way of
-                   restricting the usage of resources based on runtime
-                   constraints such as the location of the device or the
-                   number of times a resource has been previously used.
-                   In this paper, we present Apex -- a policy
-                   enforcement framework for Android that allows a user
-                   to selectively grant permissions to applications as
-                   well as impose constraints on the usage of resources.
-                   We also describe an extended package installer that
-                   allows the user to set these constraints through an
-                   easy-to-use interface. Our enforcement framework is
-                   implemented through a minimal change to the existing
-                   Android code base and is backward compatible with the
-                   current security mechanism.},
-  doi =           {10.1145/1755688.1755732},
-  isbn =          {978-1-60558-936-7},
+address =       {New York, NY, USA},
+author =        {Nauman, Mohammad and Khan, Sohail and Zhang, Xinwen},
+booktitle =     {Proceedings of the 5th {ACM} {Symposium} on 
+{Information}, {Computer} and {Communications} 
+{Security}},
+howpublished =  {\url{http://doi.acm.org/10.1145/1755688.1755732}},
+pages =         {328--332},
+publisher =     {ACM},
+series =        {{ASIACCS} '10},
+title =         {Apex: {Extending} {Android} {Permission} {Model} and 
+{Enforcement} with {User}-defined {Runtime} 
+{Constraints}},
+year =          {2010},
 }
+
 
 @incollection{conti_crepe:_2010,
-  author =        {Conti, Mauro and Nguyen, Vu Thien Nga and
-                   Crispo, Bruno},
-  booktitle =     {Information {Security}},
-  editor =        {Burmester, Mike and Tsudik, Gene and
-                   Magliveras, Spyros and Ilić, Ivana},
-  howpublished =
-  {\url{http://link.springer.com/chapter/10.1007/978-3-642-18178-8_29}},
-  month =         oct,
-  note =          {DOI: 10.1007/978-3-642-18178-8\_29},
-  number =        {6531},
-  pages =         {331--345},
-  publisher =     {Springer Berlin Heidelberg},
-  series =        {Lecture {Notes} in {Computer} {Science}},
-  title =         {{CRePE}: {Context}-{Related} {Policy} {Enforcement}
-                   for {Android}},
-  year =          {2010},
-  abstract =      {Most of the research work for enforcing security
-                   policies on smartphones considered coarse-grained
-                   policies, e.g. either to allow an application to run
-                   or not. In this paper we present CRePE, the first
-                   system that is able to enforce fine-grained policies,
-                   e.g. that vary while an application is running, that
-                   also depend on the context of the smartphone. A
-                   context can be defined by the status of some
-                   variables (e.g. location, time, temperature, noise,
-                   and light), the presence of other devices, a
-                   particular interaction between the user and the
-                   smartphone, or a combination of these. CRePE allows
-                   context-related policies to be defined either by the
-                   user or by trusted third parties. Depending on the
-                   authorization, third parties can set a policy on a
-                   smartphone at any moment or just when the phone is
-                   within a particular context, e.g. within a building,
-                   or a plane.},
-  isbn =          {978-3-642-18177-1 978-3-642-18178-8},
-  language =      {en},
+author =        {Conti, Mauro and Nguyen, Vu Thien Nga and 
+Crispo, Bruno},
+booktitle =     {Information {Security}},
+editor =        {Burmester, Mike and Tsudik, Gene and 
+Magliveras, Spyros and Ilić, Ivana},
+howpublished = 
+{\url{http://link.springer.com/chapter/10.1007/978-3-642-18178-8_29}},
+number =        {6531},
+pages =         {331--345},
+publisher =     {Springer Berlin Heidelberg},
+series =        {Lecture {Notes} in {Computer} {Science}},
+title =         {{CRePE}: {Context}-{Related} {Policy} {Enforcement} 
+for {Android}},
+year =          {2010},
 }
+
 
 @inproceedings{jeon_dr._2012,
-  author =        {Jeon, Jinseong and Micinski, Kristopher K. and
-                   Vaughan, Jeffrey A. and Fogel, Ari and
-                   Reddy, Nikhilesh and Foster, Jeffrey S. and
-                   Millstein, Todd},
-  booktitle =     {Proceedings of the second {ACM} workshop on
-                   {Security} and privacy in smartphones and mobile
-                   devices},
-  title =         {Dr. {Android} and {Mr}. {Hide}: fine-grained
-                   permissions in android applications},
-  year =          {2012},
+author =        {Jeon, Jinseong and Micinski, Kristopher K. and 
+Vaughan, Jeffrey A. and Fogel, Ari and 
+Reddy, Nikhilesh and Foster, Jeffrey S. and 
+Millstein, Todd},
+booktitle =     {Proceedings of the second {ACM} workshop on 
+{Security} and privacy in smartphones and mobile 
+devices},
+title =         {Dr. {Android} and {Mr}. {Hide}: fine-grained 
+permissions in android applications},
+year =          {2012},
 }
+
 
 @inproceedings{backes_appguard_2013,
-  author =        {Backes, Michael and Gerling, Sebastian and
-                   Hammer, Christian and Maffei, Matteo and
-                   Styp-Rekowsky, Philipp von},
-  booktitle =     {Tools and {Algorithms} for the {Construction} and
-                   {Analysis} of {Systems}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/978-3-642-36742-7_39}},
-  month =         mar,
-  pages =         {543--548},
-  publisher =     {Springer, Berlin, Heidelberg},
-  title =         {{AppGuard} – {Enforcing} {User} {Requirements} on
-                   {Android} {Apps}},
-  year =          {2013},
-  abstract =      {The success of Android phones makes them a prominent
-                   target for malicious software, in particular since
-                   the Android permission system turned out to be
-                   inadequate to protect the user against security and
-                   privacy threats. This work presents AppGuard, a
-                   powerful and flexible system for the enforcement of
-                   user-customizable security policies on untrusted
-                   Android applications. AppGuard does not require any
-                   changes to a smartphone’s firmware or root access.
-                   Our system offers complete mediation of
-                   security-relevant methods based on callee-site inline
-                   reference monitoring. We demonstrate the general
-                   applicability of AppGuard by several case studies,
-                   e.g., removing permissions from overly curious apps
-                   as well as defending against several recent
-                   real-world attacks on Android phones. Our technique
-                   exhibits very little space and runtime overhead.
-                   AppGuard is publicly available, has been invited to
-                   the Samsung Apps market, and has had more than
-                   500,000 downloads so far.},
-  doi =           {10.1007/978-3-642-36742-7_39},
-  language =      {en},
+author =        {Backes, Michael and Gerling, Sebastian and 
+Hammer, Christian and Maffei, Matteo and 
+Styp-Rekowsky, Philipp von},
+booktitle =     {Tools and {Algorithms} for the {Construction} and 
+{Analysis} of {Systems}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/978-3-642-36742-7_39}},
+pages =         {543--548},
+publisher =     {Springer, Berlin, Heidelberg},
+title =         {{AppGuard} – {Enforcing} {User} {Requirements} on 
+{Android} {Apps}},
+year =          {2013},
 }
+
 
 @inproceedings{xu_aurasium:_2012,
-  address =       {Bellevue, WA},
-  author =        {Xu, Rubin and Saïdi, Hassen and Anderson, Ross},
-  booktitle =     {21st {USENIX} {Security} {Symposium}},
-  publisher =     {USENIX Association},
-  title =         {Aurasium: {Practical} {Policy} {Enforcement} for
-                   {Android} {Applications}},
-  year =          {2012},
+address =       {Bellevue, WA},
+author =        {Xu, Rubin and Saïdi, Hassen and Anderson, Ross},
+booktitle =     {21st {USENIX} {Security} {Symposium}},
+publisher =     {USENIX Association},
+title =         {Aurasium: {Practical} {Policy} {Enforcement} for 
+{Android} {Applications}},
+year =          {2012},
 }
+
 
 @incollection{jin_fine-grained_2015,
-  author =        {Jin, Xing and Wang, Lusha and Luo, Tongbo and
-                   Du, Wenliang},
-  booktitle =     {Information {Security}},
-  howpublished =
-  {\url{https://link.springer.com/chapter/10.1007/978-3-319-27659-5_22}},
-  note =          {DOI: 10.1007/978-3-319-27659-5\_22},
-  pages =         {309--318},
-  publisher =     {Springer, Cham},
-  title =         {Fine-{Grained} {Access} {Control} for {HTML}5-{Based}
-                   {Mobile} {Applications} in {Android}},
-  year =          {2015},
-  abstract =      {HTML5-based mobile applications are becoming more and
-                   more popular because they can run on different
-                   platforms. Several newly introduced mobile OS
-                   natively support HTML5-based applications. For those
-                   that do not provide native support, such as Android,
-                   iOS, and Windows Phone, developers can develop
-                   HTML5-based applications using middlewares, such as
-                   PhoneGap. In these platforms, programs are loaded
-                   into a web component, called WebView, which can
-                   render HTML5 pages and execute JavaScript code. In
-                   order for the program to access the system resources,
-                   which are isolated from the content inside WebView
-                   due to its sandbox, bridges need to be built between
-                   JavaScript and the native code (e.g. Java code in
-                   Android). Unfortunately, such bridges break the
-                   existing protection that was originally built into
-                   WebView. In this paper, we study the potential risks
-                   of HTML5-based applications, and investigate how the
-                   existing mobile systems’ access control supports
-                   these applications. We focus on Android and the
-                   PhoneGap middleware. However, our ideas can be
-                   applied to other platforms. Our studies indicate that
-                   Android does not provide an adequate access control
-                   for this kind of applications. We propose a
-                   fine-grained access control mechanism for the bridge
-                   in Android system. We have implemented our scheme in
-                   Android and have evaluated its effectiveness and
-                   performance.},
-  language =      {en},
+author =        {Jin, Xing and Wang, Lusha and Luo, Tongbo and 
+Du, Wenliang},
+booktitle =     {Information {Security}},
+howpublished = 
+{\url{https://link.springer.com/chapter/10.1007/978-3-319-27659-5_22}},
+pages =         {309--318},
+publisher =     {Springer, Cham},
+title =         {Fine-{Grained} {Access} {Control} for {HTML}5-{Based} 
+{Mobile} {Applications} in {Android}},
+year =          {2015},
 }
+
 
 @article{dai_who_2017,
-  author =        {Dai, W. and Qiu, M. and Qiu, L. and Chen, L. and
-                   Wu, A.},
-  journal =       {IEEE Communications Magazine},
-  month =         jan,
-  number =        {1},
-  pages =         {20--25},
-  title =         {Who {Moved} {My} {Data}? {Privacy} {Protection} in
-                   {Smartphones}},
-  volume =        {55},
-  year =          {2017},
-  abstract =      {While enjoying the convenience brought by various
-                   kinds of IoT devices, our private data are leaked.
-                   Smartphones, as the typical pivot of IoT devices, use
-                   various kinds of apps, which collect our private
-                   data. In fact, private data leakage, as a potential
-                   hazard, is caused by the current design trend in
-                   industry, which is bigger and bigger. However, few
-                   people notice the side-effect, while we seem never
-                   bored by pursuing “smart” devices. In this
-                   article, we introduce the behaviors of data
-                   collection, and illustrate the motivations and
-                   reasons behind them. Thankfully, cloud computing with
-                   sufficient resources and exquisite services is a
-                   perfect way out. We introduce a mobile-cloud
-                   framework to provide fine-grained permission
-                   authorization service for IoT devices, and show its
-                   performance by experimental results. Nevertheless,
-                   there are still lots of issues to be solved for the
-                   perfect IoT-cloud architecture. We list and analyze
-                   some obstacles and trends in the field of IoT-cloud.},
-  doi =           {10.1109/MCOM.2017.1600349CM},
-  issn =          {0163-6804},
+author =        {Dai, W. and Qiu, M. and Qiu, L. and Chen, L. and 
+Wu, A.},
+journal =       {IEEE Communications Magazine},
+number =        {1},
+pages =         {20--25},
+title =         {Who {Moved} {My} {Data}? {Privacy} {Protection} in 
+{Smartphones}},
+volume =        {55},
+year =          {2017},
+issn =          {0163-6804},
 }
 
+
 @article{ken_thompson_reflections_1984,
-  author =        {{Ken Thompson}},
-  howpublished =
-  {\url{https://www.ece.cmu.edu/~ganger/712.fall02/papers/p761-thompson.pdf}},
-  journal =       {{Turing} {Award} {Lecture}},
-  title =         {Reflections on {Trusting} {Trust}},
-  year =          {1984},
+author =        {Ken Thompson},
+howpublished = 
+{\url{https://www.ece.cmu.edu/~ganger/712.fall02/papers/p761-thompson.pdf}},
+journal =       {{Turing} {Award} {Lecture}},
+title =         {Reflections on {Trusting} {Trust}},
+year =          {1984},
 }
+
 
