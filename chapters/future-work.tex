@@ -168,7 +168,7 @@ equivalent to falsehood in standard SecPAL and should not be used further.
 Rule~\ref{enum:grow} applies to assertions with a conditional part (i.e.~an
 \texttt{if}). If this rule were not the case, we might be able to grow the
 probability of a fact by applying a rule that contained its own derived fact in
-its condition. For example consider the following rule:
+its condition. For example, consider the following rule:
 \begin{lstlisting}
 'x' says 'y' p
   if 'y' p,
@@ -200,7 +200,7 @@ naturally lead to assertions where Alice \emph{has} done something.  If a policy
 author wished to enforce this relationship, then we can start to reason about how the
 assertion context has changed over time.
 
-\begin{table}\centering
+\begin{table}\centering\sffamily
  \begin{tabular}{l c l}
    \toprule
      $F(\phi)$ & $\Rightarrow$ & At sometime in the future $\phi$ is true. \\

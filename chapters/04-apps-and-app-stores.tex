@@ -4,8 +4,8 @@
 \label{chap:apps-and-stores}
 
 Apps and app stores are a key part of the mobile ecosystem, an app
-being the key form of software and the app store as their primary mode
-of distribution. In this chapter we explore the stores and the
+being the key form of software and the app store as their primary 
+distribution means. In this chapter we explore the stores and the
 policies surrounding them. We compare the terms and conditions between
 the various marketplaces. We look at how users have privacy
 preferences about the which apps they want to use. But by using AppPAL
@@ -26,9 +26,9 @@ Amazon does this with their Kindle Fire tablets, where Kindle owners
 can download discounted apps. Some vendors, such as Samsung, add their
 own store this to highlight apps that use features specific to their
 phones (KNOX in Samsung's case). In some regions (such as China),
-using Google services is problematic. People in these countries use
-local, regionally focused app stores (such as QiHoo360 or Yandex)
-instead.
+using Google services is problematic due to legislation banning their
+use in the region. People in these countries use local, regionally
+focused app stores (such as QiHoo360 or Yandex) instead.
 
 For a manufacturer to install Google's store they must comply with the Android
 \ac{CDD}~\cite{google_android_2016}. The \ac{CDD} describes how to configure the
@@ -117,7 +117,7 @@ terms document. In practice many products share the same linked contracts,
 within a single country. Developer terms and agreements are kept in a different
 website and presented as a list of eleven policies. The iTunes terms and
 conditions, which form the bulk of the agreements for using the iOS app store.
-The iTunes terms and conditions are even available in comic-book format ~\cite{r._sikoryak_terms_2017}.
+The iTunes terms and conditions are even available in comic-book format~\cite{r._sikoryak_terms_2017}.
 
 \afterpage{{\tiny\sffamily\centering\raggedright
   \newcolumntype{R}{>{\raggedright\arraybackslash}p{0.13\linewidth}}
@@ -313,7 +313,7 @@ necessarily be aware of. We discuss this further in \autoref{ssec:signing}.
 %}
 
 The terms and conditions are dense technical documents. Yet despite
-their intimidating nature, the differences between each app store
+the document's intimidating nature, the differences in terms between each app store
 agreement is often small. By encoding the key differences into a
 formal language (such as AppPAL) we can clarify the distinctions
 between the stores. A developer, or user, can then choose the app
@@ -405,7 +405,7 @@ and who developed the app. We will illustrate the decisions Android makes using
 AppPAL.
 
 To install an app Android requires it to be signed with a key to
-identify the developer.
+identify the developer who built the app:
 
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
@@ -415,7 +415,7 @@ identify the developer.
 \end{lstlisting}
 \end{minipage}
 
-The standard Android trust model says that the developer of the app should be the person that signed it.
+The standard Android trust model says that the developer of the app should be the person that signed it:
 
 \begin{lstlisting}
 'user' says Developer:D hasMade(App:A)
@@ -426,7 +426,7 @@ The standard Android trust model says that the developer of the app should be th
 When upgrading an app the upgrade is only accepted if the certificates match
 (and the version number is higher). Additionally, if two apps have been signed by
 the same key, they will share the same process space (enabling them to share
-memory) and be able to share code.
+memory) and be able to share code:
 
 \begin{lstlisting}
 'android' says App:A canUpgrade(App:B)
@@ -446,7 +446,7 @@ memory) and be able to share code.
 
 To submit an app to the Play Store Google requires that the key the
 app was signed with must be valid until 2033, and more generally they
-recommend keys are valid for at least 25 years\footnote{The validity of the key is somewhat surprising.  We believe that this is to ensure the key outlives the app and so avoid issues with the developer's keys expiring whilst they are still  providing updates to the app.}.
+recommend keys are valid for at least 25 years\footnote{The validity of the key is somewhat surprising.  We believe that this is to ensure the key outlives the app and so avoid issues with the developer's keys expiring whilst they are still  providing updates to the app.}:
 
 \begin{lstlisting}
 'play-store' says App:A isAcceptable
@@ -624,8 +624,8 @@ hashes we can discover which users have installed which apps, by
 comparing the hashes in the Carat data set to the hashes of apps we
 knew we can discover which apps users had installed.
 
-The database has over 90,000 apps and 55,000 users.  On average each
-Carat user installed around 90 apps each; 4,300 apps have known names.
+The database has over 90,000 apps and 55,000 users.  On average, each
+Carat user installed around 90 apps each, and 4,300 apps have known names.
 Disregarding system apps (such as \texttt{com.android.vending}) and
 very common apps (Facebook, Dropbox, Whatsapp, and Twitter) we reduced
 the set to an average of 20 known apps per user.  To see some
@@ -676,7 +676,7 @@ easily using the current ad-hoc manual means available.
 
 \subsection{Privacy Policies and Malware}
 
-It is also interesting to discover when people install apps classified
+It is also interesting to discover whether people install apps classified
 as malware.  McAfee classify malware into several categories, and
 provided us with a data set of apps classified as malware and
 \acp{PUP}. Using these package IDs we calculated the package hashes
@@ -777,11 +777,20 @@ sometimes, however.  Our comparison is not without some limitations:
   with modern data, and looking at which apps had their permissions
   requests denied, we might expect to see more users following a policy
   (if users do wish to follow a privacy preference most of the time).
+
+\item The Carat data set is not the same group of users, as was
+  examined by Lin~\etal and so is not the same sample of users.  In
+  particular, the users in the Carat dataset had all installed the Carat
+  app to monitor their power usage.  We found that some users in the
+  Carat dataset had also installed tools such as Busybox\footnote{Which
+    gives the user access to common UNIX utilities such as a shell.}. This
+  suggests the Carat dataset contains more technically minded users than
+  we might expect to find in the general population.
 \end{itemize}
 
 To avoid most of these limitations we would need to collect our own
 data, and work with users to better understand and capture their
-privacy preferences.  This is future work however.
+privacy preferences.  We leave this to future work, however.
 
 \section{An AppPAL Enhanced Store}
 \label{sec:an-apppal-enhanced-store}

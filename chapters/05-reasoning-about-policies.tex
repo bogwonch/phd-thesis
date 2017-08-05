@@ -89,8 +89,8 @@ BYOD policies used inside companies.
   and, like the Edinburgh policy, is rather general compared to the other policies.
 \end{enumerate}
 
-Each policy is split into a series of rules employees
-should follow. Typically,, the policy is describing what employees should
+\noindent Each policy is split into a series of rules employees
+should follow. Typically, the policy is describing what employees should
 do and what will happen under certain circumstances. For example the NHS policy
 states that:
 
@@ -111,7 +111,7 @@ the company's data and technology infrastructure.
 
 The \ac{HiMSS} policy has a different style.
 The equivalent rule is phrased from the perspective of the policy subject
-(\emph{``I agree\dots''}).
+(\emph{``I agree\dots''}):
 
 \begin{policyrule}{HiMSS}
   I agree that the PDA/Smartphone can be wiped by XYZ Health System upon the
@@ -131,7 +131,7 @@ department for what to look for.  For example:
 \end{policyrule}
 
 The SANS policy also distinguishes between rules that should always be followed (SHALL),
-and those that may depend on a specific business's situation (SHOULD).
+and those that may depend on a specific business's situation (SHOULD):
 
 \begin{policyrule}{SANS}
   Basically, sentences using the verb ``SHALL'' are mandatory requirements
@@ -145,13 +145,13 @@ giving a security level to each rule.  The policy expects high and
 medium risk users to follow everything, and low risk users to consider
 following the rules marked with a $\nabla$.  For example, the policy
 groups together the rule for remote wiping devices with the rules
-specific to mobile devices and tablets.
+specific to mobile devices and tablets:
 
 \begin{policyrule}{Edinburgh}
   $\nabla$ Configure your device to enable you to remote-wipe it should it become lost.
 \end{policyrule}
 
-Our translation shows the text of the policy next to the AppPAL version in
+Our translation shows the text of the policy next to the AppPAL version.  We have included the full translations in
 \autoref{appendix:byod}. The rest of this chapter looks at what we
 found from the translation process, and comments on \ac{MDM} policies in
 general.
@@ -250,7 +250,7 @@ secure marketplace~\cite{armando_bring_2013}. Their tool allows companies to
 distribute apps through a secure app~store~\cite{armando_enabling_2014}. The
 store ensures apps meet policies through a static analysis and
 app rewriting to add dynamic enforcement. Their policies are low-level, based on
-ConSpec~\cite{aktug_conspec_2008}; checking based on the Dalvik VM's state.
+ConSpec~\cite{aktug_conspec_2008}, and check the policy with respect to the Dalvik VM's state.
 Using their tool, they implemented the parts of a NATO Communications and
 Information Agency policy about personal networks and data
 management~\cite{armando_developing_2016}. Their work shows how to check and enforce the app-specific
@@ -294,7 +294,7 @@ rule that bans international calls. We add a second rule stating that it is
 allowed if someone exempts it. A third lets the employee's manager 
 make the exemption.
 
-\noindent\begin{minipage}{\linewidth}
+\noindent\begin{minipage}{\linewidth}\vspace{1em}
 \begin{policyrule}{NHS}
   All mobile devices will be configured for national access only. Premium/international calls will be barred.
   International call barring and roaming arrangements can be lifted for specific periods, to be stipulated on request, on approval of the relevant manager/budget holder.
@@ -492,7 +492,7 @@ When we delegate, we can add conditionals to the can-say
 statement that enforces any relationship between the delegating and
 delegated parties.
 
-\noindent\begin{minipage}{\linewidth}
+\noindent\begin{minipage}{\linewidth}\vspace{1em}
 \begin{lstlisting}
 'company' says 'hr-department' can-say
   Employee:E hasManager(Employee:M).
