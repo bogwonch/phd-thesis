@@ -580,7 +580,7 @@ f if f1 ... fn,
 
 is "f" the "decision" of the claim? More conventional names for "f"
 are "consequent" or "conclusion". Whatever terminology is used, it
-**** should be introduced back around p11 or p12.
+should be introduced back around p11 or p12.
 
 
 **** p95.
@@ -630,10 +630,11 @@ rather than describe unfinished work.
 *** PJ
 **** p107.
 
-***** TODO 7.1. M: 
+***** DONE 7.1. M:
 "Gurevich et al." This doesn't make sense until one realises that DKAL
 and DKAL2 are developed by Gurevich.
 
+> Replaced "Gurevich et al." with "the authors of DKAL and DKAL 2".
 
 *** CM
 ***** TODO 7.2. M: 
