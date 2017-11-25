@@ -9,95 +9,84 @@ External Examiner: Charles Morisset (CM)
 
 Viva Date: 3rd November 2017.
 
-
 This document contains the list of comments explaining how the
-dissertation should be revised.  The comments are described for each
+dissertation should be revised. The comments are described for each
 chapter, with a section for comments stated by Paul Jackson (PJ) and
 another section for comments stated by Charles Morisset (CM)
 
 The following prefixes are used before each comment.
 M: Mandatory. The correction needs to be addressed. 
-O: Optional.  It is recommended that the issue is addressed. 
+O: Optional. It is recommended that the issue is addressed. 
  
 ** Ch 1: Introduction
 
 *** PJ 
 
-1.1.
-M: 
+**** General
+
+***** TODO 1.1. M: 
 Add somewhere in this chapter a concise summary of the novel research
 contributions of the thesis.
 
-1.2.
-M: 
+***** TODO 1.2. M: 
 Here and as needed in other chapters, some explicit statement is made
 of what methodology was followed and why.
 
-1.3. 
-M: 
+***** TODO 1.3. M: 
 How does one judge whether the investigations described in the thesis
-have been a success?   Some explicit statement is needed concerning
+have been a success? Some explicit statement is needed concerning
 this.
 
-p3. 
+**** p3. 
 
-1.4. 
-M:
+***** TODO 1.4. M:
 It would be good to make clearer the relationship between the AppPAL
-language and SecPAL.  E.g. that AppPAL is essentially an instantiation
+language and SecPAL. E.g. that AppPAL is essentially an instantiation
 of the SecPAL system to the mobile domain, along with some minor
 changes to syntax. 
 
-1.5. 
-M:
-"from wherever server stores it".  Grammar needs fixing.
+***** TODO 1.5. M:
+"from wherever server stores it". Grammar needs fixing.
 
-1.6.
-M:
+***** TODO 1.6. M:
 The formal examples of policies are pretty cryptic on first reading.
 Some words explaining how to read the the various formal phrases would
 be really helpful. 
 
-1.7.
-O:
+***** TODO 1.7. O:
 Some words explaining the relevance of HIPAA to mobile device policies
 would be good; this is not obvious from merely knowing that HIPAA =
 "Health Insurance Portability and Accountability Act".
 
-p5
-1.8.
-M:
+**** p5
+***** TODO 1.8. M:
 "It is important not to confuse the tools and techniques we might use to
 uphold parts of a policy with the end goal of ensuring compliance. "
-This sets up expectation that rest of paragraph will explain why.  Did not
+This sets up expectation that rest of paragraph will explain why. Did not
 see that it did so.
 
-p6
-1.9.
-M:
-"classic DAC and MAC policies:"  These acronyms need explaining. 
-Do D and M stand for "discretionary" and "mandatory"?  What
+**** p6
+***** TODO 1.9. M:
+"classic DAC and MAC policies:" These acronyms need explaining. 
+Do D and M stand for "discretionary" and "mandatory"? What
 significance does a discretionary policy have? 
 
 
-p7
-1.10.
-M:
-"AppPAL for Android [55]." What kind of paper is this?  Conference?
-Workshop?  Reference in Bibliography doesn't make clear.  
+**** p7
+***** TODO 1.10. M:
+"AppPAL for Android [55]." What kind of paper is this? Conference?
+Workshop? Reference in Bibliography doesn't make clear. 
 
 
-p7-8 
-1.11.
-M:
+**** p7-8 
+***** TODO 1.11. M:
 References [53] = [58] are all joint with the PhD supervisor David
-Aspinall.  Add some specific statement concerning the contributions
+Aspinall. Add some specific statement concerning the contributions
 the candidate and the supervisor made to each.
 
 *** CM
 
-1.12.
-M: 
+***** TODO 1.12. M: 
 The introduction is quite short, and even though it introduces the
 context in general, it could be improved a lot by having a much
 detailed and clearer structure about the research questions addressed
@@ -106,33 +95,29 @@ contributions of the thesis. Furthermore, a section on methodology
 needs to be included, clarifying the different tools and techniques
 used, as well as the criteria for the evaluation of the work.
 
-p3 
-1.13.
-M: 
+**** p3 
+***** TODO 1.13. M: 
 In the code example, what is the User U and the account A? Are they
 variables? If so, are they quantified? In its current form, the code
 does not really help the reader not already familiar with AppPAL to
 understand the approach, and is probably not needed for the reader
 already familiar with AppPAL.
 
-p4
-1.14.
-O: 
+**** p4
+***** TODO 1.14. O: 
 How does alice know bob? Do we assume as general repository for all
 possible attribute/names?
 
 
-p7
-1.15.
-O: 
+**** p7
+***** TODO 1.15. O: 
 Full sentences would be easier to read than "Describes .... Presents ...."
 
 ** Ch 2: Background
 *** PJ 
-p9
+**** p9
 
-2.1.
-O:
+***** TODO 2.1. O:
 "Authorization logics [1] describe rules for deciding when to allow
 certain actions precisely."
 
@@ -151,63 +136,54 @@ or just omit precisely altogether:
 Authorization logics [1] describe rules for deciding when to
 allow certain actions. 
 
-2.2.
-M:
+***** TODO 2.2. M:
 "In applying logics of authorization to policy language"
-Need "," after language.   However, phrase itself is awkward.
+Need "," after language. However, phrase itself is awkward.
 
 Is "When using authorization logics as policy languages" any better?
 
-2.3.
-O: 
+***** TODO 2.3. O: 
 Can any difference between the concepts of an "authorization logic"
 and a "policy language" be clarified?
 
-p10
-2.4
-O:
+**** p10
+***** TODO 2.4 O:
 Here and many places in thesis, "rule" used with two meanings:
 - an evaluation rule of SecPAL
 - an assertion in an assertion context.
 
-This double use is confusing.  It would be good to at least warn the reader of
+This double use is confusing. It would be good to at least warn the reader of
 this. Maybe check usage through the thesis and always use "evaluation
 rule" for former. 
 
-2.5.
-O:
-Explain what "SecPAL" stands for.  AL = authorization logic? SecP = ?
+***** TODO 2.5. O:
+Explain what "SecPAL" stands for. AL = authorization logic? SecP = ?
 
-2.6.
-M: 
+***** TODO 2.6. M: 
 The terms "speaker", "entity" and "principal" all seem to be used
-interchangeably.  It would be worth stating explicitly that they are
+interchangeably. It would be worth stating explicitly that they are
 synonyms (if they are) or otherwise remarking on the slightly
 different usage of each term. 
 
-2.7.
-O: 
+***** TODO 2.7. O: 
 The whole phrase "AC,D |= A says fact" is called an "assertion". 
 This contradicts Fig 2.1 p11 where an assertion is just the "A says fact"
-part.  One alternative is to call the whole phrase a "judgement". 
+part. One alternative is to call the whole phrase a "judgement". 
 
-p11
+**** p11
 
-2.8.
-M:
+***** TODO 2.8. M:
 Fig 2.2. Fix the production rules for atomic expressions e to show the
-conventions used in AppPAL:  i.e. constants in single quotes,
+conventions used in AppPAL: i.e. constants in single quotes,
 variables capitalised. 
 
-2.9.
-O: 
+***** TODO 2.9. O: 
 How about including the typing extension here, as it is already used
-extensively in examples?  This would be especially help the reader as
+extensively in examples? This would be especially help the reader as
 the "type : instance" rather than "instance : type" ordering of ":"
 arguments is uncommon.
 
-2.10.
-O:
+***** TODO 2.10. O:
 The grammar allows many more kinds of facts than one ever sees later.
 The main forms seem to be just:
 
@@ -215,84 +191,73 @@ e says f
 e says e can-say f
 e says e can-act-as e
 
-How about rules just for these specifically?  Then explain each with
+How about rules just for these specifically? Then explain each with
 some English paraphrase. 
 
-p12.
+**** p12.
 
-2.11.
-M: 
+***** TODO 2.11. M: 
 Add some vertical whitespace between the rules in Fig 2.3.
 
-2.12.
-O: 
+***** TODO 2.12. O: 
 Fig 2.3 presents what are normally called "deduction rules" or
 "derivation" rules rather than "evaluation rules". In the SecPAL
 paper, "evaluation" is reserved for the algorithm which checks the
-truth of a query.   Here and elsewhere in the thesis, could the more
+truth of a query. Here and elsewhere in the thesis, could the more
 normal terms be used? 
 
-2.13.
-O: 
+***** TODO 2.13. O: 
 Describe the "semantics" more specifically as "proof-theoretic
-semantics".  When readers with some knowledge of mathematical logic or
+semantics". When readers with some knowledge of mathematical logic or
 theoretical computer science see the word "semantics" they think first
 of denotational, model based or operational semantics, so it can be
 confusing to simply talk about "semantics".
 
-2.14.
-M: 
+***** TODO 2.14. M: 
 Some remark is needed concerning the appropriation of the |= notation
-for judgements in rules.  This is rather non-standard, but is
+for judgements in rules. This is rather non-standard, but is
 following notation adopted in the SecPAL paper.
 
-2.15.
-M: 
+***** TODO 2.15. M: 
 It would really help if further rigour and details concerning the
 presentation of SecPAL would be brought in from the SecPAL paper in
-order to make the formal presentation of SecPAL complete.  The reader
+order to make the formal presentation of SecPAL complete. The reader
 would not then need to refer back to the SecPAL paper for these
-missing details.  For example explain the nature of substitutions,
+missing details. For example explain the nature of substitutions,
 when parts of rules are supposed to be ground (free variable free) and
 the meaning of free variables when there are free variables.
 
-2.16.
-M:
-Can queries have free variables?  If so, are they existentially or
+***** TODO 2.16. M:
+Can queries have free variables? If so, are they existentially or
 universally quantified? 
 
-2.17.
-M:
-Fig 2.4.  Fix \turnstile_2 typo.
+***** TODO 2.17. M:
+Fig 2.4. Fix \turnstile_2 typo.
 
-p13.
+**** p13.
 
-2.18.
-O:
-Assertions considered to be "signed" by speakers.  Could this
+***** TODO 2.18. O:
+Assertions considered to be "signed" by speakers. Could this
 terminology be introduce more systematically earlier when the "says"
 fact form is introduced?
 
 
-p15
+**** p15
 
-2.19.
-M:
+***** TODO 2.19. M:
 "Depth-bounded delegation allows delegation statements to be chained to
 an arbitrary (but finite) depth, without allowing for unbounded
-delegation. ".  It is hard to imagine infinite depth delegation.  
+delegation. ". It is hard to imagine infinite depth delegation. 
 So what is difference between "arbitary" and "unbounded"?
 
-p20
+**** p20
 
-2.20.
-M:
+***** TODO 2.20. M:
 "It is similar Prolog". Fix grammar.
 
-p22
+**** p22
 
-2.21.
-M:
+***** TODO 2.21. M:
 AppPAL is said to be both "instantiation" of SecPAL and
 an "extension of" SecPAL. 
 While there are minor syntactic extensions to the language, it is
@@ -300,18 +265,16 @@ otherwise confusing to say that AppPAL is an extension of SecPAL.
 Here and elsewhere it would be best to primarily just say that AppPAL is an
 instantiation of SecPAL. 
 
-2.22.
-M: 
+***** TODO 2.22. M: 
 It is suprising this chapter says nothing about the automation of
-query answering in SecPAL.  The only time automation discussed is with
-RT.  Can statements be made concerning automation of query answering
+query answering in SecPAL. The only time automation discussed is with
+RT. Can statements be made concerning automation of query answering
 with each of the other languages too?
 
 
 *** CM 
 
-2.23
-M:
+***** TODO 2.23 M:
 The background section needs to be improved, targeted towards a non
 specialised expert, who do not already know about SecPAL (or other
 formal access control languages). This chapter needs to be
@@ -324,63 +287,57 @@ is key to clarify the contribution of AppPAL with respect to
 SecPAL. The choice of other languages not clear: why are XACML and
 DKAL at the end, while Ponder and Cassandra are in this section?
 
-p11
+**** p11
 
-2.24.
-M: 
+***** TODO 2.24. M: 
 The BNF is not always consistent (vp must be replaced by verb-phrase,
 f by fact, etc).
 
-p14
-2.25.
-M:
+**** p14
+***** TODO 2.25. M:
 There is a quote missing after alice in 'alice says 'cluster' ...
 
-p20
-2.26.
-M: Is read -> is read
+**** p20
+***** TODO 2.26. M: Is read -> is read
 
 ** Ch 3: Instantiating and evaluating SecPAL
 
 *** PJ 
-p25
+**** p25
 
 "Locality" paragraph. 
 
-3.1.
-O:
+***** TODO 3.1. O:
 Explain if the concept of a "location" is distinct from that of an "entity" or
-principal.   Sometimes locations are inanimate, a store or a mobile
-phone, whereas entities can be "users".  But it seems their roles in
+principal. Sometimes locations are inanimate, a store or a mobile
+phone, whereas entities can be "users". But it seems their roles in
 this paragraph are similar. 
 
 "Access external information" paragraph. 
 
-3.2
-O:
+***** TODO 3.2 O:
 The last couple of sentences are "We want our policy language to be able
 to capture the policies which use these external sources without
 forcing the tools themselves to work in any particular manner. In
 other words, the policy specification should be separate from its
 enforcement."
 These seem to be saying something different from the prior part of the
-paragraph.  The issue seems to be that in general some policy
+paragraph. The issue seems to be that in general some policy
 information will be outside the policy language and one wants tools
 that check queries written in the policy language to also be able to
 make use of external tools that work with this external policy
-information.  Can this be clarified?
+information. Can this be clarified?
 
 
-p26
+**** p26
 
 
 "Constraints" paragraph.
-3.3
-O:
+***** TODO 3.3 O:
 I am not sure the heading "Constraints" quite captures what is
 described here, even if it so happens that the best way to incorporate
 this kind of information into a policy language is through some
-constraint handling mechanism.  What is described here is sensitivity
+constraint handling mechanism. What is described here is sensitivity
 to the environment, with the physical location and the current time
 being given as examples.
 
@@ -388,91 +345,79 @@ Could an environment argument explicitly feature in the
 constraint-checking |= judgement in the first premise of the cond rule
 in Fig 2.3 on p12?
 
-3.4.
-O:
+***** TODO 3.4. O:
 The talk about "location" here could possibly be confused with the
-more abstract notion of "locality" discussed on previous page.  Could
+more abstract notion of "locality" discussed on previous page. Could
 some rewording lessen the possible confusion?
 
-3.5.
-M:
+***** TODO 3.5. M:
 "SecPAL’s constraint mechanism (the where part of an assertion) lets
 us implement the constraints we described but also allows us to access
-external information."  Later (e.g. p34 Table 3.1) we see kinds of
+external information." Later (e.g. p34 Table 3.1) we see kinds of
 predicates with names that suggest (at least in some cases) that they
-too might be able to access external information.  Is that indeed
+too might be able to access external information. Is that indeed
 possible or not?
 
-p33.  
+**** p33. 
 
-3.6.
-O:
+***** TODO 3.6. O:
 How is the proof fragment at the page foot an application of the
-cond rule of p12?  On p12 an "if" can only figure in a claim and
-claims can only come from the AC; they can't feature as goals.  On p33
+cond rule of p12? On p12 an "if" can only figure in a claim and
+claims can only come from the AC; they can't feature as goals. On p33
 we see an "if" featuring in the conclusion part of the cond rule
 application.
 
 
-p42 
-3.7.
-M: 
+**** p42 
+***** TODO 3.7. M: 
 It is unclear whether Becker ever actually implemented the algorithm
-he/she proposed?  Did Datalog^C implementation exist ever?  Some
+he/she proposed? Did Datalog^C implementation exist ever? Some
 clarification would help.
 
-3.8.
-M: 
-It is suprising that Z3 could not fully support Datalog^C.  Why?  Is it to do
-with need to be able to query environment?  A few words on this would
+***** TODO 3.8. M: 
+It is suprising that Z3 could not fully support Datalog^C. Why? Is it to do
+with need to be able to query environment? A few words on this would
 be good.
 
 
-p44
+**** p44
 
-3.9.
-M:
+***** TODO 3.9. M:
 "If when searching for a proof we meet a query that we are currently
 evaluating, i.e. one that exists higher in the current proof tree, we
-treat it as false. "  Add a comment about why is this a reasonable
+treat it as false. " Add a comment about why is this a reasonable
 thing to do.
 
-3.10.
-O:
+***** TODO 3.10. O:
 The use of "RT" as an acronym for Results Table clashes with its use
-in related work on p20 to describe a policy language.  Perhaps don't
+in related work on p20 to describe a policy language. Perhaps don't
 use RT here.
 
 
-p47
+**** p47
 
-3.11.
-O: 
+***** TODO 3.11. O: 
 Is it necessary to have this results table persistent between
-queries?  When query is run, shouldn't the environment be somehow
+queries? When query is run, shouldn't the environment be somehow
 first frozen so the same external call always returns the same result?
 Why can't the cache be cleared between queries? 
 
-3.12.
-M:
+***** TODO 3.12. M:
 Equivalence: what does "same conditions" mean? 
 
-3.13.
-O: 
-"where one requires a subset of the facts in order to satisfy it".  
+***** TODO 3.13. O: 
+"where one requires a subset of the facts in order to satisfy it". 
 Does this mean "where one is satisfied by a subset of the facts that
 satisfy the other"?
 
-p52
-3.5.1.
-
-3.14.
-M:
+**** p52
+***** TODO 3.5.1. 
+***** TODO 3.14. M:
 What are the "conditionals" of an assertion?
 
 If an assertion has form 
 
-  e says f if f1 ... fn
+ e says f if f1 ... fn
 
 are the f1 ... fn the conditionals?
 
@@ -482,26 +427,24 @@ it back around p11 or p12 when the SecPAL language is formally
 introduced.
 
 
-3.15.
-M: 
+***** TODO 3.15. M: 
 A "Satisfiable" set looks like the deductive closure of the
 assertion context, ignoring any "where" constraints clauses.
 This seems a distinct use of the term "satisfiable" from that common
-in logic and automated reasoning.  (E.g. a propositional logic formula
+in logic and automated reasoning. (E.g. a propositional logic formula
 is satisfiable iff there is an assignment of truth values to the
 propositional variables that makes the formula true.)
 
 It is suggested that this notion of of satisfiability comes from the
-Datalog literature.  This suggestion is rather cryptic, particularly
-as it uses unexplained acronyms IDB and EDB.  More explanation of the
+Datalog literature. This suggestion is rather cryptic, particularly
+as it uses unexplained acronyms IDB and EDB. More explanation of the
 notion of satisfiability used here is needed, warning the reader that
 it is distinct from common notions of satisfiability (if indeed that
 is the case).
 
-3.16.
-M:
+***** TODO 3.16. M:
 The phrase: "Satisfiability can be defined inductively as the least
-set satisfiable such that:" is rather awkward.  "Satisfiability" is
+set satisfiable such that:" is rather awkward. "Satisfiability" is
 the general concept, "the least set satisfiable" is something more
 specific.
 
@@ -509,30 +452,27 @@ Should "the least set satisfiable" be "the least set Satisfiable"?
 The latter makes more sense: one is defining the set Satisfiable as
 the smallest set closed under the claims in an assertion context.
 
-p53
+**** p53
 
-3.17.
-M:
+***** TODO 3.17. M:
 In the rules at the top of the page, the "predicate" and the p_i can all
 contain free variables, so the assertions in the Satisfiable set can
-also contain free variables.    Is this intended?   This is different
+also contain free variables. Is this intended? This is different
 from the situation with the cond rule on p12 where it seems that
 assertions might be ground, might contain no free variables.
 Some explanation of these rules, comparing them with the cond rule
 would be very useful. 
 
-p56
-3.18.
-M:
-Is redundancy because of typing a bad thing?  Maybe from an inference
+**** p56
+***** TODO 3.18. M:
+Is redundancy because of typing a bad thing? Maybe from an inference
 point of view yes, but from the point of view of quickly comprehending
 sense of assertions maybe it is helpful. 
 
 
 *** CM
 
-3.19.
-M: 
+***** TODO 3.19. M: 
 The precise definition of AppPAL needs to be given here? Is it simply
 SecPAL with a typing syntax (section 3.2)? Or does it include an
 onthology for a specific domain (Section 3.3). The paper "Michael Carl
@@ -540,91 +480,80 @@ Tschantz, Shriram Krishnamurthi: Towards reasonability properties for
 access-control policy languages. SACMAT 2006: 160-169" needs to be
 discussed here as well.
 
-3.20.
-O: 
+***** TODO 3.20. O: 
 On the type notation: how complex is the type system? is there any
 type checking? Any sub-typing?
 
-p44
-3.21.
-M: 
+**** p44
+***** TODO 3.21. M: 
 It is not clear at all how the evaluation procedure differs from that
 of SecPAL. This point was addressed during the viva, and needs to be
 included in the dissertation.
 
-p44
-3.22.
-O: 
+**** p44
+***** TODO 3.22. O: 
 On the usage of caching, an interesting discussion can be made with
 e.g. "Qiang Wei, Jason Crampton, Konstantin Beznosov, Matei Ripeanu:
 Authorization recycling in hierarchical RBAC systems. ACM
 Trans. Inf. Syst. Secur. 14(1): 3:1-3:29 (2011)".
 
-p45
-3.23.
-M:  
+**** p45
+***** TODO 3.23. M: 
 This section is quite interesting, but the difference with existing
 analysis done for SecPAL needs to be explained?
 
 ** Ch 4: App Store and App Preferences
 
 *** PJ
-p75 
+**** p75 
 
-4.1.
-M: 
-"... we checked which apps satisfied which policies."  The encoding of
+***** TODO 4.1. M: 
+"... we checked which apps satisfied which policies." The encoding of
 the questions considered into AppPAL are hinted at only very briefly.
-I found it hard to picture them.  Include more information about them.
+I found it hard to picture them. Include more information about them.
 
 
-p80
+**** p80
 
-4.2.
-O: 
-"AppPAL's GenStore tool".  This phrasing makes it sound like the
+***** TODO 4.2. O: 
+"AppPAL's GenStore tool". This phrasing makes it sound like the
 GenStore tool is part of AppPAL, whereas what is intended is that the
-GenStore tool is an application of the AppPAL checker tool.  Could the
+GenStore tool is an application of the AppPAL checker tool. Could the
 phrasing here be improved?
 
-4.3.
-M:
-The status of the GenStore tool is very hazy.  It is described as a
-prototype.   Did the prototype actually work?   This section would be
+***** TODO 4.3. M:
+The status of the GenStore tool is very hazy. It is described as a
+prototype. Did the prototype actually work? This section would be
 much stronger if it could include some simple example case study that
-demonstrates it actually running.  At the very least, there needs to
+demonstrates it actually running. At the very least, there needs to
 be a fuller description of GenStore's status.
 
 
 *** CM 
 
-p73
-4.4.
-M: 
+**** p73
+***** TODO 4.4. M: 
 The policies corresponding to each privacy class needs to be further
 explained, and possibly given in the dissertation. Otherwise, it's not
 clear how can an app not meet the "unconcerned policy" (since one
 would assume that someone unconcerned has no policy at all).
 
-p75
-4.5.
-M: 
+**** p75
+***** TODO 4.5. M: 
 The description of the reverse engineering of the hashes in the
 dissertation can raise ethical concerns. Those were addressed during
 the viva, and the dissertation needs to be corrected accordingly,
 detailing the interaction with the owner of the original data-set and
 the anonymity issues.
 
-p75
-4.6.
-M: 
+**** p75
+***** TODO 4.6. M: 
 The data analysis is quite limited with no element of standard
 deviation/variance, error intervals, etc. The tables on p76 are
 actually quite hard to read, and it would be good to given an example
 of how to read them.
 
-4.7.
-O: 
+***** TODO 4.7. O: 
 A differential analysis of the dataset with and without the apps not
 meeting the unconcerned policy (are those apps somehow malware?) could
 be interesting.
@@ -633,58 +562,52 @@ be interesting.
 
 *** PJ
 
-p83
+**** p83
 
-5.1.
-M: 
+***** TODO 5.1. M: 
 In policy 2, what is the the distinction being made between "should
-and "will"?  What does it mean when a policy uses "should"? 
+and "will"? What does it mean when a policy uses "should"? 
 
 
-p90.  
+**** p90. 
 
-5.2.
-M:
+***** TODO 5.2. M:
 Table 5.2. What are "decisions"? 
 
 If a claim has form 
 
 f if f1 ... fn,
 
-is "f" the "decision" of the claim?  More conventional names for "f"
-are "consequent" or "conclusion".  Whatever terminology is used, it
-should be introduced back around p11 or p12.
+is "f" the "decision" of the claim? More conventional names for "f"
+are "consequent" or "conclusion". Whatever terminology is used, it
+**** should be introduced back around p11 or p12.
 
 
-p95.
+**** p95.
 
-5.3.
-M:
+***** TODO 5.3. M:
 "AppPAL exists as a tool for checking whether a policy is satisfied."
-What does it mean here to "satisfy" a policy?    Is this in the
+What does it mean here to "satisfy" a policy? Is this in the
 technical sense of Sec 3.5.1, p52?
 
 *** CM
 
-p83 
-5.4.
-O: 
+**** p83 
+***** TODO 5.4. O: 
 The notation "1. Is", "2 .Is", etc, is a bit confusing. Possible
 suggestion: "1: the security ..."
 
 ** Ch 6: Future work
 
 *** PJ
-p100
+**** p100.
 
-6.1.
-M: 
-"Probability is similar to probability...".  Needs fixing.
+***** TODO 6.1. M: 
+"Probability is similar to probability...". Needs fixing.
 
-p102
+**** p102.
 
-6.2.
-M:
+***** TODO 6.2. M:
 "actions where Alice can do something might naturally lead to
 assertions where Alice has done something."
 
@@ -697,32 +620,27 @@ exercised.
 
 *** CM 
 
-6.3.
-O: 
+***** TODO 6.3. O: 
 This chapter would benefit to be transformed into a "Discussion"
 chapter, which would highlight the main challenges in extending
 AppPAL, and possibly include the first attempts to address them,
 rather than describe unfinished work.
 
 ** Ch 7: Related work
-
 *** PJ
-p107.
+**** p107.
 
-7.1.
-M: 
+***** TODO 7.1. M: 
 "Gurevich et al." This doesn't make sense until one realises that DKAL
 and DKAL2 are developed by Gurevich.
 
 
 *** CM
-7.2.
-M: 
+***** TODO 7.2. M: 
 As mentioned above, and discussed during the viva, this chapter would
 make more sense with the background chapter.
 
-7.3.
-O: 
+***** TODO 7.3. O: 
 Since XACML is designed to be extensible, and since one of the main
 contribution of AppPAL is to extend SecPAL, it would be good to
 discuss this aspect here.
