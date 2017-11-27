@@ -88,7 +88,7 @@ implemented.} with our implementation.
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
-device, which fetches all their data from wherever server stores it. Rather than
+device, which fetches all their data from a server on the internet. Rather than
 keep account information locally an app may prompt the user to log in,
 delegating to a third-party (such as Google or Facebook) to manage the account
 ID. Capturing these trust relationships as policies can help clarify the precise
@@ -255,9 +255,15 @@ showcase some of what makes the mobile ecosystem fascinating.
 
 \section{Thesis Outline and Publications}
 
-The rest of this thesis is organised into the following chapters.
-Some work described has been presented at various conferences, workshops and PhD symposiums through the course of the PhD.
-We describe the publications, and show where they fit into the various chapters.
+The rest of this thesis is organised into the following chapters.  Some work
+described has been presented at various conferences, workshops and PhD
+symposiums through the course of the PhD.  We describe the publications, and
+show where they fit into the various chapters.
+
+For each of our publications the work describe was done by, and the paper was
+written by, the first author: Joseph Hallett (\emph{me}, the thesis author).
+The second author, Professor Aspinall (my PhD supervisor), provided invaluable suggestions
+and advice as to where to go with the research as well as extensive editing.
 
 \begin{itemize}
 \item \textbf{Chapter 2: Background.} 
@@ -316,7 +322,60 @@ We describe the publications, and show where they fit into the various chapters.
   used to enforce some aspects of mobile device policies.
 \end{itemize}
 
+\section{Research Contributions}
 
+This work makes the following contributions to research:
+
+\begin{itemize}
+  \item I show how SecPAL can be instantiated with predicates and conventions
+    to create a language called AppPAL to describe the policies of the mobile
+    ecosystem.
+  \item I provide an open source implementation of SecPAL and AppPAL. This also
+    contains tooling for examining policies for common problems such as
+    consistency and redundancy.  The previous implementation (by the authors of
+    the SecPAL paper~\cite{becker_secpal:_2006}) is closed source, and runs
+    only on Windows.  Our implementation is written in Java and will run in the
+    JVM and on Android devices.
+  \item I describe a framework for measuring the extent users follow policies
+    with respect to their app choices.  Using this framework and a collection
+    of app privacy policies found by surveying users~\cite{lin_modelling_2014},
+    I show that users do not seem to follow them in practice.
+  \item I provide a table summarising the differences in terms and conditions
+    between five different app stores.
+  \item I provide a formal version of five different BYOD policies, written in
+    AppPAL.  Using the formal versions of the policies to compare the contents
+    of the policies I identify two idiomatic forms of BYOD policy rules that
+    have not been examined before or supported by existing tooling.
+\end{itemize}
+
+It is difficult to judge the extent the investigations in this thesis have been
+a success.  We do not, for the most part, provide any proofs that could be
+checked to show our AppPAL policies are correct, more precise and more powerful
+than the natural language ones we claim to capture.  Infact, the act of writing
+down the policies in AppPAL requires a degree of artistry to capture the style
+and intent of the original policy. It would be reasonable to look at some of
+our policies and say that a different version might be more accurate or more
+descriptive.
+
+As well as describing the policies, this thesis also describes how we can
+compare and analyse the policies. Our AppPAL language lets us have rules and a
+grammar for capturing the policies, decisions and trust relationships of the
+mobile ecosystem.  You might not like our versions of the policies. If you can
+use AppPAL to describe what a better version of the policy might be, however,
+then our version of the policy provides a baseline to compare against and our
+methods let us see whether we would find new or different results with the
+improved policies.
+
+Don't judge this work by the policies themselves, but rather by the discussions
+and discoveries that come from capturing the policies and looking at what the
+precise versions have brought to light.  If what we have found is novel,
+interesting, and our language can be used to argue about the most correct
+version of a policy might be then our investigations are a success.
+Alternately if what we have discovered is trivial, wrong, and our language
+fails to capture the policies in any way, then this must be judged a failure.
+
+I believe the former is the case.  This work is interesting. We do manage to
+capture the trust relationships of the mobile ecosystem succesfully.
 
 \end{document}
 
