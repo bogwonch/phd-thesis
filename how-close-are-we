@@ -1,0 +1,18 @@
+#! /bin/bash
+# How close are we to being done?
+
+declare -r corrections=corrections.org
+
+declare -i todo_m="$(grep TODO "${corrections}" | grep M: | wc -l)"
+declare -i todo_o="$(grep TODO "${corrections}" | grep O: | wc -l)"
+declare -i done_m="$(grep DONE "${corrections}" | grep M: | wc -l)"
+declare -i done_o="$(grep DONE "${corrections}" | grep O: | wc -l)"
+
+declare -r mandatory_symbol='#'
+declare -r optional_symbol='.'
+
+for i in $(seq ${done_m}); do printf "\e[32m%s" ${mandatory_symbol}; done
+for i in $(seq ${todo_m}); do printf "\e[31m%s" ${mandatory_symbol}; done
+for i in $(seq ${todo_o}); do printf "\e[31m%s" ${optional_symbol}; done
+for i in $(seq ${done_o}); do printf "\e[32m%s" ${optional_symbol}; done
+printf "\e[0m\n"
