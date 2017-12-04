@@ -79,12 +79,53 @@ review said about the app.
 In this section we will start to introduce by example AppPAL: an authorization
 language for the policies of the mobile ecosystem, based on
 SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail in
-\autoref{chap:apppal} and throughout the thesis. We have implemented AppPAL to
-explore its use and to capture the
-policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
+\autoref{chap:apppal} and throughout the thesis, but it is essentially an
+instantiation of the SecPAL system to the mobile domain, along with some minor
+changes to syntax. We have implemented AppPAL to explore its use and to capture
+the policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
 \framebox{\texttt{teletype font}} it can be parsed and used as part of a
 policy\footnote{Sometimes with minimal edits as some constraints used are not
 implemented.} with our implementation.
+
+An AppPAL policy consists of many assertions.  Each assertion is a statement by
+a principal either of a fact, or a rule for inferring a fact.  For example, the statment:
+\begin{lstlisting}
+'alice' says 'angry-birds' isGood.
+\end{lstlisting}
+Should be read as an assertion by Alice (a principal), that Angry Birds (a
+constant) is good (a predicate).  An example of a rule might be:
+\begin{lstlisting}
+'alice' says App:A isGood 
+  if A isFree.
+\end{lstlisting}
+This example should be read as an assertion by Alice that any App (a type),
+refered to as A (a variable) is good if A is also free (a conditional).   
+
+As
+well as assertions about whether variable or constant subjects meet certain
+predicates, AppPAL can be used to describe delegations, such as:
+\begin{lstlisting}
+'alice' says 'bob' can-say App:A isGood.
+\end{lstlisting}
+Which should be read as an assertion by Alice that if Bob says an App, A, is
+good then she will also agree that it is good.  AppPAL can also describe roles,
+the assertions:
+\begin{lstlisting}
+'alice' says 'polygon.com' can-say X isGood.
+'alice' says 'justin' can-act-as 'polygon.com'.
+\end{lstlisting}
+Are read as first an assertion by Alice that she trusts \url{polygon.com} (a
+famous videogame news website) to say whether something, referred to as X, is
+good; and secondly as an assertion that Alice allows Justin (one of
+\url{polygon.com}'s editors) to act as the website.  
+
+A ful description of AppPAL will be given later in the thesis.  
+AppPAL inherits its evaluation rules and semantics from SecPAL which is described in
+\autoref{ssec:grammar-evaluation-semantics}.  AppPAL's syntax, however, differs slightly
+from SecPAL and includes some conventions for writing policies---these changes
+are described in \autoref{sec:instantiating}.
+
+\vspace{1em}
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
@@ -187,25 +228,26 @@ helping clarify their meanings and make precise comparisons between
 different policies. We could tie the rules in the \ac{BYOD} policies
 to the \ac{MDM} tools used to check them.
 
-If a company needs to use apps which conform with a policy such as
-\ac{HIPAA} they could use static analysis tools to check for some
-aspects of the policy.  A company might use
-Mallodroid~\cite{fahl_why_2012} to detect when apps send data unencrypted.  
+In the US all software for use with medical data must conform to a policy
+called \ac{HIPAA}, and this includes apps on mobile devices.  The \ac{HIPAA}
+act covers many rules specific to medical software including requirements for
+keeping medical records confidential.  If a company needs its employees to use
+such apps they could use static analysis tools to check for some aspects of the
+\ac{HIPAA} policy.  A company might use Mallodroid~\cite{fahl_why_2012} to
+detect when apps send data unencrypted.  
 %
-\begin{lstlisting}
-'company' says Employee:E canUse(App:A)
-  if A isHIPAAConformant
-  where
-    mallodroidCheckSafe(A) = True;
+\begin{lstlisting} 
+'company' says Employee:E canUse(App:A) 
+  if A isHIPAAConformant 
+  where mallodroidCheckSafe(A) = True. 
 \end{lstlisting}
 %
-It is important not to confuse the tools and
-techniques we might use to uphold parts of a policy with the end
-goal of ensuring compliance.  A formal language that
-lets us sever the policy from its implementation can help us
-understand the policy precisely, and then show precisely how we check the
-policy.  It lets us see which tools are checking what rules, and identify gaps where the policy is not
-being checked sufficiently.
+It is important not to confuse the tools and techniques we might use to uphold
+parts of a policy with the end goal of ensuring compliance.  A formal language
+that lets us sever the policy from its implementation can help us understand
+the policy precisely, and then show precisely how we check the policy.  It lets
+us see which tools are checking what rules, and identify gaps where the policy
+is not being checked sufficiently.
 
 These trust relationships and delegations permeate the entire mobile
 ecosystem.  They represent an important aspect of the ecosystem that a
