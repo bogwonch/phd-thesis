@@ -16,7 +16,7 @@ of authorization. Authorization logics~\cite{abadi_calculus_1991}
 describe rules for deciding when to allow certain actions precisely. A
 common use case for these logics is building access control systems. For example, a
 user is allowed to read a file if he or she has the proper
-permissions. In applying logics of authorization to policy language
+permissions. When using authorization logics as policy languages
 the policy language describes who can get access to what, but the
 authorization logic gives a formal description of how we make that
 decision. We want to use authorization policy language to capture the
@@ -56,11 +56,15 @@ SecPAL to describe file access policies we might add predicates like
 read or write a file. SecPAL's simplicity does not come at the cost of
 its expressiveness. SecPAL supports delegation (by using
 \emph{can-say} verbs), role and attribute based policies (by using
-\emph{can-act-as} verbs) and arbitrary constraints. Delegation lets a
+\emph{can-act-as} verbs) and arbitrary constraints.
+SecPAL implements the idea of principals by allowing them to act as a \emph{speaker} who \emph{says} assertions about \emph{entities} (who may or may not be \emph{speakers} themselves). The terms \emph{principal} and \emph{speaker} are used interchangeably, whereas an \emph{entity} may denote someone or something that does not or can not make any assertions themselves.
+
+Delegation lets a
 principal state that assertions from other principals can be used in
 making a decision. Roles allow principals to state that the subject
 of an assertion (\autoref{fig:assertion}) is equivalent to another: effectively aliasing the
 subjects to each other.
+
 
 SecPAL policies are evaluated with respect to an assertion context
 \emph{AC}, which holds all known rules and ground facts, and a
@@ -95,13 +99,13 @@ $A$ would say the \emph{fact.}
   \begin{tabular}{r r l c}
     AC         & $\Coloneqq$ & assertion$_1$ \dots assertion$_n$                      & \bnfcomment{assertion context} \\
     assertion  & $\Coloneqq$ & e \secpal{says} claim.                          \\
-    e          & $\Coloneqq$ & \secpal{x}                                       & \bnfcomment{variables}         \\
-               & $\vert$     & \secpal{A}                                       & \bnfcomment{constants}         \\
+    e          & $\Coloneqq$ & \secpal{X}                                       & \bnfcomment{variables}         \\
+               & $\vert$     & \secpal{'A'}                                     & \bnfcomment{constants}         \\
     predicate  & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
     D          & $\Coloneqq$ & \secpal{0}                                               & \bnfcomment{no further delegation}     \\
                & $\vert$     & \secpal{inf}                                        & \bnfcomment{unbounded delegation}        \\
-    verb-phrase& $\Coloneqq$ & predicate(\secpal{(}e$_1$\secpal{,} \dots e$_n$\secpal{)})?                          & \bnfcomment{verb phrase}       \\
-               & $\vert$     & \secpal{can-say} D? fact                       & \bnfcomment{delegation of fact} \\
+    vp         & $\Coloneqq$ & predicate(\secpal{(}e$_1$\secpal{,} \dots e$_n$\secpal{)})?                          & \bnfcomment{verb phrase}       \\
+               & $\vert$     & \secpal{can-say} D? f                      & \bnfcomment{delegation of fact} \\
                & $\vert$     & \secpal{can-act-as}  e                         & \bnfcomment{role assignment} \\
     f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
     claim      & $\Coloneqq$ & f (\secpal{if} f$_1$,\dots, f$_n$)? (\secpal{where} c)?             \\
@@ -109,8 +113,8 @@ $A$ would say the \emph{fact.}
                & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                      & \bnfcomment{constraints}       \\
                & $\vert$     & \dots                                           \\
     e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)            \\  
-              & $\vert$ & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
-              & $\vert$ & integer           & \bnfcomment{numbers}     \\
+               & $\vert$     & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
+               & $\vert$     & integer           & \bnfcomment{numbers}     \\
   \end{tabular}
   \caption[BNF description of SecPAL.]{%
     BNF description of SecPAL as used in this thesis. As originally described by
@@ -204,7 +208,7 @@ A key feature of SecPAL is the ability to delegate statements. SecPAL was
 designed to make access control decisions over large networks. Rather than have
 a centralized decision server make all decisions, SecPAL allows
 the sharing of information through assertions signed by their speaker. This allows
-different principals to take responsiblity for different decisions and make
+different principals to take responsibility for different decisions and make
 decisions independently. An example of this, expanded from one given by
 Becker~\cite{becker_secpal:_2006} and illustrated by us, is of a
 researcher attempting to run a query on a cluster using data from a file-server
@@ -254,7 +258,7 @@ reads her data.  Alice gives the file server a statement that
 the cluster can read her file (for a short time
 period).
 \begin{lstlisting}
-'alice says 'cluster' canRead('data.db')
+'alice' says 'cluster' canRead('data.db')
   where currentTime() < 01/02/2003.
 \end{lstlisting}
 The file server gives the cluster the data.
@@ -300,7 +304,7 @@ least as powerful as HR: he inherits HR's capabilities.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{figures/secpal-example-delegation2.png}
-  \caption{Example of depth bounded delegation.}
+  \caption{Example of depth-bounded delegation.}
   \label{fig:depth-example}
 \end{figure}
 
@@ -309,7 +313,7 @@ roles (\autoref{fig:depth-example}). Instead of letting HR state who is a
 researcher to HR, the cluster lets HR \emph{decide who decides}. HR delegates to
 Clyde and the process continues as before. Depth-bounded delegation allows
 delegation statements to be chained to an arbitrary (but finite) depth, without
-allowing for unbounded delegation. It is preferable to roles as it allows HR to
+allowing for unbounded delegation (as shown in \autoref{fig:unbounded-example}). It is preferable to roles as it allows HR to
 delegate some but not all decisions to others. If role assignment is used then,
 on the cluster, anywhere \texttt{'hr'} follows the \texttt{says} in an
 assertion, then it can be replaced with \texttt{'clyde'}: they are the same.
@@ -496,7 +500,7 @@ Bob.employee :- alice.
 Bob.employee.sendEmail :- Bob.employee.
 \end{lstlisting}
 
-\noindent Is read as \emph{Bob says Alice is an employee, and Bob says
+\noindent is read as \emph{Bob says Alice is an employee, and Bob says
 an employee can send emails if they are an employee.}  Li~\etal{}
 describe many variants of RT with various features.  The most basic
 variant is \RT{0}{}~\cite{li_distributed_2003}. \RT{1}{} adds support
@@ -512,7 +516,7 @@ tractable. Li~\etal~prove a guarantee that a query will be answered
 soundly in polynomial time in the size of the policy. To give this
 guarantee, the researchers showed the languages could be reduced to
 Datalog. Datalog is a database language with known complexity
-guarantees and fast evaluation. It is similar Prolog. They also showed
+guarantees and fast evaluation. Datalog is similar Prolog, but without negation, complex arguments, and the \texttt{is} statement. They also showed
 similar languages, like Binder~\cite{detreville_binder_2002} and
 Delegation~Logic~\cite{li_delegation_2003,li_practically_2000}, could
 be described using Datalog as well.
@@ -953,10 +957,10 @@ we show how we took SecPAL and instantiated it to describe the policies
 surrounding mobile devices. In doing so we created AppPAL. We describe the
 language and our implementation of it in \autoref{chap:apppal}.
 
-AppPAL fits into this background of policy languages by extending SecPAL. It
-does not have new semantic language features to describe new kinds of policies.
-Instead, its novelty lies in the application to a domain that has not before had
-its policies captured using a precise language.
+AppPAL fits into this background of policy languages by instantiating SecPAL
+for a new domain. It does not have new semantic language features to describe
+new kinds of policies.  Instead, its novelty lies in the application to a
+domain that has not before had its policies captured using a precise language.
 
 \end{document}
 

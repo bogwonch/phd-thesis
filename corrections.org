@@ -176,11 +176,13 @@ or just omit precisely altogether:
 Authorization logics [1] describe rules for deciding when to
 allow certain actions.
 
-***** TODO 2.2. M:
+***** DONE 2.2. M:
 "In applying logics of authorization to policy language"
 Need "," after language. However, phrase itself is awkward.
 
 Is "When using authorization logics as policy languages" any better?
+
+> Much!
 
 ***** TODO 2.3. O:
 Can any difference between the concepts of an "authorization logic"
@@ -199,11 +201,18 @@ rule" for former.
 ***** TODO 2.5. O:
 Explain what "SecPAL" stands for. AL = authorization logic? SecP = ?
 
-***** TODO 2.6. M:
+***** DONE 2.6. M:
 The terms "speaker", "entity" and "principal" all seem to be used
 interchangeably. It would be worth stating explicitly that they are
 synonyms (if they are) or otherwise remarking on the slightly
 different usage of each term.
+
+> In Grammar, Evaluation and Semantics:
+>     SecPAL implements the idea of principals by allowing them to act as a
+>     \emph{speaker} who \emph{says} assertions about \emph{entities} (who may or
+>     may not be \emph{speakers} themselves). The terms \emph{principal} and
+>     \emph{speaker} are used interchangeably, whereas an \emph{entity} may denote
+>     someone or something that does not or can not make any assertions themselves.
 
 ***** TODO 2.7. O:
 The whole phrase "AC,D |= A says fact" is called an "assertion".
@@ -212,11 +221,12 @@ part. One alternative is to call the whole phrase a "judgement".
 
 **** p11
 
-***** TODO 2.8. M:
+***** DONE 2.8. M:
 Fig 2.2. Fix the production rules for atomic expressions e to show the
 conventions used in AppPAL: i.e. constants in single quotes,
 variables capitalised.
 
+> Done.
 ***** TODO 2.9. O:
 How about including the typing extension here, as it is already used
 extensively in examples? This would be especially help the reader as
@@ -284,26 +294,58 @@ fact form is introduced?
 
 **** p15
 
-***** TODO 2.19. M:
+***** DONE 2.19. M:
 "Depth-bounded delegation allows delegation statements to be chained to
 an arbitrary (but finite) depth, without allowing for unbounded
 delegation. ". It is hard to imagine infinite depth delegation.
 So what is difference between "arbitary" and "unbounded"?
 
+> Arbitrary is a chain of delegation of fixed (but finite) length.
+> Unbounded could be of infinite depth.
+>
+> For example, if you had two rules such as:
+>     A says B can-say inf fact.
+>     B says A can-say inf fact.
+> It would be perfectly valid to construct an infinitely large proof tree where
+> they delegate back and forth endlessly, where as with depth-bounded at some
+> point you'd reach a point where you couldn't delegate and the entire proof tree
+> would colapse.
+> 
+> If you want to be *really* tricksy you could construct an infinitely long
+> assertion of the form:
+>     A says B can-say C can-say D can-say ...
+> And have an infinitely long depth-bounded assertion that allowed an
+> infinitely large proof tree.  
+> 
+> No sane implementation would allow this silliness so I haven't mentioned it,
+> The endless back and forth of the previous example gets sorted by the
+> tabling algorithm Becker described (and a similar trick used in AppPAL).
+> 
+> I've added a back reference to where I talk about unbounded delegation to
+> allow the reader to contrast it with the bounded variety and I think that's
+> enough.  If you really want more explanation I'll add it, but I don't think
+> it adds much.
+
 **** p20
 
-***** TODO 2.20. M:
+***** DONE 2.20. M:
 "It is similar Prolog". Fix grammar.
+
+> Datalog is similar Prolog, but without negation, complex arguments, and the \texttt{is} statement. 
 
 **** p22
 
-***** TODO 2.21. M:
+***** DONE 2.21. M:
 AppPAL is said to be both "instantiation" of SecPAL and
 an "extension of" SecPAL.
 While there are minor syntactic extensions to the language, it is
 otherwise confusing to say that AppPAL is an extension of SecPAL.
 Here and elsewhere it would be best to primarily just say that AppPAL is an
 instantiation of SecPAL.
+
+> Switched to:
+>     AppPAL fits into this background of policy languages by instantiating SecPAL
+>     for a new domain. 
 
 ***** TODO 2.22. M:
 It is suprising this chapter says nothing about the automation of
@@ -329,17 +371,22 @@ DKAL at the end, while Ponder and Cassandra are in this section?
 
 **** p11
 
-***** TODO 2.24. M:
+***** DONE 2.24. M:
 The BNF is not always consistent (vp must be replaced by verb-phrase,
 f by fact, etc).
 
+> Fixed
+
 **** p14
-***** TODO 2.25. M:
+***** DONE 2.25. M:
 There is a quote missing after alice in 'alice says 'cluster' ...
 
+> Fixed
 **** p20
-***** TODO 2.26. M: 
+***** DONE 2.26. M:
 Is read -> is read
+
+> Fixed
 
 ** Ch 3: Instantiating and evaluating SecPAL
 
@@ -642,12 +689,15 @@ suggestion: "1: the security ..."
 *** PJ
 **** p100.
 
-***** TODO 6.1. M:
+***** DONE 6.1. M:
 "Probability is similar to probability...". Needs fixing.
+
+> A last minute change renaming this from plausibility to probability.
+> Deleted it as the distinction was confusing.
 
 **** p102.
 
-***** TODO 6.2. M:
+***** DONE 6.2. M:
 "actions where Alice can do something might naturally lead to
 assertions where Alice has done something."
 
@@ -655,6 +705,16 @@ This "lead to" notion is rather vague and needs more explanation.
 One reading of "lead to" is "imply", but this does not make sense:
 having a capability does not imply that that capability must be
 exercised.
+
+> I've tweaked this a litte bit and tried to avoid _leads to_, and added a bit more
+> explanation.
+> The notion  here isn't:
+>     a implies b,  b, therefore a.
+> Which would be wrong, as you say, but rather:
+>     b if a,  b, therefore a.
+> I.e. that we can infer the existence of the can in the past by the
+> existence of the has now.
+
 
 
 
