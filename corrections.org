@@ -677,9 +677,11 @@ and DKAL2 are developed by Gurevich.
 > Replaced "Gurevich et al." with "the authors of DKAL and DKAL 2".
 
 *** CM
-***** TODO 7.2. M:
+***** DONE 7.2. M:
 As mentioned above, and discussed during the viva, this chapter would
 make more sense with the background chapter.
+
+> Moved into the background chapter.
 
 ***** TODO 7.3. O:
 Since XACML is designed to be extensible, and since one of the main
