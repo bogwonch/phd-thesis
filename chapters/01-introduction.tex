@@ -101,8 +101,7 @@ constant) is good (a predicate).  An example of a rule might be:
 This example should be read as an assertion by Alice that any App (a type),
 refered to as A (a variable) is good if A is also free (a conditional).   
 
-As
-well as assertions about whether variable or constant subjects meet certain
+As well as assertions about whether variable or constant subjects meet certain
 predicates, AppPAL can be used to describe delegations, such as:
 \begin{lstlisting}
 'alice' says 'bob' can-say App:A isGood.
@@ -241,22 +240,31 @@ detect when apps send data unencrypted.
   if A isHIPAAConformant 
   where mallodroidCheckSafe(A) = True. 
 \end{lstlisting}
-%
+
+
 It is important not to confuse the tools and techniques we might use to uphold
-parts of a policy with the end goal of ensuring compliance.  A formal language
-that lets us sever the policy from its implementation can help us understand
-the policy precisely, and then show precisely how we check the policy.  It lets
-us see which tools are checking what rules, and identify gaps where the policy
-is not being checked sufficiently.
+parts of a policy with the end goal of ensuring compliance.
+%
+A taint-tracking tool, like TaintDroid~\cite{enck_taintdroid_2010} (for
+example), can tell when sensitive data is being leaked out of a network socket.
+If the end security goal is to prevent employees leaking data, this only covers
+part of the policy---what about a malicious employee stealing files by printing
+them and walking out of the office with them?  How do we run the tool and when?
+Using a tool to check for compliance does not necessarily mean that a policy is
+fully implemented.
+%
+A formal language that lets us sever the policy from its implementation can
+help us understand the policy precisely, and show precisely how we check
+the policy.  It lets us see which tools are checking what rules, and identify
+gaps where the policy is not being checked sufficiently.
 
 These trust relationships and delegations permeate the entire mobile
 ecosystem.  They represent an important aspect of the ecosystem that a
 policy language should catch to describe the
 relationships and policies within it.
 
-
 In this thesis we will come back to these ideas of user's personal
-privacy policies and BYOD policies as they show two different aspects
+privacy policies and \ac{BYOD} policies as they show two different aspects
 of how policies are used within the mobile ecosystem.
 %
 User's privacy preferences are very informal and may not be something
@@ -267,31 +275,34 @@ cases, such as using the Facebook app (which can access lots of data
 on a user's device) whilst being generally unhappy sharing their data
 with their software.
 %
-In contrast a BYOD policy can exist as a formal agreement (though
+In contrast a \ac{BYOD} policy can exist as a formal agreement (though
 often \emph{informally} specified) between the company and its
 employees.  An employee might reasonably expect to face consequences
-if their employer discovers they broke the BYOD rules.
+if their employer discovers they broke the \ac{BYOD} rules.
 
-Superficially these policies also resemble classic DAC and MAC
-policies: the company \emph{mandates} the BYOD policy, the user uses
+Superficially these policies also resemble classic \ac{DAC} and \ac{MAC}
+policies. A company \emph{mandates} the \ac{BYOD} policy, the user uses
 their \emph{discretion} when picking the apps they use on their phone.
 An interesting aspect of the mobile ecosystem is that the policies are
-more complicated than simple MAC and DAC distinctions and use aspects
+more complicated than simple \ac{MAC} and \ac{DAC} distinctions and use aspects
 of both.  In \autoref{chap:byod} we will look at how companies use
-employee's discretion to judge if aspects of the company's BYOD
-agreements (such as ethical policies) have been followed.  A user who
-uses a tool, such as a \emph{fine-grained permissions system} (such as
-one described in \autoref{sec:fine-grained-permissions}) or create a
+employee's discretion to judge if aspects of the company's \ac{BYOD}
+agreements (such as ethical policies) have been followed.  
+
+In contrast, users use their discretion to follow their privacy preferences when picking and using apps.
+The user must decide whether an app has the need to access certain device functionality or be installed on their phone at all.
+A user using a \emph{fine-grained permissions system} (such as
+one described in \autoref{sec:fine-grained-permissions}) or creating a
 curated app store (we give a method to do so using a policy in
-\autoref{sec:an-apppal-enhanced-store}), will end up writing a
-MAC-style policy describing how their phone should behave or what apps
+\autoref{sec:an-apppal-enhanced-store}). Now the user will end up writing a
+\ac{MAC}-style policy describing how their phone should behave and what apps
 the store should sell.
 
-BYOD policies and privacy preferences are only a subset of the
+\ac{BYOD} policies and privacy preferences are only a subset of the
 policies we might see in the mobile ecosystem.  We will survey some
 other policies in the course of the thesis including app store terms
 and conditions, and the app signing models built into the mobile OSs,
-but we chose to focus on BYOD and privacy preferences as they covered
+but we chose to focus on \ac{BYOD} and privacy preferences as they covered
 a range of policy styles, high and low-level policy topics and could
 showcase some of what makes the mobile ecosystem fascinating.
 
@@ -340,19 +351,19 @@ and advice as to where to go with the research as well as extensive editing.
   \item\emph{Poster: Using Authorization Logic to Capture User Policies in Mobile Ecosystems~\cite{hallett_poster:_2015}.}  Presents early work measuring the extent users seem to follow an AppPAL translation of user privacy prefences.
   \end{itemize}
 
-\item \textbf{Chapter 5: Applying AppPAL to BYOD Policies.}
+\item \textbf{Chapter 5: Applying AppPAL to \ac{BYOD} Policies.}
   We move from describing \emph{user-centric} policies, to ones companies might
-  want to enforce. We look at how we can capture BYOD policies using AppPAL by
-  looking at five BYOD policies (which are included in Appendix A). In capturing the
+  want to enforce. We look at how we can capture \ac{BYOD} policies using AppPAL by
+  looking at five \ac{BYOD} policies (which are included in Appendix A). In capturing the
   policies, we identify two idioms that existing MDM tooling does not capture. We
-  also describe how AppPAL could be used to enforce a BYOD policy by integrating
+  also describe how AppPAL could be used to enforce a \ac{BYOD} policy by integrating
   with existing tooling.
   
   This chapter encompasses and extends our work presented in:
   \begin{itemize}
-  \item\emph{Capturing Policies for BYOD~\cite{hallett_capturing_2017}} Describes work on using AppPAL to capture the rules and trust relationships in BYOD policies.
-  \item\emph{Common Concerns in BYOD Policies~\cite{hallett_common_2017}.} Describes work looking at BYOD policies to find common areas of concern.  
-  \item\emph{Specifying BYOD Policies with Authorization Logic~\cite{hallett_specifying_2016}.} PhD symposium paper describing early work capturing BYOD policies with AppPAL.  Shows how we could use AppPAL to look for common problems, such as completeness.
+  \item\emph{Capturing Policies for \ac{BYOD}~\cite{hallett_capturing_2017}} Describes work on using AppPAL to capture the rules and trust relationships in \ac{BYOD} policies.
+  \item\emph{Common Concerns in \ac{BYOD} Policies~\cite{hallett_common_2017}.} Describes work looking at \ac{BYOD} policies to find common areas of concern.  
+  \item\emph{Specifying \ac{BYOD} Policies with Authorization Logic~\cite{hallett_specifying_2016}.} PhD symposium paper describing early work capturing \ac{BYOD} policies with AppPAL.  Shows how we could use AppPAL to look for common problems, such as completeness.
   \end{itemize}
 
 \item \textbf{Chapter 6: Future Work.}
@@ -384,9 +395,9 @@ This work makes the following contributions to research:
     I show that users do not seem to follow them in practice.
   \item I provide a table summarising the differences in terms and conditions
     between five different app stores.
-  \item I provide a formal version of five different BYOD policies, written in
+  \item I provide a formal version of five different \ac{BYOD} policies, written in
     AppPAL.  Using the formal versions of the policies to compare the contents
-    of the policies I identify two idiomatic forms of BYOD policy rules that
+    of the policies I identify two idiomatic forms of \ac{BYOD} policy rules that
     have not been examined before or supported by existing tooling.
 \end{itemize}
 

@@ -81,17 +81,24 @@ would be good; this is not obvious from merely knowing that HIPAA =
 > it.
 
 **** p5
-***** TODO 1.8. M:
+***** DONE 1.8. M:
 "It is important not to confuse the tools and techniques we might use to
 uphold parts of a policy with the end goal of ensuring compliance. "
 This sets up expectation that rest of paragraph will explain why. Did not
 see that it did so.
 
+> Given an example of how using taintdroid to prevent  leaking data, still
+> leaves questions as to if the policy is fully implemented, and how and when
+> the tool should be run.
+
 **** p6
-***** TODO 1.9. M:
+***** DONE 1.9. M:
 "classic DAC and MAC policies:" These acronyms need explaining.
 Do D and M stand for "discretionary" and "mandatory"? What
 significance does a discretionary policy have?
+
+> I've unabbreviated MAC/DAC on first use.  And I've added that enforcing
+> privacy policies is a DAC style activity.
 
 
 **** p7
@@ -123,12 +130,18 @@ needs to be included, clarifying the different tools and techniques
 used, as well as the criteria for the evaluation of the work.
 
 **** p3
-***** TODO 1.13. M:
+***** DONE 1.13. M:
 In the code example, what is the User U and the account A? Are they
 variables? If so, are they quantified? In its current form, the code
 does not really help the reader not already familiar with AppPAL to
 understand the approach, and is probably not needed for the reader
 already familiar with AppPAL.
+
+> I've added a bit more explanation as part of 1.6 and I think this is enough
+> here.  I appreciate that if a reader is already familiar with AppPAL they
+> don't need this, but this is the introduction and I should assume they're
+> not.  Also added a bit of space at the end of the explanation so they can
+> easily skip ahead (if they want).
 
 **** p4
 ***** TODO 1.14. O:
