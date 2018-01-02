@@ -651,10 +651,13 @@ be interesting.
 
 **** p83
 
-***** TODO 5.1. M:
+***** DONE 5.1. M:
 In policy 2, what is the the distinction being made between "should
 and "will"? What does it mean when a policy uses "should"?
 
+> The difference I was trying to convey was that in the should case THE
+> COMPANY sets the policy, and in the will case THE USER states what they will
+> agree to do.  I've shifted the emphasis.
 
 **** p90.
 
@@ -672,10 +675,15 @@ should be introduced back around p11 or p12.
 
 **** p95.
 
-***** TODO 5.3. M:
+***** DONE 5.3. M:
 "AppPAL exists as a tool for checking whether a policy is satisfied."
 What does it mean here to "satisfy" a policy? Is this in the
 technical sense of Sec 3.5.1, p52?
+
+> Stated explicitly:
+> "AppPAL exists as a tool for checking whether a policy is contains
+> sufficient facts and rules to decide whether a given statement is true or
+> not."
 
 *** CM
 
