@@ -7,7 +7,7 @@ UUN: S1361467
 Internal Examiner: Paul Jackson (PJ)
 External Examiner: Charles Morisset (CM)
 
-Viva Date: 3rd November 2017.
+Viva Date: 3rd November 2021.
 
 This document contains the list of comments explaining how the
 dissertation should be revised. The comments are described for each
@@ -470,11 +470,19 @@ be good.
 
 **** p44
 
-***** TODO 3.9. M:
+***** DONE 3.9. M:
 "If when searching for a proof we meet a query that we are currently
 evaluating, i.e. one that exists higher in the current proof tree, we
 treat it as false. " Add a comment about why is this a reasonable
 thing to do.
+
+> Ignoring queries we are currently evaluating lets us avoid proofs with cycles
+> (i.e. proof trees where the proof of a query depends on proving itself).  If we
+> can find a terminating proof with a cycle then we can find also shorter proof
+> by removing the cycle.  If a proof tree has a cycle that never terminates
+> (i.e.~it loops infinitely) then we can treat it as effectively false as it
+> would take an infinite amount of time to derive.
+
 
 ***** TODO 3.10. O:
 The use of "RT" as an acronym for Results Table clashes with its use
@@ -490,8 +498,10 @@ queries? When query is run, shouldn't the environment be somehow
 first frozen so the same external call always returns the same result?
 Why can't the cache be cleared between queries?
 
-***** TODO 3.12. M:
+***** DONE 3.12. M:
 Equivalence: what does "same conditions" mean?
+
+> s/same conditions/the same ground facts to be proven/
 
 ***** TODO 3.13. O:
 "where one requires a subset of the facts in order to satisfy it".

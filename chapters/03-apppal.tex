@@ -906,16 +906,24 @@ assertion context. This lets AppPAL reject some queries quickly: if a query has
 a speaker that isn't voiced then we cannot query what the speaker says. If a
 rule relies on un-derivable predicates, then it cannot be used to make decisions.
 
-A results table ($RT$) is also created. All ground facts in the assertion context are
-added to the results table as proven facts. The table stores partial results and
-previously established proofs. The table is indexed by queries and a delegation
-depth, partial results (i.e. that the evaluation of this query is ongoing). This
-allows previous results to reused without re-computation or constraint
-re-evaluation. It also prevents AppPAL proofs growing unboundedly (and the
-decision process not terminating). If when searching for a proof we meet a query
-that we are currently evaluating, i.e.~one that exists higher in the current
-proof tree, we treat it as false. Multiple queries will share the same results
-table until the table is cleared, or the AppPAL instance is stopped.
+A results table ($RT$) is also created. All ground facts in the assertion
+context are added to the results table as proven facts. The table stores
+partial results and previously established proofs. The table is indexed by
+queries and a delegation depth, partial results (i.e. that the evaluation of
+this query is ongoing). This allows previous results to reused without
+re-computation or constraint re-evaluation. It also prevents AppPAL proofs
+growing unboundedly (and the decision process not terminating). If when
+searching for a proof we meet a query that we are currently evaluating,
+i.e.~one that exists higher in the current proof tree, we treat it as false.
+Multiple queries will share the same results table until the table is cleared,
+or the AppPAL instance is stopped.
+
+Ignoring queries we are currently evaluating lets us avoid proofs with cycles
+(i.e. proof trees where the proof of a query depends on proving itself).  If we
+can find a terminating proof with a cycle then we can find also shorter proof
+by removing the cycle.  If a proof tree has a cycle that never terminates
+(i.e.~it loops infinitely) then we can treat it as effectively false as it
+would take an infinite amount of time to derive.
 
 When evaluating the policy we also track which rules and predicates we have
 used. From this we can reconstruct a proof tree that shows how AppPAL made a
@@ -1320,7 +1328,7 @@ rule, implying the second is redundant?
 Policies can be checked for many properties including:
 \begin{description}
 \item[Satisfiability.] Do there exist rules which can never be satisfied?
-\item[Equivalence.] Do there exist rules which have the same conditions in order to satisfy them?
+\item[Equivalence.] Do there exist rules which have the require the same ground facts to be proven in order to satisfy them?
 \item[Redundancy.] Do there exist multiple rules to make a decision where one requires a subset of the facts in order to satisfy it?
 \item[Consistency.] Can two contradictory decisions be made?
 \end{description}
