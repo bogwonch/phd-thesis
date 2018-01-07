@@ -510,9 +510,11 @@ further to describe other policies, such as \ac{BYOD} policies.
   \label{tab:predicate-prefixes}
 \end{table}
 
-When instantiating SecPAL we use predicates based on four verbs:
-\emph{can}, \emph{has}, \emph{is} and \emph{must}.  These verbs
-describe facts common to many policies, such as permitted actions, completed actions, describing properties of entities and obligations respectively.  
+When instantiating SecPAL we use predicates based on four verbs: \emph{can},
+\emph{has}, \emph{is} and \emph{must}.  These verbs describe facts common to
+many policies, such as permitted actions, completed actions, describing
+properties of entities and obligations respectively.  
+%
 \begin{description}
 \item[\bfseries\texttt{subject \emph{is}Property}]
   A statement that says the \emph{subject} has a given \emph{property}.
@@ -644,7 +646,29 @@ if the relationships were to be enforced.
   above where \emph{must} predicate is a condition, but they are unusual.  If a policy were to contain a particular \emph{must} predicate as a condition, but never as a goal, then the policy would be unsatisfiable---something we can check for as described in \autoref{ssec:checking-satisfiability}.
 \end{description}
 
-\noindent Our predicate conventions differ in the approach to the ones
+\noindent
+Some of the predicates may seem to allow AppPAL access to information from
+outside of its assertion context. In order to use external information,
+however, an AppPAL constraint must be used. For example, if we had a fact:
+\lstinline!User:X canWriteTo(File:f)!, then we might imagine it implemented
+with a rule:
+\begin{lstlisting}
+'admin' says User:X canWriteTo(File:f)
+  where fsAllowWrite(X, F) = true.
+\end{lstlisting}
+Where \lstinline!fsAllowWrite()! is a constraint that checks whether the
+file-system would allow a given user access to file.  An alternative to using a
+constraint, would be to generate ground AppPAL assertions  before running the
+query which state exactly which users can write to any given file.  
+\begin{lstlisting}
+'admin' says 'alice' canWriteTo('alices-documents').
+'admin' says 'alice' canWriteTo('project-notes').
+'admin' says 'bob' canWriteTo('project-notes').
+\end{lstlisting}
+When there are large numbers of users and files this may become infeasible
+however.
+
+Our predicate conventions differ in the approach to the ones
 added with the SecPAL4P and SecPAL4DSA
 languages~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}. Both
 these languages add extra phrases to SecPAL's grammar. For example
@@ -1611,7 +1635,15 @@ devices in the first assertion).
   if U hasLost(Device).
 \end{lstlisting}
 
-We can check for this kind of irrelevance by building a proof-graph for the
+Whilst the irrelevance adds redundancy and can slow down inferences when making
+policy checks, it can also aid policy comprehension.  In the previous example
+the repeated checks as to whether someone is a user do not, strictly, need to
+be done.  They do, however, clarify what the type of each variable is.  A
+future implementation of AppPAL could remove the redundant
+checks automatically.  In order to remove the redundant checks we must first be
+able to identify them, however.
+
+We can check for irrelevance by building a proof-graph for the
 assertion context.  Every node (shown in a box) represents an AppPAL fact we
 might wish to prove.  For every assertion in the context we create a proof
 (represented as a number in brackets) for the head of the assertion, which is
@@ -1751,69 +1783,6 @@ equivalent policies).
   \caption{Flattening a more complex policy.}
   \label{fig:redundancy-complex}
 \end{figure}
-
-%When we run the tool 
-%\begin{lstlisting}
-%java -jar Lint.jar --redundancy unreachable.policy
-%[I]: loaded 1/1 files of 2 assertions
-%[I]: flattened 0 node(s)
-%[W]: 'alice' says App isInstallable. has unreachable derivation trees.
-%\end{lstlisting}
-
-
-
-% To build the graphs, each statement we might want to prove (a goal) becomes a
-% node in the graph, its children are organised into sets of goals (a proof),
-% where if all the goals in any set were proved true then the goal node would also
-% become true. If a node has an empty set of goals to prove it is a fact. Once the
-% graph has been constructed (taking into account delegation and unification with
-% other statements), the graph is flattened by applying the flatten procedure
-% (Listing~\ref{alg:flatten}) repeatedly until a fixed point is reached. When the
-% graph has been flattened we look for redundancy by looking for goals with proofs
-% that are subsets of their other proofs, implying that if the larger proof is
-% true, then the shorter proof will always be true too; and different goals with
-% identical proofs, implying that the two decisions are not
-% independent~(Listing~\ref{alg:redundancy}).
-
-% \begin{lstlisting}[language=Python,float,caption={Procedure for flattening the redundancy graph.},label={alg:flatten}]
-% def flatten(graph):
-%   for goal in graph.goals:
-%     hoist = true
-%     for proof in graph[goal]:
-%       for proof_goal in proof:
-%         if not proof_goal.is_fact:
-%           hoist = False
-%           break
-%       if hoist == True:
-%         hoist(graph, goal)
-
-% def hoist(graph, target):
-%   for parent in graph[target].parents:
-%     for proof in parent.proofs:
-%       if proof.uses(target):
-%         for replacements in graph[target].parents:
-%           parent.proofs += proof.replace(target, replacements)
-%           parent.proofs -= proof
-% \end{lstlisting}
-
-% \begin{lstlisting}[language=Python,float,caption={Procedure to check for redundancy.},label={alg:redundancy}]
-% def check_redundancy(graph) -> boolean:
-%   for goal in graph.goals:
-%     for a in graph[goal]:
-%       for b in graph[goal]:
-%         if a >= b and a.goals.subset(b.goals):
-%           if b.goals.subset(a.goals):
-%             warn(a+" has multiple equivalent proofs")
-%           else
-%             warn(a+" has a redundant proof")
-%     for other_goal in graph.goals:
-%       if goal > other_goal:
-%         for a in graph[goal]:
-%           for b in graph[other_goal]:
-%             if not (a.goals.is_empty() or b.is_empty())
-%                and a.goals == b.goals:
-%               warn(a+" and "+b+" have equivalent proofs")
-% \end{lstlisting}
 
 \end{document}
 

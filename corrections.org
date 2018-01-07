@@ -438,13 +438,40 @@ The talk about "location" here could possibly be confused with the
 more abstract notion of "locality" discussed on previous page. Could
 some rewording lessen the possible confusion?
 
-***** TODO 3.5. M:
+***** DONE 3.5. M:
 "SecPAL’s constraint mechanism (the where part of an assertion) lets
 us implement the constraints we described but also allows us to access
 external information." Later (e.g. p34 Table 3.1) we see kinds of
 predicates with names that suggest (at least in some cases) that they
 too might be able to access external information. Is that indeed
 possible or not?
+
+> No it isn't.  The predicate may have a leading name, but you'd still have
+> to implement it with a constraint.  Added after the description of each
+> predicate in section 3.3.1 an explanation:
+>
+> Some of the predicates may seem to allow AppPAL access to information from
+> outside of its assertion context. In order to use external information,
+> however, an AppPAL constraint must be used. For example, if we had a fact:
+> \lstinline!User:X canWriteTo(File:f)!, then we might imagine it implemented
+> with a rule:
+> \begin{lstlisting}
+> 'admin' says User:X canWriteTo(File:f)
+>   where fsAllowWrite(X, F) = true.
+> \end{lstlisting}
+> 
+> Where \lstinline!fsAllowWrite()! is a constraint that checks whether the
+> file-system would allow a given user access to file.  An alternative to using a
+> constraint, would be to generate ground AppPAL assertions  before running the
+> query which state exactly which users can write to any given file.  
+> \begin{lstlisting}
+> 'admin' says 'alice' canWriteTo('alices-documents').
+> 'admin' says 'alice' canWriteTo('project-notes').
+> 'admin' says 'bob' canWriteTo('project-notes').
+> \end{lstlisting}
+> When there are large numbers of users and files this may become infeasible
+> however.
+
 
 **** p33.
 
@@ -561,10 +588,21 @@ Some explanation of these rules, comparing them with the cond rule
 would be very useful.
 
 **** p56
-***** TODO 3.18. M:
+***** DONE 3.18. M:
 Is redundancy because of typing a bad thing? Maybe from an inference
 point of view yes, but from the point of view of quickly comprehending
 sense of assertions maybe it is helpful.
+
+> Added a paragraph to say this:
+>
+> Whilst the irrelevance adds redundancy and can slow down inferences when making
+> policy checks, it can also aid policy comprehension.  In the previous example
+> the repeated checks as to whether someone is a user do not, strictly, need to
+> be done.  They do, however, clarify what the type of each variable is.  A
+> future implementation of AppPAL could remove the redundant
+> checks automatically.  In order to remove the redundant checks we must first be
+> able to identify them, however.
+
 
 
 *** CM
