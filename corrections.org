@@ -536,7 +536,7 @@ Does this mean "where one is satisfied by a subset of the facts that
 satisfy the other"?
 
 **** p52
-***** TODO 3.14. M:
+***** DONE 3.14. M:
 What are the "conditionals" of an assertion?
 
 If an assertion has form
@@ -550,6 +550,8 @@ better terms. Whatever terminology is used, it would be worth fixing
 it back around p11 or p12 when the SecPAL language is formally
 introduced.
 
+> Yes.  They were introduced as conditions back in Fig 2.1, so I've switched
+> back to that.
 
 ***** TODO 3.15. M:
 A "Satisfiable" set looks like the deductive closure of the

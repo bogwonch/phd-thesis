@@ -1124,7 +1124,7 @@ implements SecPAL's \emph{cond} rule.  It searches the AC for unifying
 assertions (i.e. those assertions which have a head that is equal to
 the query under a variable renaming), then searches for possible
 variable substitutions that remove all variables. If the body is missing
-(i.e. the unifying assertion has no conditionals) and the constraint
+(i.e. the unifying assertion has no conditions) and the constraint
 is true, then \texttt{Cond} will return success, and the results table
 will be updated accordingly.  This corresponds to SecPAL's \emph{cond}
 rule (we have \fade{grayed out} the recursive case), hence we would
@@ -1378,17 +1378,17 @@ indicate that we have failed to specify one of the conditions it
 depends upon.
 
 When an assertion is satisfiable, there is a combination of facts that
-could satisfy its conditionals. If there are no facts that could ever
+could satisfy its conditions. If there are no facts that could ever
 satisfy the rule, then the policy may have a bug. An analogy can be
-drawn to an \emph{conditional always false bug} in a conventional
+drawn to a \emph{conditional always false bug} in a conventional
 programming language: we have code (or in this case a rule) that can
 never be used as the conditions for using it can never occur.
 
 Satisfiability can be defined inductively as the least set satisfiable such that:
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
-                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
-                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
+                                                              \wedge~ & (\text{conditions}(A) = \emptyset \\
+                                                                      & \vee~\forall G^\prime \in \text{conditions}(A\theta).~G^\prime \in \text{Satisfiable}.)
 \end{align*}
 
 This is a similar idea to the notions of \emph{satisfiability} in Datalog (and,
@@ -1552,37 +1552,6 @@ $\$$ java -jar Lint.jar --satisfiability example.policy
 The satisfiability checker acts as a quick sanity checker that a policy contains
 enough facts and assertions; unlike AppPAL-proper which can check how and
 whether a specific statement would be made.  
-
-%The code in \autoref{alg:reachable} produces a set of pairs of predicates and
-%speakers where the pair of a speaker and a predicate indicates that that
-%speaker may say something about that predicate. We search over all the
-%assertions in the AppPAL assertion context. If all of an assertion's
-%conditionals (the facts in the if part) are reachable (or it has none) then the
-%speaker and predicate are added to the reachable set. If the statement is a
-%can-say statement then we additionally check if the delegated predicate is
-%reachable from the delegated speaker, and if so mark the delegated statement as
-%reachable from the speaker who made the can-say statement.
-%
-%\begin{lstlisting}[language=Python,float,caption={Procedure for finding all reachable assertions.},label={alg:reachable}]
-%def reachable(ac) -> set:
-%  reachable = new set()
-%  iterate = True
-%  while iterate == True:
-%    iterate = False
-%    for assertion in ac:
-%      e = a.speaker
-%      p = a.predicate
-%      if p.isCanSay() and (e, p) in reachable:
-%        if (p.delegator, p.delegation) in reachable:
-%          if for all c in a.conditions: (e, c.predicate) in reachable:
-%            reachable.add((e, p.delegation))
-%            iterate = True
-%      else if not (e, p) in reachable:
-%        if for all c in a.conditions; (e, c.predicate) in reachable:
-%          reachable.add((e, p))
-%          iterate = True
-%  return reachable
-%\end{lstlisting}
 
 \subsection{Checking Redundancy}
 \label{ssec:redundancy}
