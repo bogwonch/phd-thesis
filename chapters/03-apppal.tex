@@ -847,6 +847,14 @@ To our knowledge this is the first attempt to add types to SecPAL.
 \section{Implementation}
 \label{sec:implementation}
 
+To our knowledge no prior open source implementation of SecPAL exists.  Becker
+implemented SecPAL as a closed-source library atop the {.net}
+framework~\cite{msr_secpal_research_release_2007}.  This library included
+examples and  a C\# API for SecPAL, allowing assertions to be created using
+code, but no parser for SecPAL.  Since Becker's SecPAL implementation cannot be
+trivially extended and will only run on Microsoft Windows, the decision was
+made to reimplement AppPAL from scratch as an open source library.
+
 Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available
 online\footnote{\url{https://github.com/apppal/libapppal}}. The library creates
@@ -887,10 +895,16 @@ these issues Becker proposed an algorithm that extended SLD resolution
 with a table to prune infinite search trees by tracking which rules
 had been used before.
 
-When implementing SecPAL we considered using a Datalog$^C$ backend but could not
-find an implementation. We also explored using a Datalog implementation (such as
-Z3 or Datomic) to build SecPAL but in practice no implementation could fully
-support Datalog$^C$. We also wanted our implementation to run on an Android
+When implementing SecPAL we considered using a Datalog$^C$ backend but could
+not find an implementation. We also explored using a Datalog implementation
+(such as Z3 or Datomic) to build SecPAL but in practice no implementation could
+fully support Datalog$^C$'s constraints.  To implement the constraint checking
+we would need to modify the Datalog implementation to run additional checks
+whilst making inferences.  For AppPAL these additional checks might require
+running an external program, but this would not be a trivial change to make for
+the libraries we looked at.
+
+We also wanted our implementation to run on an Android
 device (we were interested in having users enforce policies on their phone),
 and all the Datalog libraries we found could not be ported trivially.
 
@@ -1124,7 +1138,7 @@ implements SecPAL's \emph{cond} rule.  It searches the AC for unifying
 assertions (i.e. those assertions which have a head that is equal to
 the query under a variable renaming), then searches for possible
 variable substitutions that remove all variables. If the body is missing
-(i.e. the unifying assertion has no conditions) and the constraint
+(i.e. the unifying assertion has no conditionals) and the constraint
 is true, then \texttt{Cond} will return success, and the results table
 will be updated accordingly.  This corresponds to SecPAL's \emph{cond}
 rule (we have \fade{grayed out} the recursive case), hence we would
@@ -1378,17 +1392,17 @@ indicate that we have failed to specify one of the conditions it
 depends upon.
 
 When an assertion is satisfiable, there is a combination of facts that
-could satisfy its conditions. If there are no facts that could ever
+could satisfy its conditionals. If there are no facts that could ever
 satisfy the rule, then the policy may have a bug. An analogy can be
-drawn to a \emph{conditional always false bug} in a conventional
+drawn to an \emph{conditional always false bug} in a conventional
 programming language: we have code (or in this case a rule) that can
 never be used as the conditions for using it can never occur.
 
 Satisfiability can be defined inductively as the least set satisfiable such that:
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
-                                                              \wedge~ & (\text{conditions}(A) = \emptyset \\
-                                                                      & \vee~\forall G^\prime \in \text{conditions}(A\theta).~G^\prime \in \text{Satisfiable}.)
+                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
+                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
 \end{align*}
 
 This is a similar idea to the notions of \emph{satisfiability} in Datalog (and,
@@ -1553,6 +1567,37 @@ The satisfiability checker acts as a quick sanity checker that a policy contains
 enough facts and assertions; unlike AppPAL-proper which can check how and
 whether a specific statement would be made.  
 
+%The code in \autoref{alg:reachable} produces a set of pairs of predicates and
+%speakers where the pair of a speaker and a predicate indicates that that
+%speaker may say something about that predicate. We search over all the
+%assertions in the AppPAL assertion context. If all of an assertion's
+%conditionals (the facts in the if part) are reachable (or it has none) then the
+%speaker and predicate are added to the reachable set. If the statement is a
+%can-say statement then we additionally check if the delegated predicate is
+%reachable from the delegated speaker, and if so mark the delegated statement as
+%reachable from the speaker who made the can-say statement.
+%
+%\begin{lstlisting}[language=Python,float,caption={Procedure for finding all reachable assertions.},label={alg:reachable}]
+%def reachable(ac) -> set:
+%  reachable = new set()
+%  iterate = True
+%  while iterate == True:
+%    iterate = False
+%    for assertion in ac:
+%      e = a.speaker
+%      p = a.predicate
+%      if p.isCanSay() and (e, p) in reachable:
+%        if (p.delegator, p.delegation) in reachable:
+%          if for all c in a.conditions: (e, c.predicate) in reachable:
+%            reachable.add((e, p.delegation))
+%            iterate = True
+%      else if not (e, p) in reachable:
+%        if for all c in a.conditions; (e, c.predicate) in reachable:
+%          reachable.add((e, p))
+%          iterate = True
+%  return reachable
+%\end{lstlisting}
+
 \subsection{Checking Redundancy}
 \label{ssec:redundancy}
 
@@ -1604,13 +1649,7 @@ devices in the first assertion).
   if U hasLost(Device).
 \end{lstlisting}
 
-Whilst the irrelevance adds redundancy and can slow down inferences when making
-policy checks, it can also aid policy comprehension.  In the previous example
-the repeated checks as to whether someone is a user do not, strictly, need to
-be done.  They do, however, clarify what the type of each variable is.  A
-future implementation of AppPAL could remove the redundant
-checks automatically.  In order to remove the redundant checks we must first be
-able to identify them, however.
+Whilst the irrelevance adds redundancy and can slow down inferences when making policy checks, it can also aid policy comprehension.  In the previous example the repeated checks as to whether someone is a user do not, strictly, need to be done.  They do, however, clarify what the type of each variable is.  A future implementation of AppPAL might encorporate code to remove the redundant checks automatically.  In order to remove the redundant checks we must first be able to identify them, howe
 
 We can check for irrelevance by building a proof-graph for the
 assertion context.  Every node (shown in a box) represents an AppPAL fact we

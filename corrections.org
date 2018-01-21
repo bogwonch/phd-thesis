@@ -246,7 +246,7 @@ some English paraphrase.
 
 **** p12.
 
-***** TODO 2.11. M:
+***** DONE 2.11. M:
 Add some vertical whitespace between the rules in Fig 2.3.
 
 ***** TODO 2.12. O:
@@ -263,10 +263,15 @@ theoretical computer science see the word "semantics" they think first
 of denotational, model based or operational semantics, so it can be
 confusing to simply talk about "semantics".
 
-***** TODO 2.14. M:
+***** DONE 2.14. M:
 Some remark is needed concerning the appropriation of the |= notation
 for judgements in rules. This is rather non-standard, but is
 following notation adopted in the SecPAL paper.
+
+> The |= symbol is used by Becker~\cite{becker_secpal:_2006} to
+> describe the inference rules instead of the more usual |-.  This is in
+> order to distinguish SecPAL's inference rules, from SecPAL's semantic rules
+> (given in Figure 2.4).
 
 ***** TODO 2.15. M:
 It would really help if further rigour and details concerning the
@@ -484,15 +489,30 @@ application.
 
 
 **** p42
-***** TODO 3.7. M:
+***** DONE 3.7. M:
 It is unclear whether Becker ever actually implemented the algorithm
 he/she proposed? Did Datalog^C implementation exist ever? Some
 clarification would help.
 
-***** TODO 3.8. M:
+> To our knowledge no prior open source implementation of SecPAL exists.
+> Becker implemented SecPAL as a closed-source library atop the {.net}
+> framework~\cite{msr_secpal_research_release_2007}.  This library included
+> examples and  a C\# API for SecPAL, allowing assertions to be created using
+> code, but no parser for SecPAL.  Since Becker's SecPAL implementation cannot
+> be trivially extended and will only run on Microsoft Windows, the decision
+> was made to reimplement AppPAL from scratch as an open source library.
+
+
+
+***** DONE 3.8. M:
 It is suprising that Z3 could not fully support Datalog^C. Why? Is it to do
 with need to be able to query environment? A few words on this would
 be good.
+
+> To implement the constraint checking we would need to modify the Datalog
+> implementation to run additional checks whilst making inferences.  For AppPAL
+> these additional checks might require running an external program, but this
+> would not be a trivial change to make for the libraries we looked at.
 
 
 **** p44
@@ -683,6 +703,18 @@ the viva, and the dissertation needs to be corrected accordingly,
 detailing the interaction with the owner of the original data-set and
 the anonymity issues.
 
+> The app names were replaced with hashes in order to obscure the package names
+> of some apps.  We spoke to one of the researchers who collected the data and
+> learnt that the Carat tool was tested inside a company who were developing some
+> apps that had not been announced.  The company did not want to leak the names
+> of their private apps so they were hashed in order to preserve their secrecy.
+> This allowed researchers to reverse engineer the hashes of publicly known
+> applications, whilst keeping any secret or unknown applications private.
+> 
+> Having confirmed with the data-set owners that reverse engineering the app
+> hashes would not raise ethical concerns, ...
+
+
 **** p75
 ***** TODO 4.6. M:
 The data analysis is quite limited with no element of standard
@@ -714,19 +746,6 @@ and "will"? What does it mean when a policy uses "should"?
 ***** TODO 5.2. M:
 Table 5.2. What are "decisions"?
 
-If a claim has form
-
-f if f1 ... fn,
-
-is "f" the "decision" of the claim? More conventional names for "f"
-are "consequent" or "conclusion". Whatever terminology is used, it
-should be introduced back around p11 or p12.
-
-
-**** p95.
-
-***** DONE 5.3. M:
-"AppPAL exists as a tool for checking whether a policy is satisfied."
 What does it mean here to "satisfy" a policy? Is this in the
 technical sense of Sec 3.5.1, p52?
 

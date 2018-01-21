@@ -142,12 +142,14 @@ $A$ would say the \emph{fact.}
       & \models{c\theta}
       & \textsf{vars}(\text{fact}\theta) = \emptyset)
     }\\
+    \\
     \infer[\textsf{\scriptsize can-say}]{%
       AC, \texttt{inf} \models A\texttt{~says~}\text{fact}
     }{%
       AC, \texttt{inf} \models A\texttt{~says~}B\texttt{~can-say}~D~\text{fact}
       & AC, D \models B\texttt{~says~}\text{fact}
     } \\
+    \\
     \infer[\textsf{\scriptsize can-act-as}]{%
       AC, D \models A\texttt{~says~}B~\text{verb-phrase}
     }{%
@@ -157,7 +159,10 @@ $A$ would say the \emph{fact.}
   \end{eqnarray*}
   \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
   evaluated in the context of a set of other assertions $AC$ as well as an
-  allowed level of delegation $D$ which may be \texttt{0} or \texttt{inf}.}
+  allowed level of delegation $D$ which may be \texttt{0} or \texttt{inf}.
+  The $\models$ symbol is used by Becker~\cite{becker_secpal:_2006} to describe the inference rules instead of the more usual $\vdash$.
+  This is in order to distinguish SecPAL's inference rules, from SecPAL's semantic rules (given in \autoref{fig:secpal-semantics}).
+}
 \label{fig:secpal-rules}
 \end{figure}
 

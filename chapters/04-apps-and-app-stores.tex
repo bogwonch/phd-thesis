@@ -617,12 +617,21 @@ which apps were installed on their device.  The data set was anonymized
 by replacing the app names with hashes of the apps package identifier,
 and usernames with an increasing integer key.
 
-We used John the Ripper~\cite{solar_designer_john_2013}, with a
-database of known package names and hashes, mostly derived from the
-Android observatory~\cite{barrera_understanding_2012}.  Using these
-hashes we can discover which users have installed which apps, by
-comparing the hashes in the Carat data set to the hashes of apps we
-knew we can discover which apps users had installed.
+The app names were replaced with hashes in order to obscure the package names
+of some apps.  We spoke to one of the researchers who collected the data and
+learnt that the Carat tool was tested inside a company who were developing some
+apps that had not been announced.  The company did not want to leak the names
+of their private apps so they were hashed in order to preserve their secrecy.
+This allowed researchers to reverse engineer the hashes of publicly known
+applications, whilst keeping any secret or unknown applications private.
+
+Having confirmed with the data-set owners that reverse engineering the app
+hashes would not raise ethical concerns, we used John the
+Ripper~\cite{solar_designer_john_2013}, with a database of known package names
+and hashes, mostly derived from the Android
+observatory~\cite{barrera_understanding_2012} to link some of the app hashes to
+app names.  Using the reverse engineered hashes we can see which users
+(identified by a number) had installed which apps.
 
 The database has over 90,000 apps and 55,000 users.  On average, each
 Carat user installed around 90 apps each, and 4,300 apps have known names.
