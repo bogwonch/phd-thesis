@@ -157,7 +157,7 @@ Full sentences would be easier to read than "Describes .... Presents ...."
 *** PJ
 **** p9
 
-***** TODO 2.1. O:
+***** DONE 2.1. O:
 "Authorization logics [1] describe rules for deciding when to allow
 certain actions precisely."
 
@@ -175,6 +175,8 @@ or just omit precisely altogether:
 
 Authorization logics [1] describe rules for deciding when to
 allow certain actions.
+
+> Opted for ommission.
 
 ***** DONE 2.2. M:
 "In applying logics of authorization to policy language"
@@ -669,6 +671,22 @@ analysis done for SecPAL needs to be explained?
 the questions considered into AppPAL are hinted at only very briefly.
 I found it hard to picture them. Include more information about them.
 
+> As part of TODO-4.4 I've shown what one of the policies look like in
+> AppPAL. I've also added (after the paragraph beginning "The database has
+> over..."):  
+
+> To check which apps satisfied which of Lin’s policies, we took our AppPAL
+> Encodings of the policies, and facts identifying the apps in our dataset as
+> Apps into an assertion context.
+>
+> 'researcher' says App:X hasMet('unconcerned-policy')
+>   if X isWithoutPermission('GET_ACCOUNTS')
+> 
+> 'researcher' says 'com.facebook.katana' isApp.
+>
+> For each app, we then queried AppPAL whether the app had met each of the
+> policies, and recorded which apps met which policies.
+
 
 **** p80
 
@@ -689,14 +707,34 @@ be a fuller description of GenStore's status.
 *** CM
 
 **** p73
-***** TODO 4.4. M:
+***** DONE 4.4. M:
 The policies corresponding to each privacy class needs to be further
 explained, and possibly given in the dissertation. Otherwise, it's not
 clear how can an app not meet the "unconcerned policy" (since one
 would assume that someone unconcerned has no policy at all).
 
+> Have added a sentence stating that the "unconcerned" users were 
+>
+> "somewhat uncomfortable about allowing apps unrestricted access to their accounts"
+
+> At the start of the section "Measuring Users" I've shown the translation of
+> the fencesitter rule and an explanation of how this relates to the table:
+
+> For example the \emph{Fencesitter} policy is encoded as:
+>     'researcher' says App:X hasMet('fencesitter-policy')
+>        if X isWithoutPermission('GET_ACCOUNTS'),
+>           X isWithoutPermission('ACCESS_FINE_LOCATION'),
+>           X isWithoutPermission('READ_CONTACT').
+>      
+>      'researcher' says App:X isWithoutPermission(Permission:P)
+>        where check_permission(X, P) = false.
+> Where check_permission is a constraint that checks whether the
+> app X requests permission P.  Each policy in
+> \autoref{tab:lin-perms} was translated into a similar AppPAL rule where the
+> permissions that made the users uncomfortable were prohibited.
+
 **** p75
-***** TODO 4.5. M:
+***** DONE 4.5. M:
 The description of the reverse engineering of the hashes in the
 dissertation can raise ethical concerns. Those were addressed during
 the viva, and the dissertation needs to be corrected accordingly,
@@ -743,16 +781,19 @@ and "will"? What does it mean when a policy uses "should"?
 
 **** p90.
 
-***** TODO 5.2. M:
+***** DONE 5.2. M:
 Table 5.2. What are "decisions"?
+
+> Have added to the paragraph begining "Table 5.2 shows a count..." further
+> explanation that decision means the predicate exists in the head of the rule
+> and condition means the predicate exists in the body of the rule.
 
 What does it mean here to "satisfy" a policy? Is this in the
 technical sense of Sec 3.5.1, p52?
 
-> Stated explicitly:
-> "AppPAL exists as a tool for checking whether a policy is contains
-> sufficient facts and rules to decide whether a given statement is true or
-> not."
+> Stated explicitly: "AppPAL exists as a tool for checking whether a policy
+> is contains sufficient facts and rules to decide whether a given statement is
+> true or not."
 
 *** CM
 

@@ -551,15 +551,15 @@ them.  The third group, the \emph{Privacy Pragmatists}, were more
 considered and would have some personal policy that described when
 they were happy to give up (or protect) their privacy.
 
-Lin~\etal~identified four types of user when assessing user's personal
-app privacy policies.  The \emph{Conservative} (C) users were
-uncomfortable allowing an app access to any personal data for any
-reason.  The \emph{Unconcerned} (U) users felt okay allowing access to
-most data for almost any reason.  \emph{Advanced} (A) users were
-comfortable allowing apps access to location data but not if it was
-for advertising.  Opinions in the largest cluster, \emph{Fencesitters}
-(F), varied but were broadly against collection of personal data for
-advertising.
+Lin~\etal~identified four types of user when assessing user's personal app
+privacy policies.  The \emph{Conservative} (C) users were uncomfortable
+allowing an app access to any personal data for any reason.  The
+\emph{Unconcerned} (U) users felt okay allowing access to most data for almost
+any reason (though they were somewhat uncomfortable about allowing apps
+unrestricted access to their accounts).  \emph{Advanced} (A) users were
+comfortable allowing apps access to location data but not if it was for
+advertising.  Opinions in the largest cluster, \emph{Fencesitters} (F), varied
+but were broadly against collection of personal data for advertising.
 
 Lin \etal's four groups roughly map to Westin's three, with
 \emph{Conservatives} being \emph{Privacy Fundamentalists},
@@ -598,7 +598,21 @@ population (\autoref{tab:lin-westin}).
 
 We wrote AppPAL policies to describe
 each of Lin \etal's behaviors as sets of prohibited permissions, shown in
-\autoref{tab:lin-perms}.  These simplify the privacy policies
+\autoref{tab:lin-perms}.
+%
+For example the \emph{Fencesitter} policy is encoded as:
+\begin{lstlisting}
+'researcher' says App:X hasMet('fencesitter-policy')
+  if X isWithoutPermission('GET ACCOUNTS'),
+     X isWithoutPermission('ACCESS FINE LOCATION'),
+     X isWithoutPermission('READ CONTACT').
+
+'researcher' says App:X isWithoutPermission(Permission:P)
+  where check_permission(X, P) = false.
+\end{lstlisting}
+Where \texttt{check\_permission} is a constraint that checks whether the app \texttt{X} requests permission \texttt{P}.  Each policy in \autoref{tab:lin-perms} was translated into a similar AppPAL rule where the permissions that made the users uncomfortable were prohibited.
+%
+These simplify the privacy policies
 identified by Lin~\etal~as we do not take into account the reason each
 app might have requested each permission (we could write more precise
 rules if we knew why each permission was requested).  Lin~\etal~used
@@ -642,7 +656,19 @@ variation in app type, we considered only the 44,000 users who had
 more than 20 known apps.  Using this data, and the apps themselves
 taken from the Google Play Store and Android
 Observatory~\cite{barrera_understanding_2012}, we checked which apps
-satisfied which policies.
+satisfied which policies.  
+
+To check which apps satisfied which of Lin's policies, we took our AppPAL encodings of the policies, and facts identifying the apps in our dataset as apps into an assertion context.  
+
+\begin{lstlisting}
+'researcher' says App:X hasMet('unconcerned-policy')
+  if X isWithoutPermission('GET_ACCOUNTS')
+
+'researcher' says 'com.facebook.katana' isApp.
+\end{lstlisting}
+
+For each app, we then queried AppPAL whether the app had met each of the policies, and
+recorded which apps met which policies. 
 
 \begin{figure}
   \centering
