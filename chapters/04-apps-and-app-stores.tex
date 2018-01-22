@@ -658,7 +658,9 @@ taken from the Google Play Store and Android
 Observatory~\cite{barrera_understanding_2012}, we checked which apps
 satisfied which policies.  
 
-To check which apps satisfied which of Lin's policies, we took our AppPAL encodings of the policies, and facts identifying the apps in our dataset as apps into an assertion context.  
+To check which apps satisfied which of Lin's policies, we took our AppPAL
+encodings of the policies, and facts identifying the apps in our dataset as
+apps into an assertion context.  
 
 \begin{lstlisting}
 'researcher' says App:X hasMet('unconcerned-policy')
@@ -667,8 +669,8 @@ To check which apps satisfied which of Lin's policies, we took our AppPAL encodi
 'researcher' says 'com.facebook.katana' isApp.
 \end{lstlisting}
 
-For each app, we then queried AppPAL whether the app had met each of the policies, and
-recorded which apps met which policies. 
+For each app, we then queried AppPAL whether the app had met each of the
+policies, and recorded which apps met which policies.  This allowed us to measure the extent any of the users appeared to be following any of the policies, as the percentage of the apps they had installed that met the policy.
 
 \begin{figure}
   \centering

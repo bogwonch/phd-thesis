@@ -685,8 +685,10 @@ I found it hard to picture them. Include more information about them.
 > 'researcher' says 'com.facebook.katana' isApp.
 >
 > For each app, we then queried AppPAL whether the app had met each of the
-> policies, and recorded which apps met which policies.
-
+> policies, and recorded which apps met which policies.  This allowed us to
+> measure the extent any of the users appeared to be following any of the
+> policies, as the percentage of the apps they had installed that met the
+> policy.
 
 **** p80
 
