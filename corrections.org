@@ -666,7 +666,7 @@ analysis done for SecPAL needs to be explained?
 *** PJ
 **** p75
 
-***** TODO 4.1. M:
+***** DONE 4.1. M:
 "... we checked which apps satisfied which policies." The encoding of
 the questions considered into AppPAL are hinted at only very briefly.
 I found it hard to picture them. Include more information about them.
@@ -756,11 +756,22 @@ the anonymity issues.
 
 
 **** p75
-***** TODO 4.6. M:
+***** DONE 4.6. M:
 The data analysis is quite limited with no element of standard
 deviation/variance, error intervals, etc. The tables on p76 are
 actually quite hard to read, and it would be good to given an example
 of how to read them.
+
+> I've added an additional figure (Fig 4.6 with caption beginning "Chart
+> highlighting that there were...) and added an extra paragraph explaining how to
+> read the charts:
+
+>     The charts can be read as described in Figure 4.6.  Each bar
+>     of the histogram represents a statement about what percentage-range of a users
+>     apps met a given policy.  A user for whom between 0--5\% of their apps met the
+>     policy would count towards the first bar, a user for whom between 5-10\% of
+>     their apps met the policy would count towards the second bar.  The height of
+>     each bar represents the number of users in each group.
 
 ***** TODO 4.7. O:
 A differential analysis of the dataset with and without the apps not
@@ -834,8 +845,6 @@ exercised.
 >     b if a,  b, therefore a.
 > I.e. that we can infer the existence of the can in the past by the
 > existence of the has now.
-
-
 
 
 *** CM
