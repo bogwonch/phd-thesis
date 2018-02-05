@@ -435,7 +435,7 @@ memory) and be able to share code:
      A hasVersion(V1),
      B hasVersion(V2),
      Key isValid
-  where A > B.
+  where V1 > V2.
   
 'android' says App:A canAccess(Data:D)
   if D isOwnedBy(DataOwnerApp),
@@ -596,6 +596,32 @@ population (\autoref{tab:lin-westin}).
 
 \subsection{Measuring Users}
 
+\begin{table}
+  \centering\sffamily\footnotesize
+  \begin{tabular}{p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.79\linewidth}}
+    \toprule
+    \textbf{Question} & To what extent do user's follow an app policy? \\
+    \textbf{Input} & Policy to test. Database of users and which apps they had installed. The installed apps. \\
+    \textbf{Output} & The percentage of each user's apps they had that satisfied the policy. \\
+    \textbf{Method} & 
+      \begin{enumerate}
+        \item Express policy using AppPAL in the form of:
+          \texttt{'researcher' says App:A hasMetPolicy('policy-name') if ...}
+        \item For every installed app, check whether:
+          \texttt{'researcher' says 'app-name' hasMetPolicy('policy-name').}
+        \item For each user count then number of their apps for which the policy was satisfied.  
+          The output is the percentage for which the check came back as true.
+      \end{enumerate} \\
+    \textbf{Hypothesis} & If a user is following a policy, we would expect most of the apps they installed to meet the policy. \\
+    \bottomrule
+  \end{tabular}
+  \caption[Summary of experiment to measure the extent user's follow a policy.]{Summary of experiment to measure the extent user's follow a policy.}
+  \label{tab:experiment-apppal}
+\end{table}
+
+To answer the question of to what extent do users follow personal privacy
+policies in practice we performed the following experiment (summarised in
+\autoref{tab:experiment-apppal}).
 We wrote AppPAL policies to describe
 each of Lin \etal's behaviors as sets of prohibited permissions, shown in
 \autoref{tab:lin-perms}.
@@ -620,9 +646,9 @@ Androguard~\cite{andrew_desnos_androguard_2012} as well as manual
 analysis to find the precise reasons the app requested each
 permission~\cite{lin_modeling_2014}.
 
-To test the extent that users were following the policies we took
+We took
 installation from a partially anonymized database of installed apps
-captured by Carat~\cite{oliner_carat:_2013}.
+captured by Carat~\cite{oliner_carat:_2013}. This allowed us to link users to the apps they had installed and measure the extent each user was following the policy.
 
 The Carat data set was collected as part of a UC~Berkley and University
 of Helsinki experiment to measure the energy usage of apps.  As part
@@ -670,7 +696,7 @@ apps into an assertion context.
 \end{lstlisting}
 
 For each app, we then queried AppPAL whether the app had met each of the
-policies, and recorded which apps met which policies.  This allowed us to measure the extent any of the users appeared to be following any of the policies, as the percentage of the apps they had installed that met the policy.
+policies, and recorded which apps met which policies.  This allowed us to measure the extent any of the users appeared to be following any of the policies, as the percentage of the apps they had installed that met the policy.  Our results are shown in \autoref{fig:lin_uptake_graphs}.
 
 \begin{figure}
   \centering
@@ -699,9 +725,10 @@ policies, and recorded which apps met which policies.  This allowed us to measur
 \label{fig:lin_explanation}
 \end{wrapfigure}
 %
-The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
-users seem to follow Lin~\etal's policies most of the
-time. 
+We hypothesised that if a user's were following a policy, then we would expect the majority of the apps they had installed to meet the policy.
+In the case of the Lin~\etal policies we found that 
+ very few
+users had a majority of apps which met the policy.  This would suggest that user's may not be following Lin~\etal's policies in practice.
 %
 The charts can be read as described in \autoref{fig:lin_explanation}.  Each bar
 of the histogram represents a statement about what percentage-range of a users

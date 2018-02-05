@@ -90,7 +90,7 @@ different policies. For example, two users of mobile phones may
 disagree about what makes an app \emph{installable}
 (i{.}e{.}~acceptable to install). Equally, the policies a store may
 wish to enforce are very different from the policies a user may wish
-to enforce. Each entity in the ecosystem also expects to enforce their
+to enforce. The locality of a query is the place where the decision is being made, typically in the immediate viscinty of an entity such as a user or store. Each entity in the ecosystem also expects to enforce their
 own policies---there is no overarching enforcer of policies, rather
 users enforce whatever preferences they have, stores enforce their own
 rules through whatever means they see fit. Being able to point to the
@@ -841,7 +841,7 @@ an assertion to their policy to check for such type-errors.
      X isDevice.
 \end{lstlisting}
 
-To our knowledge this is the first attempt to add types to SecPAL.
+To our knowledge this is the first attempt to add types to SecPAL.  Adding a static type-checker, and looking at more complex type systems has been left to future work.
 
 
 \section{Implementation}
@@ -1110,7 +1110,7 @@ It helps makes the algorithm fast, albeit at the cost of soundness and
 completeness. If AppPAL were incorporated into a production system, the
 designers would need to have a strategy to manage the $RT$ and delete old
 results. A simple strategy, such as clearing any statements older than 10
-minutes, may be enough for most scenarios.
+minutes, may be enough for most scenarios.  Alternatively the cache can be cleared between queries, though this loses some of the speed benefits of having some common sub-query results cached.  Ultimately the decision of how to manage the results table is up to the developer.
 
 The arguments in the rest of the section assume that the result of evaluating a
 constraint does not change over time. This allows us to argue the
@@ -1367,7 +1367,7 @@ Policies can be checked for many properties including:
 \begin{description}
 \item[Satisfiability.] Do there exist rules which can never be satisfied?
 \item[Equivalence.] Do there exist rules which have the require the same ground facts to be proven in order to satisfy them?
-\item[Redundancy.] Do there exist multiple rules to make a decision where one requires a subset of the facts in order to satisfy it?
+\item[Redundancy.] Do there exist multiple rules to make a decision where one is satisfied by a subset of the facts that satisfy the other?
 \item[Consistency.] Can two contradictory decisions be made?
 \end{description}
 
@@ -1385,37 +1385,41 @@ of the form \texttt{can$\star$} and
 \label{ssec:checking-satisfiability}
 
 An assertion is \emph{satisfiable} if there are sufficient facts
-such that the assertion's conditions can be met.  We care about this
+such that the assertion's conditions can be met.
+%
+This is related to the concept of \emph{satisfiability} in SMT solving (where a propositional logic formula is satisfiable if there is an assignment of truth values to the propositional variables that makes the formula true), but made more complex by the recursive nature of AppPAL's (and other policy and database languages) assertions. Instead of just looking for an assignment of variables, we must look to see if there are rules and facts sufficient that we can derive the satisfiable statement.
+
+We care about this
 property when writing policies as it means that our assertions affect
 something.  If an assertion is \emph{unsatisfiable,} then this may
 indicate that we have failed to specify one of the conditions it
 depends upon.
 
-When an assertion is satisfiable, there is a combination of facts that
-could satisfy its conditionals. If there are no facts that could ever
-satisfy the rule, then the policy may have a bug. An analogy can be
-drawn to an \emph{conditional always false bug} in a conventional
-programming language: we have code (or in this case a rule) that can
-never be used as the conditions for using it can never occur.
-
-Satisfiability can be defined inductively as the least set satisfiable such that:
-\begin{align*}
-  G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
-                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
-                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
-\end{align*}
-
-This is a similar idea to the notions of \emph{satisfiability} in Datalog (and,
-more generally, in logic programming). A Datalog predicate, found by satisfying a
+In Datalog (and, more generally, in logic programming) a Datalog predicate, found by satisfying a
 rule, is satisfiable if there are sufficient ground facts in the database to
-deduce it. Formally, satisfiability in Datalog is defined
-as~\cite{alon_levy_equivalence_1993}:
+deduce it. Formally, satisfiability in Datalog is defined in terms of the \ac{IDB} (the Datalog \emph{program}, analogus to a policy file loaded into an AppPAL assertion context), and the \ac{EDB} (a set of facts from both the \ac{IDB} and those which can be derived using rules).
+Satisfiability for Datalog is defined as~\cite{alon_levy_equivalence_1993}:
 
 \begin{quote}
   \textbf{Satisfiability:} An IDB predicate $s$ of a program $P$ is
   \emph{satisfiable} if there is some EDB $D$, such that $P$ defines a
   non-empty relationship for $s$.
 \end{quote}
+
+In AppPAL, when an assertion is satisfiable, there is a combination of facts that
+could satisfy its conditionals. If there are no facts that could ever
+satisfy the rule, then the policy may have a bug. An analogy can be
+drawn to an \emph{conditional always false bug} in a conventional
+programming language: we have code (or in this case a rule) that can
+never be used as the conditions for using it can never occur.
+
+Drawing from the Datalog definition of satisfiability, we define an AppPAL statement $G$ as satisfiable if there exists some \ac{AC} such that there is an assertion $A$ within the AC and some assignment of variables $\theta$ such that $A\theta$ derives $G$, and that all the conditions in the body of $A\theta$ are also satisfiable.  Formally, we define this as:
+%
+\begin{align*}
+  G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
+                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
+                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
+\end{align*}
 
 Our satisfiability checker works by examining which assertions each principal could possibly say from a given assertion context.
 When checking the satisfiability we ask whether there is a mechanism in the policy for the principal to use a given predicate, using the following rules:

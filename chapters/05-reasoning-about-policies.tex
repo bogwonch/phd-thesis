@@ -54,40 +54,39 @@ templates a company might want to base its own BYOD policy on,
 published by security advice organizations.  The remaining three are
 BYOD policies used inside companies.
 
-\begin{enumerate}
-\item Is the \emph{Security Policy Template: Use of Handheld Devices
-    in a Corporate Environment}. It was published by the SANS
-  Institute~\cite{nicholas_r._c._guerin_security_2008}. This policy is a
+\begin{description}
+  \item[The \emph{Security Policy Template}~\cite{nicholas_r._c._guerin_security_2008}.] It was published by the SANS
+  Institute. This policy is a
   hypothetical policy published to help companies mitigate the threats
   to corporate assets caused by mobile devices. Companies change the
   document to suit their needs and BYOD requirements. The policy is
   general; not specific to any particular industry, device, or country's
   legislation.
-\item Is from the \ac{HiMSS}
-  \cite{healthcare_information_and_management_systems_society_mobile_2012}.
-  \ac{HiMSS} is a US non-profit company trying to improve health care through IT.
+\item[The \acl{HiMSS}
+  \cite{healthcare_information_and_management_systems_society_mobile_2012}.]
+  \acs{HiMSS} is a US non-profit company trying to improve health care through IT.
   The \ac{HiMSS} policy is short and has concerns specific to
   healthcare scenarios. The policy is a contract the users follow. It has
   a different style to other policies: in the other policies \emph{the company states}
   what users should do; here \emph{the user states} what they will do. The policy is
   a sample agreement for a healthcare company managing mobile
   devices.
-\item Is from a British hospital trust~\cite{kennington_mobiles_2014}.
+\item[A British hospital trust~\cite{kennington_mobiles_2014}.]
   It describes the BYOD scheme used in practice at the hospital.  The
   policy is broad and covers rules for corporately owned devices.  This
   policy also briefly describes how devices should interact with
   patients.
-\item Is from the University of
-  Edinburgh~\cite{williamson_bring_2015}. It is brief. It groups
+\item[The University of
+  Edinburgh~\cite{williamson_bring_2015}.] It is brief. It groups
   rules into those for high and low risk users.  The policy is extremely general describing rules for
   laptops, tablets and phones.  Many of the rules are vague.
   The policy says \emph{``Use anti-virus software and keep it up
     to date''}, leaving the choice of AV software and
   update times to the user.
-\item Is by a company selling emergency
-  sirens~\cite{code3pse.org_sample_nodate}. Again this policy is simpler,
+\item[A company selling emergency
+  sirens~\cite{code3pse.org_sample_nodate}.] Again this policy is simpler,
   and, like the Edinburgh policy, is rather general compared to the other policies.
-\end{enumerate}
+\end{description}
 
 \noindent Each policy is split into a series of rules employees
 should follow. Typically, the policy is describing what employees should
@@ -261,13 +260,35 @@ look at where the checks or policies come from, however.
 
 \section{Modeling BYOD policies}
 
+\begin{table}
+  \centering\sffamily\footnotesize
+  \begin{tabular}{p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.79\linewidth}}
+    \toprule
+    \textbf{Question} & What are the idiomatic concerns in BYOD policies? \\
+    \textbf{Input} & Five different natural language BYOD policies from various sectors.\\
+    \textbf{Output} & The encodings of the policies into AppPAL.  Analysis of policy contents.\\
+    \textbf{Method} & 
+      \begin{enumerate}
+        \item For each policy encode it as an AppPAL policy, taking care to capture the style and intent of the original policy.
+        \item Go through each encoded policy and ensure predicates have a common name where they capture similar decisions.
+        \item Compare AppPAL policies looking for areas of common concern and where common structures have been used to capture the policy.
+      \end{enumerate} \\
+    \textbf{Hypothesis} & Different BYOD policies will have some common areas of concern and predicates.  Some may be similar to the features associated with MDM tools, and others may be different.  Comparing the AppPAL translations of the policies will help clarify the differences and similarities between the policies. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of method to identify idioms in BYOD policies.}
+  \label{tab:experiment-byod}
+\end{table}
+
 BYOD policies written in natural language can have ambiguities. Comparing
 policies with different styles from different sources is tricky: the
 relationships between different entities, and the exact decisions being made can
-become confused. To make comparisons precise we first model the natural language
-policy's rules using AppPAL. We take care to use the same predicates between
-different policies to create a standard set of decisions between \ac{BYOD}
-policies.
+become confused. 
+%
+To make the comparisons precise, and to identify common authorization patterns in the polices we propose the method summarised in \autoref{tab:experiment-byod}: encode each of the natural language policies in AppPAL and then use the more formal AppPAL version as the basis for examining the policies.
+We took care to use the same predicates between
+different policies in order to create a standard set of decisions between \ac{BYOD}
+policies. We hypothesised that by doing this we would be able to make comparisons and identify common BYOD idioms between policies.
 
 Each of the policies are split into a series of rules. A simple example is the
 following example from the Sirens company policy. The rule states that devices
@@ -331,7 +352,9 @@ are often used in the conditions.  There are also decisions using them as well.
 \section{BYOD Idioms in AppPAL}
 \label{sec:common_concerns}
 
-When examining the policies, there are some concern concerns shared between the
+We hypothesised, when translating the policies into AppPAL, that we might be able to identify idiomatic decisions for BYOD policies.
+These idioms would appear as common predicates, and structures in the AppPAL policies.
+Examining the policies there are some concern concerns shared between the
 different policies. Table~\ref{tab:common} shows predicates used in multiple
 policies by our translation. The table lists predicates (and arguments) found in
 multiple policies and in which policies they occurred. From it we can find
