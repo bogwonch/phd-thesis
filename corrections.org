@@ -43,8 +43,8 @@ of what methodology was followed and why.
 >
 > For the "Modelling BYOD policies" section in chapter 5:
 > - Tweaked 5.2 and 5.3 to be more explicit about method.
-> - Added a table (with caption beginning "Summare of method...") stating the
->   method mbore explicitly.
+> - Added a table (with caption beginning "Summary of method...") stating the
+>   method more explicitly.
 
 ***** DONE 1.3. M:
 How does one judge whether the investigations described in the thesis
@@ -299,12 +299,25 @@ missing details. For example explain the nature of substitutions,
 when parts of rules are supposed to be ground (free variable free) and
 the meaning of free variables when there are free variables.
 
-***** TODO 2.16. M:
+***** DONE 2.16. M:
 Can queries have free variables? If so, are they existentially or
 universally quantified?
 
-***** TODO 2.17. M:
+> As originally described SecPAL queries are not allowed to contain free
+> variables. A later extension to SecPAL added guarded universal
+> quantification, however [22]. The extension allowed queries with a ∀ in them,
+> but also required that the query include a guard—a statement to restrict the
+> scope of the free variable. For example, a query to search for all apps
+> (known by Alice) that that were recommended by Bob could be written:
+>     ∀X (Alice says X isApp. ⇒ Bob says X isRecommended.)
+> In this query the Alice says X isApp. is the guard, restricting the scope of
+> X to the values that Alice says are apps, and the Bob says X isRecommended.
+> is the guarded query that provides the result.
+
+***** DONE 2.17. M:
 Fig 2.4. Fix \turnstile_2 typo.
+
+> Removed it.
 
 **** p13.
 

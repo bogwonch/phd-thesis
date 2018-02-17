@@ -179,7 +179,7 @@ $A$ would say the \emph{fact.}
     \midrule
     \multirow{6}{*}{\rotatebox{90}{Definitions}} &
     1. $AC,\theta \vdash \underbrace{e \text{ says } fact}_q.$  & if $AC,\texttt{inf} \models e\theta \texttt{ says } fact\theta.$\newline and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
-    &2. $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash_2 q_2\theta_1$                                                                                   \\
+    &2. $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash q_2\theta_1$                                                                                   \\
     &3. $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
     &4. $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
     &5. $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
@@ -204,7 +204,17 @@ as expected.  Negation is only allowed in an extremely limited form: a
 query is false if it has no variables and there is no way
 to show that the AC supports the query.  This limited form means that
 queries remain decidable: the assertions inside the AC are not permitted to
-use negation.
+use negation. 
+ 
+As originally described SecPAL queries are not allowed to contain free variables.
+A later extension to SecPAL added guarded universal quantification, however~\cite{moritz_y_becker_secpal:_2009}. 
+The extension allowed queries with a $\forall$ in them, but also required that the query include a \emph{guard}---a statement to restrict the scope of the free variable.
+For example, a query to search for all apps (known by Alice) that that were recommended by Bob could be written:
+\begin{equation*}
+  \forall \mathtt{X}\left( \overbrace{\texttt{Alice says X isApp.}}^{\text{Guard}} \Rightarrow \underbrace{\texttt{Bob says X isRecommended.}}_{\text{Guarded Query}}\right)
+\end{equation*}
+In this query the \texttt{Alice says X isApp.} is the guard, restricting the scope of \texttt{X} to 
+the values that Alice says are apps, and the \texttt{Bob says X isRecommended.} is the guarded query that provides the result.
 
 \subsection{Delegation in SecPAL}
 \label{ssec:delegation_in_secpal}
