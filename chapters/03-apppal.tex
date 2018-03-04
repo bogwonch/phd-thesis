@@ -75,66 +75,67 @@ to describe its policies. Namely, we need a policy language that can
 express:
 
 \begin{description}
-\item[Delegation.] Sometimes entities may wish to
-share information and policy rules. A user might delegate to an
-expert user to help them decide what policies they want to use. An app
-store might use information from an app vetting firm to decide what
-apps to sell. A company might want HR and IT departments to be
-responsible for some decisions, and they in turn might wish to give
-specific HR or IT workers specific decisions to make. Capturing these
-relationships lets us describe precisely who makes what decisions in
-the mobile ecosystem.
+  \item[Delegation.] Sometimes entities may wish to
+    share information and policy rules. A user might delegate to an
+    expert user to help them decide what policies they want to use. An app
+    store might use information from an app vetting firm to decide what
+    apps to sell. A company might want HR and IT departments to be
+    responsible for some decisions, and they in turn might wish to give
+    specific HR or IT workers specific decisions to make. Capturing these
+    relationships lets us describe precisely who makes what decisions in
+    the mobile ecosystem.
 
-\item[Locality.] In the mobile ecosystem different devices can have
-different policies. For example, two users of mobile phones may
-disagree about what makes an app \emph{installable}
-(i{.}e{.}~acceptable to install). Equally, the policies a store may
-wish to enforce are very different from the policies a user may wish
-to enforce. The locality of a query is the place where the decision is being made, typically in the immediate viscinty of an entity such as a user or store. Each entity in the ecosystem also expects to enforce their
-own policies---there is no overarching enforcer of policies, rather
-users enforce whatever preferences they have, stores enforce their own
-rules through whatever means they see fit. Being able to point to the
-location a decision is made is important when considering delegation:
-a user might ask a friend if an app is good: we want to distinguish
-between the friend telling the user directly, and the friend giving
-the user sufficient information to draw the conclusion themselves.
+  \item[Locality.] In the mobile ecosystem different devices can have different
+    policies. For example, two users of mobile phones may disagree about what
+    makes an app \emph{installable} (i{.}e{.}~acceptable to install). Equally,
+    the policies a store may wish to enforce are very different from the policies
+    a user may wish to enforce. The locality of a query is the place where the
+    decision is being made, typically in the immediate viscinty of an entity such
+    as a user or store. Each entity in the ecosystem also expects to enforce
+    their own policies---there is no overarching enforcer of policies, rather
+    users enforce whatever preferences they have, stores enforce their own rules
+    through whatever means they see fit. Being able to point to the location a
+    decision is made is important when considering delegation: a user might ask a
+    friend if an app is good: we want to distinguish between the friend telling
+    the user directly, and the friend giving the user sufficient information to
+    draw the conclusion themselves.
 
-\item[Access external information.] There are many tools and sources
-that can give us information about apps (as well as other
-subjects). These tools each give information in their own way: be it
-employee data through an SQL database, terminal output through a
-command line analysis tool, or HTML output onto an app store's
-webpage. We want to be able to make use of this information when
-writing policies, but we should not rely on all tools standardising on
-our policy language as a universal information transfer mechanism. We
-want our policy language to be able to capture the policies which use
-these external sources without forcing the tools themselves to work in
-any particular manner. In other words, the policy \emph{specification
-should be separate from its enforcement}.
+  \item[Access external information.] There are many tools and sources
+    that can give us information about apps (as well as other
+    subjects). These tools each give information in their own way: be it
+    employee data through an SQL database, terminal output through a
+    command line analysis tool, or HTML output onto an app store's
+    webpage. We want to be able to make use of this information when
+    writing policies, but we should not rely on all tools standardising on
+    our policy language as a universal information transfer mechanism. We
+    want our policy language to be able to capture the policies which use
+    these external sources without forcing the tools themselves to work in
+    any particular manner. In other words, the policy \emph{specification
+    should be separate from its enforcement}.
 
-\item[Constraints.] As well as external information, we'd also wish
-our policy language to capture dynamic information such as the time of
-day or the current location of a device. This information is sometimes
-incorporated into a policy language through \emph{constraints}. This
-would allow us to start to create rules that depend on the context of
-the user. For example a company boss might want to check what time
-their employees get into work. To do this the boss requires their
-employees install an app that gives him their location. Employees
-might allow their boss to check on them during the work day, but
-during the weekend and the evenings the employee would rather their
-boss could not see where they were.
+  \item[Constraints.] As well as external information, we'd also wish
+    our policy language to capture dynamic information such as the time of
+    day or the current location of a device. This information is sometimes
+    incorporated into a policy language through \emph{constraints}. This
+    would allow us to start to create rules that depend on the context of
+    the user. For example a company boss might want to check what time
+    their employees get into work. To do this the boss requires their
+    employees install an app that gives him their location. Employees
+    might allow their boss to check on them during the work day, but
+    during the weekend and the evenings the employee would rather their
+    boss could not see where they were.
 
-\item[Flexibility of Policy Style.] The mobile ecosystem encompasses
-many scenarios. A company looking to enforce a mobile device
-policy would use a MAC-style policy, but a user trying to filter what
-APIs an app can access may write a policy in a DAC-style. A user
-trying to describe might be happy to install an app with certain
-permissions if the app has a particular purpose. For example a user
-might be happy to install a file management app that can access a
-memory card, but not happy to install a torch app with the same set
-of permissions---a policy reminiscent of an RBAC or ABAC policy. We
-want to capture all these policies, and we would want our policy
-language to be agnostic to any particular policy style.
+  \item[Flexibility of Policy Style.] The mobile ecosystem encompasses
+    many scenarios. A company looking to enforce a mobile device
+    policy would use a MAC-style policy, but a user trying to filter what
+    APIs an app can access may write a policy in a DAC-style. A user
+    trying to describe might be happy to install an app with certain
+    permissions if the app has a particular purpose. For example a user
+    might be happy to install a file management app that can access a
+    memory card, but not happy to install a torch app with the same set
+    of permissions---a policy reminiscent of an RBAC or ABAC policy. We
+    want to capture all these policies, and we would want our policy
+    language to be agnostic to any particular policy style.
 \end{description}
 
 We chose SecPAL as the basis for our policy language for mobile ecosystems as it
@@ -358,8 +359,6 @@ have to authorize it, either by signing the app or the issuer. In contrast, for
 Android, to the device can install any app if the device owner is willing to
 enable the relevant setting.
 
-%\todo{How do we know this is correct?}
-
 \subsection{Worked Example of Policy Checking}
 
 As a worked example consider a user Alice, trying to install an app on
@@ -528,7 +527,7 @@ properties of entities and obligations respectively.
   \end{lstlisting}
   Additionally, SecPAL requires that all variables in the head of a
   statement be used in the body (the restriction helps the language to
-  be reducible to Datalog\textsuperscript{C}, and thus ensure all
+  be reducible to \datalogc{}, and thus ensure all
   queries terminate): assigning a type by using an \emph{is} statement
   is sufficient to satisfy the rule.
 
@@ -916,7 +915,6 @@ answer-set programming and an SMT solver to answer queries. For all
 policies we tried, our implementation was fast enough---answering all
 but the most complex queries in seconds (\autoref{ssec:benchmarks}).
 
-
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/apppal-evaluation.pdf}
@@ -1085,6 +1083,24 @@ AppPAL's developers with debugging.
   \caption{Pseudocode for using the can-say and can-act-as rules.}
   \label{alg:eval2}
 \end{figure}
+
+AppPAL's evaluation procedure is not the same as SecPAL's, though in practice
+both could be used to evaluate AppPAL or SecPAL policies.  SecPAL was evaluated
+by first converting queries and policies into \datalogc{}.  Becker then
+described a novel \datalogc{} evaluation algorithm with tabling to evaluate the
+converted queries and make decisions. The AppPAL evaluation algorithm does not
+make use of  \datalogc{}, but instead implements AppPAL's
+evaluation rules directly.  We do, however, borrow some strategies from
+Becker's SecPAL evaluation algorithm---AppPAL's results table serves a similar
+purpose to SecPAL's tabling caching results and preventing cycles.  The use of
+sets to restrict the search space for variables is unique to the AppPAL
+algorithm, however. 
+
+Our method for evaluating AppPAL offers an alternative to Becker's procedure.
+We developed it to avoid having to implement \datalogc{}, and to allow us
+greater control over how AppPAL evaluated policies.  We believe the procedure
+is equivalent to Becker's SecPAL evaluation algorithm (though a more rigorous
+comparison as to how the procedures compare has not been done).
 
 \subsection{Soundness and Completeness of Decision Procedure}
 

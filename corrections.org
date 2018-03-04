@@ -715,7 +715,7 @@ discussed here as well.
 On the type notation: how complex is the type system? is there any
 type checking? Any sub-typing?
 
-> Very basic!  None of that fun stuff... its just a (thin) sugar for
+> Very basic!  Its just a (thin) sugar for
 > /is/-type facts that ends up being used a bit like types, hence the name.
 > There is the start of a schema-like type checker but I don't think it was
 > ever useful for much so it isn't mentioned.
@@ -724,10 +724,31 @@ type checking? Any sub-typing?
 systems has been left to future work."
 
 **** p44
-***** TODO 3.21. M:
+***** DONE 3.21. M:
 It is not clear at all how the evaluation procedure differs from that
 of SecPAL. This point was addressed during the viva, and needs to be
 included in the dissertation.
+
+> AppPAL's evaluation procedure is not the same as SecPAL's, though in practice
+> both could be used to evaluate AppPAL or SecPAL policies.  SecPAL was evaluated
+> by first converting queries and policies into \datalogc{}.  Becker then
+> described a novel \datalogc{} evaluation algorithm with tabling to evaluate the
+> converted queries and make decisions. The AppPAL evaluation algorithm does not
+> make use of  \datalogc{}, but instead implements AppPAL's
+> evaluation rules directly.  We do, however, borrow some strategies from
+> Becker's SecPAL evaluation algorithm---AppPAL's results table serves a similar
+> purpose to SecPAL's tabling caching results and preventing cycles.  The use of
+> sets to restrict the search space for variables is unique to the AppPAL
+> algorithm, however. 
+> 
+> Our method for evaluating AppPAL offers an alternative to Becker's procedure.
+> We developed it to avoid having to implement \datalogc{}, and to allow us
+> greater control over how AppPAL evaluated policies.  We believe the procedure
+> is equivalent to Becker's SecPAL evaluation algorithm (though a more rigorous
+> comparison as to how the procedures compare has not been done).
+
+
+
 
 **** p44
 ***** TODO 3.22. O:
@@ -740,7 +761,6 @@ Trans. Inf. Syst. Secur. 14(1): 3:1-3:29 (2011)".
 ***** TODO 3.23. M:
 This section is quite interesting, but the difference with existing
 analysis done for SecPAL needs to be explained?
-
 ** Ch 4: App Store and App Preferences
 
 *** PJ
