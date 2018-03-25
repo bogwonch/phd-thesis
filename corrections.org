@@ -273,12 +273,14 @@ paper, "evaluation" is reserved for the algorithm which checks the
 truth of a query. Here and elsewhere in the thesis, could the more
 normal terms be used?
 
-***** TODO 2.13. O:
+***** DONE 2.13. O:
 Describe the "semantics" more specifically as "proof-theoretic
 semantics". When readers with some knowledge of mathematical logic or
 theoretical computer science see the word "semantics" they think first
 of denotational, model based or operational semantics, so it can be
 confusing to simply talk about "semantics".
+
+> Changed on Figure 2.4 and surrounding text, and on first mention.  
 
 ***** DONE 2.14. M:
 Some remark is needed concerning the appropriation of the |= notation

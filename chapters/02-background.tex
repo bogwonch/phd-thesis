@@ -35,7 +35,7 @@ ways. It is more expressive than
 SPKI/SDSI~\cite{ellison_spki_1999}, and Delegation
 Logic~\cite{li_delegation_2003}. It is, arguably, more readable than
 XACML~\cite{oasis_extensible_2013} and other XML-based policy
-languages.  SecPAL is intuitive and unambiguous with precise
+languages.  SecPAL is intuitive and unambiguous with precise proof-theoretic
 semantics. Other languages (most notably XACML) have ambiguous
 specifications that can be misinterpreted~\cite{ramli_logic_2014}, or
 have formal ones retrofitted to the
@@ -157,11 +157,11 @@ $A$ would say the \emph{fact.}
       & AC, D \models A\texttt{~says~}C~\text{verb-phrase}
     }
   \end{eqnarray*}
-  \caption[Inference rules used to evaluate {SecPAL}.]{The inference rules used to evaluate {SecPAL}. All {SecPAL} rules are
+  \caption[Derviation rules used to evaluate {SecPAL}.]{The derivation rules used to evaluate {SecPAL}. All {SecPAL} rules are
   evaluated in the context of a set of other assertions $AC$ as well as an
   allowed level of delegation $D$ which may be \texttt{0} or \texttt{inf}.
-  The $\models$ symbol is used by Becker~\cite{becker_secpal:_2006} to describe the inference rules instead of the more usual $\vdash$.
-  This is in order to distinguish SecPAL's inference rules, from SecPAL's semantic rules (given in \autoref{fig:secpal-semantics}).
+  The $\models$ symbol is used by Becker~\cite{becker_secpal:_2006} to describe the derivation rules instead of the more usual $\vdash$.
+  This is in order to distinguish SecPAL's derivation rules, from SecPAL's semantic rules (given in \autoref{fig:secpal-semantics}).
 }
 \label{fig:secpal-rules}
 \end{figure}
@@ -185,11 +185,11 @@ $A$ would say the \emph{fact.}
     &5. $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
     \bottomrule                             \\
   \end{tabular}
-  \caption[SecPAL's semantics.]{SecPAL's semantics as described by Becker~\cite{becker_secpal:_2006}.}
+  \caption[SecPAL's proof-theoretic semantics.]{SecPAL's proof-theoretic semantics as described by Becker~\cite{becker_secpal:_2006}.}
   \label{fig:secpal-semantics}
 \end{figure}
 
-SecPAL's semantics are given in \autoref{fig:secpal-semantics}.  A
+SecPAL's proof-theoretic semantics are given in \autoref{fig:secpal-semantics}.  A
 query $q$ to a SecPAL program (which is a collection of facts and
 relationships called the \emph{assertion context} or \emph{AC}) asks
 if there exists a renaming $\theta$ such that the rules of SecPAL can
