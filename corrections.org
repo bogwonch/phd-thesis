@@ -384,11 +384,80 @@ instantiation of SecPAL.
 >     AppPAL fits into this background of policy languages by instantiating SecPAL
 >     for a new domain. 
 
-***** TODO 2.22. M:
+***** DONE 2.22. M:
 It is suprising this chapter says nothing about the automation of
 query answering in SecPAL. The only time automation discussed is with
 RT. Can statements be made concerning automation of query answering
 with each of the other languages too?
+
+> Mostly the other languages don't discuss this, and assume an authorization
+> server scenario. I've tried to add a sentence or two for each of the different
+> languages explicitly mentioning automation.
+
+> For PolicyMaker (on the lead into the example): "To integrate PolicyMaker into
+> a real system, software would have to be modified to automatically send
+> PolicyMaker queries to a central query server in response to events, in order to
+> decide what to do next."
+
+> For Keynote: As with PolicyMaker, the integration of KeyNote into any
+> application is left to developers. Consequently the automation of any queries
+> (and deciding what to do with whatever results KeyNote may return) is left to
+> the application. Blaze et al. note that [28]:
+>   “KeyNote does not directly enforce policy it only provides advice to the
+>   applications that call it. In other words, KeyNote assumes that the
+>   application itself is trusted and that the policy assertions it specifies
+>   are correct. Nothing prevents an application from submitting misleading
+>   or incorrect assertions to KeyNote or from ignoring KeyNote altogether.”
+
+> For Ponder "Ponder2 also provides a control language called PonderTalk, which
+> lets the decision engine send messages to the objects it manages, as well as
+> the objects send messages between themselves. This allows for the automation
+> of some queries in response to PonderTalk message being sent, as well as the
+> management of obligations by allowing different objects to notify others of
+> what they must do."
+
+> For Cassandra: "A prototype of Cassandra was implemented allowing it to answer
+> some of the queries associated with requesting electronic health records, but
+> this wasn't further developed (that we know of) into an automated system for
+> supplying health records."
+
+> In the section on XACML restructured the paragraph on the reference
+> architecture to answer this: "XACML also defines a reference architecture for
+> anyone using XACML, shown in \autoref{fig:xacml-architecture}. The
+> architecture consists of five major \emph{policy points}. The reference
+> architecture describes how to setup the policy points so that queries can be
+> made and answered automatically. The PEP stands between the users and the
+> files (for example) they are trying to access. When a user tries to access a
+> file the PEP sends a query to the PDP (which makes the \emph{decision}), and
+> \emph{enforces} the policy by either granting or denying access. In order to
+> make the decision PDP \emph{requests} policies from the PRP (which are updated
+> by an \emph{administrator} editing the policies at the PAP), and using
+> \emph{information} from the PIP. "
+
+> For SecPAL, Becker doesn't say how to do this. Becker gives the language:e and
+> the evaluation procedure, but it wasn't until later languages like DKAL that
+> they drilled down into how you automate the querying and information sharing.
+> I've added a short subsection or two stating this (Integrating SecPAL)
+>
+> Becker's description of SecPAL does not give details as to how a system using
+> SecPAL should be implemented. For example, if SecPAL were to be used to add
+> access controls to an email system, the language itself does not describe when
+> the mail server should check the policy to see if a user can access their
+> mail. We might imagine that a user authenticates with mail server using LDAP,
+> and then before allowing them access to their mail, queries a SecPAL policy
+> (where 'user' has been replaced by the real user):
+>     'admin' says 'user' canReadMailOf('user').
+> SecPAL does not, however, describe how or when the
+> query should be made, only how to process it when it has been. The decisions
+> as to how and when are left to the person implementing the system.
+> Similarly, If a policy query uses delegation then the assertion context being
+> queried must contain the necessary facts from the delegated parties before
+> checking the query. SecPAL doesn't say when or how these statements should
+> be fetched, just what to do with them once they have been. Later languages,
+> such as DKAL [53], give explicit protocols to enable information sharing; but
+> for SecPAL the decision of how to implement and automate these procedures is
+> left to the system designers.
+
 
 
 *** CM
@@ -685,7 +754,7 @@ assertions might be ground, might contain no free variables.
 Some explanation of these rules, comparing them with the cond rule
 would be very useful.
 
-**** p56
+**** p5
 ***** DONE 3.18. M:
 Is redundancy because of typing a bad thing? Maybe from an inference
 point of view yes, but from the point of view of quickly comprehending

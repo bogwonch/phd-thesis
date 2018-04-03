@@ -65,7 +65,6 @@ making a decision. Roles allow principals to state that the subject
 of an assertion (\autoref{fig:assertion}) is equivalent to another: effectively aliasing the
 subjects to each other.
 
-
 SecPAL policies are evaluated with respect to an assertion context
 \emph{AC}, which holds all known rules and ground facts, and a
 delegation level $D$ which either permits or disallows further
@@ -347,6 +346,30 @@ mobile ecosystem further in \autoref{chap:apppal}, but to sumarise its
 ability to delegate and capture policies makes it a good starting
 point.
 
+\subsection{Integrating SecPAL}
+
+Becker's description of SecPAL does not give details as to how a system using
+SecPAL should be implemented. For example, if SecPAL were to be used to add
+access controls to an email system, the language itself does not describe when
+the mail server should check the policy to see if a user can access their mail.
+We might imagine that a user authenticates with mail~server using LDAP, and then
+before allowing them access to their mail, queries a SecPAL policy (where
+\lstinline!'user'! has been replaced by the real user):
+\begin{lstlisting}
+'it-admin' says 'user' canReadMailOf('user').
+\end{lstlisting}
+SecPAL does not, however, describe how or when the query should be made, only
+how to process it when it has been. The decisions as to how and when are left to
+the person implementing the system.
+
+Similarly, If a policy query uses delegation then the assertion context being queried must
+contain the necessary facts from the delegated parties before checking the
+query. SecPAL doesn't say when or how these statements should be fetched, just
+what to do with them once they have been. Later languages, such as
+DKAL~\cite{gurevich_dkal:_2008}, give explicit protocols to enable information
+sharing; but for SecPAL the decision of how to implement and automate these
+procedures is left to the system designers.
+
 
 \section{Policy Languages}
 \begin{figure}
@@ -399,15 +422,19 @@ filter itself is an arbitrary program that can make a yes/no decision.
 Blaze~\etal~give examples using regular expressions and a reduced
 version of AWK~\cite{aho_awk-pattern_1979}. They note, however, that
 any programming language could be used. The device policy can be
-queried by a key holder \emph{requesting} a given action.
+queried by a key holder \emph{requesting} a given action. 
 
+To integrate PolicyMaker into a real system, software would have to be modified
+to automatically send PolicyMaker queries to a central query server in response
+to events, in order to decide what to do next.
+% 
 Blaze~\etal~give an example of this scheme being used as part of an
 email server. A user, Alice, identified by key \texttt{0x12345678} can
 send emails with the \texttt{from} header set to Alice and the
 organization set to Bob Labs.
 
 PolicyMaker is installed on a server. It receives queries and gives answers.
-The policy is on the server is:
+The policy installed on the server in this example would be:
 
 \begin{lstlisting}
 policy ASSERTS
@@ -428,7 +455,8 @@ checks the signature and queries the policy server with her message:
              Hello World!';
 \end{lstlisting}
 
-If Alice's message is okay, then the SMTP server will send it.  If it does not match the policy, then it will not.
+If Alice's message is okay, then the SMTP server will send it.  If it does not
+match the policy, then it will not.
 
 \paragraph*{KeyNote.}
 PolicyMaker is the basis for KeyNote~\cite{blaze_role_1999,blaze_keynote:_1998}.
@@ -452,6 +480,18 @@ Conditions: (app_domain == "RFC822-EMAIL") &&
     (organization="Bob Labs");
 \end{lstlisting}
 \end{minipage}
+
+As with PolicyMaker, the integration of KeyNote into any application is left to
+developers.  Consequently the automation of any queries (and deciding what to do
+with whatever results KeyNote may return) is left to the application.
+Blaze~\etal{} note that~\cite{blaze_keynote_1999}:
+
+\begin{quotation}``KeyNote does not directly enforce policy it only provides advice
+to the applications that call it. In other words, KeyNote assumes that the
+application itself is trusted and that the policy assertions it specifies are
+correct. Nothing prevents an application from submitting misleading or incorrect
+assertions to KeyNote or from ignoring KeyNote altogether.''
+\end{quotation}
 
 Checking whether a PolicyMaker or KeyNote policy is satisfied is
 NP-hard~\cite{blaze_compliance_1998}. PolicyMaker assertions can involve
@@ -526,15 +566,15 @@ optional feature sets: \RT{}{T} allows for policies with thresholds
 of her company approve it). \RT{}{C} adds constraints. Finally,
 \RT{}{D} adds delegation~\cite{ninghui_li_design_2002}.
 
-Unlike PolicyMaker, the RT family of languages is
-tractable. Li~\etal~prove a guarantee that a query will be answered
-soundly in polynomial time in the size of the policy. To give this
-guarantee, the researchers showed the languages could be reduced to
-Datalog. Datalog is a database language with known complexity
-guarantees and fast evaluation. Datalog is similar Prolog, but without negation, complex arguments, and the \texttt{is} statement. They also showed
-similar languages, like Binder~\cite{detreville_binder_2002} and
-Delegation~Logic~\cite{li_delegation_2003,li_practically_2000}, could
-be described using Datalog as well.
+Unlike PolicyMaker, the RT family of languages is tractable. Li~\etal~prove a
+guarantee that a query will be answered soundly in polynomial time in the size
+of the policy. To give this guarantee, the researchers showed the languages
+could be reduced to Datalog. Datalog is a database language with known
+complexity guarantees and fast evaluation. Datalog is similar Prolog, but
+without negation, complex arguments, and the \texttt{is} statement. They also
+showed similar languages, like Binder~\cite{detreville_binder_2002} and
+Delegation~Logic~\cite{li_delegation_2003,li_practically_2000}, could be
+described using Datalog as well.
 
 Datalog is limited in that it cannot describe structured data. Consider a rule
 that lets Alice send email between 9am and 5pm. We might want some function to
@@ -579,9 +619,15 @@ Since Ponder allows positive and negative policies, conflicts can occur. Ponder
 does not resolve the conflicts itself. Instead, it detects them using static
 analysis and reports them to the policy author as bugs in the policy
 specification. Ponder2~\cite{twidle_ponder2:_2009} simplified Ponder and added
-policies for decentralized environments. Ponder2 also provides a control
-language called \emph{PonderTalk}, which lets the decision engine send messages
-to the objects it manages.
+policies for decentralized environments. 
+
+Ponder2 also provides a control language called \emph{PonderTalk}, which lets
+the decision engine send messages to the objects it manages, as well as the
+objects send messages between themselves. This allows for the automation of some
+queries in response to PonderTalk message being sent, as well as the management
+of obligations by allowing different objects to notify others of what they
+\emph{must} do.
+
 
 \paragraph*{Cassandra.}
 Cassandra is a trust management language to model large systems.
@@ -606,6 +652,10 @@ hospital@admin.permits(clinician, Read-Records(patient)) <-
   hospital@canActivate(clinician, TreatingClinician(hospital, patient))
 \end{lstlisting}
 \end{minipage}
+
+A prototype of Cassandra was implemented allowing it to answer some of the queries
+associated with requesting electronic health records, but this wasn't further
+developed (that we know of) into an automated system for supplying health records.
 
 Cassandra allows for powerful control of different roles, and enables
 delegation by allowing third-parties to activate and remove roles
@@ -825,7 +875,7 @@ policies\footnote{An individual decision in XACML is called a \emph{policy}. Man
 'company' says 'carol' can-say inf
   Person:X canUse(Printer:P).
 
-'carol' says 'bob' can-say
+'carol' says 'bob'' can-say
   Person:X canUse(Printer:P).
 
 'bob' says 'alice' canUse(Printer:P).
@@ -869,14 +919,16 @@ if A hasOwner(O).
   \label{fig:xacml-architecture}
 \end{figure}
 
-XACML also defines a reference architecture for anyone who looks to use XACML,
-shown in \autoref{fig:xacml-architecture}. The architecture consists of five
-major \emph{policy points}: the PEP stands between the users and the files (for
-example) they are trying to access. The PEP sends a query to the PDP (which
-makes the \emph{decision}), and \emph{enforces} the policy by either granting or
+XACML also defines a reference architecture for anyone using XACML, shown in
+\autoref{fig:xacml-architecture}. The architecture consists of five major
+\emph{policy points}. The reference architecture describes how to setup the
+policy points so that queries can be made and answered automatically. The PEP
+stands between the users and the files (for example) they are trying to access.
+When a user tries to access a file the PEP sends a query to the PDP (which makes
+the \emph{decision}), and \emph{enforces} the policy by either granting or
 denying access. In order to make the decision PDP \emph{requests} policies from
 the PRP (which are updated by an \emph{administrator} editing the policies at
-the PAP), and using \emph{information} from the PIP. 
+the PAP), and using \emph{information} from the PIP.
 
 XACML's architecture fits well with a centralized architecture, where
 distributed PEPs talk to local PDPs which retrieve policies from a centralized
