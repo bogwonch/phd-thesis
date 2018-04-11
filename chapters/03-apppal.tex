@@ -1425,18 +1425,29 @@ of the form \texttt{can$\star$} and
 An assertion is \emph{satisfiable} if there are sufficient facts
 such that the assertion's conditions can be met.
 %
-This is related to the concept of \emph{satisfiability} in SMT solving (where a propositional logic formula is satisfiable if there is an assignment of truth values to the propositional variables that makes the formula true), but made more complex by the recursive nature of AppPAL's (and other policy and database languages) assertions. Instead of just looking for an assignment of variables, we must look to see if there are rules and facts sufficient that we can derive the satisfiable statement.
+This is related to the concept of \emph{satisfiability} in SMT solving
+(where a propositional logic formula is satisfiable if there is an
+assignment of truth values to the propositional variables that makes
+the formula true), but made more complex by the recursive nature of
+AppPAL's (and other policy and database languages) assertions. Instead
+of just looking for an assignment of variables, we must look to see if
+there are rules and facts sufficient that we can derive the
+satisfiable statement.
 
-We care about this
-property when writing policies as it means that our assertions affect
-something.  If an assertion is \emph{unsatisfiable,} then this may
-indicate that we have failed to specify one of the conditions it
-depends upon.
+We care about this property when writing policies as it means that our
+assertions affect something.  If an assertion is \emph{unsatisfiable,}
+then this may indicate that we have failed to specify one of the
+conditions it depends upon.
 
-In Datalog (and, more generally, in logic programming) a Datalog predicate, found by satisfying a
-rule, is satisfiable if there are sufficient ground facts in the database to
-deduce it. Formally, satisfiability in Datalog is defined in terms of the \ac{IDB} (the Datalog \emph{program}, analogus to a policy file loaded into an AppPAL assertion context), and the \ac{EDB} (a set of facts from both the \ac{IDB} and those which can be derived using rules).
-Satisfiability for Datalog is defined as~\cite{alon_levy_equivalence_1993}:
+In Datalog (and, more generally, in logic programming) a Datalog
+predicate, found by satisfying a rule, is satisfiable if there are
+sufficient ground facts in the database to deduce it. Formally,
+satisfiability in Datalog is defined in terms of the \ac{IDB} (the
+Datalog \emph{program}, analogus to a policy file loaded into an
+AppPAL assertion context), and the \ac{EDB} (a set of facts from both
+the \ac{IDB} and those which can be derived using rules).
+Satisfiability for Datalog is defined
+as~\cite{alon_levy_equivalence_1993}:
 
 \begin{quote}
   \textbf{Satisfiability:} An IDB predicate $s$ of a program $P$ is
@@ -1444,14 +1455,20 @@ Satisfiability for Datalog is defined as~\cite{alon_levy_equivalence_1993}:
   non-empty relationship for $s$.
 \end{quote}
 
-In AppPAL, when an assertion is satisfiable, there is a combination of facts that
-could satisfy its conditionals. If there are no facts that could ever
-satisfy the rule, then the policy may have a bug. An analogy can be
-drawn to an \emph{conditional always false bug} in a conventional
-programming language: we have code (or in this case a rule) that can
-never be used as the conditions for using it can never occur.
+In AppPAL, when an assertion is satisfiable, there is a combination of
+facts that could satisfy its conditionals. If there are no facts that
+could ever satisfy the rule, then the policy may have a bug. An
+analogy can be drawn to an \emph{conditional always false bug} in a
+conventional programming language: we have code (or in this case a
+rule) that can never be used as the conditions for using it can never
+occur.
 
-Drawing from the Datalog definition of satisfiability, we define an AppPAL statement $G$ as satisfiable if there exists some \ac{AC} such that there is an assertion $A$ within the AC and some assignment of variables $\theta$ such that $A\theta$ derives $G$, and that all the conditions in the body of $A\theta$ are also satisfiable.  Formally, we define this as:
+Drawing from the Datalog definition of satisfiability, we define an
+AppPAL statement $G$ as satisfiable if there exists some \ac{AC} such
+that there is an assertion $A$ within the AC and some assignment of
+variables $\theta$ such that $A\theta$ derives $G$, and that all the
+conditions in the body of $A\theta$ are also satisfiable.  Formally,
+we define this as:
 %
 \begin{align*}
   G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
@@ -1459,12 +1476,16 @@ Drawing from the Datalog definition of satisfiability, we define an AppPAL state
                                                                       & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
 \end{align*}
 
-Our satisfiability checker works by examining which assertions each principal could possibly say from a given assertion context.
-When checking the satisfiability we ask whether there is a mechanism in the policy for the principal to use a given predicate, using the following rules:
+Our satisfiability checker works by examining which assertions each
+principal could possibly say from a given assertion context.  When
+checking the satisfiability we ask whether there is a mechanism in the
+policy for the principal to use a given predicate.
+We use the following
+rules with a relaxed notion of $\in$, that allows variable unification:
 
 \begin{center}\footnotesize
   \begin{equation*}
-\infer{
+\infer[(1)]{
   AC\vdash (\text{\tt principal}, \text{\tt predicate})\in \text{Satisfiable}
 }{
   \begin{array}{c}
@@ -1475,7 +1496,7 @@ When checking the satisfiability we ask whether there is a mechanism in the poli
   \end{equation*}
   
   \begin{equation*}
-\infer{
+\infer[(2)]{
   AC\vdash (\text{\tt principal}, \text{\tt predicate})\in \text{Satisfiable}
 }{
   \begin{array}{c}
@@ -1486,6 +1507,36 @@ When checking the satisfiability we ask whether there is a mechanism in the poli
 }
   \end{equation*}
 \end{center}
+
+Informally the rules say when a policy (in an assertion context) supports the notion that a principal can say a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable).  Rule (1) says that a principal can make statements using a predicate if the assertion context contains an example of them doing so; and that if that example has conditionals, they policy also supports them saying each conditional's predicate.
+Rule (2) handles the case with delegation:  a principal can use a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable), if they say someone else can say the predicate, and the policy supports the other person being able to use that predicate (that (S,~\texttt{predicate})~$\in$~Satisfiable)).
+
+To give an example, if we have an assertion context with the following assertions:
+\begin{lstlisting}
+'alice' says 'bob' recommends('angry-birds').
+
+'alice' says 'claire' canInstall(App)
+  if 'bob' recommends(App).
+
+'alice' says 'claire' mustInstall(App)
+  if 'bob' highlyRecommends(App).  
+\end{lstlisting}
+The first assertion can be used to show that:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
+The assertion is present in the policy and there are no conditions, so:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$.
+
+The second assertion shows that:
+$$(\text{\tt 'alice'},\text{\tt canInstall(App)}) \in \text{Satisfiable}$$
+In the second case we have a condition, but since the first assertion showed that:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
+then we allow (with the relaxed notion of $\in$) that:
+$$(\text{\tt 'alice'},\text{\tt recommends(App)}) \in \text{Satisfiable}$$.
+
+Finally the third assertion cannot be used to show that:
+$$(\text{\tt 'alice'},\text{\tt mustInstall(App)}) \in \text{Satisfiable}$$
+As we have no way to show that:
+$$(\text{\tt 'alice'},\text{\tt highlyRecommends(App)})$$
 
 We also add a somewhat weaker notion of satisfiability (Satisfiable$^\star$) which distinguishes
 statements that might be satisfiable, but depend on delegation, and where the
@@ -1520,12 +1571,22 @@ made an assertion that is itself unsatisfiable.
   \end{equation*}
 \end{center}
 
+The satisfiability rules are reminiscent of AppPAL's \emph{cond} and
+\emph{can-say} rules shown in \autoref{fig:secpal-rules}, but far more
+general.  AppPAL's evaluation rules decide if a specific assertion by
+a speaker is supported by an assertion context.  In contrast, the
+satisfiability rules look at whether it is possible that the
+evaluation rules \emph{could} decide that the assertion is
+supported---that the AppPAL evaluation rules could concievably be
+satisfied, not that the evaluation rules are satisfied for a specific
+assertion.
+  
 This definition of satisfiability is not complete (it ignores relationships
 formed using \emph{can-act-as}, as well as delegations to principals specified
 as variables). It is, however, useful as a debugging tool as it can quickly
 check that a policy contains enough statements to make any decision.
 
-For an example of satisfiability, consider the following snippet taken
+For a real example of the satisfiability checker in use, consider the following snippet taken
 from the NHS policy described in \autoref{chap:byod}.  The rule
 described in the policy is that an app must be approved by the
 \ac{IGC} as well as by either the \ac{CACPG} as well as the \ac{MIG}

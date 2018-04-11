@@ -745,7 +745,7 @@ the smallest set closed under the claims in an assertion context.
 
 **** p53
 
-***** TODO 3.17. M:
+***** DONE 3.17. M:
 In the rules at the top of the page, the "predicate" and the p_i can all
 contain free variables, so the assertions in the Satisfiable set can
 also contain free variables. Is this intended? This is different
@@ -753,6 +753,24 @@ from the situation with the cond rule on p12 where it seems that
 assertions might be ground, might contain no free variables.
 Some explanation of these rules, comparing them with the cond rule
 would be very useful.
+
+> Yes this is intended but some details have been left out: in
+> particular that the equality we use when checking if a particular
+> predicate is in the Satisfiable sets is equality-under-unification.
+>
+> I've added a simplified worked example, and a comparison to the cond and can-say rules:
+>
+>    The satisfiability rules are reminiscent of AppPAL's \emph{cond} and
+>    \emph{can-say} rules shown in \autoref{fig:secpal-rules}, but far more
+>    general.  AppPAL's evaluation rules decide if a specific assertion by
+>    A speaker is supported by an assertion context.  In contrast, the
+>    satisfiability rules look at whether it is possible that the
+>    evaluation rules \emph{could} decide that the assertion is
+>    supported---that the AppPAL evaluation rules could concievably be
+>    satisfied, not that the evaluation rules are satisfied for a specific
+>    assertion.
+
+
 
 **** p5
 ***** DONE 3.18. M:
