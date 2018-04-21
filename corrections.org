@@ -292,7 +292,7 @@ following notation adopted in the SecPAL paper.
 > order to distinguish SecPAL's inference rules, from SecPAL's semantic rules
 > (given in Figure 2.4).
 
-***** TODO 2.15. M:
+***** DONE 2.15. M:
 It would really help if further rigour and details concerning the
 presentation of SecPAL would be brought in from the SecPAL paper in
 order to make the formal presentation of SecPAL complete. The reader
@@ -300,6 +300,13 @@ would not then need to refer back to the SecPAL paper for these
 missing details. For example explain the nature of substitutions,
 when parts of rules are supposed to be ground (free variable free) and
 the meaning of free variables when there are free variables.
+
+> I've added the assertion and query safety rules (which define what
+> parts of rules are meant to be ground and when) straight from
+> Becker's paper as suggested in the viva.  I've also added a
+> paragraph on the substitutions and variables, and explained that
+> they are resolved when evaluating queries against a policy using the
+> cond rule.
 
 ***** DONE 2.16. M:
 Can queries have free variables? If so, are they existentially or

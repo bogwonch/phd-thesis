@@ -47,22 +47,28 @@ describing the language and shows the core language is consistent.
 \label{ssec:grammar-evaluation-semantics}
 
 SecPAL is a language with a simple grammar
-(\autoref{fig:secpal-grammar}) and three evaluation
-rules. (\autoref{fig:secpal-rules}). The language's simplicity makes
-it easy to apply to a new domain by instantiating it with predicates
-and constraints that describe the domain. For example, to instantiate
+(\autoref{fig:secpal-grammar}), three evaluation
+rules. (\autoref{fig:secpal-rules}), and an assertion safety condition
+(\autoref{fig:assertion-safety}). The language's simplicity makes it
+easy to apply to a new domain by instantiating it with predicates and
+constraints that describe the domain. For example, to instantiate
 SecPAL to describe file access policies we might add predicates like
 \texttt{canRead} or \texttt{canWrite} to describe whether a user can
 read or write a file. SecPAL's simplicity does not come at the cost of
 its expressiveness. SecPAL supports delegation (by using
 \emph{can-say} verbs), role and attribute based policies (by using
-\emph{can-act-as} verbs) and arbitrary constraints.
-SecPAL implements the idea of principals by allowing them to act as a \emph{speaker} who \emph{says} assertions about \emph{entities} (who may or may not be \emph{speakers} themselves). The terms \emph{principal} and \emph{speaker} are used interchangeably, whereas an \emph{entity} may denote someone or something that does not or can not make any assertions themselves.
+\emph{can-act-as} verbs) and arbitrary constraints.  SecPAL implements
+the idea of principals by allowing them to act as a \emph{speaker} who
+\emph{says} assertions about \emph{entities} (who may or may not be
+\emph{speakers} themselves). The terms \emph{principal} and
+\emph{speaker} are used interchangeably, whereas an \emph{entity} may
+denote someone or something that does not or can not make any
+assertions themselves.
 
-Delegation lets a
-principal state that assertions from other principals can be used in
-making a decision. Roles allow principals to state that the subject
-of an assertion (\autoref{fig:assertion}) is equivalent to another: effectively aliasing the
+Delegation lets a principal state that assertions from other
+principals can be used in making a decision. Roles allow principals to
+state that the subject of an assertion (\autoref{fig:assertion}) is
+equivalent to another: effectively aliasing the
 subjects to each other.
 
 SecPAL policies are evaluated with respect to an assertion context
@@ -75,6 +81,22 @@ delegation. SecPAL evaluation produces an assertion of the form:
 This means that by using that AC, and with delegation either
 allowed ($D = \mathtt{inf}$) or not ($D = \mathtt{0}$), SecPAL could show that
 $A$ would say the \emph{fact.}
+
+SecPAL assertions can contain variables. A variable can be used in
+place of a constant in some parts of an assertion.  The assertion
+safety condition (\autoref{fig:assertion-safety}) defines when
+variables can be used, and ensures that queries to the policy
+terminate when using Becker's evaluation
+algorithm~\cite{becker_secpal:_2006}.  To paraphraphrase the rules: a
+variable in the head of an assertion is only allowed if it also exists
+in the body of the assertion, a variable in the constraint of an
+assertion must occur somewhere else (the head or the body), and that
+you can't have a conditional fact be a \emph{can-say} statement.  When
+evaluating a query against a policy, the \emph{cond}-rule
+(\autoref{fig:secpal-rules}) can introduce a renaming $\theta$ that
+maps variables to constants in order to resolve the variable against
+the query.
+
 
 \begin{figure}
   \newcommand{\bracetext}[1]{\text{\sffamily #1}}
@@ -125,6 +147,31 @@ $A$ would say the \emph{fact.}
   \label{fig:secpal-grammar}
 \end{figure}
 
+\begin{figure}
+  \Fbox{
+    \begin{minipage}{1.0\linewidth}\footnotesize
+  \newcommand{\avars}[1]{\ensuremath{\text{\itshape vars}\left(#1\right)}}
+  \newcommand{\afact}[0]{\ensuremath{\text{\ttfamily\itshape fact}}}
+  Let \lstinline{'a' says $\afact$ if $\afact_1\cdots \afact_n$ where $c$.} be an assertion.
+
+  A \textbf{variable} $\mathtt{X} \in \avars{\afact}$ is \emph{safe} if:
+  $$\mathtt{X} \in \avars{\afact_1} \cup \cdots \cup \avars{\afact_n}$$
+
+  The \textbf{assertion} \lstinline{'a' says $\afact$ if $\afact_1\cdots \afact_n$ where $c$.} is safe if:
+  \begin{enumerate}
+  \item
+    \begin{enumerate}
+    \item If $\afact$ is flat (it is not a can-say fact), all variables in $\avars{\afact}$ are safe.
+    \item If $\afact$ is not flat (it is of the form \lstinline{E can-say $~\afact^\prime$}), \texttt{E} is a constant or safe variable.
+    \end{enumerate}
+  \item $\avars{c}\subseteq\avars{fact}\cup\avars{\afact_1}\cup\cdots\cup\avars{\afact_n}$
+  \item $\afact_1\cdots\afact_n$ are all flat.
+  \end{enumerate}
+\end{minipage}
+  }
+  \caption{SecPAL's assertion safety conditions.}
+  \label{fig:assertion-safety}
+\end{figure}
 
 \begin{figure}
   \sffamily
@@ -204,9 +251,65 @@ query is false if it has no variables and there is no way
 to show that the AC supports the query.  This limited form means that
 queries remain decidable: the assertions inside the AC are not permitted to
 use negation. 
+
+\begin{figure}
+  \centering\footnotesize
+  \Fbox{\begin{minipage}{1.0\linewidth}
+  \newcommand{\afact}[0]{\ensuremath{\text{\emph{fact}}}}
+  \newcommand{\asays}[0]{\ensuremath{\text{\sffamily says}}}
+  \newcommand{\avars}[1]{\ensuremath{\text{\itshape vars}\left(#1\right)}}
+  $\infer{%
+    q~\text{is safe}
+  }{%
+    \exists O~\text{such that}~\emptyset\Vdash q:O
+  }$\vspace{2em}
+
+  $I\Vdash q:O \left\{ \begin{aligned}
+      q&\text{~is the query.}\\
+      I&\text{~is the set of ground variables before evaluating $q$.}\\
+      O&\text{~is the set of newly ground variables after evaluating $q$.}
+    \end{aligned} \right.
+  $\vspace{2em}
+  
+  $\infer{%
+    I\Vdash e\ \asays\ \afact{} : \avars{e\text{ says } \afact} - I
+  }{%
+    \afact\ \text{is flat}
+  }$\hspace{2em}
+  $\infer{%
+    I\Vdash c : \emptyset
+  }{%
+    vars(c) \subseteq I
+  }$\hspace{2em}
+  $\infer{%
+    I\Vdash q_1~\text{\sffamily or }~q_2: O_1 \cap O_2
+  }{%
+    I\Vdash q_1:O_1 & I\Vdash q_2:O_2
+  }$\hspace{2em}
+  $\infer{%
+    I\Vdash\text{\sffamily not}(q):\emptyset
+  }{%
+    I\Vdash q:O & \avars{q} \subseteq I
+  }$\hspace{2em}
+  $\infer{%
+    I\Vdash q_1, q_2: O_1 \cup O_2
+  }{%
+    I\Vdash q_1:O_1 & I\cup O_1 \Vdash q_2:O_2
+  }$
+  %\hspace{2em}
+  %$\infer{%
+  %  I\Vdash\exists x(q) : O - \{x\}
+  %}{%
+  %  I\Vdash q:O & x\not\in I
+  %}$
+\end{minipage}}
+  \caption{SecPAL's IN/OUT query safety condition.}
+  \label{fig:safety-conditions}
+\end{figure}
  
-As originally described SecPAL queries are not allowed to contain free variables.
-A later extension to SecPAL added guarded universal quantification, however~\cite{moritz_y_becker_secpal:_2009}. 
+SecPAL queries are not allowed to contain free variables.
+Becker described an \emph{IN/OUT} query safety condition (\autoref{fig:safety-conditions}) that ensured that for any assertion context the set of possible answer substitutions would be finite.
+A later extension to SecPAL added guarded universal quantification of varibles, however~\cite{moritz_y_becker_secpal:_2009}. 
 The extension allowed queries with a $\forall$ in them, but also required that the query include a \emph{guard}---a statement to restrict the scope of the free variable.
 For example, a query to search for all apps (known by Alice) that that were recommended by Bob could be written:
 \begin{equation*}
