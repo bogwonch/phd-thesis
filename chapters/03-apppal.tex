@@ -58,6 +58,7 @@ good choice to describe policies in the mobile ecosystem. I introduce
 AppPAL as an instantiation and implementation of SecPAL for mobile
 device policies.
 
+
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
@@ -195,21 +196,62 @@ a certain style of policy, SecPAL doesn't say \emph{how} a policy
 should be written, it instead lets the policy author write their rules
 as they see best.
 
-As well meeting our requirements for a policy language, we agree with Becker~\etal's assertion that SecPAL is
-readable and has evaluation rules that are easy to understand and unsurprising~\cite{becker_secpal:_2006}.
-This again makes SecPAL a good fit to describe the policies of the mobile
-ecosystem as even someone unfamiliar with SecPAL might be able to look at an
-assertion and be reasonably expected to understand what the assertion means.
+As well meeting our requirements for a policy language, we agree with
+Becker~\etal's assertion that SecPAL is readable and has evaluation
+rules that are easy to understand and
+unsurprising~\cite{becker_secpal:_2006}.  This again makes SecPAL a
+good fit to describe the policies of the mobile ecosystem as even
+someone unfamiliar with SecPAL might be able to look at an assertion
+and be reasonably expected to understand what the assertion means.
+
+Tschantz and Krishnamurthi defined various reasonability properties
+(properties that determine how well someone might predict how a policy
+will behave) for policy
+languages~\cite{tschantz_towards_reasonability_2006}.  They note that
+compared to languages based on first-order logic (like SecPAL):
+\begin{quotation}
+  ``policies written in XACML are more transparent than policies written in languages based on first-order logic''
+\end{quotation} In their paper, Tschantz and Krishnamurthi compare a
+restricted version of XACML (Core XACML) to three first-order logic
+based languages: FOL, Lithium and $\mathcal{L}_5$.  Tchantz and
+Krishnamurthi go on to define their properties: \emph{totality} if the
+language always makes a decision, \emph{determinism} if the language
+always makes the same decision given the same query, \emph{monotonic}
+if the policy makes the same decisions if the rules are reordered,
+\emph{safety} if adding a facts from a policy only allows more permit
+decisions to be made and \emph{independent composition} if the results
+of querying the policy as a whole are no different from querying
+subsets of the policy's rules and combining them.  They note that
+whilst Core XACML is deterministic it is not safe, does not have
+independent composition and is not monotonic.
+
+SecPAL in contrast is total (by the closed world assumption), is
+monotonic (there are no policy combinators and negation is not allowed
+in policies), and has independent composition (there are no policy
+combinators).  If the policy is always structured to use the same form
+of decision (the policy always uses \texttt{canRead} instead of
+\texttt{canNotRead}, for example) then the language is safe too.
+SecPAL without constraints is also deterministic, and if constraints
+are used then the language is deterministic only if the constraints
+themselves are\footnote{A constraint which rolled a dice and checked
+if the number rolled was 2 would not be deterministic but could be
+used in SecPAL.}.  SecPAL seems, therefore, to meet most of Tschantz
+and Krishnamurthi criteria for a reasonable language, despite being
+based of first-order logic.
 
 Other languages, perhaps such as XACML or Ponder, could have been used as a
 starting point for a policy language. We chose SecPAL, however, as the basis for
-AppPAL---our policy language for mobile ecosystems.
+AppPAL---a policy language for mobile ecosystems.
 
 \section{Basic Examples of AppPAL}
 
-AppPAL describes the policies in the mobile ecosystem. The grammar is mostly the
-same as SecPAL, but a typing syntax which hides an additional
-typing condition (described fully in~\autoref{ssec:types}). 
+AppPAL is a policy language that describes the policies of the mobile
+ecosystem.  To be more precise: it is SecPAL, with a slightly modified
+syntax to allow for additional typing constraints (described
+in~\autoref{ssec:types}) and to aid machine parsing.  As well as the
+modified syntax, AppPAL also instantiates SecPAL (which is generic) to
+with the predicates and types to talk about mobile security policies
+(\autoref{sec:instantiating}).
 
 One example of the policies AppPAL might describe is a user selecting
 which apps they want to use on their phone. Suppose a user, Alice,
@@ -618,9 +660,10 @@ however, though keeping these relationships can be helpful. In
 we could use these relationships for auditing and policy compression,
 if the relationships were to be enforced.
 
-\item[\bfseries\texttt{subject \emph{must}Action}]
-  An obligation.  The \emph{subject} should carry out the \emph{action}.
-  An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
+\item[\bfseries\texttt{subject \emph{must}Action}] An obligation.  The
+  \emph{subject} should carry out the \emph{action}.  An example might
+  be requiring the device tell a company's IT department if there have
+  been three unsuccessful password attempts:
 
   \begin{minipage}{\linewidth}
   \begin{lstlisting}
@@ -640,9 +683,13 @@ if the relationships were to be enforced.
      'alice' hasCalled.
   \end{lstlisting}
 
-  \emph{Must} predicates are mostly goals, as they describe the conditions when
-  its subject must do something.  There are exceptions, such as the example
-  above where \emph{must} predicate is a condition, but they are unusual.  If a policy were to contain a particular \emph{must} predicate as a condition, but never as a goal, then the policy would be unsatisfiable---something we can check for as described in \autoref{ssec:checking-satisfiability}.
+  \emph{Must} predicates are mostly goals, as they describe the
+  conditions when its subject must do something.  There are exceptions,
+  such as the example above where \emph{must} predicate is a condition,
+  but they are unusual.  If a policy were to contain a particular
+  \emph{must} predicate as a condition, but never as a goal, then the
+  policy would be unsatisfiable---something we can check for as
+  described in \autoref{ssec:checking-satisfiability}.
 \end{description}
 
 \noindent
@@ -804,7 +851,11 @@ readability. It avoids hiding the condition that the company must own the access
 point among typing statements aiding readability. It also helps avoid errors
 in policies caused by the policy author forgetting to give a type to a variable.
 
-The typing syntax can also lead to scenarios where the typing \emph{is} predicates are checked multiple times when querying a policy.  For example, in the following hypothetical policy if Alice queried whether \emph{Angry Birds} was installable she might check three (or more) times if \texttt{'alice' says 'angry-birds' isApp.}
+The typing syntax can also lead to scenarios where the typing
+\emph{is} predicates are checked multiple times when querying a
+policy.  For example, in the following hypothetical policy if Alice
+queried whether \emph{Angry Birds} was installable she might check
+three (or more) times if \texttt{'alice' says 'angry-birds' isApp.}
 \begin{lstlisting}
 'alice' says App:A isInstallable
   if A isAGame.
@@ -840,7 +891,9 @@ an assertion to their policy to check for such type-errors.
      X isDevice.
 \end{lstlisting}
 
-To our knowledge this is the first attempt to add types to SecPAL.  Adding a static type-checker, and looking at more complex type systems has been left to future work.
+To our knowledge this is the first attempt to add types to SecPAL.
+Adding a static type-checker, and looking at more complex type systems
+has been left to future work.
 
 
 \section{Implementation}

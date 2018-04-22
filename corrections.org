@@ -799,13 +799,60 @@ sense of assertions maybe it is helpful.
 
 *** CM
 
-***** TODO 3.19. M:
+***** DONE 3.19. M:
 The precise definition of AppPAL needs to be given here? Is it simply
 SecPAL with a typing syntax (section 3.2)? Or does it include an
 onthology for a specific domain (Section 3.3). The paper "Michael Carl
 Tschantz, Shriram Krishnamurthi: Towards reasonability properties for
 access-control policy languages. SACMAT 2006: 160-169" needs to be
 discussed here as well.
+
+> For the more precise definition:
+
+> AppPAL is a policy language that describes the policies of the
+> mobile ecosystem. To be more precise: it is SecPAL, with a slightly
+> modified syntax to allow for additional typing constraints (described
+> in Section 3.3.2) and to aid machine parsing. As well as the modified
+> syntax, AppPAL also instantiates SecPAL (which is generic) to with the
+> predicates and types to talk about mobile security policies (Section
+> 3.3).
+
+> For the Tschantz paper:
+
+> Tschantz and Krishnamurthi defined various reasonability properties
+> (properties that determine how well someone might predict how a
+> policy will behave) for policy languages [?]. They note that
+> compared to languages based on first-order logic (like SecPAL):
+>   
+>     ``policies written in XACML are more transparent than policies
+>       written in languages based on first-order logic"
+> 
+> In their paper, Tschantz and Krishnamurthi compare a restricted
+> version of XACML (Core XACML) to three first-order logic based
+> languages: FOL, Lithium and L5. Tchantz and Krishnamurthi go on to
+> define their properties: totality if the language always makes a
+> decision, determinism if the language always makes the same decision
+> given the same query, monotonic if the policy makes the same
+> decisions if the rules are reordered, safety if adding a facts from
+> a policy only allows more permit decisions to be made and
+> independent composition if the results of querying the policy as a
+> whole are no different from querying subsets of the policy’s rules
+> and combining them. They note that whilst Core XACML is
+> deterministic it is not safe, does not have independent composition
+> and is not monotonic.
+> 
+> SecPAL in contrast is total (by the closed world assumption), is
+> monotonic (there are no policy combinators and negation is not
+> allowed in policies), and has independent composition (there are no
+> policy combinators). If the policy is always structured to use the
+> same form of decision (the policy always uses canRead instead of
+> canNotRead, for example) then the language is safe too. SecPAL
+> without constraints is also deterministic, and if constraints are
+> used then the language is deterministic only if the constraints
+> themselves are1. SecPAL seems, therefore, to meet most of Tschantz
+> and Krishnamurthi criteria for a reasonable language, despite being
+> based of first-order logic.
+
 
 ***** DONE 3.20. O:
 On the type notation: how complex is the type system? is there any
