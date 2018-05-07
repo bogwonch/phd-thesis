@@ -104,9 +104,9 @@ the query.
   \centering
   \begin{equation*}
     \begin{array}{r l}
-      \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} &
+      \overbrace{\smalltext{`user'}}^{\bracetext{speaker}} & 
                                                              \smalltext{ says }\overbrace{\overbrace{\smalltext{ App }}^{\bracetext{subject}}\overbrace{\smalltext{ isRunnable}}^{\bracetext{predicate}}}^{\bracetext{fact}} \\
-                                                           & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}} \\
+                                                           & \overbrace{\smalltext{ if App isFree}}^{\bracetext{condition}}                                                                                                  \\
                                                            & \overbrace{\smalltext{ where hasPermission(App, `INTERNET') = true}}^{\bracetext{constraint}}.
     \end{array}
   \end{equation*}
@@ -118,24 +118,24 @@ the query.
 \newcommand{\secpal}[1]{{\color{BrickRed}\texttt{#1}}}
 \begin{figure}\footnotesize\centering\sffamily
   \begin{tabular}{r r l c}
-    AC         & $\Coloneqq$ & assertion$_1$ \dots assertion$_n$                      & \bnfcomment{assertion context} \\
-    assertion  & $\Coloneqq$ & e \secpal{says} claim.                          \\
-    e          & $\Coloneqq$ & \secpal{X}                                       & \bnfcomment{variables}         \\
-               & $\vert$     & \secpal{'A'}                                     & \bnfcomment{constants}         \\
-    predicate  & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots  & \bnfcomment{predicates}        \\
-    D          & $\Coloneqq$ & \secpal{0}                                               & \bnfcomment{no further delegation}     \\
-               & $\vert$     & \secpal{inf}                                        & \bnfcomment{unbounded delegation}        \\
-    vp         & $\Coloneqq$ & predicate(\secpal{(}e$_1$\secpal{,} \dots e$_n$\secpal{)})?                          & \bnfcomment{verb phrase}       \\
-               & $\vert$     & \secpal{can-say} D? f                      & \bnfcomment{delegation of fact} \\
-               & $\vert$     & \secpal{can-act-as}  e                         & \bnfcomment{role assignment} \\
-    f          & $\Coloneqq$ & e vp                                             & \bnfcomment{fact}              \\
-    claim      & $\Coloneqq$ & f (\secpal{if} f$_1$,\dots, f$_n$)? (\secpal{where} c)?             \\
-    c          & $\vert$     & e$^\prime_1 $\secpal{=} e$^\prime_2$                      & \bnfcomment{constraints}       \\
-               & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                      & \bnfcomment{constraints}       \\
-               & $\vert$     & \dots                                           \\
-    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)            \\  
-               & $\vert$     & \secpal{true} $\vert$ \secpal{false}           & \bnfcomment{booleans}     \\
-               & $\vert$     & integer           & \bnfcomment{numbers}     \\
+    AC         & $\Coloneqq$ & assertion$_1$ \dots assertion$_n$                           & \bnfcomment{assertion context}     \\
+    assertion  & $\Coloneqq$ & e \secpal{says} claim.                                                                           \\
+    e          & $\Coloneqq$ & \secpal{X}                                                  & \bnfcomment{variables}             \\
+               & $\vert$     & \secpal{'A'}                                                & \bnfcomment{constants}             \\
+    predicate  & $\Coloneqq$ & \secpal{has} $\vert$ \secpal{can} $\vert$ \dots             & \bnfcomment{predicates}            \\
+    D          & $\Coloneqq$ & \secpal{0}                                                  & \bnfcomment{no further delegation} \\
+               & $\vert$     & \secpal{inf}                                                & \bnfcomment{unbounded delegation}  \\
+    vp         & $\Coloneqq$ & predicate(\secpal{(}e$_1$\secpal{,} \dots e$_n$\secpal{)})? & \bnfcomment{verb phrase}           \\
+               & $\vert$     & \secpal{can-say} D? f                                       & \bnfcomment{delegation of fact}    \\
+               & $\vert$     & \secpal{can-act-as}  e                                      & \bnfcomment{role assignment}       \\
+    f          & $\Coloneqq$ & e vp                                                        & \bnfcomment{fact}                  \\
+    claim      & $\Coloneqq$ & f (\secpal{if} f$_1$,\dots, f$_n$)? (\secpal{where} c)?                                          \\
+    c          & $\vert$     & e$^\prime_1 $\secpal{=} e$^\prime_2$                        & \bnfcomment{constraints}           \\
+               & $\vert$     & e$^\prime_1 $\secpal{<} e$^\prime_2$                        & \bnfcomment{constraints}           \\
+               & $\vert$     & \dots                                                                                            \\
+    e$^\prime$ & $\Coloneqq$ & e $\vert$ function(e$_1$,\dots e$_n$)                                                            \\  
+               & $\vert$     & \secpal{true} $\vert$ \secpal{false}                        & \bnfcomment{booleans}              \\
+               & $\vert$     & integer                                                     & \bnfcomment{numbers}               \\
   \end{tabular}
   \caption[BNF description of SecPAL.]{%
     BNF description of SecPAL as used in this thesis. As originally described by
@@ -179,31 +179,31 @@ the query.
   \centering
   \begin{eqnarray*}
     \infer[\textsf{\scriptsize cond}]{%
-      AC, D \models A\texttt{~says~}fact\theta
+    AC, D \models A\texttt{~says~}fact\theta
     }{%
-      \begin{array}[c]{c}
-        \left(A\texttt{~says~}\text{fact}\texttt{~if~}\text{fact}_1,~\ldots,~\text{fact}_k~\texttt{where}~c\right) \in AC \\
-        AC,D\models A\texttt{~says~}\text{fact}_i\theta \; \forall i \in \{1\cdots k\}
-      \end{array}
-      & \models{c\theta}
-      & \textsf{vars}(\text{fact}\theta) = \emptyset)
-    }\\
+    \begin{array}[c]{c}
+      \left(a\texttt{~says~}\text{fact}\texttt{~if~}\text{fact}_1,~\ldots,~\text{fact}_k~\texttt{where}~c\right) \in ac \\
+      ac,d\models a\texttt{~says~}\text{fact}_i\theta \; \forall i \in \{1\cdots k\}
+    \end{array}
+    & \models{c\theta}
+    & \textsf{vars}(\text{fact}\theta) = \emptyset)
+      }                                                                                                                     \\
     \\
     \infer[\textsf{\scriptsize can-say}]{%
-      AC, \texttt{inf} \models A\texttt{~says~}\text{fact}
+    ac, \texttt{inf} \models a\texttt{~says~}\text{fact}
     }{%
-      AC, \texttt{inf} \models A\texttt{~says~}B\texttt{~can-say}~D~\text{fact}
-      & AC, D \models B\texttt{~says~}\text{fact}
-    } \\
+    ac, \texttt{inf} \models a\texttt{~says~}b\texttt{~can-say}~d~\text{fact}
+    & ac, d \models b\texttt{~says~}\text{fact}
+      }                                                                                                                     \\
     \\
     \infer[\textsf{\scriptsize can-act-as}]{%
-      AC, D \models A\texttt{~says~}B~\text{verb-phrase}
+    ac, d \models a\texttt{~says~}b~\text{verb-phrase}
     }{%
-      AC, D \models A\texttt{~says~}B\texttt{~can-act-as~}C
-      & AC, D \models A\texttt{~says~}C~\text{verb-phrase}
-    }
+    ac, d \models a\texttt{~says~}b\texttt{~can-act-as~}c
+    & ac, d \models a\texttt{~says~}c~\text{verb-phrase}
+      }
   \end{eqnarray*}
-  \caption[Derviation rules used to evaluate {SecPAL}.]{The derivation rules used to evaluate {SecPAL}. All {SecPAL} rules are
+  \caption[derviation rules used to evaluate {secpal}.]{the derivation rules used to evaluate {secpal}. all {secpal} rules are
   evaluated in the context of a set of other assertions $AC$ as well as an
   allowed level of delegation $D$ which may be \texttt{0} or \texttt{inf}.
   The $\models$ symbol is used by Becker~\cite{becker_secpal:_2006} to describe the derivation rules instead of the more usual $\vdash$.
@@ -224,12 +224,12 @@ the query.
     
     \midrule
     \multirow{6}{*}{\rotatebox{90}{Definitions}} &
-    1. $AC,\theta \vdash \underbrace{e \text{ says } fact}_q.$  & if $AC,\texttt{inf} \models e\theta \texttt{ says } fact\theta.$\newline and $dom(\theta) \subseteq vars(e \text{ says } fact)$                                       \\
-    &2. $AC,\theta_1\theta_2 \vdash q_1, q_2$    & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash q_2\theta_1$                                                                                   \\
-    &3. $AC,\theta \vdash q_1 \text{ or } q_2$   & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                                                                                  \\
-    &4. $AC,\epsilon \vdash \mathsf{not}(q)$     & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                                                                                              \\
-    &5. $AC,\epsilon \vdash c$                   & if $\models c$                                                                                                                                       \\
-    \bottomrule                             \\
+    1. $AC,\theta \vdash \underbrace{e \text{ says } fact}_q.$ & if $AC,\texttt{inf} \models e\theta \texttt{ says } fact\theta.$\newline and $dom(\theta) \subseteq vars(e \text{ says } fact)$ \\
+                                                               & 2. $AC,\theta_1\theta_2 \vdash q_1, q_2$  & if $AC,\theta_1 \vdash q_1$ and $AC,\theta_2 \vdash q_2\theta_1$                    \\
+                                                               & 3. $AC,\theta \vdash q_1 \text{ or } q_2$ & if $AC,\theta \vdash q_1$ or $AC,\theta \vdash q_2$                                 \\
+                                                               & 4. $AC,\epsilon \vdash \mathsf{not}(q)$   & if $AC,\epsilon \not\vdash q$ and $vars(q) = \emptyset$                             \\
+                                                               & 5. $AC,\epsilon \vdash c$                 & if $\models c$                                                                      \\
+    \bottomrule                                                                                                                                                                                  \\
   \end{tabular}
   \caption[SecPAL's proof-theoretic semantics.]{SecPAL's proof-theoretic semantics as described by Becker~\cite{becker_secpal:_2006}.}
   \label{fig:secpal-semantics}
@@ -254,7 +254,7 @@ use negation.
 
 \begin{figure}
   \centering\footnotesize
-  \Fbox{\begin{minipage}{1.0\linewidth}
+  \Fbox{\begin{minipage}{1.0\linewidth}\centering
   \newcommand{\afact}[0]{\ensuremath{\text{\emph{fact}}}}
   \newcommand{\asays}[0]{\ensuremath{\text{\sffamily says}}}
   \newcommand{\avars}[1]{\ensuremath{\text{\itshape vars}\left(#1\right)}}
@@ -833,8 +833,7 @@ be of limited use. Delegation using \emph{can-say} could replace it with greater
 control in all cases Wherever that \emph{can-act-as} to use exclusively depth
 bounded delegation (as we showed in \autoref{ssec:delegation_in_secpal}). 
 
-
-\subsection{XACML}
+\paragraph*{XACML}
 
 XACML is a policy language with an industrial
 standard~\cite{oasis_extensible_2013} that can be extended to fit many
@@ -1039,10 +1038,10 @@ PRP. For a decentralized scenario the architecture fits less well as the
 decision point may have to retrieve policies and decisions from multiple sources
 (which may in turn require more decisions and policies to be retrieved).
 
-Ultimately we chose to use SecPAL as the basis for our work instead of XACML as
-it had well-defined semantics, and was a better fit to describe the
-decentralized policies of the mobile ecosystem. A lot of the results of our work
-could be replicated in XACML instead of AppPAL. 
+%Ultimately we chose to use SecPAL as the basis for our work instead of XACML as
+%it had well-defined semantics, and was a better fit to describe the
+%decentralized policies of the mobile ecosystem. A lot of the results of our work
+%could be replicated in XACML instead of AppPAL. 
 
 
 \section{Fine-Grained Permission Systems}

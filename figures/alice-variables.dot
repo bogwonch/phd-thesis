@@ -1,0 +1,22 @@
+digraph {
+	spline=true;
+	overlap=false;
+	concentrate=false;
+	rankdir=TB;
+
+	graph [fontname="helvetica"];
+
+	node [fontname="helvetica" shape=plaintext];
+	alice [label="Alice"];
+	computer [label="Computer"];
+	{ rank=same alice computer }
+
+	node [fontname="courier new" shape=note];
+	c1 [label="'computer' says\l  User canRun(Program)\l  if User isLoggedIn,\l     Program isExecutable\l  where hasTimeRemaining(User) = True.\l\l'computer' says 'alice' isLoggedIn.\l\l'computer' says 'program.exe' isExecutable."]
+
+	edge [fontname="helvetica" style=bold];
+	alice -> computer [label="Run program.exe"];
+
+	edge [arrowhead=none arrowtail=none style=solid];
+	c1 -> computer;
+}

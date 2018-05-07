@@ -229,10 +229,13 @@ Need "," after language. However, phrase itself is awkward.
 Is "When using authorization logics as policy languages" any better?
 
 > Much!
+> But after doing 2.23 the sentence was removed altogether.
 
-***** TODO 2.3. O:
+***** DONE 2.3. O:
 Can any difference between the concepts of an "authorization logic"
 and a "policy language" be clarified?
+
+> They're almost the same thing.  Added a sentence to say so.
 
 **** p10
 ***** TODO 2.4 O:
@@ -255,12 +258,14 @@ interchangeably. It would be worth stating explicitly that they are
 synonyms (if they are) or otherwise remarking on the slightly
 different usage of each term.
 
-> In Grammar, Evaluation and Semantics:
->     SecPAL implements the idea of principals by allowing them to act as a
->     \emph{speaker} who \emph{says} assertions about \emph{entities} (who may or
->     may not be \emph{speakers} themselves). The terms \emph{principal} and
->     \emph{speaker} are used interchangeably, whereas an \emph{entity} may denote
->     someone or something that does not or can not make any assertions themselves.
+> In SecPAL section after AC, {} |- 'computer' says 'alice' canRun('program.exe'):
+
+>     Assertions in SecPAL are made by an explicit \emph{entity} called the
+>     \emph{speaker} or \emph{principal} (the \texttt{computer} in this
+>     case) who says a fact about another entity called the \emph{subject}
+>     (\texttt{'alice'}).  The subject of an assertion may also be a
+>     speaker, or may be a voiceless entity the speaker says something
+>     about (the program, for example).
 
 ***** TODO 2.7. O:
 The whole phrase "AC,D |= A says fact" is called an "assertion".
@@ -318,10 +323,17 @@ Some remark is needed concerning the appropriation of the |= notation
 for judgements in rules. This is rather non-standard, but is
 following notation adopted in the SecPAL paper.
 
-> The |= symbol is used by Becker~\cite{becker_secpal:_2006} to
-> describe the inference rules instead of the more usual |-.  This is in
-> order to distinguish SecPAL's inference rules, from SecPAL's semantic rules
-> (given in Figure 2.4).
+> After the AC, theta |- q explanation:
+>     SecPAL's proof theoretic semantics are given in
+>     \autoref{fig:secpal-semantics}, and the derivation rules it uses to
+>     decide is a particular assertion holds or not are given in
+>     \autoref{fig:secpal-rules}. SecPAL has two main forms of decision
+>     procedure: The $\vdash$ form is used to evaluate a query with respect
+>     to an assertion context, and the $\models$ form is used to decide
+>     whether, given an assertion context and a flag indicating whether
+>     delegation is allowed, SecPAL's derivation rules can be used to derive
+>     the assertion from the assertion context.
+
 
 ***** DONE 2.15. M:
 It would really help if further rigour and details concerning the
@@ -375,31 +387,15 @@ an arbitrary (but finite) depth, without allowing for unbounded
 delegation. ". It is hard to imagine infinite depth delegation.
 So what is difference between "arbitary" and "unbounded"?
 
-> Arbitrary is a chain of delegation of fixed (but finite) length.
-> Unbounded could be of infinite depth.
->
-> For example, if you had two rules such as:
->     A says B can-say inf fact.
->     B says A can-say inf fact.
-> It would be perfectly valid to construct an infinitely large proof tree where
-> they delegate back and forth endlessly, where as with depth-bounded at some
-> point you'd reach a point where you couldn't delegate and the entire proof tree
-> would colapse.
-> 
-> If you want to be *really* tricksy you could construct an infinitely long
-> assertion of the form:
->     A says B can-say C can-say D can-say ...
-> And have an infinitely long depth-bounded assertion that allowed an
-> infinitely large proof tree.  
-> 
-> No sane implementation would allow this silliness so I haven't mentioned it,
-> The endless back and forth of the previous example gets sorted by the
-> tabling algorithm Becker described (and a similar trick used in AppPAL).
-> 
-> I've added a back reference to where I talk about unbounded delegation to
-> allow the reader to contrast it with the bounded variety and I think that's
-> enough.  If you really want more explanation I'll add it, but I don't think
-> it adds much.
+> Added the figure with caption "Example of delegation with a loop of trust" and:
+>     Depth-bounded delegation allows delegation statements to be
+>     chained to an arbitrary (but finite) depth, without allowing for
+>     unbounded delegation, as unbounded delegation can become problematic
+>     if \emph{loops of trust} are introduced.  Loops of trust, as shown in
+>     \autoref{fig:loop-of-trust}, when there is a chain of delegation
+>     between principals that forms a loop.  SecPAL does not prohibit
+>     setting up loops like and it is left to the implementation to detect
+>     and resolve them, as they can cause the derivation rules to hang.
 
 **** p20
 
@@ -472,7 +468,7 @@ with each of the other languages too?
 > by an \emph{administrator} editing the policies at the PAP), and using
 > \emph{information} from the PIP. "
 
-> For SecPAL, Becker doesn't say how to do this. Becker gives the language:e and
+> For SecPAL, Becker doesn't say how to do this. Becker gives the language and
 > the evaluation procedure, but it wasn't until later languages like DKAL that
 > they drilled down into how you automate the querying and information sharing.
 > I've added a short subsection or two stating this (Integrating SecPAL)
@@ -500,7 +496,7 @@ with each of the other languages too?
 
 *** CM
 
-***** TODO 2.23 M:
+***** DONE 2.23 M:
 The background section needs to be improved, targeted towards a non
 specialised expert, who do not already know about SecPAL (or other
 formal access control languages). This chapter needs to be
@@ -512,6 +508,18 @@ together with its semantics, illustrated on the example. This chapter
 is key to clarify the contribution of AppPAL with respect to
 SecPAL. The choice of other languages not clear: why are XACML and
 DKAL at the end, while Ponder and Cassandra are in this section?
+
+
+> As discussed in the viva, the related work section is gone and it
+> the discussion of the other policy languages has been brought in here
+> and the related work chapter has been removed.
+
+> I have rewritten/edited-heavily the introduction to SecPAL, as a
+> general introduction to the problems policy languages try and solve,
+> using and explaining SecPAL as I go, as suggested.  From the
+> "Delegation is SecPAL" section it is more or less as it was before.
+
+
 
 **** p11
 
