@@ -880,9 +880,9 @@ the differences between some stores.  A natural continuation of this is
 to start to generate new app stores, based on a user's policy, that only sell
 apps that a user might find acceptable.
 
-Curated app stores are a similar idea, used inside companies to help employees
-install apps for work that satisfy company policies.  With these corporate stores the apps are hand selected
-by IT staff.  
+Curated app stores are a similar idea, used inside companies to help
+employees install apps for work that satisfy company policies.  With
+these corporate stores the apps are hand selected by IT staff.
 
 \begin{figure}\centering
   \includegraphics[width=0.8\textwidth]{figures/genstore.pdf}
@@ -890,7 +890,13 @@ by IT staff.
   \label{fig:genstore-architecture}
 \end{figure}
 
-AppPAL's \emph{GenStore} tool automates this process for Android app stores. The
+\begin{figure}\centering
+  \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
+  \caption{GenStore database schema.}
+  \label{fig:genstore-schema}
+\end{figure}
+
+The \emph{GenStore} tool uses AppPAL to automate the store creation process for Android app stores. The
 architecture is shown in \autoref{fig:genstore-architecture}. We summarize it
 as:
 
@@ -912,27 +918,107 @@ as:
   is created storing information about the apps.
 \end{enumerate}
 
-Genstore is a prototype, but it lets developers explore how policies could be
+\subsection{Using GenStore to Build an App Store}
+
+As an example of GenStore consider Alice who wants to build a curated
+app store for her company.  The apps in her store will be split into
+two categories: \emph{required} apps which is a list of apps
+specified by the HR department that everyone should install,
+\emph{optional} apps which people can install if they want, and
+\emph{Alice's Favourites} which are apps Alice particularly likes and
+wants to show off.  Apps which aren't in these categories shouldn't be
+available and, as well as these three categories, only apps which have
+been checked by the company antivirus program should be allowed on her
+store.
+
+To implement her store she downloads a pool of 12 apps that she could
+sell in her store, and writes a policy.  The policy describes what she
+wants to sell in her store and how she wants to categorise the apps.
+This policy is very simple (it essentially just whitelists apps) but
+more complex policies could be written if Alice wanted.
+\begin{lstlisting}
+'store' says 'alice' can-say inf App isSellable.
+'store' says 'alice' can-say inf App hasCategory(C).
+
+'alice' says App isSellable
+  if App hasCategory(C),
+  where AVCheck(App) = true.
+
+'alice' says 'hr' can-say X hasCategory('Required').
+'hr' says 'apk://com.microsoft.office.word' hasCategory('Required').
+'hr' says 'apk://com.microsoft.skydrive' hasCategory('Required').
+'hr' says 'apk://com.skype.raider' hasCategory('Required').
+
+'alice' says 'apk://com.niksoftware.snapseed' hasCategory('Optional').
+'alice' says 'apk://net.skyscanner.android.main' hasCategory('Optional').
+'alice' says 'apk://com.google.android.apps.photos' hasCategory('Optional').
+'alice' says 'apk://com.sega.sonicdash' hasCategory('Optional').
+\end{lstlisting}
+
+With the policy written, she passes the apps and the policy to
+GenStore and asks it to build her an app store.  It finds that several
+of the 5 of the apps were not sellable in her store (4 because they
+did not have categories, and the Towelroot rooting tool was rejected
+by the antivirus), but that it could create an app store from the
+remainder.  The output of the tool, and the webapp it creates is shown
+in \autoref{fig:genstore-output}.
+Alice can take this webapp and modify it to work in her company.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{figures/genstore-output.png}
+\begin{Verbatim}[fontsize=\scriptsize]
+$ java -jar genstore.jar -d data -p store.policy
+[INFO] preparing store
+[INFO] picking apps
+[INFO] com.microsoft.skydrive is sellable.
+[INFO] com.niksoftware.snapseed is sellable.
+[INFO] com.google.android.apps.photos is sellable.
+[WARNING] com.geohot.towelroot is not sellable.
+[INFO] com.sega.sonicdash is sellable.
+[WARNING] com.rovio.baba is not sellable.
+[INFO] net.skyscanner.android.main is sellable.
+[INFO] com.microsoft.office.word is sellable.
+[WARNING] com.supercell.clashofclans is not sellable.
+[WARNING] com.whatsapp is not sellable.
+[INFO] com.skype.raider is sellable.
+[WARNING] com.outfit7.mytalkingtomfree is not sellable.
+[INFO] picking categories
+[INFO] com.microsoft.skydrive has category Required.
+[INFO] com.microsoft.office.word has category Required.
+[INFO] com.skype.raider has category Required.
+[INFO] found 3 apps with category 'Required'
+[INFO] com.niksoftware.snapseed has category Optional.
+[INFO] com.google.android.apps.photos has category Optional.
+[INFO] com.sega.sonicdash has category Optional.
+[INFO] net.skyscanner.android.main has category Optional.
+[INFO] found 4 apps with category 'Optional'
+[INFO] building store
+[INFO] copying app structure
+[INFO] creating tables
+[INFO] adding apks
+[INFO] adding categories
+[INFO] adding metadata
+[INFO] copying apks
+\end{Verbatim}
+  \caption[Output of the GenStore tool.]{Output of the GenStore tool which runs on the command-line and produces a webapp.}
+  \label{fig:genstore-output}
+\end{figure}
+
+\subsection{Current Status}
+
+The GenStore tool itself is usable as a prototype, but it is not production-ready.
+The stores it creates are minimal and do not have any authentication; and as such further work would be required to make the stores ready for use in an actual company.
+%
+Genstore lets developers explore how policies could be
 integrated into the Android ecosystem. It shows an example of how AppPAL can
-help make decisions, in this case about which apps make the cut for a store,
+help make decisions, in this case about which apps should be included in a company app store,
 automatically. For a company seeking to enforce a policy about which apps are
 installable they could use it to offer their employees choice about apps,
 without having to remove the default store entirely. If an AV vendor integrated
 their own checks into AppPAL then they could create a \emph{safe} app
 store where all apps have been demonstrably vetted by their software and
 engineers.
-
-\begin{figure}\centering
-  \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
-  \caption{GenStore database schema.}
-  \label{fig:genstore-schema}
-\end{figure}
-
-%\begin{figure}\centering
-%  \framebox[\textwidth]{TODO: ADD SCREENSHOT WHEN I FIX THE BUGS\vspace{3in}}
-%  \caption{Screenshot of a generated store.}
-%  \label{fig:genstore-screenshot}
-%\end{figure}
 
 \end{document}
 

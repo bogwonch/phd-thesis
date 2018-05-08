@@ -992,18 +992,26 @@ I found it hard to picture them. Include more information about them.
 
 **** p80
 
-***** TODO 4.2. O:
+***** DONE 4.2. O:
 "AppPAL's GenStore tool". This phrasing makes it sound like the
 GenStore tool is part of AppPAL, whereas what is intended is that the
 GenStore tool is an application of the AppPAL checker tool. Could the
 phrasing here be improved?
 
-***** TODO 4.3. M:
+> Is this better?
+> "The \emph{GenStore} tool uses AppPAL to automate the store creation process for Android app stores."
+
+***** DONE 4.3. M:
 The status of the GenStore tool is very hazy. It is described as a
 prototype. Did the prototype actually work? This section would be
 much stronger if it could include some simple example case study that
 demonstrates it actually running. At the very least, there needs to
 be a fuller description of GenStore's status.
+
+
+> GenStore was written years ago, but I've got it going again!
+> Added a section "Using GenStore to Build an App Store", which shows how it is used and adds the screenshots of it actually running.
+> I note at the end that it is not production ready, but acts as an example of how AppPAL could be used in practice.
 
 
 *** CM
