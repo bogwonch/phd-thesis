@@ -594,6 +594,7 @@ population (\autoref{tab:lin-westin}).
   \label{tab:lin-westin}
 \end{table}
 
+\pagebreak
 \subsection{Measuring Users}
 
 \begin{table}
@@ -828,6 +829,7 @@ install malware generally.
   \label{fig:lin_malware_graphs}
 \end{figure}
 
+\pagebreak
 \subsection{Discussion}
 
 In capturing the privacy preferences, and in comparing them to user
@@ -931,11 +933,14 @@ available and, as well as these three categories, only apps which have
 been checked by the company antivirus program should be allowed on her
 store.
 
-To implement her store she downloads a pool of 12 apps that she could
-sell in her store, and writes a policy.  The policy describes what she
-wants to sell in her store and how she wants to categorise the apps.
-This policy is very simple (it essentially just white-lists apps) but
-more complex policies could be written if Alice wanted.
+To implement her store she downloads a pool of apps that she could
+sell in her store, and writes a policy.  In this case we chose a pool
+of 12 apps to serve as an example. The policy describes what she wants
+to sell in her store and how she wants to categorise the apps.  This
+policy is very simple (it essentially just white-lists apps) but more
+complex policies could be written if Alice wanted.
+
+\pagebreak
 \begin{lstlisting}
 'store' says 'alice' can-say inf App isSellable.
 'store' says 'alice' can-say inf App hasCategory(C).
@@ -1024,5 +1029,5 @@ engineers.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch4"
+%%% TeX-master: "../thesis"
 %%% End:

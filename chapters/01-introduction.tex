@@ -77,9 +77,9 @@ They may make decisions based on what their friends have told them, or what a
 review said about the app.
 
 In this section we will start to introduce by example AppPAL: an authorisation
-language for the policies of the mobile ecosystem, based on
+language for the policies of the mobile ecosystem, and is based on
 SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail in
-\autoref{chap:apppal} and throughout the thesis, but it is essentially an
+\autoref{chap:apppal} and throughout the thesis, but it is, in essence, an
 instantiation of the SecPAL system to the mobile domain, along with some minor
 changes to syntax. We have implemented AppPAL to explore its use and to capture
 the policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
@@ -106,6 +106,8 @@ predicates, AppPAL can be used to describe delegations, such as:
 \begin{lstlisting}
 'alice' says 'bob' can-say App:A isGood.
 \end{lstlisting}
+
+\pagebreak
 Which should be read as an assertion by Alice that if Bob says an App, A, is
 good then she will also agree that it is good.  AppPAL can also describe roles,
 the assertions:
@@ -123,8 +125,6 @@ AppPAL inherits its evaluation rules and semantics from SecPAL which is describe
 \autoref{sec:secpal}.  AppPAL's syntax, however, differs slightly
 from SecPAL and includes some conventions for writing policies---these changes
 are described in \autoref{sec:instantiating}.
-
-\vspace{1em}
 
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
@@ -197,7 +197,8 @@ Bob might trust reviews and review sites to give him an idea of an app's quality
 'bob' says 'metacritic' can-say
   App:A hasReviewScore(Percent:N).
 \end{lstlisting}
-%
+
+\pagebreak
 Bob might also recommend an app based on its app store categorisation and its permissions.
 %
 \begin{lstlisting}
@@ -207,7 +208,7 @@ Bob might also recommend an app based on its app store categorisation and its pe
   where ! contains(P, 'INTERNET').
 \end{lstlisting}
 
-They allow their employers to say how they should their devices, who
+Users allow their employers to say how they should their devices, who
 may in turn delegate to IT departments, to write rules, which may
 delegate back to the users to state what rules they're willing to
 follow.
@@ -320,11 +321,13 @@ permission systems allow for new and powerful ways of expressing how
 users want their devices to behave, but they do not deal with the fact
 that users say not typically express their policies in terms of
 permission sets or formal policies but instead might use natural
-language.  Existing work has given us the mechanisms for enforcing
+language.
+
+Existing work has given us the mechanisms for enforcing
 arbitrary mobile security policies, but not the means to link them
 back to the human natural language informal policies people use in
-practice.  What the existing research lacks is mechanisms to capture
-and reason about the informal policies precisely and then link them to
+practice.  What existing research lacks is the mechanisms to capture
+and reason about the informal policies precisely, and then link them to
 the tools and mechanisms that can enforce them.
 
 With the goal of showing how to capture the informal mobile security
@@ -447,7 +450,7 @@ extensive editing.
 \item \textbf{Chapter 5: Applying AppPAL to \ac{BYOD} Policies.}
   We move from describing \emph{user-centric} policies, to ones companies might
   want to enforce. We look at how we can capture \ac{BYOD} policies using AppPAL by
-  looking at five \ac{BYOD} policies (which are included in Appendix A). In capturing the
+  looking at 5 \ac{BYOD} policies (which are included in Appendix A). In capturing the
   policies, we identify two idioms that existing MDM tooling does not capture. We
   also describe how AppPAL could be used to enforce a \ac{BYOD} policy by integrating
   with existing tooling.
@@ -493,8 +496,8 @@ This thesis makes the following contributions:
     of app privacy policies found by surveying users~\cite{lin_modeling_2014},
     I show that users do not seem to follow them in practice.
   \item I provide a table summarising the differences in terms and conditions
-    between five different app stores.
-  \item I provide a formal version of five different \ac{BYOD} policies, written in
+    between 5 different app stores.
+  \item I provide a formal version of 5 different \ac{BYOD} policies, written in
     AppPAL.  Using the formal versions of the policies to compare the contents
     of the policies I identify two idiomatic forms of \ac{BYOD} policy rules that
     have not been examined before or supported by existing tooling.
@@ -504,7 +507,7 @@ It is difficult to judge the extent the investigations in this thesis have been
 a success.  We do not, for the most part, provide any proofs that could be
 checked to show our AppPAL policies are correct, more precise and more powerful
 than the natural language ones we claim to capture.  In fact, the act of writing
-down the policies in AppPAL requires a degree of artistry to capture the style
+down the policies in AppPAL requires a degree of subjectivity to capture the style
 and intent of the original policy. It would be reasonable to look at some of
 our policies and say that a different version might be more accurate or more
 descriptive.
@@ -519,13 +522,13 @@ methods let us see whether we would find new or different results with the
 improved policies.
 
 % TODO: I hate this fix it.  Too cute.
-Don't judge this work by the policies themselves, but rather by the discussions
-and discoveries that come from capturing the policies and looking at what the
-precise versions have brought to light.  If what we have found is novel,
-interesting, and our language can be used to argue about the most correct
-version of a policy might be then our investigations are a success.
+One approach to judging this work is to consider what the act of capturing the policies in a formal language lets us do.
+We believe that expressing mobile security policies precisely lets us see the trust relationships more clearly.
+It allows us to make comparisons on the basis of a formalisation.
+It helps us understand and argue about the policies.
+If by capturing the mobile security policies, what we learn is interesting and leads to worthwhile discussion, then our investigations are a success.
 Alternately if what we have discovered is trivial, wrong, and our language
-fails to capture the policies in any way, then this must be judged a failure.
+fails to capture the policies in any way, then this work must be judged a failure.
 
 I believe the former is the case.  This work is interesting. We do manage to
 capture the trust relationships of the mobile ecosystem successfully.
@@ -535,5 +538,5 @@ capture the trust relationships of the mobile ecosystem successfully.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch1"
+%%% TeX-master: "../thesis"
 %%% End:

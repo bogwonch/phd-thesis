@@ -1407,7 +1407,8 @@ For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
 The results are shown in \autoref{tab:benchmarks}.
 Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
-I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
+We believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
+
 
 \begin{table}
   \centering\sffamily\scriptsize\noindent
@@ -1564,6 +1565,7 @@ rules with a relaxed notion of $\in$, that allows variable unification:
 Informally the rules say when a policy (in an assertion context) supports the notion that a principal can say a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable).  Rule (1) says that a principal can make statements using a predicate if the assertion context contains an example of them doing so; and that if that example has conditionals, they policy also supports them saying each conditional's predicate.
 Rule (2) handles the case with delegation:  a principal can use a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable), if they say someone else can say the predicate, and the policy supports the other person being able to use that predicate (that (S,~\texttt{predicate})~$\in$~Satisfiable)).
 
+\pagebreak
 To give an example, if we have an assertion context with the following assertions:
 \begin{lstlisting}
 'alice' says 'bob' recommends('angry-birds').
@@ -1574,21 +1576,21 @@ To give an example, if we have an assertion context with the following assertion
 'alice' says 'claire' mustInstall(App)
   if 'bob' highlyRecommends(App).  
 \end{lstlisting}
-The first assertion can be used to show that:
+\noindent The first assertion can be used to show that:
 $$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
-The assertion is present in the policy and there are no conditions, so:
-$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$.
+\noindent The assertion is present in the policy and there are no conditions, so:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
 
-The second assertion shows that:
+\noindent The second assertion shows that:
 $$(\text{\tt 'alice'},\text{\tt canInstall(App)}) \in \text{Satisfiable}$$
-In the second case we have a condition, but since the first assertion showed that:
+\noindent In the second case we have a condition, but since the first assertion showed that:
 $$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
-then we allow (with the relaxed notion of $\in$) that:
-$$(\text{\tt 'alice'},\text{\tt recommends(App)}) \in \text{Satisfiable}$$.
+\noindent Then we allow (with the relaxed notion of $\in$) that:
+$$(\text{\tt 'alice'},\text{\tt recommends(App)}) \in \text{Satisfiable}$$
 
-Finally the third assertion cannot be used to show that:
+\noindent Finally the third assertion cannot be used to show that:
 $$(\text{\tt 'alice'},\text{\tt mustInstall(App)}) \in \text{Satisfiable}$$
-As we have no way to show that:
+\noindent As we have no way to show that:
 $$(\text{\tt 'alice'},\text{\tt highlyRecommends(App)})$$
 
 We also add a somewhat weaker notion of satisfiability (Satisfiable$^\star$) which distinguishes
@@ -1690,7 +1692,6 @@ specific assertions as well. It also reports the assertions that may be
 satisfiable through delegation given additional statements (the
 Satisfiable$^\star$) separately at the bottom.
 
-\noindent\begin{minipage}{\textwidth}
 These checks are simple and we don't take into
 account dependencies between variables. If we add, for example, the statements:
 
@@ -1699,7 +1700,6 @@ account dependencies between variables. If we add, for example, the statements:
 'cacpg' says 'dropbox' isUsableClinically.
 'mig' says 'instagram' isUsableNonClinically.
 \end{lstlisting}
-\end{minipage}
 
 Then we will still never find any installable apps, as the \ac{IGC}, \ac{CACPG}
 and \ac{MIG} need to agree on the same app to find it installable. Our rules for
@@ -1771,7 +1771,6 @@ about here:
 These ideas can be applied to AppPAL to detect some potential problems in AppPAL policies. For instance,  consider the
 following AppPAL policy:
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 'alice' says App isInstallable
   if App isRecommended,
@@ -1781,7 +1780,6 @@ following AppPAL policy:
   if App isNotMalware,
      App isGood.
 \end{lstlisting}
-\end{minipage}
 
 Alice checks that the app is not malware when checking the app is
 installable and when checking that the app is recommended.  The check
@@ -1827,12 +1825,10 @@ dashed ones can be removed to remove the irrelevance.
 In contrast, unreachability occurs when a fact does not take part in the minimal
 derivation tree of a fact.  As a simple example consider the following policy:
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 'alice' says App isInstallable if App isNotMalware.
 'alice' says App isInstallable if App isNotMalware,  App isRecommended.
 \end{lstlisting}
-\end{minipage}
 
 To detect unreachability for a given policy we again build the proof-graph (shown
 in \autoref{fig:unreachability}).  For each proof node we collect the facts
@@ -1954,5 +1950,5 @@ equivalent policies).
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch3.tex"
+%%% TeX-master: "../thesis"
 %%% End:

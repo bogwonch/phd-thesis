@@ -55,11 +55,11 @@ How does one judge whether the investigations described in the thesis
 have been a success? Some explicit statement is needed concerning
 this.
 
-> Added statement based on our discussions in the viva to end of _Research
-> Contributions_: namely that it is hard, but that one way is to judge by using
-> our policies as a baseline and it is the discussions that come from capturing
-> the policies that is the real contribution and what the work must be judged
-> on.
+> Added statement based on our discussions in the viva to end of
+> _Research Contributions_: namely that it is hard, but that if AppPAL
+> manages to capture the policies, and what we learn from doing so
+> (and the surrounding discussion) is interesting then the work is a
+> success.
 
 **** p3.
 
@@ -220,7 +220,7 @@ or just omit precisely altogether:
 Authorization logics [1] describe rules for deciding when to
 allow certain actions.
 
-> Opted for ommission.
+> Opted for omission.
 
 ***** DONE 2.2. M:
 "In applying logics of authorization to policy language"
@@ -1166,6 +1166,9 @@ AppPAL, and possibly include the first attempts to address them,
 rather than describe unfinished work.
 
 ** Ch 7: Related work
+   
+> N.B. This chapter was integrated into Ch 2. (as per 7.2)
+
 *** PJ
 **** p107.
 
