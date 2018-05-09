@@ -76,7 +76,7 @@ which apps to install and which to avoid, based on their own \emph{discretion}.
 They may make decisions based on what their friends have told them, or what a
 review said about the app.
 
-In this section we will start to introduce by example AppPAL: an authorization
+In this section we will start to introduce by example AppPAL: an authorisation
 language for the policies of the mobile ecosystem, based on
 SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail in
 \autoref{chap:apppal} and throughout the thesis, but it is essentially an
@@ -88,7 +88,7 @@ policy\footnote{Sometimes with minimal edits as some constraints used are not
 implemented.} with our implementation.
 
 An AppPAL policy consists of many assertions.  Each assertion is a statement by
-a principal either of a fact, or a rule for inferring a fact.  For example, the statment:
+a principal either of a fact, or a rule for inferring a fact.  For example, the statement:
 \begin{lstlisting}
 'alice' says 'angry-birds' isGood.
 \end{lstlisting}
@@ -99,7 +99,7 @@ constant) is good (a predicate).  An example of a rule might be:
   if A isFree.
 \end{lstlisting}
 This example should be read as an assertion by Alice that any App (a type),
-refered to as A (a variable) is good if A is also free (a conditional).   
+referred to as A (a variable) is good if A is also free (a conditional).   
 
 As well as assertions about whether variable or constant subjects meet certain
 predicates, AppPAL can be used to describe delegations, such as:
@@ -114,11 +114,11 @@ the assertions:
 'alice' says 'justin' can-act-as 'polygon.com'.
 \end{lstlisting}
 Are read as first an assertion by Alice that she trusts \url{polygon.com} (a
-famous videogame news website) to say whether something, referred to as X, is
+famous video-game news website) to say whether something, referred to as X, is
 good; and secondly as an assertion that Alice allows Justin (one of
 \url{polygon.com}'s editors) to act as the website.  
 
-A ful description of AppPAL will be given later in the thesis.  
+A full description of AppPAL will be given later in the thesis.  
 AppPAL inherits its evaluation rules and semantics from SecPAL which is described in
 \autoref{sec:secpal}.  AppPAL's syntax, however, differs slightly
 from SecPAL and includes some conventions for writing policies---these changes
@@ -134,8 +134,8 @@ delegating to a third-party (such as Google or Facebook) to manage the account
 ID. Capturing these trust relationships as policies can help clarify the precise
 terms for authentication and who each principal trusts to make what decisions.
 For example, an app might trust Google to manage accounts. Google will only
-authorize a user if the user has authorized the app, and will only allow the app
-access to the data the user has explicitly authorized:
+authorise a user if the user has authorised the app, and will only allow the app
+access to the data the user has explicitly authorised:
 
 %\noindent\begin{minipage}{\linewidth}%\vspace{\baselineskip}
 \begin{lstlisting}
@@ -198,7 +198,7 @@ Bob might trust reviews and review sites to give him an idea of an app's quality
   App:A hasReviewScore(Percent:N).
 \end{lstlisting}
 %
-Bob might also recommend an app based on its app store categorization and its permissions.
+Bob might also recommend an app based on its app store categorisation and its permissions.
 %
 \begin{lstlisting}
 'bob' says App:A isGood
@@ -417,13 +417,13 @@ extensive editing.
   
   Some early examples were taken from our paper:
   \begin{itemize}
-  \item\emph{Towards an authorization framework for app security
+  \item\emph{Towards an authorisation framework for app security
       checking~\cite{hallett_towards_2014}.} This is a PhD symposium paper that describes how
     we might use SecPAL to model policies in the mobile ecosystem.
   \end{itemize}
 
 \item \textbf{Chapter 4: App Stores and App Preferences.} 
-  Having described AppPAL, this chapter starts to describe the differences betweeen different
+  Having described AppPAL, this chapter starts to describe the differences between different
   app stores and survey their different terms and conditions. We use AppPAL to
   capture descriptions of user's app privacy preferences; and measure the extent
   users follow these preferences when selecting apps by comparing with records of
@@ -503,7 +503,7 @@ This thesis makes the following contributions:
 It is difficult to judge the extent the investigations in this thesis have been
 a success.  We do not, for the most part, provide any proofs that could be
 checked to show our AppPAL policies are correct, more precise and more powerful
-than the natural language ones we claim to capture.  Infact, the act of writing
+than the natural language ones we claim to capture.  In fact, the act of writing
 down the policies in AppPAL requires a degree of artistry to capture the style
 and intent of the original policy. It would be reasonable to look at some of
 our policies and say that a different version might be more accurate or more
@@ -528,7 +528,7 @@ Alternately if what we have discovered is trivial, wrong, and our language
 fails to capture the policies in any way, then this must be judged a failure.
 
 I believe the former is the case.  This work is interesting. We do manage to
-capture the trust relationships of the mobile ecosystem succesfully.
+capture the trust relationships of the mobile ecosystem successfully.
 
 \end{document}
 

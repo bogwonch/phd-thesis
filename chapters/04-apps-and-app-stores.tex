@@ -56,8 +56,8 @@ features many Russian language apps. Some manufacturers, such as Nokia,
 installed Yandex over Google's app store on devices sold in Russia.
 
 Aptoide is an open-source app store, and software for creating new app stores.
-Unlike many other app stores it provides specialized app stores targeted for
-Android based Smart TVs (Aptiode TV), and for users with slow internet
+Unlike many other app stores it provides specialised app stores targeted for
+Android based Smart TVs (Aptoide TV), and for users with slow internet
 connections (Aptoide Lite). Aptoide doesn't provide access to fixed sets of
 apps. Any user, or developer, is free to create their own \emph{curated}
 repository of apps, and point Aptoide to it. Aptoide claim users and developers
@@ -132,7 +132,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
  & Amazon account.
  & An ID and contact details.  User agrees not to give false ID. 
  & Name address and billing details.
- & For free apps no ID is needed, For paid apps they must be an \emph{authorized user} and give payment details
+ & For free apps no ID is needed, For paid apps they must be an \emph{authorised user} and give payment details
                                               \\\midrule
     Taken information
  & Technical data about the device, system, software and peripherals; which the Application Provider may use provided it is in a form that does not personally identify the user.
@@ -149,7 +149,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
  & Through an approved processor provided by Yandex.
                                               \\\midrule
     Who pays whom?
- & The purchasing user pays Apple.  If a user uses \emph{family sharing} then the family organizer pays Apple.
+ & The purchasing user pays Apple.  If a user uses \emph{family sharing} then the family organiser pays Apple.
  & User pays Amazon.
  & User pays the store owner through Aptoide.
  & User pays Google Commerce or the provider where Google is acting as an agent.
@@ -199,7 +199,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
                                               \\\midrule
       % Apple Amazon Aptoide Google Yandex
     What can the store do with the app?
- & Apple are appointed as the developer's agent/commissionaire to sell, market, and deliver apps. Apple may \emph{thin} an app, and repackage it for certain devices and optimization.
+ & Apple are appointed as the developer's agent/commissionaire to sell, market, and deliver apps. Apple may \emph{thin} an app, and repackage it for certain devices and optimisation.
  & Irrevocable royalty-free right to distribute through all electronic means.  Amazon can check, test and store the app.  Amazon may change and add to the app for analytics, policy enforcement, to add metadata and to improve compatibility with Amazon devices.  They may, if requested by the developer add DRM.  Amazon may use the app to promote and advertise their services, and may make limited time promotions or \emph{test drive} versions of the app.  They may claim other rights.
  & Sell and make available to third-party stores.  They may change the app.
  & Google can reproduce, perform and display the app for marketing purposes.  Google may delegate this right to a third-party.
@@ -536,7 +536,7 @@ apps.
 
 To what extent do users follow personal policies informally?  In a
 study of 725 Android users, Lin~\etal{} found four patterns that
-characterize user privacy preferences for
+characterise user privacy preferences for
 apps~\cite{lin_modeling_2014}, demonstrating a refinement of Westin's
 privacy segmentation~\cite{harris_interactive_privacy_2002}.
 
@@ -567,7 +567,7 @@ Lin \etal's four groups roughly map to Westin's three, with
 \emph{Advanced} and \emph{Fencesitter} users together acting as the
 \emph{Privacy Pragmatists.}  A criticism of Westin's privacy groups is
 that he did not distinguish between pragmatic people and those who
-gave vague responses in the \emph{Privacy Pragamatists}
+gave vague responses in the \emph{Privacy Pragmatists}
 group~\cite{urban_privacy_2014}. Lin~\etal's groups seem to support
 their \emph{Advanced} and \emph{Fencesitter} groups seem to cover both
 aspects of the \emph{Privacy Pragmatist} group.  Lin~\etal~and
@@ -623,7 +623,7 @@ To answer the question of to what extent do users follow personal privacy
 policies in practice we performed the following experiment (summarised in
 \autoref{tab:experiment-apppal}).
 We wrote AppPAL policies to describe
-each of Lin \etal's behaviors as sets of prohibited permissions, shown in
+each of Lin \etal's behaviours as sets of prohibited permissions, shown in
 \autoref{tab:lin-perms}.
 %
 For example the \emph{Fencesitter} policy is encoded as:
@@ -647,13 +647,13 @@ analysis to find the precise reasons the app requested each
 permission~\cite{lin_modeling_2014}.
 
 We took
-installation from a partially anonymized database of installed apps
+installation from a partially anonymised database of installed apps
 captured by Carat~\cite{oliner_carat:_2013}. This allowed us to link users to the apps they had installed and measure the extent each user was following the policy.
 
 The Carat data set was collected as part of a UC~Berkley and University
 of Helsinki experiment to measure the energy usage of apps.  As part
 of the experiment, users of the Carat app allowed the app to collect
-which apps were installed on their device.  The data set was anonymized
+which apps were installed on their device.  The data set was anonymised
 by replacing the app names with hashes of the apps package identifier,
 and usernames with an increasing integer key.
 
@@ -685,7 +685,7 @@ Observatory~\cite{barrera_understanding_2012}, we checked which apps
 satisfied which policies.  
 
 To check which apps satisfied which of Lin's policies, we took our AppPAL
-encodings of the policies, and facts identifying the apps in our dataset as
+encoding of the policies, and facts identifying the apps in our data-set actual
 apps into an assertion context.  
 
 \begin{lstlisting}
@@ -739,12 +739,12 @@ each bar represents the number of users in each group.
 
 Even for the least onerous
 \emph{unconcerned} policy, most users did not seem to follow the
-policy most of the time.  This suggests that user's privacy preferences are somewhat disconnected from their behavior (assuming the user population
+policy most of the time.  This suggests that user's privacy preferences are somewhat disconnected from their behaviour (assuming the user population
 studied by Lin~\etal~was similar to the data in the Carat study).
 This is reminiscent of
 the \emph{privacy paradox} that states that whilst
 people will say they are very concerned about their privacy, they do
-not alter their behavior to protect it.  It was first noticed by
+not alter their behaviour to protect it.  It was first noticed by
 psychologists looking at how people use social networks; though has
 appeared in many other areas since. 
 A few users, however, did seem to install apps meeting one of these
@@ -765,7 +765,7 @@ these apps.  The McAfee data classified the data into several
 categories based on the purpose of the malware.  The \emph{malicious}
 and \emph{trojan} categories describe traditional malware.  Other
 categories classify \acp{PUP} such as aggressive adware.  Using AppPAL
-we can write policies to differentiate characterizing users who allow
+we can write policies to differentiate characterising users who allow
 dangerous apps and those who install poor quality ones.
 
 \begin{lstlisting}
@@ -860,11 +860,11 @@ sometimes, however.  Our comparison is not without some limitations:
 
 \item The Carat data set is not the same group of users, as was
   examined by Lin~\etal and so is not the same sample of users.  In
-  particular, the users in the Carat dataset had all installed the Carat
+  particular, the users in the Carat data-set had all installed the Carat
   app to monitor their power usage.  We found that some users in the
-  Carat dataset had also installed tools such as Busybox\footnote{Which
+  Carat data-set had also installed tools such as Busybox\footnote{Which
     gives the user access to common UNIX utilities such as a shell.}. This
-  suggests the Carat dataset contains more technically minded users than
+  suggests the Carat data-set contains more technically minded users than
   we might expect to find in the general population.
 \end{itemize}
 
@@ -897,7 +897,7 @@ these corporate stores the apps are hand selected by IT staff.
 \end{figure}
 
 The \emph{GenStore} tool uses AppPAL to automate the store creation process for Android app stores. The
-architecture is shown in \autoref{fig:genstore-architecture}. We summarize it
+architecture is shown in \autoref{fig:genstore-architecture}. We summarise it
 as:
 
 \begin{enumerate}
@@ -905,7 +905,7 @@ as:
   from among these apps to create the curated store.
 \item The developer also provides a series of policy files. These should include
   rules to decide if an \emph{App isSellable}. Optionally they can also describe
-  predicates where \emph{App hasCategory(Category)} which will be used to organize
+  predicates where \emph{App hasCategory(Category)} which will be used to organise
   the apps into categories in the store.
 \item GenStore runs, and for every app checks whether it is \emph{sellable}.
   Additionally, it checks apps for each category (apps can belong to multiple
@@ -934,7 +934,7 @@ store.
 To implement her store she downloads a pool of 12 apps that she could
 sell in her store, and writes a policy.  The policy describes what she
 wants to sell in her store and how she wants to categorise the apps.
-This policy is very simple (it essentially just whitelists apps) but
+This policy is very simple (it essentially just white-lists apps) but
 more complex policies could be written if Alice wanted.
 \begin{lstlisting}
 'store' says 'alice' can-say inf App isSellable.
@@ -960,9 +960,9 @@ GenStore and asks it to build her an app store.  It finds that several
 of the 5 of the apps were not sellable in her store (4 because they
 did not have categories, and the Towelroot rooting tool was rejected
 by the antivirus), but that it could create an app store from the
-remainder.  The output of the tool, and the webapp it creates is shown
+remainder.  The output of the tool, and the web app it creates is shown
 in \autoref{fig:genstore-output}.
-Alice can take this webapp and modify it to work in her company.
+Alice can take this web app and modify it to work in her company.
 
 \begin{figure}
   \centering
@@ -1001,7 +1001,7 @@ $ java -jar genstore.jar -d data -p store.policy
 [INFO] adding metadata
 [INFO] copying apks
 \end{Verbatim}
-  \caption[Output of the GenStore tool.]{Output of the GenStore tool which runs on the command-line and produces a webapp.}
+  \caption[Output of the GenStore tool.]{Output of the GenStore tool which runs on the command-line and produces a web app.}
   \label{fig:genstore-output}
 \end{figure}
 

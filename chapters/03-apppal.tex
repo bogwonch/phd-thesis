@@ -24,7 +24,7 @@ is a contract between the store selling apps and the developer
 programming them. The stores have content policies as to which apps
 they will sell, often prohibiting sexual or illicit content. The app
 developers may have preferences as to which stores they will sell
-their apps in, favoring stores with higher market shares, or which
+their apps in, favouring stores with higher market shares, or which
 take smaller cuts of the app sale price. Not all policies are as
 formal as a contract: a user may have preferences about which kinds of
 apps he wants to install but may not write these preferences down.
@@ -91,7 +91,7 @@ express:
     makes an app \emph{installable} (i{.}e{.}~acceptable to install). Equally,
     the policies a store may wish to enforce are very different from the policies
     a user may wish to enforce. The locality of a query is the place where the
-    decision is being made, typically in the immediate viscinty of an entity such
+    decision is being made, typically in the immediate vicinity of an entity such
     as a user or store. Each entity in the ecosystem also expects to enforce
     their own policies---there is no overarching enforcer of policies, rather
     users enforce whatever preferences they have, stores enforce their own rules
@@ -106,7 +106,7 @@ express:
     subjects). These tools each give information in their own way: be it
     employee data through an SQL database, terminal output through a
     command line analysis tool, or HTML output onto an app store's
-    webpage. We want to be able to make use of this information when
+    web-page. We want to be able to make use of this information when
     writing policies, but we should not rely on all tools standardising on
     our policy language as a universal information transfer mechanism. We
     want our policy language to be able to capture the policies which use
@@ -160,7 +160,7 @@ make a query to a database, allowing us access to external information.
 SecPAL policies are style agnostic, and the language does not
 prescribe a particular style to write polices in.
 It is easy to capture idiomatic policy styles using SecPAL.  For example, a classic example of a DAC-style policy are UNIX file permissions.  
-The decision by an OS whether to allow a user (U) to read a file (F) based on the permissions on the filesystem (FS) can be written in SecPAL:
+The decision by an OS whether to allow a user (U) to read a file (F) based on the permissions on the file-system (FS) can be written in SecPAL:
 \begin{lstlisting}
 'os' says User:U canRead(File:F)
   if F hasOwner(U),
@@ -213,7 +213,7 @@ compared to languages based on first-order logic (like SecPAL):
   ``policies written in XACML are more transparent than policies written in languages based on first-order logic''
 \end{quotation} In their paper, Tschantz and Krishnamurthi compare a
 restricted version of XACML (Core XACML) to three first-order logic
-based languages: FOL, Lithium and $\mathcal{L}_5$.  Tchantz and
+based languages: FOL, Lithium and $\mathcal{L}_5$.  Tschantz and
 Krishnamurthi go on to define their properties: \emph{totality} if the
 language always makes a decision, \emph{determinism} if the language
 always makes the same decision given the same query, \emph{monotonic}
@@ -336,7 +336,7 @@ Store}\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an
 user is willing to install a special certificate, from a developer or business,
 however they may install apps through the browser or a computer connected to the
 device. Apple controls these special certificates, issuing and revoking them.
-They must also be authorized by the device's owner.
+They must also be authorised by the device's owner.
 \begin{lstlisting}
 'device' says App isInstallable
   if App hasBeenSignedBy(Cert),
@@ -397,7 +397,7 @@ This glosses over some details of certificate handling (though the
 example could be extended further). It also ignores how the system might update
 apps. It does, however, provide a far more precise version of the differences in
 app installation between the two platforms. For iOS, to install an app Apple
-have to authorize it, either by signing the app or the issuer. In contrast, for
+have to authorise it, either by signing the app or the issuer. In contrast, for
 Android, to the device can install any app if the device owner is willing to
 enable the relevant setting.
 
@@ -475,11 +475,11 @@ needs to collect the following statements.
 \noindent Alice obtains the statements by contacting the speakers. Each may either give
 her the statement she needs or may give her more rules in the form of a
 cryptographically signed electronic representation of each assertion. For
-the \ac{MIG} and \ac{IGC} may authorize the app or they might give a
-list of additional checks they need before they agree to authorize the app. When
+the \ac{MIG} and \ac{IGC} may authorise the app or they might give a
+list of additional checks they need before they agree to authorise the app. When
 checking if the app is an App in \autoref{item:isapp}, the NHS trust might
 delegate further. They could reply that if the App is in the Google Play store
-then they recognize it as a valid app. Alice would then have to get more
+then they recognise it as a valid app. Alice would then have to get more
 assertions if she wanted to prove this statement. Alternatively, the speaker
 could refuse to make the assertion, either because they do not believe it, or
 they cannot give an answer. In this case, Alice would have to look for an
@@ -759,7 +759,7 @@ which apps she can install.  This can be written in SecPAL as follows:
   if App isApp.
 \end{lstlisting}
 When writing this we added a condition \lstinline{if App isApp}, that
-Bob can only talk about Apps as being installable.  Generalizing this
+Bob can only talk about Apps as being installable.  Generalising this
 pattern we use predicates starting with \emph{is} to give types to
 their subjects.  If a policy rule contains a lot of variables, however
 these typing conditions can become very verbose.  To simplify the
@@ -905,7 +905,7 @@ framework~\cite{msr_secpal_research_release_2007}.  This library included
 examples and  a C\# API for SecPAL, allowing assertions to be created using
 code, but no parser for SecPAL.  Since Becker's SecPAL implementation cannot be
 trivially extended and will only run on Microsoft Windows, the decision was
-made to reimplement AppPAL from scratch as an open source library.
+made to re-implement AppPAL from scratch as an open source library.
 
 Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available
@@ -922,11 +922,11 @@ Implementing AppPAL as a library allows us to embed it into a variety of
 situations. AppPAL can be part of an app store checking the apps sold against a
 policy. Running on a device, AppPAL can check apps before installation by the
 package manager. There is also a command-line version which is useful for
-testing and modeling policies. Our implementation can make the inferences, on
+testing and modelling policies. Our implementation can make the inferences, on
 an Android device or on a command line, but it is not integrated into Android. It
 is future work to evaluate how AppPAL policies might work in practice and be
 tied into a mobile operating system to enforce policies in practice. The work
-here looks primarily and modeling the policies and preference and providing a
+here looks primarily and modelling the policies and preference and providing a
 framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown
@@ -947,7 +947,7 @@ these issues Becker proposed an algorithm that extended SLD resolution
 with a table to prune infinite search trees by tracking which rules
 had been used before.
 
-When implementing SecPAL we considered using a Datalog$^C$ backend but could
+When implementing SecPAL we considered using a Datalog$^C$ back-end but could
 not find an implementation. We also explored using a Datalog implementation
 (such as Z3 or Datomic) to build SecPAL but in practice no implementation could
 fully support Datalog$^C$'s constraints.  To implement the constraint checking
@@ -978,12 +978,12 @@ but the most complex queries in seconds (\autoref{ssec:benchmarks}).
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-Pseudocode for the evaluation algorithm used by AppPAL is described
+Pseudo-code for the evaluation algorithm used by AppPAL is described
 in~Figures~\ref{alg:eval1},~\ref{alg:eval2}~and~\ref{alg:eval3}.
 
 To make queries against a policy, AppPAL is first given one or more policy files.
 AppPAL parses the files and adds the assertions within them to the \ac{AC}. The
-AC is then preprocessed to extract more information; this is summarized in
+AC is then preprocessed to extract more information; this is summarised in
 \autoref{tab:apppal-sets}. If a constant is used before a \emph{says} statement,
 or it is used as the subject of a \emph{can-say} fact then the constant is
 marked as \emph{voiced}. A constant is \emph{voiced} if it is the speaker of a
@@ -1069,7 +1069,7 @@ AppPAL's developers with debugging.
       }
     }
   \end{algorithm}
-  \caption{Pseudocode for evaluating a query.}
+  \caption{Pseudo-code for evaluating a query.}
   \label{alg:eval1}
 \end{figure}
 \begin{figure}\footnotesize\sffamily\centering
@@ -1094,7 +1094,7 @@ AppPAL's developers with debugging.
       \Return{Failure}
     }
   \end{algorithm}
-  \caption{Pseudocode for using the cond-rule.}
+  \caption{Pseudo-code for using the cond-rule.}
   \label{alg:eval3}
 \end{figure}
 \begin{figure}\footnotesize\sffamily\centering
@@ -1133,7 +1133,7 @@ AppPAL's developers with debugging.
       \Else{\Return $Failure$}
     }
   \end{algorithm}
-  \caption{Pseudocode for using the can-say and can-act-as rules.}
+  \caption{Pseudo-code for using the can-say and can-act-as rules.}
   \label{alg:eval2}
 \end{figure}
 
@@ -1232,14 +1232,14 @@ variable substitutions that remove all variables. If the body is missing
 (i.e. the unifying assertion has no conditionals) and the constraint
 is true, then \texttt{Cond} will return success, and the results table
 will be updated accordingly.  This corresponds to SecPAL's \emph{cond}
-rule (we have \fade{grayed out} the recursive case), hence we would
+rule (we have \fade{greyed out} the recursive case), hence we would
 argue it is sound as there is no other means for our evaluation
 algorithm to mark a result as true in $RT$ without recursively calling
 \texttt{Evaluate}.  We call the call tree of \texttt{Evaluate} $T_{\mathtt{E}}^1$.
 
     The analogous proof tree to $T_{\mathtt{E}}^1$ (called
 $T_{\models}^1$) produced by the evaluation rules, also relies on the
-\emph{cond} rule (shown below with recursive elements \fade{grayed
+\emph{cond} rule (shown below with recursive elements \fade{greyed
 out}).  Both $T_{\mathtt{E}}^1$ and $T_{\models}^1$ have height 1.
 
 {\small
@@ -1261,7 +1261,7 @@ out}).  Both $T_{\mathtt{E}}^1$ and $T_{\models}^1$ have height 1.
 if \texttt{Evaluate(AC, $\{\}$, Q, D)} implies that $AC,D\models{Q}$,
 where the height of the call tree of \texttt{Evaluate} is $n$ (in
 calls of \texttt{Evaluate}), and that the height of the implied
-derivation tree is also $n$.  We hypothesize that if \texttt{Evaluate}
+derivation tree is also $n$.  We hypothesise that if \texttt{Evaluate}
 is sound with a call tree and derivation tree height of $n$, then when
 \texttt{Evaluate}'s call tree height is $n+1$, there will be an
 equivalent derivation tree with height $n+1$.
@@ -1277,8 +1277,8 @@ $T_{\models}^{n+1}$ is the matching evaluation rule with $T_{\models}^n$
 as (one of) its children.
 
 We can ignore the results table (if it starts empty, or only contains
-sound results) as it is just memoizing results which could be
-recalculated without memoization.  We do not need to consider to the
+sound results) as it is just memoising results which could be
+recalculated without memoisation.  We do not need to consider to the
 case of non-terminating queries (i.e. circular), as \texttt{Evaluate}
 will return \texttt{Failure} when the loop is detected.
 
@@ -1317,7 +1317,7 @@ also return \texttt{Success}, without recursively calling itself.
 tree of a query $q$ (given an $AC$, and $D$) with height $n$, when running
 \texttt{Evaluate(AC, $\{\}$, Q, D)} it will eventually return
 \texttt{Success} (with at least $n$ recursive calls to
-\texttt{Evaluate}).  We hypothesize that for a proof tree of height
+\texttt{Evaluate}).  We hypothesise that for a proof tree of height
 $n+1$, \texttt{Evaluate} will also return success (given the same
 $AC$ and $q$), with a recursive call depth of $n$.
 
@@ -1496,7 +1496,7 @@ In Datalog (and, more generally, in logic programming) a Datalog
 predicate, found by satisfying a rule, is satisfiable if there are
 sufficient ground facts in the database to deduce it. Formally,
 satisfiability in Datalog is defined in terms of the \ac{IDB} (the
-Datalog \emph{program}, analogus to a policy file loaded into an
+Datalog \emph{program}, analogous to a policy file loaded into an
 AppPAL assertion context), and the \ac{EDB} (a set of facts from both
 the \ac{IDB} and those which can be derived using rules).
 Satisfiability for Datalog is defined
@@ -1630,7 +1630,7 @@ general.  AppPAL's evaluation rules decide if a specific assertion by
 a speaker is supported by an assertion context.  In contrast, the
 satisfiability rules look at whether it is possible that the
 evaluation rules \emph{could} decide that the assertion is
-supported---that the AppPAL evaluation rules could concievably be
+supported---that the AppPAL evaluation rules could conceivably be
 satisfied, not that the evaluation rules are satisfied for a specific
 assertion.
   
@@ -1805,7 +1805,7 @@ devices in the first assertion).
   if U hasLost(Device).
 \end{lstlisting}
 
-Whilst the irrelevance adds redundancy and can slow down inferences when making policy checks, it can also aid policy comprehension.  In the previous example the repeated checks as to whether someone is a user do not, strictly, need to be done.  They do, however, clarify what the type of each variable is.  A future implementation of AppPAL might encorporate code to remove the redundant checks automatically.  In order to remove the redundant checks we must first be able to identify them, howe
+Whilst the irrelevance adds redundancy and can slow down inferences when making policy checks, it can also aid policy comprehension.  In the previous example the repeated checks as to whether someone is a user do not, strictly, need to be done.  They do, however, clarify what the type of each variable is.  A future implementation of AppPAL might incorporate code to remove the redundant checks automatically.  In order to remove the redundant checks we must first be able to identify them, however.
 
 We can check for irrelevance by building a proof-graph for the
 assertion context.  Every node (shown in a box) represents an AppPAL fact we
