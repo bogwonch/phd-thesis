@@ -76,26 +76,66 @@ which apps to install and which to avoid, based on their own \emph{discretion}.
 They may make decisions based on what their friends have told them, or what a
 review said about the app.
 
-In this section we will start to introduce by example AppPAL: an authorization
-language for the policies of the mobile ecosystem, based on
+In this section we will start to introduce by example AppPAL: an authorisation
+language for the policies of the mobile ecosystem, and is based on
 SecPAL~\cite{becker_secpal:_2006}. We will describe AppPAL in greater detail in
-\autoref{chap:apppal} and throughout the thesis. We have implemented AppPAL to
-explore its use and to capture the
-policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
+\autoref{chap:apppal} and throughout the thesis, but it is, in essence, an
+instantiation of the SecPAL system to the mobile domain, along with some minor
+changes to syntax. We have implemented AppPAL to explore its use and to capture
+the policies of the mobile ecosystem. Whenever we show an AppPAL snippet in
 \framebox{\texttt{teletype font}} it can be parsed and used as part of a
 policy\footnote{Sometimes with minimal edits as some constraints used are not
 implemented.} with our implementation.
 
+An AppPAL policy consists of many assertions.  Each assertion is a statement by
+a principal either of a fact, or a rule for inferring a fact.  For example, the statement:
+\begin{lstlisting}
+'alice' says 'angry-birds' isGood.
+\end{lstlisting}
+Should be read as an assertion by Alice (a principal), that Angry Birds (a
+constant) is good (a predicate).  An example of a rule might be:
+\begin{lstlisting}
+'alice' says App:A isGood 
+  if A isFree.
+\end{lstlisting}
+This example should be read as an assertion by Alice that any App (a type),
+referred to as A (a variable) is good if A is also free (a conditional).   
+
+As well as assertions about whether variable or constant subjects meet certain
+predicates, AppPAL can be used to describe delegations, such as:
+\begin{lstlisting}
+'alice' says 'bob' can-say App:A isGood.
+\end{lstlisting}
+
+\pagebreak
+Which should be read as an assertion by Alice that if Bob says an App, A, is
+good then she will also agree that it is good.  AppPAL can also describe roles,
+the assertions:
+\begin{lstlisting}
+'alice' says 'polygon.com' can-say X isGood.
+'alice' says 'justin' can-act-as 'polygon.com'.
+\end{lstlisting}
+Are read as first an assertion by Alice that she trusts \url{polygon.com} (a
+famous video-game news website) to say whether something, referred to as X, is
+good; and secondly as an assertion that Alice allows Justin (one of
+\url{polygon.com}'s editors) to act as the website.  
+
+A full description of AppPAL will be given later in the thesis.  
+AppPAL inherits its evaluation rules and semantics from SecPAL which is described in
+\autoref{sec:secpal}.  AppPAL's syntax, however, differs slightly
+from SecPAL and includes some conventions for writing policies---these changes
+are described in \autoref{sec:instantiating}.
+
 A key aspect of the mobile ecosystem is \emph{delegation}. The user of a mobile
 device (typically) first logs on to a Google or Apple account before using the
-device, which fetches all their data from wherever server stores it. Rather than
+device, which fetches all their data from a server on the internet. Rather than
 keep account information locally an app may prompt the user to log in,
 delegating to a third-party (such as Google or Facebook) to manage the account
 ID. Capturing these trust relationships as policies can help clarify the precise
 terms for authentication and who each principal trusts to make what decisions.
 For example, an app might trust Google to manage accounts. Google will only
-authorize a user if the user has authorized the app, and will only allow the app
-access to the data the user has explicitly authorized:
+authorise a user if the user has authorised the app, and will only allow the app
+access to the data the user has explicitly authorised:
 
 %\noindent\begin{minipage}{\linewidth}%\vspace{\baselineskip}
 \begin{lstlisting}
@@ -157,8 +197,9 @@ Bob might trust reviews and review sites to give him an idea of an app's quality
 'bob' says 'metacritic' can-say
   App:A hasReviewScore(Percent:N).
 \end{lstlisting}
-%
-Bob might also recommend an app based on its app store categorization and its permissions.
+
+\pagebreak
+Bob might also recommend an app based on its app store categorisation and its permissions.
 %
 \begin{lstlisting}
 'bob' says App:A isGood
@@ -167,7 +208,7 @@ Bob might also recommend an app based on its app store categorization and its pe
   where ! contains(P, 'INTERNET').
 \end{lstlisting}
 
-They allow their employers to say how they should their devices, who
+Users allow their employers to say how they should their devices, who
 may in turn delegate to IT departments, to write rules, which may
 delegate back to the users to state what rules they're willing to
 follow.
@@ -187,34 +228,44 @@ helping clarify their meanings and make precise comparisons between
 different policies. We could tie the rules in the \ac{BYOD} policies
 to the \ac{MDM} tools used to check them.
 
-If a company needs to use apps which conform with a policy such as
-\ac{HIPAA} they could use static analysis tools to check for some
-aspects of the policy.  A company might use
-Mallodroid~\cite{fahl_why_2012} to detect when apps send data unencrypted.  
+In the US all software for use with medical data must conform to a policy
+called \ac{HIPAA}, and this includes apps on mobile devices.  The \ac{HIPAA}
+act covers many rules specific to medical software including requirements for
+keeping medical records confidential.  If a company needs its employees to use
+such apps they could use static analysis tools to check for some aspects of the
+\ac{HIPAA} policy.  A company might use Mallodroid~\cite{fahl_why_2012} to
+detect when apps send data unencrypted.  
 %
-\begin{lstlisting}
-'company' says Employee:E canUse(App:A)
-  if A isHIPAAConformant
-  where
-    mallodroidCheckSafe(A) = True;
+\begin{lstlisting} 
+'company' says Employee:E canUse(App:A) 
+  if A isHIPAAConformant 
+  where mallodroidCheckSafe(A) = True. 
 \end{lstlisting}
+
+
+It is important not to confuse the tools and techniques we might use to uphold
+parts of a policy with the end goal of ensuring compliance.
 %
-It is important not to confuse the tools and
-techniques we might use to uphold parts of a policy with the end
-goal of ensuring compliance.  A formal language that
-lets us sever the policy from its implementation can help us
-understand the policy precisely, and then show precisely how we check the
-policy.  It lets us see which tools are checking what rules, and identify gaps where the policy is not
-being checked sufficiently.
+A taint-tracking tool, like TaintDroid~\cite{enck_taintdroid_2010} (for
+example), can tell when sensitive data is being leaked out of a network socket.
+If the end security goal is to prevent employees leaking data, this only covers
+part of the policy---what about a malicious employee stealing files by printing
+them and walking out of the office with them?  How do we run the tool and when?
+Using a tool to check for compliance does not necessarily mean that a policy is
+fully implemented.
+%
+A formal language that lets us sever the policy from its implementation can
+help us understand the policy precisely, and show precisely how we check
+the policy.  It lets us see which tools are checking what rules, and identify
+gaps where the policy is not being checked sufficiently.
 
 These trust relationships and delegations permeate the entire mobile
 ecosystem.  They represent an important aspect of the ecosystem that a
 policy language should catch to describe the
 relationships and policies within it.
 
-
 In this thesis we will come back to these ideas of user's personal
-privacy policies and BYOD policies as they show two different aspects
+privacy policies and \ac{BYOD} policies as they show two different aspects
 of how policies are used within the mobile ecosystem.
 %
 User's privacy preferences are very informal and may not be something
@@ -225,61 +276,157 @@ cases, such as using the Facebook app (which can access lots of data
 on a user's device) whilst being generally unhappy sharing their data
 with their software.
 %
-In contrast a BYOD policy can exist as a formal agreement (though
+In contrast a \ac{BYOD} policy can exist as a formal agreement (though
 often \emph{informally} specified) between the company and its
 employees.  An employee might reasonably expect to face consequences
-if their employer discovers they broke the BYOD rules.
+if their employer discovers they broke the \ac{BYOD} rules.
 
-Superficially these policies also resemble classic DAC and MAC
-policies: the company \emph{mandates} the BYOD policy, the user uses
+Superficially these policies also resemble classic \ac{DAC} and \ac{MAC}
+policies. A company \emph{mandates} the \ac{BYOD} policy, the user uses
 their \emph{discretion} when picking the apps they use on their phone.
 An interesting aspect of the mobile ecosystem is that the policies are
-more complicated than simple MAC and DAC distinctions and use aspects
+more complicated than simple \ac{MAC} and \ac{DAC} distinctions and use aspects
 of both.  In \autoref{chap:byod} we will look at how companies use
-employee's discretion to judge if aspects of the company's BYOD
-agreements (such as ethical policies) have been followed.  A user who
-uses a tool, such as a \emph{fine-grained permissions system} (such as
-one described in \autoref{sec:fine-grained-permissions}) or create a
-curated app store (we give a method to do so using a policy in
-\autoref{sec:an-apppal-enhanced-store}), will end up writing a
-MAC-style policy describing how their phone should behave or what apps
-the store should sell.
+employee's discretion to judge if aspects of the company's \ac{BYOD}
+agreements (such as ethical policies) have been followed.  
 
-BYOD policies and privacy preferences are only a subset of the
+In contrast, users use their discretion to follow their privacy
+preferences when picking and using apps.  The user must decide whether
+an app has the need to access certain device functionality or be
+installed on their phone at all.  A user using a \emph{fine-grained
+permissions system} (such as one described in
+\autoref{sec:fine-grained-permissions}) or creating a curated app
+store (we give a method to do so using a policy in
+\autoref{sec:an-apppal-enhanced-store}). Now the user will end up
+writing a \ac{MAC}-style policy describing how their phone should
+behave and what apps the store should sell.
+
+\ac{BYOD} policies and privacy preferences are only a subset of the
 policies we might see in the mobile ecosystem.  We will survey some
 other policies in the course of the thesis including app store terms
 and conditions, and the app signing models built into the mobile OSs,
-but we chose to focus on BYOD and privacy preferences as they covered
+but we chose to focus on \ac{BYOD} and privacy preferences as they covered
 a range of policy styles, high and low-level policy topics and could
 showcase some of what makes the mobile ecosystem fascinating.
 
-\section{Thesis Outline and Publications}
+\section{Capturing Mobile Security Policies Precisely}
+\label{sec:methods}
 
-The rest of this thesis is organised into the following chapters.
-Some work described has been presented at various conferences, workshops and PhD symposiums through the course of the PhD.
-We describe the publications, and show where they fit into the various chapters.
+The topic of this thesis is how can we capture the informal policies
+and trust relationships surrounding the mobile ecosystem and use
+formal languages to model and examine them?  Existing research on
+mobile security policies has focused on enforcing app permissions
+policies---the \emph{fine-grained} permissions systems.  These
+permission systems allow for new and powerful ways of expressing how
+users want their devices to behave, but they do not deal with the fact
+that users say not typically express their policies in terms of
+permission sets or formal policies but instead might use natural
+language.
+
+Existing work has given us the mechanisms for enforcing
+arbitrary mobile security policies, but not the means to link them
+back to the human natural language informal policies people use in
+practice.  What existing research lacks is the mechanisms to capture
+and reason about the informal policies precisely, and then link them to
+the tools and mechanisms that can enforce them.
+
+With the goal of showing how to capture the informal mobile security
+policies precisely in mind, this thesis attempts to answer the
+following research questions:
+
+% Research questions
+\begin{itemize}
+\item \emph{How can we capture precisely an informally specified
+    mobile security policy using a formal language?}
+  
+  This is the central question of the thesis.  We propose using an
+  authorisation logic as a formalisation to capture mobile device
+  policies as these logics have been previously used to capture
+  policies.  Based our requirements for the language and a survey of
+  existing policy languages we suggest using a SecPAL-based language
+  (AppPAL).  The rest of the thesis contains various case-studies where
+  we show that our proposed language can capture the policies and give
+  us greater insight into their rules and provide potential enforcement
+  mechanisms.
+    
+\item \emph{Do we see personal app privacy preferences reflected in
+    users' choice of apps?}
+  
+  To answer this question we have access to data about users policies
+  and app installations---therefore we use quantitative research methods
+  as AppPAL gives us a mechanism to query policies against data.
+
+  Existing work has identified 4 generalised app privacy preferences
+  people state they follow~\cite{lin_modeling_2014}.  Existing work has
+  also created a data-set of what apps users
+  installed~\cite{oliner_carat:_2013}.  To answer this question we
+  encode the stated privacy preferences as AppPAL policies, then use
+  AppPAL to find the apps that would be accepted by the policy.  The
+  extent a user is following the policy is found by measuring
+  quantitatively the percentage of apps that the user has installed that
+  met the policy as a percentage of the apps they installed overall.
+
+\item \emph{What are the common decisions in \ac{BYOD} policies, and
+    are these the decisions that \ac{MDM} tools help to enforce?}
+
+  This question lets us use AppPAL for a case-study into \ac{BYOD}
+  policies.  We do not have access to any data about \ac{BYOD} usage,
+  but we can examine the policies.  The research methods used to answer
+  the question are encoding into AppPAL (for the policies) and survey
+  for the functionality of the \ac{MDM} tools.  This allows us to
+  further explore the policies on the basis of our encoding, without
+  having to deal with the ambiguity of natural language policies.
+  
+  We take various \ac{BYOD} policies and express them in AppPAL.  This
+  can be somewhat subjective, so care must be taken to capture the style
+  and intent of the original policy and to use a consistent set of
+  predicates between policies.  With the policies encoded in AppPAL we
+  can look for common decisions, idioms and trust structures and make
+  comparisons precisely on the basis of the formal version of the
+  policy.  We survey the features of various \ac{MDM} tools by examining
+  their websites and documentation.  Finally we contrast what \ac{MDM}
+  tools can do with the decisions that \ac{BYOD} policies want to make.
+\end{itemize}
+
+
+% Existing limitations
+
+\subsection{Thesis Outline and Publications}
+
+The rest of this thesis is organised into the following chapters.  Some work
+described has been presented at various conferences, workshops and PhD
+symposiums through the course of the PhD.  We describe the publications, and
+show where they fit into the various chapters.
+
+For each of our publications the work described was done by the first
+author: Joseph Hallett (\emph{me}, the thesis author).  The second
+author, Professor Aspinall (my PhD supervisor), provided invaluable
+suggestions and advice as to where to go with the research as well as
+extensive editing.
 
 \begin{itemize}
-\item \textbf{Chapter 2: Background.} 
-  Describes Becker~\etal's work on SecPAL, and gives an overview of work developing policy languages.
+\item \textbf{Chapter 2: Background.}  This chapter describes
+  Becker~\etal's work on SecPAL, and gives an overview of work on other
+  policy languages including XACML and DKAL as well as the fine-grained
+  permission systems used to enforce policies on Android devices.
 
-\item \textbf{Chapter 3: Instantiating and Evaluating SecPAL.} 
-  Introduces AppPAL as a language instantiating SecPAL to describe the policies
-  of the mobile ecosystem. We introduce the language through examples before
-  showing how we implemented it. We also describe some modifications to the
-  language from SecPAL to make writing policies easier. We conclude by describing
-  our tools for analyzing AppPAL policies for satisfiability and redundancy
-  errors.
+\item \textbf{Chapter 3: Instantiating and Evaluating SecPAL.}  The
+  next chapter introduces AppPAL as a language instantiating SecPAL to
+  describe the policies of the mobile ecosystem. We introduce the
+  language through examples before showing how we implemented it. We
+  also describe some modifications to the language from SecPAL to make
+  writing policies easier. We conclude by describing our tools for
+  analysing AppPAL policies for satisfiability and redundancy errors.
   
   Some early examples were taken from our paper:
   \begin{itemize}
-  \item\emph{Towards an authorization framework for app security
-      checking~\cite{hallett_towards_2014}.} A PhD symposium paper describing how
+  \item\emph{Towards an authorisation framework for app security
+      checking~\cite{hallett_towards_2014}.} This is a PhD symposium paper that describes how
     we might use SecPAL to model policies in the mobile ecosystem.
   \end{itemize}
 
 \item \textbf{Chapter 4: App Stores and App Preferences.} 
-  Having described AppPAL, start to describe the differences betweeen different
+  Having described AppPAL, this chapter starts to describe the differences between different
   app stores and survey their different terms and conditions. We use AppPAL to
   capture descriptions of user's app privacy preferences; and measure the extent
   users follow these preferences when selecting apps by comparing with records of
@@ -288,40 +435,108 @@ We describe the publications, and show where they fit into the various chapters.
   
   The implementation described, and work on capturing user's privacy preferences is included in our papers:
   \begin{itemize}
-  \item\emph{AppPAL for Android~\cite{hallett_apppal_2016}.} Describes AppPAL as an instantiation of SecPAL.  Presents evaluation algorithm.  Shows how to capture user privacy preferences as AppPAL policies and tries to find examples of users following the policies in a user app-installation dataset.
-  \item\emph{Poster: Using Authorization Logic to Capture User Policies in Mobile Ecosystems~\cite{hallett_poster:_2015}.}  Presents early work measuring the extent users seem to follow an AppPAL translation of user privacy prefences.
+  \item\emph{AppPAL for Android~\cite{hallett_apppal_2016}.} This
+    conference paper describes AppPAL as an instantiation of SecPAL.  We
+    present AppPAL evaluation algorithm, and show how to capture user
+    privacy preferences as AppPAL policies. We use the AppPAL versions of
+    the privacy policies to find examples of users following the policies
+    in a user app-installation data set.
+  \item\emph{Poster: Using Authorisation Logic to Capture User
+      Policies in Mobile Ecosystems~\cite{hallett_poster:_2015}.}  This
+    poster presents early work measuring the extent users seem to follow
+    an AppPAL translation of user privacy preferences.
   \end{itemize}
 
-\item \textbf{Chapter 5: Applying AppPAL to BYOD Policies.}
+\item \textbf{Chapter 5: Applying AppPAL to \ac{BYOD} Policies.}
   We move from describing \emph{user-centric} policies, to ones companies might
-  want to enforce. We look at how we can capture BYOD policies using AppPAL by
-  looking at five BYOD policies (which are included in Appendix A). In capturing the
+  want to enforce. We look at how we can capture \ac{BYOD} policies using AppPAL by
+  looking at 5 \ac{BYOD} policies (which are included in Appendix A). In capturing the
   policies, we identify two idioms that existing MDM tooling does not capture. We
-  also describe how AppPAL could be used to enforce a BYOD policy by integrating
+  also describe how AppPAL could be used to enforce a \ac{BYOD} policy by integrating
   with existing tooling.
   
   This chapter encompasses and extends our work presented in:
   \begin{itemize}
-  \item\emph{Capturing Policies for BYOD~\cite{hallett_capturing_2017}} Describes work on using AppPAL to capture the rules and trust relationships in BYOD policies.
-  \item\emph{Common Concerns in BYOD Policies~\cite{hallett_common_2017}.} Describes work looking at BYOD policies to find common areas of concern.  
-  \item\emph{Specifying BYOD Policies with Authorization Logic~\cite{hallett_specifying_2016}.} PhD symposium paper describing early work capturing BYOD policies with AppPAL.  Shows how we could use AppPAL to look for common problems, such as completeness.
+  \item\emph{Capturing Policies for
+      \ac{BYOD}~\cite{hallett_capturing_2017}} This conference paper shows
+    how AppPAL can be used to capture the rules and trust relationships in
+    \ac{BYOD} policies.
+  \item\emph{Common Concerns in \ac{BYOD}
+      Policies~\cite{hallett_common_2017}.} This conference paper looks at
+    \ac{BYOD} policies and our efforts to find common areas of concern
+    within them.
+  \item\emph{Specifying \ac{BYOD} Policies with Authorisation
+      Logic~\cite{hallett_specifying_2016}.} This PhD symposium paper
+    describes early work capturing \ac{BYOD} policies with AppPAL.  The
+    paper describes how we could use AppPAL to look for common problems,
+    such as completeness.
   \end{itemize}
 
 \item \textbf{Chapter 6: Future Work.}
-  Describes possible future work, including a probabilistic variant of AppPAL.
+  This chapter describes possible future work, including a probabilistic variant of AppPAL.
  
-\item \textbf{Chapter 7: Related Work.} 
-  Describes XACML and DKAL: two related policy languages. We also give an overview
-  of the various \emph{fine-grained permissions systems} for Android that can be
-  used to enforce some aspects of mobile device policies.
 \end{itemize}
 
+\subsection{Research Contributions}
 
+This thesis makes the following contributions:
+
+\begin{itemize}
+  \item I show how SecPAL can be instantiated with predicates and conventions
+    to create a language called AppPAL to describe the policies of the mobile
+    ecosystem.
+  \item I provide an open source implementation of SecPAL and AppPAL. This also
+    contains tooling for examining policies for common problems such as
+    consistency and redundancy.  The previous implementation (by the authors of
+    the SecPAL paper~\cite{becker_secpal:_2006}) is closed source, and runs
+    only on Windows.  Our implementation is written in Java and will run in the
+    JVM and on Android devices.
+  \item I describe a framework for measuring the extent users follow policies
+    with respect to their app choices.  Using this framework and a collection
+    of app privacy policies found by surveying users~\cite{lin_modeling_2014},
+    I show that users do not seem to follow them in practice.
+  \item I provide a table summarising the differences in terms and conditions
+    between 5 different app stores.
+  \item I provide a formal version of 5 different \ac{BYOD} policies, written in
+    AppPAL.  Using the formal versions of the policies to compare the contents
+    of the policies I identify two idiomatic forms of \ac{BYOD} policy rules that
+    have not been examined before or supported by existing tooling.
+\end{itemize}
+
+It is difficult to judge the extent the investigations in this thesis have been
+a success.  We do not, for the most part, provide any proofs that could be
+checked to show our AppPAL policies are correct, more precise and more powerful
+than the natural language ones we claim to capture.  In fact, the act of writing
+down the policies in AppPAL requires a degree of subjectivity to capture the style
+and intent of the original policy. It would be reasonable to look at some of
+our policies and say that a different version might be more accurate or more
+descriptive.
+
+As well as describing the policies, this thesis also describes how we can
+compare and analyse the policies. The AppPAL language give us rules and a
+grammar for capturing the policies, decisions and trust relationships of the
+mobile ecosystem.  You might not like our versions of the policies. If you can
+use AppPAL to describe what a better version of the policy might be, however,
+then our version of the policy provides a baseline to compare against and our
+methods let us see whether we would find new or different results with the
+improved policies.
+
+% TODO: I hate this fix it.  Too cute.
+One approach to judging this work is to consider what the act of capturing the policies in a formal language lets us do.
+We believe that expressing mobile security policies precisely lets us see the trust relationships more clearly.
+It allows us to make comparisons on the basis of a formalisation.
+It helps us understand and argue about the policies.
+If by capturing the mobile security policies, what we learn is interesting and leads to worthwhile discussion, then our investigations are a success.
+Alternately if what we have discovered is trivial, wrong, and our language
+fails to capture the policies in any way, then this work must be judged a failure.
+
+I believe the former is the case.  This work is interesting. We do manage to
+capture the trust relationships of the mobile ecosystem successfully.
 
 \end{document}
 
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch1"
+%%% TeX-master: "../thesis"
 %%% End:

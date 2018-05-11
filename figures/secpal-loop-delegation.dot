@@ -1,0 +1,22 @@
+digraph {
+	spline=true;
+	overlap=false;
+	concentrate=false;
+	rankdir=TB;
+	
+	graph [fontname="helvetica"];
+
+	node [fontname="helvetica" shape=plaintext];
+	alice [label="Alice"];
+	bob [label="Bob"];
+	claire [label="Claire"];
+	
+	{ rank=same alice bob }
+
+	node [fontname="courier new" shape=note];
+
+	edge [fontname="courier new" style=dotted];
+	alice -> bob [label="'bob' can-say inf\l  Y canRead('data.db').\l"];
+	bob -> claire [label="'claire' can-say inf\l  Y canRead('data.db').\l"];
+	claire -> alice [label="'alice' can-say inf\l  Y canRead('data.db').\l"];
+}	

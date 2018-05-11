@@ -1,0 +1,1197 @@
+* Critique to Student
+
+Thesis title: Capturing Mobile Security Policies Precisely.
+PhD candidate: Joseph Hallett
+UUN: S1361467
+
+Internal Examiner: Paul Jackson (PJ)
+External Examiner: Charles Morisset (CM)
+
+Viva Date: 3rd November 2021.
+
+This document contains the list of comments explaining how the
+dissertation should be revised. The comments are described for each
+chapter, with a section for comments stated by Paul Jackson (PJ) and
+another section for comments stated by Charles Morisset (CM)
+
+The following prefixes are used before each comment.
+M: Mandatory. The correction needs to be addressed.
+O: Optional. It is recommended that the issue is addressed.
+
+** Ch 1: Introduction
+
+*** PJ
+
+**** General
+
+***** DONE 1.1. M:
+Add somewhere in this chapter a concise summary of the novel research
+contributions of the thesis.
+
+> Added _Research Contributions_ section which explicitly lists this at end
+> of Chapter 1
+
+***** DONE 1.2. M:
+Here and as needed in other chapters, some explicit statement is made
+of what methodology was followed and why.
+
+> For the "Do Users follow their Privacy preferences" section in chapter 4:
+> - Rewritten 4.2.2 Measuring Users to describe the experiment more
+>   explicitly in terms of experiment, method and hypothesis. 
+> - Added a table (with caption beginning "Summary of experiment...")
+>   stating each step explicitly.
+>
+> For the "Modelling BYOD policies" section in chapter 5:
+> - Tweaked 5.2 and 5.3 to be more explicit about method.
+> - Added a table (with caption beginning "Summary of method...") stating the
+>   method more explicitly.
+
+> Added (as part of 1.12) a section "Capturing Mobile Security
+> Policies Precisely" that states the research questions and the methods
+> I used to answer them, and why I use those methods.
+
+***** DONE 1.3. M:
+How does one judge whether the investigations described in the thesis
+have been a success? Some explicit statement is needed concerning
+this.
+
+> Added statement based on our discussions in the viva to end of
+> _Research Contributions_: namely that it is hard, but that if AppPAL
+> manages to capture the policies, and what we learn from doing so
+> (and the surrounding discussion) is interesting then the work is a
+> success.
+
+**** p3.
+
+***** DONE 1.4. M:
+It would be good to make clearer the relationship between the AppPAL
+language and SecPAL. E.g. that AppPAL is essentially an instantiation
+of the SecPAL system to the mobile domain, along with some minor
+changes to syntax.
+
+> Added in pretty much your words to the first mention of AppPAL.
+
+***** DONE 1.5. M:
+"from wherever server stores it". Grammar needs fixing.
+
+> from a server on the internet.
+
+***** DONE 1.6. M:
+The formal examples of policies are pretty cryptic on first reading.
+Some words explaining how to read the the various formal phrases would
+be really helpful.
+
+> Added a high level explanation and described the intuitive meaning of the
+> statement just before I start talking about the actual policies of the mobile
+> ecosystem.  Explained briefly, ground assertions, rules, delegation and
+> roles.  Forward link to where I talk about the rules more precisely.
+
+***** DONE 1.7. O:
+Some words explaining the relevance of HIPAA to mobile device policies
+would be good; this is not obvious from merely knowing that HIPAA =
+"Health Insurance Portability and Accountability Act".
+
+> Framed it in the context of protecting patient records, and explained that
+> it is a requirement in the US for apps dealing with medical records to follow
+> it.
+
+**** p5
+***** DONE 1.8. M:
+"It is important not to confuse the tools and techniques we might use to
+uphold parts of a policy with the end goal of ensuring compliance. "
+This sets up expectation that rest of paragraph will explain why. Did not
+see that it did so.
+
+> Given an example of how using taintdroid to prevent  leaking data, still
+> leaves questions as to if the policy is fully implemented, and how and when
+> the tool should be run.
+
+**** p6
+***** DONE 1.9. M:
+"classic DAC and MAC policies:" These acronyms need explaining.
+Do D and M stand for "discretionary" and "mandatory"? What
+significance does a discretionary policy have?
+
+> I've unabbreviated MAC/DAC on first use.  And I've added that enforcing
+> privacy policies is a DAC style activity.
+
+
+**** p7
+***** DONE 1.10. M:
+"AppPAL for Android [55]." What kind of paper is this? Conference?
+Workshop? Reference in Bibliography doesn't make clear.
+
+> Conference.  Added the /8th International Symposium on/ bit.
+
+
+**** p7-8
+***** DONE 1.11. M:
+References [53] = [58] are all joint with the PhD supervisor David
+Aspinall. Add some specific statement concerning the contributions
+the candidate and the supervisor made to each.
+
+> Explicitly stated at start of _Thesis Outline and Publications_.  I did the
+> work, David edited it.
+
+*** CM
+
+***** DONE 1.12. M:
+The introduction is quite short, and even though it introduces the
+context in general, it could be improved a lot by having a much
+detailed and clearer structure about the research questions addressed
+in this thesis, the known existing limitations, and the concrete
+contributions of the thesis. Furthermore, a section on methodology
+needs to be included, clarifying the different tools and techniques
+used, as well as the criteria for the evaluation of the work.
+
+> - Added for 1.1 the contributions.
+> - Added for 1.2 the methodology.
+> - Added for 1.3 the evaluation criteria.
+
+> Added paragraph on existing research limitations just before the
+> research questions in the new capturing mobile security policies
+> precisely section.
+>
+>     "The topic of this thesis is how can we capture the informal
+>     policies and trust relationships surrounding the mobile
+>     ecosystem and use formal languages to model and examine them?
+>     Existing research on mobile security policies has focused on
+>     enforcing app permissions policies---the \emph{fine-grained}
+>     permissions systems.  These permission systems allow for new and
+>     powerful ways of expressing how users want their devices to
+>     behave, but they do not deal with the fact that users say not
+>     typically express their policies in terms of permission sets or
+>     formal policies but instead might use natural language.
+>     Existing work has given us the mechanisms for enforcing
+>     arbitrary mobile security policies, but not the means to link
+>     them back to the human natural language informal policies people
+>     use in practice.  What the existing research lacks is mechanisms
+>     to capture and reason about the informal policies precisely and
+>     then link them to the tools and mechanisms that can enforce
+>     them."
+
+
+**** p3
+***** DONE 1.13. M:
+In the code example, what is the User U and the account A? Are they
+variables? If so, are they quantified? In its current form, the code
+does not really help the reader not already familiar with AppPAL to
+understand the approach, and is probably not needed for the reader
+already familiar with AppPAL.
+
+> I've added a bit more explanation as part of 1.6 and I think this is enough
+> here.  I appreciate that if a reader is already familiar with AppPAL they
+> don't need this, but this is the introduction and I should assume they're
+> not.  Also added a bit of space at the end of the explanation so they can
+> easily skip ahead (if they want).
+
+**** p4
+***** TODO 1.14. O:
+How does alice know bob? Do we assume as general repository for all
+possible attribute/names?
+
+
+**** p7
+***** DONE 1.15. O:
+Full sentences would be easier to read than "Describes .... Presents ...."
+
+> Converted to full sentences.
+
+** Ch 2: Background
+*** PJ
+**** p9
+
+***** DONE 2.1. O:
+"Authorization logics [1] describe rules for deciding when to allow
+certain actions precisely."
+
+How about instead:
+
+Authorization logics [1] precisely describe rules for deciding when to
+allow certain actions.
+
+or
+
+Authorization logics [1] describe precise rules for deciding when to
+allow certain actions.
+
+or just omit precisely altogether:
+
+Authorization logics [1] describe rules for deciding when to
+allow certain actions.
+
+> Opted for omission.
+
+***** DONE 2.2. M:
+"In applying logics of authorization to policy language"
+Need "," after language. However, phrase itself is awkward.
+
+Is "When using authorization logics as policy languages" any better?
+
+> Much!
+> But after doing 2.23 the sentence was removed altogether.
+
+***** DONE 2.3. O:
+Can any difference between the concepts of an "authorization logic"
+and a "policy language" be clarified?
+
+> They're almost the same thing.  Added a sentence to say so.
+
+**** p10
+***** TODO 2.4 O:
+Here and many places in thesis, "rule" used with two meanings:
+- an evaluation rule of SecPAL
+- an assertion in an assertion context.
+
+This double use is confusing. It would be good to at least warn the reader of
+this. Maybe check usage through the thesis and always use "evaluation
+rule" for former.
+
+***** DONE 2.5. O:
+Explain what "SecPAL" stands for. AL = authorization logic? SecP = ?
+
+> Stated explicitly at the start of the SecPAL section.
+
+***** DONE 2.6. M:
+The terms "speaker", "entity" and "principal" all seem to be used
+interchangeably. It would be worth stating explicitly that they are
+synonyms (if they are) or otherwise remarking on the slightly
+different usage of each term.
+
+> In SecPAL section after AC, {} |- 'computer' says 'alice' canRun('program.exe'):
+
+>     Assertions in SecPAL are made by an explicit \emph{entity} called the
+>     \emph{speaker} or \emph{principal} (the \texttt{computer} in this
+>     case) who says a fact about another entity called the \emph{subject}
+>     (\texttt{'alice'}).  The subject of an assertion may also be a
+>     speaker, or may be a voiceless entity the speaker says something
+>     about (the program, for example).
+
+***** TODO 2.7. O:
+The whole phrase "AC,D |= A says fact" is called an "assertion".
+This contradicts Fig 2.1 p11 where an assertion is just the "A says fact"
+part. One alternative is to call the whole phrase a "judgement".
+
+**** p11
+
+***** DONE 2.8. M:
+Fig 2.2. Fix the production rules for atomic expressions e to show the
+conventions used in AppPAL: i.e. constants in single quotes,
+variables capitalised.
+
+> Done.
+***** TODO 2.9. O:
+How about including the typing extension here, as it is already used
+extensively in examples? This would be especially help the reader as
+the "type : instance" rather than "instance : type" ordering of ":"
+arguments is uncommon.
+
+***** TODO 2.10. O:
+The grammar allows many more kinds of facts than one ever sees later.
+The main forms seem to be just:
+
+e says f
+e says e can-say f
+e says e can-act-as e
+
+How about rules just for these specifically? Then explain each with
+some English paraphrase.
+
+**** p12.
+
+***** DONE 2.11. M:
+Add some vertical whitespace between the rules in Fig 2.3.
+
+***** TODO 2.12. O:
+Fig 2.3 presents what are normally called "deduction rules" or
+"derivation" rules rather than "evaluation rules". In the SecPAL
+paper, "evaluation" is reserved for the algorithm which checks the
+truth of a query. Here and elsewhere in the thesis, could the more
+normal terms be used?
+
+***** DONE 2.13. O:
+Describe the "semantics" more specifically as "proof-theoretic
+semantics". When readers with some knowledge of mathematical logic or
+theoretical computer science see the word "semantics" they think first
+of denotational, model based or operational semantics, so it can be
+confusing to simply talk about "semantics".
+
+> Changed on Figure 2.4 and surrounding text, and on first mention.  
+
+***** DONE 2.14. M:
+Some remark is needed concerning the appropriation of the |= notation
+for judgements in rules. This is rather non-standard, but is
+following notation adopted in the SecPAL paper.
+
+> After the AC, theta |- q explanation:
+>     SecPAL's proof theoretic semantics are given in
+>     \autoref{fig:secpal-semantics}, and the derivation rules it uses to
+>     decide is a particular assertion holds or not are given in
+>     \autoref{fig:secpal-rules}. SecPAL has two main forms of decision
+>     procedure: The $\vdash$ form is used to evaluate a query with respect
+>     to an assertion context, and the $\models$ form is used to decide
+>     whether, given an assertion context and a flag indicating whether
+>     delegation is allowed, SecPAL's derivation rules can be used to derive
+>     the assertion from the assertion context.
+
+
+***** DONE 2.15. M:
+It would really help if further rigour and details concerning the
+presentation of SecPAL would be brought in from the SecPAL paper in
+order to make the formal presentation of SecPAL complete. The reader
+would not then need to refer back to the SecPAL paper for these
+missing details. For example explain the nature of substitutions,
+when parts of rules are supposed to be ground (free variable free) and
+the meaning of free variables when there are free variables.
+
+> I've added the assertion and query safety rules (which define what
+> parts of rules are meant to be ground and when) straight from
+> Becker's paper as suggested in the viva.  I've also added a
+> paragraph on the substitutions and variables, and explained that
+> they are resolved when evaluating queries against a policy using the
+> cond rule.
+
+***** DONE 2.16. M:
+Can queries have free variables? If so, are they existentially or
+universally quantified?
+
+> As originally described SecPAL queries are not allowed to contain free
+> variables. A later extension to SecPAL added guarded universal
+> quantification, however [22]. The extension allowed queries with a ∀ in them,
+> but also required that the query include a guard—a statement to restrict the
+> scope of the free variable. For example, a query to search for all apps
+> (known by Alice) that that were recommended by Bob could be written:
+>     ∀X (Alice says X isApp. ⇒ Bob says X isRecommended.)
+> In this query the Alice says X isApp. is the guard, restricting the scope of
+> X to the values that Alice says are apps, and the Bob says X isRecommended.
+> is the guarded query that provides the result.
+
+***** DONE 2.17. M:
+Fig 2.4. Fix \turnstile_2 typo.
+
+> Removed it.
+
+**** p13.
+
+***** TODO 2.18. O:
+Assertions considered to be "signed" by speakers. Could this
+terminology be introduce more systematically earlier when the "says"
+fact form is introduced?
+
+
+**** p15
+
+***** DONE 2.19. M:
+"Depth-bounded delegation allows delegation statements to be chained to
+an arbitrary (but finite) depth, without allowing for unbounded
+delegation. ". It is hard to imagine infinite depth delegation.
+So what is difference between "arbitary" and "unbounded"?
+
+> Added the figure with caption "Example of delegation with a loop of trust" and:
+>     Depth-bounded delegation allows delegation statements to be
+>     chained to an arbitrary (but finite) depth, without allowing for
+>     unbounded delegation, as unbounded delegation can become problematic
+>     if \emph{loops of trust} are introduced.  Loops of trust, as shown in
+>     \autoref{fig:loop-of-trust}, when there is a chain of delegation
+>     between principals that forms a loop.  SecPAL does not prohibit
+>     setting up loops like and it is left to the implementation to detect
+>     and resolve them, as they can cause the derivation rules to hang.
+
+**** p20
+
+***** DONE 2.20. M:
+"It is similar Prolog". Fix grammar.
+
+> Datalog is similar Prolog, but without negation, complex arguments, and the \texttt{is} statement. 
+
+**** p22
+
+***** DONE 2.21. M:
+AppPAL is said to be both "instantiation" of SecPAL and
+an "extension of" SecPAL.
+While there are minor syntactic extensions to the language, it is
+otherwise confusing to say that AppPAL is an extension of SecPAL.
+Here and elsewhere it would be best to primarily just say that AppPAL is an
+instantiation of SecPAL.
+
+> Switched to:
+>     AppPAL fits into this background of policy languages by instantiating SecPAL
+>     for a new domain. 
+
+***** DONE 2.22. M:
+It is suprising this chapter says nothing about the automation of
+query answering in SecPAL. The only time automation discussed is with
+RT. Can statements be made concerning automation of query answering
+with each of the other languages too?
+
+> Mostly the other languages don't discuss this, and assume an authorization
+> server scenario. I've tried to add a sentence or two for each of the different
+> languages explicitly mentioning automation.
+
+> For PolicyMaker (on the lead into the example): "To integrate PolicyMaker into
+> a real system, software would have to be modified to automatically send
+> PolicyMaker queries to a central query server in response to events, in order to
+> decide what to do next."
+
+> For Keynote: As with PolicyMaker, the integration of KeyNote into any
+> application is left to developers. Consequently the automation of any queries
+> (and deciding what to do with whatever results KeyNote may return) is left to
+> the application. Blaze et al. note that [28]:
+>   “KeyNote does not directly enforce policy it only provides advice to the
+>   applications that call it. In other words, KeyNote assumes that the
+>   application itself is trusted and that the policy assertions it specifies
+>   are correct. Nothing prevents an application from submitting misleading
+>   or incorrect assertions to KeyNote or from ignoring KeyNote altogether.”
+
+> For Ponder "Ponder2 also provides a control language called PonderTalk, which
+> lets the decision engine send messages to the objects it manages, as well as
+> the objects send messages between themselves. This allows for the automation
+> of some queries in response to PonderTalk message being sent, as well as the
+> management of obligations by allowing different objects to notify others of
+> what they must do."
+
+> For Cassandra: "A prototype of Cassandra was implemented allowing it to answer
+> some of the queries associated with requesting electronic health records, but
+> this wasn't further developed (that we know of) into an automated system for
+> supplying health records."
+
+> In the section on XACML restructured the paragraph on the reference
+> architecture to answer this: "XACML also defines a reference architecture for
+> anyone using XACML, shown in \autoref{fig:xacml-architecture}. The
+> architecture consists of five major \emph{policy points}. The reference
+> architecture describes how to setup the policy points so that queries can be
+> made and answered automatically. The PEP stands between the users and the
+> files (for example) they are trying to access. When a user tries to access a
+> file the PEP sends a query to the PDP (which makes the \emph{decision}), and
+> \emph{enforces} the policy by either granting or denying access. In order to
+> make the decision PDP \emph{requests} policies from the PRP (which are updated
+> by an \emph{administrator} editing the policies at the PAP), and using
+> \emph{information} from the PIP. "
+
+> For SecPAL, Becker doesn't say how to do this. Becker gives the language and
+> the evaluation procedure, but it wasn't until later languages like DKAL that
+> they drilled down into how you automate the querying and information sharing.
+> I've added a short subsection or two stating this (Integrating SecPAL)
+>
+> Becker's description of SecPAL does not give details as to how a system using
+> SecPAL should be implemented. For example, if SecPAL were to be used to add
+> access controls to an email system, the language itself does not describe when
+> the mail server should check the policy to see if a user can access their
+> mail. We might imagine that a user authenticates with mail server using LDAP,
+> and then before allowing them access to their mail, queries a SecPAL policy
+> (where 'user' has been replaced by the real user):
+>     'admin' says 'user' canReadMailOf('user').
+> SecPAL does not, however, describe how or when the
+> query should be made, only how to process it when it has been. The decisions
+> as to how and when are left to the person implementing the system.
+> Similarly, If a policy query uses delegation then the assertion context being
+> queried must contain the necessary facts from the delegated parties before
+> checking the query. SecPAL doesn't say when or how these statements should
+> be fetched, just what to do with them once they have been. Later languages,
+> such as DKAL [53], give explicit protocols to enable information sharing; but
+> for SecPAL the decision of how to implement and automate these procedures is
+> left to the system designers.
+
+
+
+*** CM
+
+***** DONE 2.23 M:
+The background section needs to be improved, targeted towards a non
+specialised expert, who do not already know about SecPAL (or other
+formal access control languages). This chapter needs to be
+self-contained. I would advise to rewrite this section, starting from
+the example of the file server, described informally, presenting the
+problem that needs to be solved (specifying policy and
+delegation). The syntax of SecPAL can then be gradually introduced,
+together with its semantics, illustrated on the example. This chapter
+is key to clarify the contribution of AppPAL with respect to
+SecPAL. The choice of other languages not clear: why are XACML and
+DKAL at the end, while Ponder and Cassandra are in this section?
+
+
+> As discussed in the viva, the related work section is gone and it
+> the discussion of the other policy languages has been brought in here
+> and the related work chapter has been removed.
+
+> I have rewritten/edited-heavily the introduction to SecPAL, as a
+> general introduction to the problems policy languages try and solve,
+> using and explaining SecPAL as I go, as suggested.  From the
+> "Delegation is SecPAL" section it is more or less as it was before.
+
+
+
+**** p11
+
+***** DONE 2.24. M:
+The BNF is not always consistent (vp must be replaced by verb-phrase,
+f by fact, etc).
+
+> Fixed
+
+**** p14
+***** DONE 2.25. M:
+There is a quote missing after alice in 'alice says 'cluster' ...
+
+> Fixed
+**** p20
+***** DONE 2.26. M:
+Is read -> is read
+
+> Fixed
+
+** Ch 3: Instantiating and evaluating SecPAL
+
+*** PJ
+**** p25
+
+"Locality" paragraph.
+
+***** DONE 3.1. O:
+Explain if the concept of a "location" is distinct from that of an "entity" or
+principal. Sometimes locations are inanimate, a store or a mobile
+phone, whereas entities can be "users". But it seems their roles in
+this paragraph are similar.
+
+> It isn't entirely distinct from an entity, so a sentence would be helpful
+> here.  I've written:
+>    "The locality of a query is the place where the decision is being made,
+>     typically in the immediate viscinty of an entity such as a user or store."
+> Does that make it clearer?
+
+"Access external information" paragraph.
+
+***** TODO 3.2 O:
+The last couple of sentences are "We want our policy language to be able
+to capture the policies which use these external sources without
+forcing the tools themselves to work in any particular manner. In
+other words, the policy specification should be separate from its
+enforcement."
+These seem to be saying something different from the prior part of the
+paragraph. The issue seems to be that in general some policy
+information will be outside the policy language and one wants tools
+that check queries written in the policy language to also be able to
+make use of external tools that work with this external policy
+information. Can this be clarified?
+
+
+**** p26
+
+
+"Constraints" paragraph.
+***** TODO 3.3 O:
+I am not sure the heading "Constraints" quite captures what is
+described here, even if it so happens that the best way to incorporate
+this kind of information into a policy language is through some
+constraint handling mechanism. What is described here is sensitivity
+to the environment, with the physical location and the current time
+being given as examples.
+
+Could an environment argument explicitly feature in the
+constraint-checking |= judgement in the first premise of the cond rule
+in Fig 2.3 on p12?
+
+***** TODO 3.4. O:
+The talk about "location" here could possibly be confused with the
+more abstract notion of "locality" discussed on previous page. Could
+some rewording lessen the possible confusion?
+
+***** DONE 3.5. M:
+"SecPAL’s constraint mechanism (the where part of an assertion) lets
+us implement the constraints we described but also allows us to access
+external information." Later (e.g. p34 Table 3.1) we see kinds of
+predicates with names that suggest (at least in some cases) that they
+too might be able to access external information. Is that indeed
+possible or not?
+
+> No it isn't.  The predicate may have a leading name, but you'd still have
+> to implement it with a constraint.  Added after the description of each
+> predicate in section 3.3.1 an explanation:
+>
+> Some of the predicates may seem to allow AppPAL access to information from
+> outside of its assertion context. In order to use external information,
+> however, an AppPAL constraint must be used. For example, if we had a fact:
+> \lstinline!User:X canWriteTo(File:f)!, then we might imagine it implemented
+> with a rule:
+> \begin{lstlisting}
+> 'admin' says User:X canWriteTo(File:f)
+>   where fsAllowWrite(X, F) = true.
+> \end{lstlisting}
+> 
+> Where \lstinline!fsAllowWrite()! is a constraint that checks whether the
+> file-system would allow a given user access to file.  An alternative to using a
+> constraint, would be to generate ground AppPAL assertions  before running the
+> query which state exactly which users can write to any given file.  
+> \begin{lstlisting}
+> 'admin' says 'alice' canWriteTo('alices-documents').
+> 'admin' says 'alice' canWriteTo('project-notes').
+> 'admin' says 'bob' canWriteTo('project-notes').
+> \end{lstlisting}
+> When there are large numbers of users and files this may become infeasible
+> however.
+
+
+**** p33.
+
+***** TODO 3.6. O:
+How is the proof fragment at the page foot an application of the
+cond rule of p12? On p12 an "if" can only figure in a claim and
+claims can only come from the AC; they can't feature as goals. On p33
+we see an "if" featuring in the conclusion part of the cond rule
+application.
+
+
+**** p42
+***** DONE 3.7. M:
+It is unclear whether Becker ever actually implemented the algorithm
+he/she proposed? Did Datalog^C implementation exist ever? Some
+clarification would help.
+
+> To our knowledge no prior open source implementation of SecPAL exists.
+> Becker implemented SecPAL as a closed-source library atop the {.net}
+> framework~\cite{msr_secpal_research_release_2007}.  This library included
+> examples and  a C\# API for SecPAL, allowing assertions to be created using
+> code, but no parser for SecPAL.  Since Becker's SecPAL implementation cannot
+> be trivially extended and will only run on Microsoft Windows, the decision
+> was made to reimplement AppPAL from scratch as an open source library.
+
+
+
+***** DONE 3.8. M:
+It is suprising that Z3 could not fully support Datalog^C. Why? Is it to do
+with need to be able to query environment? A few words on this would
+be good.
+
+> To implement the constraint checking we would need to modify the Datalog
+> implementation to run additional checks whilst making inferences.  For AppPAL
+> these additional checks might require running an external program, but this
+> would not be a trivial change to make for the libraries we looked at.
+
+
+**** p44
+
+***** DONE 3.9. M:
+"If when searching for a proof we meet a query that we are currently
+evaluating, i.e. one that exists higher in the current proof tree, we
+treat it as false. " Add a comment about why is this a reasonable
+thing to do.
+
+> Ignoring queries we are currently evaluating lets us avoid proofs with cycles
+> (i.e. proof trees where the proof of a query depends on proving itself).  If we
+> can find a terminating proof with a cycle then we can find also shorter proof
+> by removing the cycle.  If a proof tree has a cycle that never terminates
+> (i.e.~it loops infinitely) then we can treat it as effectively false as it
+> would take an infinite amount of time to derive.
+
+
+***** TODO 3.10. O:
+The use of "RT" as an acronym for Results Table clashes with its use
+in related work on p20 to describe a policy language. Perhaps don't
+use RT here.
+
+
+**** p47
+
+***** DONE 3.11. O:
+Is it necessary to have this results table persistent between
+queries? When query is run, shouldn't the environment be somehow
+first frozen so the same external call always returns the same result?
+Why can't the cache be cleared between queries?
+
+> It isn't necessary, its just helpful as often when I was using AppPAL my
+> different queries would share some sub-queries.
+
+>   "Alternatively the cache can be cleared between queries, though this
+>    loses some of the speed benefits of having some common sub-query results
+>    cached.  Ultimately the decision of how to manage the results table is up to
+>    the developer."
+
+
+
+***** DONE 3.12. M:
+Equivalence: what does "same conditions" mean?
+
+> s/same conditions/the same ground facts to be proven/
+
+***** DONE 3.13. O:
+"where one requires a subset of the facts in order to satisfy it".
+Does this mean "where one is satisfied by a subset of the facts that
+satisfy the other"?
+
+> Yes.  Used your wording.
+
+**** p52
+***** DONE 3.14. M:
+What are the "conditionals" of an assertion?
+
+If an assertion has form
+
+ e says f if f1 ... fn
+
+are the f1 ... fn the conditionals?
+
+"Premises", "assumptions", "hypotheses" or "antecedents" might be
+better terms. Whatever terminology is used, it would be worth fixing
+it back around p11 or p12 when the SecPAL language is formally
+introduced.
+
+> Yes.  They were introduced as conditions back in Fig 2.1, so I've switched
+> back to that.
+
+***** DONE 3.15. M:
+A "Satisfiable" set looks like the deductive closure of the
+assertion context, ignoring any "where" constraints clauses.
+This seems a distinct use of the term "satisfiable" from that common
+in logic and automated reasoning. (E.g. a propositional logic formula
+is satisfiable iff there is an assignment of truth values to the
+propositional variables that makes the formula true.)
+
+It is suggested that this notion of of satisfiability comes from the
+Datalog literature. This suggestion is rather cryptic, particularly
+as it uses unexplained acronyms IDB and EDB. More explanation of the
+notion of satisfiability used here is needed, warning the reader that
+it is distinct from common notions of satisfiability (if indeed that
+is the case).
+
+> I've added a bit at the start explaining the difference between this and
+> satisfiability for SMT solving.  
+> 
+>     This is related to the concept of \emph{satisfiability} in SMT solving
+>     (where a propositional logic formula is satisfiable if there is an
+>     assignment of truth values to the propositional variables that makes the
+>     formula true), but made more complex by the recursive nature of AppPAL's
+>     (and other policy and database languages) assertions. Instead of just
+>     looking for an assignment of variables, we must look to see if there are
+>     rules and facts sufficient that we can derive the satisfiable statement.
+> 
+> I've also rejigged things so that we start with the datalog definition and
+> then come to the AppPAL one, and explained the IDB (as the datalog program or
+> AppPAL policy) and EDB (as the facts derived from the IDB or the AppPAL AC).
+
+
+
+***** DONE 3.16. M:
+The phrase: "Satisfiability can be defined inductively as the least
+set satisfiable such that:" is rather awkward. "Satisfiability" is
+the general concept, "the least set satisfiable" is something more
+specific.
+
+Should "the least set satisfiable" be "the least set Satisfiable"?
+The latter makes more sense: one is defining the set Satisfiable as
+the smallest set closed under the claims in an assertion context.
+
+> Along with the TODO-3.15 I've rewritten the "the least set satisfiable" bit
+> as:
+
+>     Drawing from the Datalog definition of satisfiability, we define an AppPAL
+>     statement $G$ as satisfiable if there exists some \ac{AC} such that there is
+>     an assertion $A$ within the AC and some assignment of variables $\theta$ such
+>     that $A\theta$ derives $G$, and that all the conditions in the body of
+>     $A\theta$ are also satisfiable. Formally, we define this as:
+
+**** p53
+
+***** DONE 3.17. M:
+In the rules at the top of the page, the "predicate" and the p_i can all
+contain free variables, so the assertions in the Satisfiable set can
+also contain free variables. Is this intended? This is different
+from the situation with the cond rule on p12 where it seems that
+assertions might be ground, might contain no free variables.
+Some explanation of these rules, comparing them with the cond rule
+would be very useful.
+
+> Yes this is intended but some details have been left out: in
+> particular that the equality we use when checking if a particular
+> predicate is in the Satisfiable sets is equality-under-unification.
+>
+> I've added a simplified worked example, and a comparison to the cond and can-say rules:
+>
+>    The satisfiability rules are reminiscent of AppPAL's \emph{cond} and
+>    \emph{can-say} rules shown in \autoref{fig:secpal-rules}, but far more
+>    general.  AppPAL's evaluation rules decide if a specific assertion by
+>    A speaker is supported by an assertion context.  In contrast, the
+>    satisfiability rules look at whether it is possible that the
+>    evaluation rules \emph{could} decide that the assertion is
+>    supported---that the AppPAL evaluation rules could concievably be
+>    satisfied, not that the evaluation rules are satisfied for a specific
+>    assertion.
+
+
+
+**** p5
+***** DONE 3.18. M:
+Is redundancy because of typing a bad thing? Maybe from an inference
+point of view yes, but from the point of view of quickly comprehending
+sense of assertions maybe it is helpful.
+
+> Added a paragraph to say this:
+>
+> Whilst the irrelevance adds redundancy and can slow down inferences when making
+> policy checks, it can also aid policy comprehension.  In the previous example
+> the repeated checks as to whether someone is a user do not, strictly, need to
+> be done.  They do, however, clarify what the type of each variable is.  A
+> future implementation of AppPAL could remove the redundant
+> checks automatically.  In order to remove the redundant checks we must first be
+> able to identify them, however.
+
+
+
+*** CM
+
+***** DONE 3.19. M:
+The precise definition of AppPAL needs to be given here? Is it simply
+SecPAL with a typing syntax (section 3.2)? Or does it include an
+onthology for a specific domain (Section 3.3). The paper "Michael Carl
+Tschantz, Shriram Krishnamurthi: Towards reasonability properties for
+access-control policy languages. SACMAT 2006: 160-169" needs to be
+discussed here as well.
+
+> For the more precise definition:
+
+> AppPAL is a policy language that describes the policies of the
+> mobile ecosystem. To be more precise: it is SecPAL, with a slightly
+> modified syntax to allow for additional typing constraints (described
+> in Section 3.3.2) and to aid machine parsing. As well as the modified
+> syntax, AppPAL also instantiates SecPAL (which is generic) to with the
+> predicates and types to talk about mobile security policies (Section
+> 3.3).
+
+> For the Tschantz paper:
+
+> Tschantz and Krishnamurthi defined various reasonability properties
+> (properties that determine how well someone might predict how a
+> policy will behave) for policy languages [?]. They note that
+> compared to languages based on first-order logic (like SecPAL):
+>   
+>     ``policies written in XACML are more transparent than policies
+>       written in languages based on first-order logic"
+> 
+> In their paper, Tschantz and Krishnamurthi compare a restricted
+> version of XACML (Core XACML) to three first-order logic based
+> languages: FOL, Lithium and L5. Tchantz and Krishnamurthi go on to
+> define their properties: totality if the language always makes a
+> decision, determinism if the language always makes the same decision
+> given the same query, monotonic if the policy makes the same
+> decisions if the rules are reordered, safety if adding a facts from
+> a policy only allows more permit decisions to be made and
+> independent composition if the results of querying the policy as a
+> whole are no different from querying subsets of the policy’s rules
+> and combining them. They note that whilst Core XACML is
+> deterministic it is not safe, does not have independent composition
+> and is not monotonic.
+> 
+> SecPAL in contrast is total (by the closed world assumption), is
+> monotonic (there are no policy combinators and negation is not
+> allowed in policies), and has independent composition (there are no
+> policy combinators). If the policy is always structured to use the
+> same form of decision (the policy always uses canRead instead of
+> canNotRead, for example) then the language is safe too. SecPAL
+> without constraints is also deterministic, and if constraints are
+> used then the language is deterministic only if the constraints
+> themselves are1. SecPAL seems, therefore, to meet most of Tschantz
+> and Krishnamurthi criteria for a reasonable language, despite being
+> based of first-order logic.
+
+
+***** DONE 3.20. O:
+On the type notation: how complex is the type system? is there any
+type checking? Any sub-typing?
+
+> Very basic!  Its just a (thin) sugar for
+> /is/-type facts that ends up being used a bit like types, hence the name.
+> There is the start of a schema-like type checker but I don't think it was
+> ever useful for much so it isn't mentioned.
+
+>    "Adding a static type-checker, and looking at more complex type
+systems has been left to future work."
+
+**** p44
+***** DONE 3.21. M:
+It is not clear at all how the evaluation procedure differs from that
+of SecPAL. This point was addressed during the viva, and needs to be
+included in the dissertation.
+
+> AppPAL's evaluation procedure is not the same as SecPAL's, though in practice
+> both could be used to evaluate AppPAL or SecPAL policies.  SecPAL was evaluated
+> by first converting queries and policies into \datalogc{}.  Becker then
+> described a novel \datalogc{} evaluation algorithm with tabling to evaluate the
+> converted queries and make decisions. The AppPAL evaluation algorithm does not
+> make use of  \datalogc{}, but instead implements AppPAL's
+> evaluation rules directly.  We do, however, borrow some strategies from
+> Becker's SecPAL evaluation algorithm---AppPAL's results table serves a similar
+> purpose to SecPAL's tabling caching results and preventing cycles.  The use of
+> sets to restrict the search space for variables is unique to the AppPAL
+> algorithm, however. 
+> 
+> Our method for evaluating AppPAL offers an alternative to Becker's procedure.
+> We developed it to avoid having to implement \datalogc{}, and to allow us
+> greater control over how AppPAL evaluated policies.  We believe the procedure
+> is equivalent to Becker's SecPAL evaluation algorithm (though a more rigorous
+> comparison as to how the procedures compare has not been done).
+
+
+
+
+**** p44
+***** TODO 3.22. O:
+On the usage of caching, an interesting discussion can be made with
+e.g. "Qiang Wei, Jason Crampton, Konstantin Beznosov, Matei Ripeanu:
+Authorization recycling in hierarchical RBAC systems. ACM
+Trans. Inf. Syst. Secur. 14(1): 3:1-3:29 (2011)".
+
+**** p45
+***** DONE 3.23. M:
+This section is quite interesting, but the difference with existing
+analysis done for SecPAL needs to be explained?
+
+> When describing SecPAL Becker also showed that decision procedure he
+> used for SecPAL was both sound and complete. His decision procedure
+> had to parts: a translation from SecPAL into DatalogC, and a Datalog
+> evaluation algorithm involving tabling. He proved the soundness and
+> completeness of both parts in Appendix C of the SecPAL technical
+> report [23]. To do so, he described the SecPAL evaluation algorithm as
+> a labelled transition system and proved by induction which states were
+> reachable from an initial state. In comparison to Becker’s proofs, the
+> arguments presented here for AppPAL work through induction on the
+> height of the proof tree generated by applying AppPAL’s evaluation
+> rules. Becker did not have to consider constraints when presenting his
+> proofs as the SecPAL evaluation algorithm does not cache SecPAL
+> queries. It does make use of a results table, but this stores the
+> Datalog translation of the SecPAL statement without constraint only,
+> and so the problems associated with the results of constraints
+> changing over time do not apply.
+
+** Ch 4: App Store and App Preferences
+
+*** PJ
+**** p75
+
+***** DONE 4.1. M:
+"... we checked which apps satisfied which policies." The encoding of
+the questions considered into AppPAL are hinted at only very briefly.
+I found it hard to picture them. Include more information about them.
+
+> As part of TODO-4.4 I've shown what one of the policies look like in
+> AppPAL. I've also added (after the paragraph beginning "The database has
+> over..."):  
+
+> To check which apps satisfied which of Lin’s policies, we took our AppPAL
+> Encodings of the policies, and facts identifying the apps in our dataset as
+> Apps into an assertion context.
+>
+> 'researcher' says App:X hasMet('unconcerned-policy')
+>   if X isWithoutPermission('GET_ACCOUNTS')
+> 
+> 'researcher' says 'com.facebook.katana' isApp.
+>
+> For each app, we then queried AppPAL whether the app had met each of the
+> policies, and recorded which apps met which policies.  This allowed us to
+> measure the extent any of the users appeared to be following any of the
+> policies, as the percentage of the apps they had installed that met the
+> policy.
+
+**** p80
+
+***** DONE 4.2. O:
+"AppPAL's GenStore tool". This phrasing makes it sound like the
+GenStore tool is part of AppPAL, whereas what is intended is that the
+GenStore tool is an application of the AppPAL checker tool. Could the
+phrasing here be improved?
+
+> Is this better?
+> "The \emph{GenStore} tool uses AppPAL to automate the store creation process for Android app stores."
+
+***** DONE 4.3. M:
+The status of the GenStore tool is very hazy. It is described as a
+prototype. Did the prototype actually work? This section would be
+much stronger if it could include some simple example case study that
+demonstrates it actually running. At the very least, there needs to
+be a fuller description of GenStore's status.
+
+
+> GenStore was written years ago, but I've got it going again!
+> Added a section "Using GenStore to Build an App Store", which shows how it is used and adds the screenshots of it actually running.
+> I note at the end that it is not production ready, but acts as an example of how AppPAL could be used in practice.
+
+
+*** CM
+
+**** p73
+***** DONE 4.4. M:
+The policies corresponding to each privacy class needs to be further
+explained, and possibly given in the dissertation. Otherwise, it's not
+clear how can an app not meet the "unconcerned policy" (since one
+would assume that someone unconcerned has no policy at all).
+
+> Have added a sentence stating that the "unconcerned" users were 
+>
+> "somewhat uncomfortable about allowing apps unrestricted access to their accounts"
+
+> At the start of the section "Measuring Users" I've shown the translation of
+> the fencesitter rule and an explanation of how this relates to the table:
+
+> For example the \emph{Fencesitter} policy is encoded as:
+>     'researcher' says App:X hasMet('fencesitter-policy')
+>        if X isWithoutPermission('GET_ACCOUNTS'),
+>           X isWithoutPermission('ACCESS_FINE_LOCATION'),
+>           X isWithoutPermission('READ_CONTACT').
+>      
+>      'researcher' says App:X isWithoutPermission(Permission:P)
+>        where check_permission(X, P) = false.
+> Where check_permission is a constraint that checks whether the
+> app X requests permission P.  Each policy in
+> \autoref{tab:lin-perms} was translated into a similar AppPAL rule where the
+> permissions that made the users uncomfortable were prohibited.
+
+**** p75
+***** DONE 4.5. M:
+The description of the reverse engineering of the hashes in the
+dissertation can raise ethical concerns. Those were addressed during
+the viva, and the dissertation needs to be corrected accordingly,
+detailing the interaction with the owner of the original data-set and
+the anonymity issues.
+
+> The app names were replaced with hashes in order to obscure the package names
+> of some apps.  We spoke to one of the researchers who collected the data and
+> learnt that the Carat tool was tested inside a company who were developing some
+> apps that had not been announced.  The company did not want to leak the names
+> of their private apps so they were hashed in order to preserve their secrecy.
+> This allowed researchers to reverse engineer the hashes of publicly known
+> applications, whilst keeping any secret or unknown applications private.
+> 
+> Having confirmed with the data-set owners that reverse engineering the app
+> hashes would not raise ethical concerns, ...
+
+
+**** p75
+***** DONE 4.6. M:
+The data analysis is quite limited with no element of standard
+deviation/variance, error intervals, etc. The tables on p76 are
+actually quite hard to read, and it would be good to given an example
+of how to read them.
+
+> I've added an additional figure (Fig 4.6 with caption beginning "Chart
+> highlighting that there were...) and added an extra paragraph explaining how to
+> read the charts:
+
+>     The charts can be read as described in Figure 4.6.  Each bar
+>     of the histogram represents a statement about what percentage-range of a users
+>     apps met a given policy.  A user for whom between 0--5\% of their apps met the
+>     policy would count towards the first bar, a user for whom between 5-10\% of
+>     their apps met the policy would count towards the second bar.  The height of
+>     each bar represents the number of users in each group.
+
+***** TODO 4.7. O:
+A differential analysis of the dataset with and without the apps not
+meeting the unconcerned policy (are those apps somehow malware?) could
+be interesting.
+
+** Ch 5: Applying AppPAL to BYOD Policies
+
+*** PJ
+
+**** p83
+
+***** DONE 5.1. M:
+In policy 2, what is the the distinction being made between "should
+and "will"? What does it mean when a policy uses "should"?
+
+> The difference I was trying to convey was that in the should case THE
+> COMPANY sets the policy, and in the will case THE USER states what they will
+> agree to do.  I've shifted the emphasis.
+
+**** p90.
+
+***** DONE 5.2. M:
+Table 5.2. What are "decisions"?
+
+> Have added to the paragraph begining "Table 5.2 shows a count..." further
+> explanation that decision means the predicate exists in the head of the rule
+> and condition means the predicate exists in the body of the rule.
+
+What does it mean here to "satisfy" a policy? Is this in the
+technical sense of Sec 3.5.1, p52?
+
+> Stated explicitly: "AppPAL exists as a tool for checking whether a policy
+> is contains sufficient facts and rules to decide whether a given statement is
+> true or not."
+
+*** CM
+
+**** p83
+***** DONE 5.4. O:
+The notation "1. Is", "2 .Is", etc, is a bit confusing. Possible
+suggestion: "1: the security ..."
+
+> Removed the numbers and used the description as you recommend.
+
+** Ch 6: Future work
+
+*** PJ
+**** p100.
+
+***** DONE 6.1. M:
+"Probability is similar to probability...". Needs fixing.
+
+> A last minute change renaming this from plausibility to probability.
+> Deleted it as the distinction was confusing.
+
+**** p102.
+
+***** DONE 6.2. M:
+"actions where Alice can do something might naturally lead to
+assertions where Alice has done something."
+
+This "lead to" notion is rather vague and needs more explanation.
+One reading of "lead to" is "imply", but this does not make sense:
+having a capability does not imply that that capability must be
+exercised.
+
+> I've tweaked this a litte bit and tried to avoid _leads to_, and added a bit more
+> explanation.
+> The notion  here isn't:
+>     a implies b,  b, therefore a.
+> Which would be wrong, as you say, but rather:
+>     b if a,  b, therefore a.
+> I.e. that we can infer the existence of the can in the past by the
+> existence of the has now.
+
+
+*** CM
+
+***** TODO 6.3. O:
+This chapter would benefit to be transformed into a "Discussion"
+chapter, which would highlight the main challenges in extending
+AppPAL, and possibly include the first attempts to address them,
+rather than describe unfinished work.
+
+** Ch 7: Related work
+   
+> N.B. This chapter was integrated into Ch 2. (as per 7.2)
+
+*** PJ
+**** p107.
+
+***** DONE 7.1. M:
+"Gurevich et al." This doesn't make sense until one realises that DKAL
+and DKAL2 are developed by Gurevich.
+
+> Replaced "Gurevich et al." with "the authors of DKAL and DKAL 2".
+
+*** CM
+***** DONE 7.2. M:
+As mentioned above, and discussed during the viva, this chapter would
+make more sense with the background chapter.
+
+> Moved into the background chapter.
+
+***** TODO 7.3. O:
+Since XACML is designed to be extensible, and since one of the main
+contribution of AppPAL is to extend SecPAL, it would be good to
+discuss this aspect here.
+
+
+** Ch 8: Conclusions
+
+No comments.
+

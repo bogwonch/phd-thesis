@@ -11,7 +11,7 @@ BYOD policies are one way a company might try to control how personal
 devices are used in the workplace.  In this chapter we show how we can
 capture these policies using AppPAL.  We focus on the trust
 relationships within these policies and identify two idioms,
-delegation and acknowledgments, that existing tools for enforcing BYOD
+delegation and acknowledgements, that existing tools for enforcing BYOD
 policies ignore.
 
 \section{BYOD in the Workplace}
@@ -24,7 +24,7 @@ available to all employees and 32\% made it available to selected
 employees. These \ac{BYOD} policies are natural language documents
 that employees should read and obey. They describe steps to take to
 secure devices in the workplace. The policies say how employees should
-get access to data, and who should authorize decisions.
+get access to data, and who should authorise decisions.
 
 Companies can use their policies in varying ways. Some may
 trust employees to follow the rules on their own. Others may use
@@ -47,47 +47,48 @@ ineffective~\cite{hao_effectiveness_2013}.
 \label{sec:overview-of-five-byod-policies}
 
 This chapter looks at how we can apply AppPAL to
-BYOD policies.  To do this we analyze of five \emph{real-world} policies.
+BYOD policies.  To do this we analyse of five \emph{real-world} policies.
 We chose the policies from a variety of domains.  They cover a range
 of different policy styles and concerns.  Two are example policy
 templates a company might want to base its own BYOD policy on,
-published by security advice organizations.  The remaining three are
+published by security advice organisations.  The remaining three are
 BYOD policies used inside companies.
 
-\begin{enumerate}
-\item Is the \emph{Security Policy Template: Use of Handheld Devices
-    in a Corporate Environment}. It was published by the SANS
-  Institute~\cite{nicholas_r._c._guerin_security_2008}. This policy is a
+\begin{description}
+  \item[The \emph{Security Policy Template}~\cite{nicholas_r._c._guerin_security_2008}.] It was published by the SANS
+  Institute. This policy is a
   hypothetical policy published to help companies mitigate the threats
   to corporate assets caused by mobile devices. Companies change the
   document to suit their needs and BYOD requirements. The policy is
   general; not specific to any particular industry, device, or country's
   legislation.
-\item Is from the \ac{HiMSS}
-  \cite{healthcare_information_and_management_systems_society_mobile_2012}.
-  \ac{HiMSS} is a US non-profit company trying to improve health care through IT.
+\item[The \acl{HiMSS}
+  \cite{healthcare_information_and_management_systems_society_mobile_2012}.]
+  \acs{HiMSS} is a US non-profit company trying to improve health care through IT.
   The \ac{HiMSS} policy is short and has concerns specific to
   healthcare scenarios. The policy is a contract the users follow. It has
-  a different style to other policies: in the other policies the company states
-  what users \emph{should} do; here the user states what they \emph{will} do. The policy is
+  a different style to other policies: in the other policies \emph{the company states}
+  what users should do; here \emph{the user states} what they will do. The policy is
   a sample agreement for a healthcare company managing mobile
   devices.
-\item Is from a British hospital trust~\cite{kennington_mobiles_2014}.
+
+  \pagebreak
+\item[A British hospital trust~\cite{kennington_mobiles_2014}.]
   It describes the BYOD scheme used in practice at the hospital.  The
   policy is broad and covers rules for corporately owned devices.  This
   policy also briefly describes how devices should interact with
   patients.
-\item Is from the University of
-  Edinburgh~\cite{williamson_bring_2015}. It is brief. It groups
+\item[The University of
+  Edinburgh~\cite{williamson_bring_2015}.] It is brief. It groups
   rules into those for high and low risk users.  The policy is extremely general describing rules for
   laptops, tablets and phones.  Many of the rules are vague.
   The policy says \emph{``Use anti-virus software and keep it up
     to date''}, leaving the choice of AV software and
   update times to the user.
-\item Is by a company selling emergency
-  sirens~\cite{code3pse.org_sample_nodate}. Again this policy is simpler,
+\item[A company selling emergency
+  sirens~\cite{code3pse.org_sample_nodate}.] Again this policy is simpler,
   and, like the Edinburgh policy, is rather general compared to the other policies.
-\end{enumerate}
+\end{description}
 
 \noindent Each policy is split into a series of rules employees
 should follow. Typically, the policy is describing what employees should
@@ -177,12 +178,12 @@ features, namely:
 \item A curated app store. IT departments can white-or-black-list apps, and offer them to employees.
 \end{enumerate}
 
-Table~\ref{tab:mdm-capabilities} summarizes the features of 9 competing \ac{MDM} packages identified by a Gartner
+Table~\ref{tab:mdm-capabilities} summarises the features of 9 competing \ac{MDM} packages identified by a Gartner
 report~\cite{rob_smith_magic_2016}.  Most of
 the tools link to the report on their homepages as the report lists
 \emph{every} tool as either \emph{visionary}, \emph{leading}, or
 \emph{niche player}. The meaning of each term is unclear, however.\footnote{Table~\ref{tab:mdm-capabilities}
-  summarizes the visionary and leading \ac{MDM} packages.}  The tools are similar with the main difference being the UI
+  summarises the visionary and leading \ac{MDM} packages.}  The tools are similar with the main difference being the UI
 and some extra features only some tools have.
 
 \begin{table}\centering\sffamily\scriptsize
@@ -216,7 +217,7 @@ and some extra features only some tools have.
 \end{table}
 
 Whilst \ac{MDM} tools can configure devices, the policies they enforce are less
-advanced than what can be writen using a policy language such as AppPAL. The
+advanced than what can be written using a policy language such as AppPAL. The
 policies of an \ac{MDM} tool are essentially granular check boxes (shown in
 \autoref{fig:maas360-policy}). An administrator can manually enable or disable features to
 configure devices for users.
@@ -259,15 +260,39 @@ look at where the checks or policies come from, however.
 
 % TODO Gross here?
 
-\section{Modeling BYOD policies}
+\vfill
+\begin{table}[h]
+  \centering\sffamily\footnotesize
+  \begin{tabular}{p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.79\linewidth}}
+    \toprule
+    \textbf{Question} & What are the idiomatic concerns in BYOD policies? \\
+    \textbf{Input} & Five different natural language BYOD policies from various sectors.\\
+    \textbf{Output} & The encodings of the policies into AppPAL.  Analysis of policy contents.\\
+    \textbf{Method} & 
+      \begin{enumerate}
+        \item For each policy encode it as an AppPAL policy, taking care to capture the style and intent of the original policy.
+        \item Go through each encoded policy and ensure predicates have a common name where they capture similar decisions.
+        \item Compare AppPAL policies looking for areas of common concern and where common structures have been used to capture the policy.
+      \end{enumerate} \\
+    \textbf{Hypothesis} & Different BYOD policies will have some common areas of concern and predicates.  Some may be similar to the features associated with MDM tools, and others may be different.  Comparing the AppPAL translations of the policies will help clarify the differences and similarities between the policies. \\
+    \bottomrule
+  \end{tabular}
+  \caption{Summary of method to identify idioms in BYOD policies.}
+  \label{tab:experiment-byod}
+\end{table}
+
+\pagebreak
+\section{Modelling BYOD policies}
 
 BYOD policies written in natural language can have ambiguities. Comparing
 policies with different styles from different sources is tricky: the
 relationships between different entities, and the exact decisions being made can
-become confused. To make comparisons precise we first model the natural language
-policy's rules using AppPAL. We take care to use the same predicates between
-different policies to create a standard set of decisions between \ac{BYOD}
-policies.
+become confused. 
+%
+To make the comparisons precise, and to identify common authorisation patterns in the polices we propose the method summarised in \autoref{tab:experiment-byod}: encode each of the natural language policies in AppPAL and then use the more formal AppPAL version as the basis for examining the policies.
+We took care to use the same predicates between
+different policies in order to create a standard set of decisions between \ac{BYOD}
+policies. We hypothesised that by doing this we would be able to make comparisons and identify common BYOD idioms between policies.
 
 Each of the policies are split into a series of rules. A simple example is the
 following example from the Sirens company policy. The rule states that devices
@@ -319,8 +344,8 @@ make the exemption.
 Table~\ref{tab:prefix} shows a count of the different predicates used in the
 policies. As in \autoref{chap:apppal}, we use prefixes to distinguish
 different kinds of predicates. The use of each is also split by whether the
-predicate is a \emph{decision} made by the policy, or a \emph{condition} for
-making that decision. \emph{Can} and \emph{must} decisions feature in all
+predicate is a \emph{decision} made by the policy (i.e.~it exists in the \emph{head} of a rule), or a \emph{condition} for
+making that decision (i.e.~it exists in the \emph{body} of a rule). \emph{Can} and \emph{must} decisions feature in all
 policies, except \emph{can} decisions in the Edinburgh policy due to
 its structure (as discussed in
 \autoref{sec:overview-of-five-byod-policies}). This is expected.
@@ -331,13 +356,15 @@ are often used in the conditions.  There are also decisions using them as well.
 \section{BYOD Idioms in AppPAL}
 \label{sec:common_concerns}
 
-When examining the policies, there are some concern concerns shared between the
+We hypothesised, when translating the policies into AppPAL, that we might be able to identify idiomatic decisions for BYOD policies.
+These idioms would appear as common predicates, and structures in the AppPAL policies.
+Examining the policies there are some concern concerns shared between the
 different policies. Table~\ref{tab:common} shows predicates used in multiple
 policies by our translation. The table lists predicates (and arguments) found in
 multiple policies and in which policies they occurred. From it we can find
 the common decisions of concern to \ac{BYOD} policies.
 
-Acknowledgments, where the policy requests people acknowledge other
+Acknowledgements, where the policy requests people acknowledge other
 policies, and predicates linking devices to owners feature in all
 policies.  Most policies describe rules for when to enable and disable
 device features.  Configuring device features is a found in
@@ -355,16 +382,16 @@ policies talk about remotely wiping a device for security reasons
 \ac{MDM} tools offer this: they let admins
 remotely erase devices~(\autoref{tab:mdm-capabilities}).
 
-Two particular idioms occur in many policies: acknowledgments and
+Two particular idioms occur in many policies: acknowledgements and
 delegation.  So far MDM tools and research have
 focused on implementing restrictions on apps and
 devices~\cite{ibm_ibm_nodate,armando_formal_2014,martinelli_enhancing_2016}.
 These controls are a vital aspect of BYOD policies and all
 five of the policies we looked at had rules that described
 restrictions~(\autoref{tab:common}).  Every policy also had
-rules that required employees acknowledgments, however.  Only the
+rules that required employees acknowledgements, however.  Only the
 (configuration focused) SANS policy had more rules
-that required restrictions than acknowledgments.  All the policies
+that required restrictions than acknowledgements.  All the policies
 had more rules featuring delegation relationships than
 functionality restrictions.  Restricting device functionality is
 and important: but other aspects of BYOD policies are also
@@ -456,7 +483,7 @@ Edinburgh    & \zilch                       & \numpc{3 }{18} & \numpc{9 }{82} & 
 Delegation is an important part of the policies.  Each of the policies
 describes through rules how separate entities are responsible for
 making some decisions.  These rules could be a delegation to an
-employee's manager to authorize a decision (as in the NHS policy).  It
+employee's manager to authorise a decision (as in the NHS policy).  It
 could be to technical staff to decide what apps are part of a standard
 install (as in the sirens and SANS policies).
 
@@ -479,13 +506,13 @@ high risk device.  There is no delegation to others to further specify
 aspects of the policy.
 
 Whilst delegation of responsibilities is an important
-part of BYOD policies, many MDM tools seem to largely to ignore it,
+part of BYOD policies, many \ac{MDM} tools seem to largely to ignore it,
 however.  These tools instead allow IT staff to set fixed policies and
 push them to devices.  No further requesting of information is
 typically needed or required.
 
 When a policy decision requires input from a third-party, we use delegation.
-For example, an employee's manager must authorize an app install.
+For example, an employee's manager must authorise an app install.
 The SecPAL \emph{can-say} statement is the basis for a delegation.
 We can ask the HR department to state who is someone's manager.
 When we delegate, we can add conditionals to the can-say
@@ -502,20 +529,20 @@ delegated parties.
 \end{lstlisting}
 \end{minipage}
 
-\subsection{Acknowledgment}
+\subsection{Acknowledgement}
 
 All the policies we looked at require their subjects be aware of and acknowledge
 certain rules or policies. These include acknowledging the company may do
 certain actions. Requiring subjects to acknowledge and agree to follow other
 policies is interesting as these are not necessarily technical restrictions on
-employee behavior. An administrator cannot configure a device so that a user is
+employee behaviour. An administrator cannot configure a device so that a user is
 aware of an ethical policy. Rather, they must trust that when the
 user says they've read the policy, they actually did so.
 
 In some cases this is used by companies to justify their actions.  A
 user cannot complain about a company's actions if they were notified
 in advance.  For example the NHS and \ac{HiMSS} policies state that
-the organization will wipe devices remotely to protect confidential
+the organisation will wipe devices remotely to protect confidential
 information if a user loses their device.  Both policies also say that
 employees would lose personal information if they had it on the device
 and the company needed to erase it.  In the case of the \ac{HiMSS} policy, the user agrees not to
@@ -550,7 +577,7 @@ sue the company if this happens.
 \end{minipage}
 
 \vspace{1em}
-The SANS, NHS and the Sirens company policies use acknowledgments to link to
+The SANS, NHS and the Sirens company policies use acknowledgements to link to
 other sets of rules that employees should follow, such as the
 \emph{acceptable-use} policy in the SANS example bellow. These policies are not
 further specified and, in the case of an acceptable use policy, are hard to
@@ -578,7 +605,7 @@ acceptable use policy.
   \end{lstlisting}
 \end{policyrule}
 
-We use acknowledgments when employees should be aware of (usually separate) rules.
+We use acknowledgements when employees should be aware of (usually separate) rules.
 The company may not have wish to enforce these separate rules automatically, however.
 A company may have an ethical policy that says employees should not use devices for criminal purposes.
 The company is not interested in, or capable of, defining what is criminal.
@@ -611,7 +638,7 @@ manage well: configuring, provisioning and managing devices. The \ac{MDM} tools
 fail, however, to give a means to control \emph{how} they to configure
 themselves. Typically, an IT administrator configures them manually.
 
-AppPAL exists as a tool for checking whether a policy is satisfied.
+AppPAL exists as a tool for checking whether a policy is contains sufficient facts and rules to decide whether a given statement is true or not.
 It is reasonable to ask what would a company have to do to
 \emph{enforce} their mobile device policies. A company could have a
 structure such as in \autoref{fig:mdm-overview}: the Chief Security
@@ -657,5 +684,5 @@ and selecting the tools lets us pick which checks we enforce and when.
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch5"
+%%% TeX-master: "../thesis"
 %%% End:

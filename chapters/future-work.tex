@@ -111,9 +111,10 @@ Alice wants to only install apps that are both good and safe how should she
 trade off the probability against each other? Is she willing to install a more
 dangerous app if it is highly reviewed?
 
-Probability is similar to probability (probability incorporates the speakers
-\emph{belief} that the statement is true as opposed to just its likelihood) and
-various papers have proposed probabilistic variants of
+%Probability is similar to probability (probability incorporates the speakers
+%\emph{belief} that the statement is true as opposed to just its likelihood) and
+
+Various papers have proposed probabilistic variants of
 Datalog~\cite{fuhr_probabilistic_1995} or explored the semantics of
 probabilistic logics~\cite{halpern_analysis_1990}. Role-based access control
 languages have incorporated ideas about risk into their
@@ -195,10 +196,7 @@ an app; if \emph{Alice says Bob must install
 Bob has installed that app}.  We might also expect there to be a rule that
 \emph{Alice says Bob can install the app}.
 
-This can be taken further: actions where Alice \emph{can} do something might
-naturally lead to assertions where Alice \emph{has} done something.  If a policy
-author wished to enforce this relationship, then we can start to reason about how the
-assertion context has changed over time.
+This can be taken further: if in one version of the policy Alice \emph{can} do something we might expect to see in a later version of the policy assertions where Alice \emph{has} done something.  We could generalise this and create a new rule that if someone has done something, then there must have been a point where the policy said they could do it.
 
 \begin{table}\centering\sffamily
  \begin{tabular}{l c l}
@@ -224,6 +222,10 @@ the past.
   \infer{P\left(\exists AC^\prime~s.t.~AC^\prime, D^\prime \models \mathtt{A~says~B~can~\phi.}\right)}{%
     AC, D \models \mathtt{A~says~B~has~\phi.}}
 \end{equation*}
+
+This doesn't mean that if Alice \emph{can} do something then this will always lead to
+a statement where she \emph{has} done it in the future, but it does imply that if she
+has done something, then the action must have been permitted in the past.
 
 Using this structure we could add a rule to AppPAL that all decisions from the
 past, will hold in the future. This might enable us to reduce the size of the

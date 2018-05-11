@@ -56,8 +56,8 @@ features many Russian language apps. Some manufacturers, such as Nokia,
 installed Yandex over Google's app store on devices sold in Russia.
 
 Aptoide is an open-source app store, and software for creating new app stores.
-Unlike many other app stores it provides specialized app stores targeted for
-Android based Smart TVs (Aptiode TV), and for users with slow internet
+Unlike many other app stores it provides specialised app stores targeted for
+Android based Smart TVs (Aptoide TV), and for users with slow internet
 connections (Aptoide Lite). Aptoide doesn't provide access to fixed sets of
 apps. Any user, or developer, is free to create their own \emph{curated}
 repository of apps, and point Aptoide to it. Aptoide claim users and developers
@@ -132,7 +132,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
  & Amazon account.
  & An ID and contact details.  User agrees not to give false ID. 
  & Name address and billing details.
- & For free apps no ID is needed, For paid apps they must be an \emph{authorized user} and give payment details
+ & For free apps no ID is needed, For paid apps they must be an \emph{authorised user} and give payment details
                                               \\\midrule
     Taken information
  & Technical data about the device, system, software and peripherals; which the Application Provider may use provided it is in a form that does not personally identify the user.
@@ -149,7 +149,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
  & Through an approved processor provided by Yandex.
                                               \\\midrule
     Who pays whom?
- & The purchasing user pays Apple.  If a user uses \emph{family sharing} then the family organizer pays Apple.
+ & The purchasing user pays Apple.  If a user uses \emph{family sharing} then the family organiser pays Apple.
  & User pays Amazon.
  & User pays the store owner through Aptoide.
  & User pays Google Commerce or the provider where Google is acting as an agent.
@@ -199,7 +199,7 @@ The iTunes terms and conditions are even available in comic-book format~\cite{r.
                                               \\\midrule
       % Apple Amazon Aptoide Google Yandex
     What can the store do with the app?
- & Apple are appointed as the developer's agent/commissionaire to sell, market, and deliver apps. Apple may \emph{thin} an app, and repackage it for certain devices and optimization.
+ & Apple are appointed as the developer's agent/commissionaire to sell, market, and deliver apps. Apple may \emph{thin} an app, and repackage it for certain devices and optimisation.
  & Irrevocable royalty-free right to distribute through all electronic means.  Amazon can check, test and store the app.  Amazon may change and add to the app for analytics, policy enforcement, to add metadata and to improve compatibility with Amazon devices.  They may, if requested by the developer add DRM.  Amazon may use the app to promote and advertise their services, and may make limited time promotions or \emph{test drive} versions of the app.  They may claim other rights.
  & Sell and make available to third-party stores.  They may change the app.
  & Google can reproduce, perform and display the app for marketing purposes.  Google may delegate this right to a third-party.
@@ -435,7 +435,7 @@ memory) and be able to share code:
      A hasVersion(V1),
      B hasVersion(V2),
      Key isValid
-  where A > B.
+  where V1 > V2.
   
 'android' says App:A canAccess(Data:D)
   if D isOwnedBy(DataOwnerApp),
@@ -536,7 +536,7 @@ apps.
 
 To what extent do users follow personal policies informally?  In a
 study of 725 Android users, Lin~\etal{} found four patterns that
-characterize user privacy preferences for
+characterise user privacy preferences for
 apps~\cite{lin_modeling_2014}, demonstrating a refinement of Westin's
 privacy segmentation~\cite{harris_interactive_privacy_2002}.
 
@@ -551,15 +551,15 @@ them.  The third group, the \emph{Privacy Pragmatists}, were more
 considered and would have some personal policy that described when
 they were happy to give up (or protect) their privacy.
 
-Lin~\etal~identified four types of user when assessing user's personal
-app privacy policies.  The \emph{Conservative} (C) users were
-uncomfortable allowing an app access to any personal data for any
-reason.  The \emph{Unconcerned} (U) users felt okay allowing access to
-most data for almost any reason.  \emph{Advanced} (A) users were
-comfortable allowing apps access to location data but not if it was
-for advertising.  Opinions in the largest cluster, \emph{Fencesitters}
-(F), varied but were broadly against collection of personal data for
-advertising.
+Lin~\etal~identified four types of user when assessing user's personal app
+privacy policies.  The \emph{Conservative} (C) users were uncomfortable
+allowing an app access to any personal data for any reason.  The
+\emph{Unconcerned} (U) users felt okay allowing access to most data for almost
+any reason (though they were somewhat uncomfortable about allowing apps
+unrestricted access to their accounts).  \emph{Advanced} (A) users were
+comfortable allowing apps access to location data but not if it was for
+advertising.  Opinions in the largest cluster, \emph{Fencesitters} (F), varied
+but were broadly against collection of personal data for advertising.
 
 Lin \etal's four groups roughly map to Westin's three, with
 \emph{Conservatives} being \emph{Privacy Fundamentalists},
@@ -567,7 +567,7 @@ Lin \etal's four groups roughly map to Westin's three, with
 \emph{Advanced} and \emph{Fencesitter} users together acting as the
 \emph{Privacy Pragmatists.}  A criticism of Westin's privacy groups is
 that he did not distinguish between pragmatic people and those who
-gave vague responses in the \emph{Privacy Pragamatists}
+gave vague responses in the \emph{Privacy Pragmatists}
 group~\cite{urban_privacy_2014}. Lin~\etal's groups seem to support
 their \emph{Advanced} and \emph{Fencesitter} groups seem to cover both
 aspects of the \emph{Privacy Pragmatist} group.  Lin~\etal~and
@@ -594,11 +594,52 @@ population (\autoref{tab:lin-westin}).
   \label{tab:lin-westin}
 \end{table}
 
+\pagebreak
 \subsection{Measuring Users}
 
+\begin{table}
+  \centering\sffamily\footnotesize
+  \begin{tabular}{p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.79\linewidth}}
+    \toprule
+    \textbf{Question} & To what extent do user's follow an app policy? \\
+    \textbf{Input} & Policy to test. Database of users and which apps they had installed. The installed apps. \\
+    \textbf{Output} & The percentage of each user's apps they had that satisfied the policy. \\
+    \textbf{Method} & 
+      \begin{enumerate}
+        \item Express policy using AppPAL in the form of:
+          \texttt{'researcher' says App:A hasMetPolicy('policy-name') if ...}
+        \item For every installed app, check whether:
+          \texttt{'researcher' says 'app-name' hasMetPolicy('policy-name').}
+        \item For each user count then number of their apps for which the policy was satisfied.  
+          The output is the percentage for which the check came back as true.
+      \end{enumerate} \\
+    \textbf{Hypothesis} & If a user is following a policy, we would expect most of the apps they installed to meet the policy. \\
+    \bottomrule
+  \end{tabular}
+  \caption[Summary of experiment to measure the extent user's follow a policy.]{Summary of experiment to measure the extent user's follow a policy.}
+  \label{tab:experiment-apppal}
+\end{table}
+
+To answer the question of to what extent do users follow personal privacy
+policies in practice we performed the following experiment (summarised in
+\autoref{tab:experiment-apppal}).
 We wrote AppPAL policies to describe
-each of Lin \etal's behaviors as sets of prohibited permissions, shown in
-\autoref{tab:lin-perms}.  These simplify the privacy policies
+each of Lin \etal's behaviours as sets of prohibited permissions, shown in
+\autoref{tab:lin-perms}.
+%
+For example the \emph{Fencesitter} policy is encoded as:
+\begin{lstlisting}
+'researcher' says App:X hasMet('fencesitter-policy')
+  if X isWithoutPermission('GET ACCOUNTS'),
+     X isWithoutPermission('ACCESS FINE LOCATION'),
+     X isWithoutPermission('READ CONTACT').
+
+'researcher' says App:X isWithoutPermission(Permission:P)
+  where check_permission(X, P) = false.
+\end{lstlisting}
+Where \texttt{check\_permission} is a constraint that checks whether the app \texttt{X} requests permission \texttt{P}.  Each policy in \autoref{tab:lin-perms} was translated into a similar AppPAL rule where the permissions that made the users uncomfortable were prohibited.
+%
+These simplify the privacy policies
 identified by Lin~\etal~as we do not take into account the reason each
 app might have requested each permission (we could write more precise
 rules if we knew why each permission was requested).  Lin~\etal~used
@@ -606,23 +647,32 @@ Androguard~\cite{andrew_desnos_androguard_2012} as well as manual
 analysis to find the precise reasons the app requested each
 permission~\cite{lin_modeling_2014}.
 
-To test the extent that users were following the policies we took
-installation from a partially anonymized database of installed apps
-captured by Carat~\cite{oliner_carat:_2013}.
+We took
+installation from a partially anonymised database of installed apps
+captured by Carat~\cite{oliner_carat:_2013}. This allowed us to link users to the apps they had installed and measure the extent each user was following the policy.
 
 The Carat data set was collected as part of a UC~Berkley and University
 of Helsinki experiment to measure the energy usage of apps.  As part
 of the experiment, users of the Carat app allowed the app to collect
-which apps were installed on their device.  The data set was anonymized
+which apps were installed on their device.  The data set was anonymised
 by replacing the app names with hashes of the apps package identifier,
 and usernames with an increasing integer key.
 
-We used John the Ripper~\cite{solar_designer_john_2013}, with a
-database of known package names and hashes, mostly derived from the
-Android observatory~\cite{barrera_understanding_2012}.  Using these
-hashes we can discover which users have installed which apps, by
-comparing the hashes in the Carat data set to the hashes of apps we
-knew we can discover which apps users had installed.
+The app names were replaced with hashes in order to obscure the package names
+of some apps.  We spoke to one of the researchers who collected the data and
+learnt that the Carat tool was tested inside a company who were developing some
+apps that had not been announced.  The company did not want to leak the names
+of their private apps so they were hashed in order to preserve their secrecy.
+This allowed researchers to reverse engineer the hashes of publicly known
+applications, whilst keeping any secret or unknown applications private.
+
+Having confirmed with the data-set owners that reverse engineering the app
+hashes would not raise ethical concerns, we used John the
+Ripper~\cite{solar_designer_john_2013}, with a database of known package names
+and hashes, mostly derived from the Android
+observatory~\cite{barrera_understanding_2012} to link some of the app hashes to
+app names.  Using the reverse engineered hashes we can see which users
+(identified by a number) had installed which apps.
 
 The database has over 90,000 apps and 55,000 users.  On average, each
 Carat user installed around 90 apps each, and 4,300 apps have known names.
@@ -633,7 +683,21 @@ variation in app type, we considered only the 44,000 users who had
 more than 20 known apps.  Using this data, and the apps themselves
 taken from the Google Play Store and Android
 Observatory~\cite{barrera_understanding_2012}, we checked which apps
-satisfied which policies.
+satisfied which policies.  
+
+To check which apps satisfied which of Lin's policies, we took our AppPAL
+encoding of the policies, and facts identifying the apps in our data-set actual
+apps into an assertion context.  
+
+\begin{lstlisting}
+'researcher' says App:X hasMet('unconcerned-policy')
+  if X isWithoutPermission('GET_ACCOUNTS')
+
+'researcher' says 'com.facebook.katana' isApp.
+\end{lstlisting}
+
+For each app, we then queried AppPAL whether the app had met each of the
+policies, and recorded which apps met which policies.  This allowed us to measure the extent any of the users appeared to be following any of the policies, as the percentage of the apps they had installed that met the policy.  Our results are shown in \autoref{fig:lin_uptake_graphs}.
 
 \begin{figure}
   \centering
@@ -655,16 +719,33 @@ satisfied which policies.
   \label{fig:lin_uptake_graphs}
 \end{figure}
 
-The charts shown in \autoref{fig:lin_uptake_graphs} show that very few
-users seem to follow Lin~\etal's policies most of the
-time. Even for the least onerous
+\begin{wrapfigure}{r}{0.5\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/lin_explain.png}
+\caption[Explanation of adoption charts.]{Chart highlighting that there were around 7,500 users for whom only 10-15\% of their apps satisfied the fencesitter policy.}
+\label{fig:lin_explanation}
+\end{wrapfigure}
+%
+We hypothesised that if a user's were following a policy, then we would expect the majority of the apps they had installed to meet the policy.
+In the case of the Lin~\etal policies we found that 
+ very few
+users had a majority of apps which met the policy.  This would suggest that user's may not be following Lin~\etal's policies in practice.
+%
+The charts can be read as described in \autoref{fig:lin_explanation}.  Each bar
+of the histogram represents a statement about what percentage-range of a users
+apps met a given policy.  A user for whom between 0--5\% of their apps met the
+policy would count towards the first bar, a user for whom between 5-10\% of
+their apps met the policy would count towards the second bar.  The height of
+each bar represents the number of users in each group.
+
+Even for the least onerous
 \emph{unconcerned} policy, most users did not seem to follow the
-policy most of the time.  This suggests that user's privacy preferences are somewhat disconnected from their behavior (assuming the user population
+policy most of the time.  This suggests that user's privacy preferences are somewhat disconnected from their behaviour (assuming the user population
 studied by Lin~\etal~was similar to the data in the Carat study).
 This is reminiscent of
 the \emph{privacy paradox} that states that whilst
 people will say they are very concerned about their privacy, they do
-not alter their behavior to protect it.  It was first noticed by
+not alter their behaviour to protect it.  It was first noticed by
 psychologists looking at how people use social networks; though has
 appeared in many other areas since. 
 A few users, however, did seem to install apps meeting one of these
@@ -685,7 +766,7 @@ these apps.  The McAfee data classified the data into several
 categories based on the purpose of the malware.  The \emph{malicious}
 and \emph{trojan} categories describe traditional malware.  Other
 categories classify \acp{PUP} such as aggressive adware.  Using AppPAL
-we can write policies to differentiate characterizing users who allow
+we can write policies to differentiate characterising users who allow
 dangerous apps and those who install poor quality ones.
 
 \begin{lstlisting}
@@ -748,6 +829,7 @@ install malware generally.
   \label{fig:lin_malware_graphs}
 \end{figure}
 
+\pagebreak
 \subsection{Discussion}
 
 In capturing the privacy preferences, and in comparing them to user
@@ -780,11 +862,11 @@ sometimes, however.  Our comparison is not without some limitations:
 
 \item The Carat data set is not the same group of users, as was
   examined by Lin~\etal and so is not the same sample of users.  In
-  particular, the users in the Carat dataset had all installed the Carat
+  particular, the users in the Carat data-set had all installed the Carat
   app to monitor their power usage.  We found that some users in the
-  Carat dataset had also installed tools such as Busybox\footnote{Which
+  Carat data-set had also installed tools such as Busybox\footnote{Which
     gives the user access to common UNIX utilities such as a shell.}. This
-  suggests the Carat dataset contains more technically minded users than
+  suggests the Carat data-set contains more technically minded users than
   we might expect to find in the general population.
 \end{itemize}
 
@@ -800,9 +882,9 @@ the differences between some stores.  A natural continuation of this is
 to start to generate new app stores, based on a user's policy, that only sell
 apps that a user might find acceptable.
 
-Curated app stores are a similar idea, used inside companies to help employees
-install apps for work that satisfy company policies.  With these corporate stores the apps are hand selected
-by IT staff.  
+Curated app stores are a similar idea, used inside companies to help
+employees install apps for work that satisfy company policies.  With
+these corporate stores the apps are hand selected by IT staff.
 
 \begin{figure}\centering
   \includegraphics[width=0.8\textwidth]{figures/genstore.pdf}
@@ -810,8 +892,14 @@ by IT staff.
   \label{fig:genstore-architecture}
 \end{figure}
 
-AppPAL's \emph{GenStore} tool automates this process for Android app stores. The
-architecture is shown in \autoref{fig:genstore-architecture}. We summarize it
+\begin{figure}\centering
+  \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
+  \caption{GenStore database schema.}
+  \label{fig:genstore-schema}
+\end{figure}
+
+The \emph{GenStore} tool uses AppPAL to automate the store creation process for Android app stores. The
+architecture is shown in \autoref{fig:genstore-architecture}. We summarise it
 as:
 
 \begin{enumerate}
@@ -819,7 +907,7 @@ as:
   from among these apps to create the curated store.
 \item The developer also provides a series of policy files. These should include
   rules to decide if an \emph{App isSellable}. Optionally they can also describe
-  predicates where \emph{App hasCategory(Category)} which will be used to organize
+  predicates where \emph{App hasCategory(Category)} which will be used to organise
   the apps into categories in the store.
 \item GenStore runs, and for every app checks whether it is \emph{sellable}.
   Additionally, it checks apps for each category (apps can belong to multiple
@@ -832,9 +920,104 @@ as:
   is created storing information about the apps.
 \end{enumerate}
 
-Genstore is a prototype, but it lets developers explore how policies could be
+\subsection{Using GenStore to Build an App Store}
+
+As an example of GenStore consider Alice who wants to build a curated
+app store for her company.  The apps in her store will be split into
+two categories: \emph{required} apps which is a list of apps
+specified by the HR department that everyone should install,
+\emph{optional} apps which people can install if they want, and
+\emph{Alice's Favourites} which are apps Alice particularly likes and
+wants to show off.  Apps which aren't in these categories shouldn't be
+available and, as well as these three categories, only apps which have
+been checked by the company antivirus program should be allowed on her
+store.
+
+To implement her store she downloads a pool of apps that she could
+sell in her store, and writes a policy.  In this case we chose a pool
+of 12 apps to serve as an example. The policy describes what she wants
+to sell in her store and how she wants to categorise the apps.  This
+policy is very simple (it essentially just white-lists apps) but more
+complex policies could be written if Alice wanted.
+
+\pagebreak
+\begin{lstlisting}
+'store' says 'alice' can-say inf App isSellable.
+'store' says 'alice' can-say inf App hasCategory(C).
+
+'alice' says App isSellable
+  if App hasCategory(C),
+  where AVCheck(App) = true.
+
+'alice' says 'hr' can-say X hasCategory('Required').
+'hr' says 'apk://com.microsoft.office.word' hasCategory('Required').
+'hr' says 'apk://com.microsoft.skydrive' hasCategory('Required').
+'hr' says 'apk://com.skype.raider' hasCategory('Required').
+
+'alice' says 'apk://com.niksoftware.snapseed' hasCategory('Optional').
+'alice' says 'apk://net.skyscanner.android.main' hasCategory('Optional').
+'alice' says 'apk://com.google.android.apps.photos' hasCategory('Optional').
+'alice' says 'apk://com.sega.sonicdash' hasCategory('Optional').
+\end{lstlisting}
+
+With the policy written, she passes the apps and the policy to
+GenStore and asks it to build her an app store.  It finds that several
+of the 5 of the apps were not sellable in her store (4 because they
+did not have categories, and the Towelroot rooting tool was rejected
+by the antivirus), but that it could create an app store from the
+remainder.  The output of the tool, and the web app it creates is shown
+in \autoref{fig:genstore-output}.
+Alice can take this web app and modify it to work in her company.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{figures/genstore-output.png}
+\begin{Verbatim}[fontsize=\scriptsize]
+$ java -jar genstore.jar -d data -p store.policy
+[INFO] preparing store
+[INFO] picking apps
+[INFO] com.microsoft.skydrive is sellable.
+[INFO] com.niksoftware.snapseed is sellable.
+[INFO] com.google.android.apps.photos is sellable.
+[WARNING] com.geohot.towelroot is not sellable.
+[INFO] com.sega.sonicdash is sellable.
+[WARNING] com.rovio.baba is not sellable.
+[INFO] net.skyscanner.android.main is sellable.
+[INFO] com.microsoft.office.word is sellable.
+[WARNING] com.supercell.clashofclans is not sellable.
+[WARNING] com.whatsapp is not sellable.
+[INFO] com.skype.raider is sellable.
+[WARNING] com.outfit7.mytalkingtomfree is not sellable.
+[INFO] picking categories
+[INFO] com.microsoft.skydrive has category Required.
+[INFO] com.microsoft.office.word has category Required.
+[INFO] com.skype.raider has category Required.
+[INFO] found 3 apps with category 'Required'
+[INFO] com.niksoftware.snapseed has category Optional.
+[INFO] com.google.android.apps.photos has category Optional.
+[INFO] com.sega.sonicdash has category Optional.
+[INFO] net.skyscanner.android.main has category Optional.
+[INFO] found 4 apps with category 'Optional'
+[INFO] building store
+[INFO] copying app structure
+[INFO] creating tables
+[INFO] adding apks
+[INFO] adding categories
+[INFO] adding metadata
+[INFO] copying apks
+\end{Verbatim}
+  \caption[Output of the GenStore tool.]{Output of the GenStore tool which runs on the command-line and produces a web app.}
+  \label{fig:genstore-output}
+\end{figure}
+
+\subsection{Current Status}
+
+The GenStore tool itself is usable as a prototype, but it is not production-ready.
+The stores it creates are minimal and do not have any authentication; and as such further work would be required to make the stores ready for use in an actual company.
+%
+Genstore lets developers explore how policies could be
 integrated into the Android ecosystem. It shows an example of how AppPAL can
-help make decisions, in this case about which apps make the cut for a store,
+help make decisions, in this case about which apps should be included in a company app store,
 automatically. For a company seeking to enforce a policy about which apps are
 installable they could use it to offer their employees choice about apps,
 without having to remove the default store entirely. If an AV vendor integrated
@@ -842,21 +1025,9 @@ their own checks into AppPAL then they could create a \emph{safe} app
 store where all apps have been demonstrably vetted by their software and
 engineers.
 
-\begin{figure}\centering
-  \includegraphics[width=0.4\textwidth]{figures/genstore-schema.png}
-  \caption{GenStore database schema.}
-  \label{fig:genstore-schema}
-\end{figure}
-
-%\begin{figure}\centering
-%  \framebox[\textwidth]{TODO: ADD SCREENSHOT WHEN I FIX THE BUGS\vspace{3in}}
-%  \caption{Screenshot of a generated store.}
-%  \label{fig:genstore-screenshot}
-%\end{figure}
-
 \end{document}
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch4"
+%%% TeX-master: "../thesis"
 %%% End:

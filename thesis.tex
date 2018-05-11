@@ -26,7 +26,7 @@ between the specification of the policy in the natural language
 document and the implementation of the policy with the tool,
 understanding how they are related can be hard.
 
-This thesis looks at developing an authorization logic, called AppPAL, to
+This thesis looks at developing an authorisation logic, called AppPAL, to
 capture the informal security policies of the mobile ecosystem, which we define
 as the interactions surrounding the use of mobile devices in a particular
 setting. This includes the policies of the users, the devices, the app stores,
@@ -35,12 +35,12 @@ and the environments the users bring the devices into.
 Whilst earlier work has looked on checking and enforcing policies with low-level
 controls, this work aims to capture these informal policy's intents and the
 trust relationships within them separating the policy specification from its
-enforcement. This allows us to analyze the informal policies precisely, and
+enforcement. This allows us to analyse the informal policies precisely, and
 reason about how they are used.
 
 We show how AppPAL instantiates SecPAL, a policy language designed for access
 control in distributed environments. We describe AppPAL's implementation as an
-authorization logic for mobile ecosystems. We show how we can check AppPAL
+authorisation logic for mobile ecosystems. We show how we can check AppPAL
 policies for common errors. Using AppPAL we show that policies describing users
 privacy preferences do not seem to match the apps users install. We explore the
 differences between app stores and how to create new ones based on policy. We
@@ -60,18 +60,20 @@ them. This suggests aspects of BYOD policies not managed by current BYOD tools.
     advice, criticism, help, patience, and always offering to edit my papers.
     Thank you to Andy Gordon and Martin Hofmann for the helpful discussions early on,
     introducing me to SecPAL and to using formal logic to model this domain.
+    Thank you to my examiners, Paul Jackson and Charles Morisset for their comments.
+
     Thank you to Daniel, Marcin, Arthur, Catherine and
     the rest of IF~5.24 for listening to my rants and helpful discussions over the
     years. Thank you to Dan Page for his help early in my career, and for suggesting
     I apply for this job. A second thank you to David Aspinall for helping me move
     back home to be a dad before I really should have. Thank you to my
     friends and family for supporting me over the past years, especially Di for her
-    camaraderie in completing this. Also, thanks to EasyJet for roughly 312 flights
+    camaraderie in completing this. Also, thanks to EasyJet for roughly 316 flights
     between Edinburgh and Bristol.
 
     Finally, thank you to Emma and Jim. Thank you Emma for your unwavering
     support and for letting me work when I should be helping with the baby, and
-    thankyou Jim for keeping me awake and writing at all hours.
+    thank you Jim for keeping me awake and writing at all hours.
   \end{acknowledgements}
   \standarddeclaration{}
   \dedication{
@@ -90,6 +92,10 @@ them. This suggests aspects of BYOD policies not managed by current BYOD tools.
       ``You cannot have a secure Android phone for two reasons: 1) it is Android, 2) it is a phone.\\
       Step 1, get google out of it.  Step 2, everything else'' --- \emph{The Grugq}}
       
+    \vspace{2em}
+
+    {\itshape\small
+      ``It's not the language that matters, it's what you do with it''}
     %{\itshape
       %``It's too late to fire you, you better get a PhD'' --- \emph{David Aspinall}}
   }
@@ -99,12 +105,11 @@ them. This suggests aspects of BYOD policies not managed by current BYOD tools.
 \end{preliminary}
 
 \subfile{chapters/01-introduction.tex}
-\subfile{chapters/02-background.tex}
+\subfile{chapters/02-background-corrected.tex}
 \subfile{chapters/03-apppal.tex}
 \subfile{chapters/04-apps-and-app-stores.tex}
 \subfile{chapters/05-reasoning-about-policies.tex}
 \subfile{chapters/future-work.tex}
-\subfile{chapters/06-related-work.tex}
 \subfile{chapters/07-conclusion.tex}
 
 \appendix

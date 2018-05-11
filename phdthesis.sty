@@ -5,7 +5,6 @@
 % Use a package if it hasn't already been loaded
 \newcommand{\includepackage}[2][]{\@ifpackageloaded{#2}{}{\usepackage[#1]{#2}}}
 
-\includepackage{hanging}
 \includepackage[dvipsnames]{xcolor}
 
 \newcommand{\new}[1]{{\color{BrickRed} #1}}
@@ -27,6 +26,8 @@
 
 \includepackage{acronym}
 \acrodef{AC}{assertion context}
+\acrodef{DAC}{discretionary access control}
+\acrodef{MAC}{mandatory access control}
 \acrodef{AV}{anti-virus}
 \acrodef{IAP}{in-app-purchase}
 \acrodef{TEE}{trusted execution environment}
@@ -98,6 +99,7 @@
 \includepackage{tabulary}
 \includepackage{subfig}
 \includepackage{import}
+\includepackage{lplfitch}
 
 \includepackage{pifont}
 \newcommand{\xmark}{\ding{55}}
@@ -164,13 +166,16 @@
 
 
 % Nicer typography
-\includepackage{microtype}
+\includepackage[final]{microtype}
 
 % Saner lists
 \includepackage{enumerate}
 
 % Rotate stuff
 \includepackage{rotating}
+
+% Wrapped figures
+\includepackage{wrapfig}
 
 % Gantt charts
 % \includepackage{pgfgantt}
@@ -230,3 +235,11 @@
 
 % stacking
 \includepackage{stackengine}
+
+% Fancy verbatim
+\includepackage{fancyvrb}
+
+% DatalogC
+\newcommand{\datalogc}[0]{Datalog\textsuperscript{C}}
+
+\usepackage{realboxes}

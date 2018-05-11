@@ -24,7 +24,7 @@ is a contract between the store selling apps and the developer
 programming them. The stores have content policies as to which apps
 they will sell, often prohibiting sexual or illicit content. The app
 developers may have preferences as to which stores they will sell
-their apps in, favoring stores with higher market shares, or which
+their apps in, favouring stores with higher market shares, or which
 take smaller cuts of the app sale price. Not all policies are as
 formal as a contract: a user may have preferences about which kinds of
 apps he wants to install but may not write these preferences down.
@@ -58,6 +58,7 @@ good choice to describe policies in the mobile ecosystem. I introduce
 AppPAL as an instantiation and implementation of SecPAL for mobile
 device policies.
 
+
 \section{Why SecPAL}
 \label{sec:why-apppal}
 
@@ -75,66 +76,67 @@ to describe its policies. Namely, we need a policy language that can
 express:
 
 \begin{description}
-\item[Delegation.] Sometimes entities may wish to
-share information and policy rules. A user might delegate to an
-expert user to help them decide what policies they want to use. An app
-store might use information from an app vetting firm to decide what
-apps to sell. A company might want HR and IT departments to be
-responsible for some decisions, and they in turn might wish to give
-specific HR or IT workers specific decisions to make. Capturing these
-relationships lets us describe precisely who makes what decisions in
-the mobile ecosystem.
+  \item[Delegation.] Sometimes entities may wish to
+    share information and policy rules. A user might delegate to an
+    expert user to help them decide what policies they want to use. An app
+    store might use information from an app vetting firm to decide what
+    apps to sell. A company might want HR and IT departments to be
+    responsible for some decisions, and they in turn might wish to give
+    specific HR or IT workers specific decisions to make. Capturing these
+    relationships lets us describe precisely who makes what decisions in
+    the mobile ecosystem.
 
-\item[Locality.] In the mobile ecosystem different devices can have
-different policies. For example, two users of mobile phones may
-disagree about what makes an app \emph{installable}
-(i{.}e{.}~acceptable to install). Equally, the policies a store may
-wish to enforce are very different from the policies a user may wish
-to enforce. Each entity in the ecosystem also expects to enforce their
-own policies---there is no overarching enforcer of policies, rather
-users enforce whatever preferences they have, stores enforce their own
-rules through whatever means they see fit. Being able to point to the
-location a decision is made is important when considering delegation:
-a user might ask a friend if an app is good: we want to distinguish
-between the friend telling the user directly, and the friend giving
-the user sufficient information to draw the conclusion themselves.
+  \item[Locality.] In the mobile ecosystem different devices can have different
+    policies. For example, two users of mobile phones may disagree about what
+    makes an app \emph{installable} (i{.}e{.}~acceptable to install). Equally,
+    the policies a store may wish to enforce are very different from the policies
+    a user may wish to enforce. The locality of a query is the place where the
+    decision is being made, typically in the immediate vicinity of an entity such
+    as a user or store. Each entity in the ecosystem also expects to enforce
+    their own policies---there is no overarching enforcer of policies, rather
+    users enforce whatever preferences they have, stores enforce their own rules
+    through whatever means they see fit. Being able to point to the location a
+    decision is made is important when considering delegation: a user might ask a
+    friend if an app is good: we want to distinguish between the friend telling
+    the user directly, and the friend giving the user sufficient information to
+    draw the conclusion themselves.
 
-\item[Access external information.] There are many tools and sources
-that can give us information about apps (as well as other
-subjects). These tools each give information in their own way: be it
-employee data through an SQL database, terminal output through a
-command line analysis tool, or HTML output onto an app store's
-webpage. We want to be able to make use of this information when
-writing policies, but we should not rely on all tools standardising on
-our policy language as a universal information transfer mechanism. We
-want our policy language to be able to capture the policies which use
-these external sources without forcing the tools themselves to work in
-any particular manner. In other words, the policy \emph{specification
-should be separate from its enforcement}.
+  \item[Access external information.] There are many tools and sources
+    that can give us information about apps (as well as other
+    subjects). These tools each give information in their own way: be it
+    employee data through an SQL database, terminal output through a
+    command line analysis tool, or HTML output onto an app store's
+    web-page. We want to be able to make use of this information when
+    writing policies, but we should not rely on all tools standardising on
+    our policy language as a universal information transfer mechanism. We
+    want our policy language to be able to capture the policies which use
+    these external sources without forcing the tools themselves to work in
+    any particular manner. In other words, the policy \emph{specification
+    should be separate from its enforcement}.
 
-\item[Constraints.] As well as external information, we'd also wish
-our policy language to capture dynamic information such as the time of
-day or the current location of a device. This information is sometimes
-incorporated into a policy language through \emph{constraints}. This
-would allow us to start to create rules that depend on the context of
-the user. For example a company boss might want to check what time
-their employees get into work. To do this the boss requires their
-employees install an app that gives him their location. Employees
-might allow their boss to check on them during the work day, but
-during the weekend and the evenings the employee would rather their
-boss could not see where they were.
+  \item[Constraints.] As well as external information, we'd also wish
+    our policy language to capture dynamic information such as the time of
+    day or the current location of a device. This information is sometimes
+    incorporated into a policy language through \emph{constraints}. This
+    would allow us to start to create rules that depend on the context of
+    the user. For example a company boss might want to check what time
+    their employees get into work. To do this the boss requires their
+    employees install an app that gives him their location. Employees
+    might allow their boss to check on them during the work day, but
+    during the weekend and the evenings the employee would rather their
+    boss could not see where they were.
 
-\item[Flexibility of Policy Style.] The mobile ecosystem encompasses
-many scenarios. A company looking to enforce a mobile device
-policy would use a MAC-style policy, but a user trying to filter what
-APIs an app can access may write a policy in a DAC-style. A user
-trying to describe might be happy to install an app with certain
-permissions if the app has a particular purpose. For example a user
-might be happy to install a file management app that can access a
-memory card, but not happy to install a torch app with the same set
-of permissions---a policy reminiscent of an RBAC or ABAC policy. We
-want to capture all these policies, and we would want our policy
-language to be agnostic to any particular policy style.
+  \item[Flexibility of Policy Style.] The mobile ecosystem encompasses
+    many scenarios. A company looking to enforce a mobile device
+    policy would use a MAC-style policy, but a user trying to filter what
+    APIs an app can access may write a policy in a DAC-style. A user
+    trying to describe might be happy to install an app with certain
+    permissions if the app has a particular purpose. For example a user
+    might be happy to install a file management app that can access a
+    memory card, but not happy to install a torch app with the same set
+    of permissions---a policy reminiscent of an RBAC or ABAC policy. We
+    want to capture all these policies, and we would want our policy
+    language to be agnostic to any particular policy style.
 \end{description}
 
 We chose SecPAL as the basis for our policy language for mobile ecosystems as it
@@ -158,7 +160,7 @@ make a query to a database, allowing us access to external information.
 SecPAL policies are style agnostic, and the language does not
 prescribe a particular style to write polices in.
 It is easy to capture idiomatic policy styles using SecPAL.  For example, a classic example of a DAC-style policy are UNIX file permissions.  
-The decision by an OS whether to allow a user (U) to read a file (F) based on the permissions on the filesystem (FS) can be written in SecPAL:
+The decision by an OS whether to allow a user (U) to read a file (F) based on the permissions on the file-system (FS) can be written in SecPAL:
 \begin{lstlisting}
 'os' says User:U canRead(File:F)
   if F hasOwner(U),
@@ -194,21 +196,62 @@ a certain style of policy, SecPAL doesn't say \emph{how} a policy
 should be written, it instead lets the policy author write their rules
 as they see best.
 
-As well meeting our requirements for a policy language, we agree with Becker~\etal's assertion that SecPAL is
-readable and has evaluation rules that are easy to understand and unsurprising~\cite{becker_secpal:_2006}.
-This again makes SecPAL a good fit to describe the policies of the mobile
-ecosystem as even someone unfamiliar with SecPAL might be able to look at an
-assertion and be reasonably expected to understand what the assertion means.
+As well meeting our requirements for a policy language, we agree with
+Becker~\etal's assertion that SecPAL is readable and has evaluation
+rules that are easy to understand and
+unsurprising~\cite{becker_secpal:_2006}.  This again makes SecPAL a
+good fit to describe the policies of the mobile ecosystem as even
+someone unfamiliar with SecPAL might be able to look at an assertion
+and be reasonably expected to understand what the assertion means.
+
+Tschantz and Krishnamurthi defined various reasonability properties
+(properties that determine how well someone might predict how a policy
+will behave) for policy
+languages~\cite{tschantz_towards_reasonability_2006}.  They note that
+compared to languages based on first-order logic (like SecPAL):
+\begin{quotation}
+  ``policies written in XACML are more transparent than policies written in languages based on first-order logic''
+\end{quotation} In their paper, Tschantz and Krishnamurthi compare a
+restricted version of XACML (Core XACML) to three first-order logic
+based languages: FOL, Lithium and $\mathcal{L}_5$.  Tschantz and
+Krishnamurthi go on to define their properties: \emph{totality} if the
+language always makes a decision, \emph{determinism} if the language
+always makes the same decision given the same query, \emph{monotonic}
+if the policy makes the same decisions if the rules are reordered,
+\emph{safety} if adding a facts from a policy only allows more permit
+decisions to be made and \emph{independent composition} if the results
+of querying the policy as a whole are no different from querying
+subsets of the policy's rules and combining them.  They note that
+whilst Core XACML is deterministic it is not safe, does not have
+independent composition and is not monotonic.
+
+SecPAL in contrast is total (by the closed world assumption), is
+monotonic (there are no policy combinators and negation is not allowed
+in policies), and has independent composition (there are no policy
+combinators).  If the policy is always structured to use the same form
+of decision (the policy always uses \texttt{canRead} instead of
+\texttt{canNotRead}, for example) then the language is safe too.
+SecPAL without constraints is also deterministic, and if constraints
+are used then the language is deterministic only if the constraints
+themselves are\footnote{A constraint which rolled a dice and checked
+if the number rolled was 2 would not be deterministic but could be
+used in SecPAL.}.  SecPAL seems, therefore, to meet most of Tschantz
+and Krishnamurthi criteria for a reasonable language, despite being
+based of first-order logic.
 
 Other languages, perhaps such as XACML or Ponder, could have been used as a
 starting point for a policy language. We chose SecPAL, however, as the basis for
-AppPAL---our policy language for mobile ecosystems.
+AppPAL---a policy language for mobile ecosystems.
 
 \section{Basic Examples of AppPAL}
 
-AppPAL describes the policies in the mobile ecosystem. The grammar is mostly the
-same as SecPAL, but a typing syntax which hides an additional
-typing condition (described fully in~\autoref{ssec:types}). 
+AppPAL is a policy language that describes the policies of the mobile
+ecosystem.  To be more precise: it is SecPAL, with a slightly modified
+syntax to allow for additional typing constraints (described
+in~\autoref{ssec:types}) and to aid machine parsing.  As well as the
+modified syntax, AppPAL also instantiates SecPAL (which is generic) to
+with the predicates and types to talk about mobile security policies
+(\autoref{sec:instantiating}).
 
 One example of the policies AppPAL might describe is a user selecting
 which apps they want to use on their phone. Suppose a user, Alice,
@@ -293,7 +336,7 @@ Store}\footnote{\emph{The App Store} is Apple's marketplace for selling apps, an
 user is willing to install a special certificate, from a developer or business,
 however they may install apps through the browser or a computer connected to the
 device. Apple controls these special certificates, issuing and revoking them.
-They must also be authorized by the device's owner.
+They must also be authorised by the device's owner.
 \begin{lstlisting}
 'device' says App isInstallable
   if App hasBeenSignedBy(Cert),
@@ -354,11 +397,9 @@ This glosses over some details of certificate handling (though the
 example could be extended further). It also ignores how the system might update
 apps. It does, however, provide a far more precise version of the differences in
 app installation between the two platforms. For iOS, to install an app Apple
-have to authorize it, either by signing the app or the issuer. In contrast, for
+have to authorise it, either by signing the app or the issuer. In contrast, for
 Android, to the device can install any app if the device owner is willing to
 enable the relevant setting.
-
-%\todo{How do we know this is correct?}
 
 \subsection{Worked Example of Policy Checking}
 
@@ -434,11 +475,11 @@ needs to collect the following statements.
 \noindent Alice obtains the statements by contacting the speakers. Each may either give
 her the statement she needs or may give her more rules in the form of a
 cryptographically signed electronic representation of each assertion. For
-the \ac{MIG} and \ac{IGC} may authorize the app or they might give a
-list of additional checks they need before they agree to authorize the app. When
+the \ac{MIG} and \ac{IGC} may authorise the app or they might give a
+list of additional checks they need before they agree to authorise the app. When
 checking if the app is an App in \autoref{item:isapp}, the NHS trust might
 delegate further. They could reply that if the App is in the Google Play store
-then they recognize it as a valid app. Alice would then have to get more
+then they recognise it as a valid app. Alice would then have to get more
 assertions if she wanted to prove this statement. Alternatively, the speaker
 could refuse to make the assertion, either because they do not believe it, or
 they cannot give an answer. In this case, Alice would have to look for an
@@ -510,9 +551,11 @@ further to describe other policies, such as \ac{BYOD} policies.
   \label{tab:predicate-prefixes}
 \end{table}
 
-When instantiating SecPAL we use predicates based on four verbs:
-\emph{can}, \emph{has}, \emph{is} and \emph{must}.  These verbs
-describe facts common to many policies, such as permitted actions, completed actions, describing properties of entities and obligations respectively.  
+When instantiating SecPAL we use predicates based on four verbs: \emph{can},
+\emph{has}, \emph{is} and \emph{must}.  These verbs describe facts common to
+many policies, such as permitted actions, completed actions, describing
+properties of entities and obligations respectively.  
+%
 \begin{description}
 \item[\bfseries\texttt{subject \emph{is}Property}]
   A statement that says the \emph{subject} has a given \emph{property}.
@@ -526,7 +569,7 @@ describe facts common to many policies, such as permitted actions, completed act
   \end{lstlisting}
   Additionally, SecPAL requires that all variables in the head of a
   statement be used in the body (the restriction helps the language to
-  be reducible to Datalog\textsuperscript{C}, and thus ensure all
+  be reducible to \datalogc{}, and thus ensure all
   queries terminate): assigning a type by using an \emph{is} statement
   is sufficient to satisfy the rule.
 
@@ -617,9 +660,10 @@ however, though keeping these relationships can be helpful. In
 we could use these relationships for auditing and policy compression,
 if the relationships were to be enforced.
 
-\item[\bfseries\texttt{subject \emph{must}Action}]
-  An obligation.  The \emph{subject} should carry out the \emph{action}.
-  An example might be requiring the device tell a company's IT department if there have been three unsuccessful password attempts:
+\item[\bfseries\texttt{subject \emph{must}Action}] An obligation.  The
+  \emph{subject} should carry out the \emph{action}.  An example might
+  be requiring the device tell a company's IT department if there have
+  been three unsuccessful password attempts:
 
   \begin{minipage}{\linewidth}
   \begin{lstlisting}
@@ -639,12 +683,38 @@ if the relationships were to be enforced.
      'alice' hasCalled.
   \end{lstlisting}
 
-  \emph{Must} predicates are mostly goals, as they describe the conditions when
-  its subject must do something.  There are exceptions, such as the example
-  above where \emph{must} predicate is a condition, but they are unusual.  If a policy were to contain a particular \emph{must} predicate as a condition, but never as a goal, then the policy would be unsatisfiable---something we can check for as described in \autoref{ssec:checking-satisfiability}.
+  \emph{Must} predicates are mostly goals, as they describe the
+  conditions when its subject must do something.  There are exceptions,
+  such as the example above where \emph{must} predicate is a condition,
+  but they are unusual.  If a policy were to contain a particular
+  \emph{must} predicate as a condition, but never as a goal, then the
+  policy would be unsatisfiable---something we can check for as
+  described in \autoref{ssec:checking-satisfiability}.
 \end{description}
 
-\noindent Our predicate conventions differ in the approach to the ones
+\noindent
+Some of the predicates may seem to allow AppPAL access to information from
+outside of its assertion context. In order to use external information,
+however, an AppPAL constraint must be used. For example, if we had a fact:
+\lstinline!User:X canWriteTo(File:f)!, then we might imagine it implemented
+with a rule:
+\begin{lstlisting}
+'admin' says User:X canWriteTo(File:f)
+  where fsAllowWrite(X, F) = true.
+\end{lstlisting}
+Where \lstinline!fsAllowWrite()! is a constraint that checks whether the
+file-system would allow a given user access to file.  An alternative to using a
+constraint, would be to generate ground AppPAL assertions  before running the
+query which state exactly which users can write to any given file.  
+\begin{lstlisting}
+'admin' says 'alice' canWriteTo('alices-documents').
+'admin' says 'alice' canWriteTo('project-notes').
+'admin' says 'bob' canWriteTo('project-notes').
+\end{lstlisting}
+When there are large numbers of users and files this may become infeasible
+however.
+
+Our predicate conventions differ in the approach to the ones
 added with the SecPAL4P and SecPAL4DSA
 languages~\cite{becker_framework_2009,aziz_secpal4dsa:_2011}. Both
 these languages add extra phrases to SecPAL's grammar. For example
@@ -689,7 +759,7 @@ which apps she can install.  This can be written in SecPAL as follows:
   if App isApp.
 \end{lstlisting}
 When writing this we added a condition \lstinline{if App isApp}, that
-Bob can only talk about Apps as being installable.  Generalizing this
+Bob can only talk about Apps as being installable.  Generalising this
 pattern we use predicates starting with \emph{is} to give types to
 their subjects.  If a policy rule contains a lot of variables, however
 these typing conditions can become very verbose.  To simplify the
@@ -781,7 +851,11 @@ readability. It avoids hiding the condition that the company must own the access
 point among typing statements aiding readability. It also helps avoid errors
 in policies caused by the policy author forgetting to give a type to a variable.
 
-The typing syntax can also lead to scenarios where the typing \emph{is} predicates are checked multiple times when querying a policy.  For example, in the following hypothetical policy if Alice queried whether \emph{Angry Birds} was installable she might check three (or more) times if \texttt{'alice' says 'angry-birds' isApp.}
+The typing syntax can also lead to scenarios where the typing
+\emph{is} predicates are checked multiple times when querying a
+policy.  For example, in the following hypothetical policy if Alice
+queried whether \emph{Angry Birds} was installable she might check
+three (or more) times if \texttt{'alice' says 'angry-birds' isApp.}
 \begin{lstlisting}
 'alice' says App:A isInstallable
   if A isAGame.
@@ -818,10 +892,20 @@ an assertion to their policy to check for such type-errors.
 \end{lstlisting}
 
 To our knowledge this is the first attempt to add types to SecPAL.
+Adding a static type-checker, and looking at more complex type systems
+has been left to future work.
 
 
 \section{Implementation}
 \label{sec:implementation}
+
+To our knowledge no prior open source implementation of SecPAL exists.  Becker
+implemented SecPAL as a closed-source library atop the {.net}
+framework~\cite{msr_secpal_research_release_2007}.  This library included
+examples and  a C\# API for SecPAL, allowing assertions to be created using
+code, but no parser for SecPAL.  Since Becker's SecPAL implementation cannot be
+trivially extended and will only run on Microsoft Windows, the decision was
+made to re-implement AppPAL from scratch as an open source library.
 
 Our AppPAL implementation is a Java library, with roughly 5,000 lines of code.
 The implementation is available
@@ -838,11 +922,11 @@ Implementing AppPAL as a library allows us to embed it into a variety of
 situations. AppPAL can be part of an app store checking the apps sold against a
 policy. Running on a device, AppPAL can check apps before installation by the
 package manager. There is also a command-line version which is useful for
-testing and modeling policies. Our implementation can make the inferences, on
+testing and modelling policies. Our implementation can make the inferences, on
 an Android device or on a command line, but it is not integrated into Android. It
 is future work to evaluate how AppPAL policies might work in practice and be
 tied into a mobile operating system to enforce policies in practice. The work
-here looks primarily and modeling the policies and preference and providing a
+here looks primarily and modelling the policies and preference and providing a
 framework for enforcement, rather than the enforcement itself.
 
 The AppPAL interpreter implements SecPAL's evaluation rules (shown
@@ -863,10 +947,16 @@ these issues Becker proposed an algorithm that extended SLD resolution
 with a table to prune infinite search trees by tracking which rules
 had been used before.
 
-When implementing SecPAL we considered using a Datalog$^C$ backend but could not
-find an implementation. We also explored using a Datalog implementation (such as
-Z3 or Datomic) to build SecPAL but in practice no implementation could fully
-support Datalog$^C$. We also wanted our implementation to run on an Android
+When implementing SecPAL we considered using a Datalog$^C$ back-end but could
+not find an implementation. We also explored using a Datalog implementation
+(such as Z3 or Datomic) to build SecPAL but in practice no implementation could
+fully support Datalog$^C$'s constraints.  To implement the constraint checking
+we would need to modify the Datalog implementation to run additional checks
+whilst making inferences.  For AppPAL these additional checks might require
+running an external program, but this would not be a trivial change to make for
+the libraries we looked at.
+
+We also wanted our implementation to run on an Android
 device (we were interested in having users enforce policies on their phone),
 and all the Datalog libraries we found could not be ported trivially.
 
@@ -878,7 +968,6 @@ answer-set programming and an SMT solver to answer queries. For all
 policies we tried, our implementation was fast enough---answering all
 but the most complex queries in seconds (\autoref{ssec:benchmarks}).
 
-
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/apppal-evaluation.pdf}
@@ -889,12 +978,12 @@ but the most complex queries in seconds (\autoref{ssec:benchmarks}).
 \subsection{Evaluation}
 \label{ssec:evaluation-alg}
 
-Pseudocode for the evaluation algorithm used by AppPAL is described
+Pseudo-code for the evaluation algorithm used by AppPAL is described
 in~Figures~\ref{alg:eval1},~\ref{alg:eval2}~and~\ref{alg:eval3}.
 
 To make queries against a policy, AppPAL is first given one or more policy files.
 AppPAL parses the files and adds the assertions within them to the \ac{AC}. The
-AC is then preprocessed to extract more information; this is summarized in
+AC is then preprocessed to extract more information; this is summarised in
 \autoref{tab:apppal-sets}. If a constant is used before a \emph{says} statement,
 or it is used as the subject of a \emph{can-say} fact then the constant is
 marked as \emph{voiced}. A constant is \emph{voiced} if it is the speaker of a
@@ -906,16 +995,24 @@ assertion context. This lets AppPAL reject some queries quickly: if a query has
 a speaker that isn't voiced then we cannot query what the speaker says. If a
 rule relies on un-derivable predicates, then it cannot be used to make decisions.
 
-A results table ($RT$) is also created. All ground facts in the assertion context are
-added to the results table as proven facts. The table stores partial results and
-previously established proofs. The table is indexed by queries and a delegation
-depth, partial results (i.e. that the evaluation of this query is ongoing). This
-allows previous results to reused without re-computation or constraint
-re-evaluation. It also prevents AppPAL proofs growing unboundedly (and the
-decision process not terminating). If when searching for a proof we meet a query
-that we are currently evaluating, i.e.~one that exists higher in the current
-proof tree, we treat it as false. Multiple queries will share the same results
-table until the table is cleared, or the AppPAL instance is stopped.
+A results table ($RT$) is also created. All ground facts in the assertion
+context are added to the results table as proven facts. The table stores
+partial results and previously established proofs. The table is indexed by
+queries and a delegation depth, partial results (i.e. that the evaluation of
+this query is ongoing). This allows previous results to reused without
+re-computation or constraint re-evaluation. It also prevents AppPAL proofs
+growing unboundedly (and the decision process not terminating). If when
+searching for a proof we meet a query that we are currently evaluating,
+i.e.~one that exists higher in the current proof tree, we treat it as false.
+Multiple queries will share the same results table until the table is cleared,
+or the AppPAL instance is stopped.
+
+Ignoring queries we are currently evaluating lets us avoid proofs with cycles
+(i.e. proof trees where the proof of a query depends on proving itself).  If we
+can find a terminating proof with a cycle then we can find also shorter proof
+by removing the cycle.  If a proof tree has a cycle that never terminates
+(i.e.~it loops infinitely) then we can treat it as effectively false as it
+would take an infinite amount of time to derive.
 
 When evaluating the policy we also track which rules and predicates we have
 used. From this we can reconstruct a proof tree that shows how AppPAL made a
@@ -972,7 +1069,7 @@ AppPAL's developers with debugging.
       }
     }
   \end{algorithm}
-  \caption{Pseudocode for evaluating a query.}
+  \caption{Pseudo-code for evaluating a query.}
   \label{alg:eval1}
 \end{figure}
 \begin{figure}\footnotesize\sffamily\centering
@@ -997,7 +1094,7 @@ AppPAL's developers with debugging.
       \Return{Failure}
     }
   \end{algorithm}
-  \caption{Pseudocode for using the cond-rule.}
+  \caption{Pseudo-code for using the cond-rule.}
   \label{alg:eval3}
 \end{figure}
 \begin{figure}\footnotesize\sffamily\centering
@@ -1036,9 +1133,27 @@ AppPAL's developers with debugging.
       \Else{\Return $Failure$}
     }
   \end{algorithm}
-  \caption{Pseudocode for using the can-say and can-act-as rules.}
+  \caption{Pseudo-code for using the can-say and can-act-as rules.}
   \label{alg:eval2}
 \end{figure}
+
+AppPAL's evaluation procedure is not the same as SecPAL's, though in practice
+both could be used to evaluate AppPAL or SecPAL policies.  SecPAL was evaluated
+by first converting queries and policies into \datalogc{}.  Becker then
+described a novel \datalogc{} evaluation algorithm with tabling to evaluate the
+converted queries and make decisions. The AppPAL evaluation algorithm does not
+make use of  \datalogc{}, but instead implements AppPAL's
+evaluation rules directly.  We do, however, borrow some strategies from
+Becker's SecPAL evaluation algorithm---AppPAL's results table serves a similar
+purpose to SecPAL's tabling caching results and preventing cycles.  The use of
+sets to restrict the search space for variables is unique to the AppPAL
+algorithm, however. 
+
+Our method for evaluating AppPAL offers an alternative to Becker's procedure.
+We developed it to avoid having to implement \datalogc{}, and to allow us
+greater control over how AppPAL evaluated policies.  We believe the procedure
+is equivalent to Becker's SecPAL evaluation algorithm (though a more rigorous
+comparison as to how the procedures compare has not been done).
 
 \subsection{Soundness and Completeness of Decision Procedure}
 
@@ -1059,16 +1174,39 @@ find a proof when one exists. A similar argument for soundness can be made by
 evaluating a query successfully at 2:59~\textsc{pm} and then again at
 3:01~\textsc{pm}. A successful result may be returned which is unsound.
 
-We use the results table to cache results, and to avoid circular proof searches.
-It helps makes the algorithm fast, albeit at the cost of soundness and
-completeness. If AppPAL were incorporated into a production system, the
+We use the results table to cache results, and to avoid circular proof
+searches.  It helps makes the algorithm fast, albeit at the cost of soundness
+and completeness. If AppPAL were incorporated into a production system, the
 designers would need to have a strategy to manage the $RT$ and delete old
 results. A simple strategy, such as clearing any statements older than 10
-minutes, may be enough for most scenarios.
+minutes, may be enough for most scenarios.  Alternatively the cache can be
+cleared between queries, though this loses some of the speed benefits of having
+some common sub-query results cached.  Ultimately the decision of how to manage
+the results table is up to the developer.
 
 The arguments in the rest of the section assume that the result of evaluating a
 constraint does not change over time. This allows us to argue the
 correctness of the algorithm, assuming that the $RT$ cache is correct.
+
+When describing SecPAL Becker also showed that decision procedure he
+used for SecPAL was both sound and complete.  His decision procedure
+had to parts: a translation from SecPAL into \datalogc{}, and a
+Datalog evaluation algorithm involving tabling.  He proved the
+soundness and completeness of both parts in Appendix~C of the SecPAL
+technical report~\cite{becker_secpal:_2006}.  To do so, he described
+the SecPAL evaluation algorithm as a labelled transition system and
+proved by induction which states were reachable from an initial state.
+%
+In comparison to Becker's proofs, the arguments presented here for
+AppPAL work through induction on the height of the proof tree
+generated by applying AppPAL's evaluation rules.
+%
+Becker did not have to consider constraints when presenting his proofs
+as the SecPAL evaluation algorithm does not cache SecPAL queries.  It
+does make use of a results table, but this stores the Datalog
+translation of the SecPAL statement without constraint only, and so
+the problems associated with the results of constraints changing over
+time do not apply.
 
 \subsubsection*{Soundness Argument}
 
@@ -1076,7 +1214,6 @@ correctness of the algorithm, assuming that the $RT$ cache is correct.
   \mathtt{Evaluate}(AC, RT, Q, D) = \textit{Success} \implies
   AC, D \models Q.
 \end{equation*}
-
 
 
 \paragraph*{Base Case.} For the base case we argue that the
@@ -1095,14 +1232,14 @@ variable substitutions that remove all variables. If the body is missing
 (i.e. the unifying assertion has no conditionals) and the constraint
 is true, then \texttt{Cond} will return success, and the results table
 will be updated accordingly.  This corresponds to SecPAL's \emph{cond}
-rule (we have \fade{grayed out} the recursive case), hence we would
+rule (we have \fade{greyed out} the recursive case), hence we would
 argue it is sound as there is no other means for our evaluation
 algorithm to mark a result as true in $RT$ without recursively calling
 \texttt{Evaluate}.  We call the call tree of \texttt{Evaluate} $T_{\mathtt{E}}^1$.
 
     The analogous proof tree to $T_{\mathtt{E}}^1$ (called
 $T_{\models}^1$) produced by the evaluation rules, also relies on the
-\emph{cond} rule (shown below with recursive elements \fade{grayed
+\emph{cond} rule (shown below with recursive elements \fade{greyed
 out}).  Both $T_{\mathtt{E}}^1$ and $T_{\models}^1$ have height 1.
 
 {\small
@@ -1124,7 +1261,7 @@ out}).  Both $T_{\mathtt{E}}^1$ and $T_{\models}^1$ have height 1.
 if \texttt{Evaluate(AC, $\{\}$, Q, D)} implies that $AC,D\models{Q}$,
 where the height of the call tree of \texttt{Evaluate} is $n$ (in
 calls of \texttt{Evaluate}), and that the height of the implied
-derivation tree is also $n$.  We hypothesize that if \texttt{Evaluate}
+derivation tree is also $n$.  We hypothesise that if \texttt{Evaluate}
 is sound with a call tree and derivation tree height of $n$, then when
 \texttt{Evaluate}'s call tree height is $n+1$, there will be an
 equivalent derivation tree with height $n+1$.
@@ -1140,8 +1277,8 @@ $T_{\models}^{n+1}$ is the matching evaluation rule with $T_{\models}^n$
 as (one of) its children.
 
 We can ignore the results table (if it starts empty, or only contains
-sound results) as it is just memoizing results which could be
-recalculated without memoization.  We do not need to consider to the
+sound results) as it is just memoising results which could be
+recalculated without memoisation.  We do not need to consider to the
 case of non-terminating queries (i.e. circular), as \texttt{Evaluate}
 will return \texttt{Failure} when the loop is detected.
 
@@ -1180,7 +1317,7 @@ also return \texttt{Success}, without recursively calling itself.
 tree of a query $q$ (given an $AC$, and $D$) with height $n$, when running
 \texttt{Evaluate(AC, $\{\}$, Q, D)} it will eventually return
 \texttt{Success} (with at least $n$ recursive calls to
-\texttt{Evaluate}).  We hypothesize that for a proof tree of height
+\texttt{Evaluate}).  We hypothesise that for a proof tree of height
 $n+1$, \texttt{Evaluate} will also return success (given the same
 $AC$ and $q$), with a recursive call depth of $n$.
 
@@ -1270,7 +1407,8 @@ For each benchmark we controlled the number of principals in the policy file:
 as the number of principals increased so did the size of the policy.
 The results are shown in \autoref{tab:benchmarks}.
 Most typical policies (such as those discussed in \autoref{chap:apps-and-stores} and \autoref{chap:byod}), use only few delegations per decision.
-I believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
+We believe the policy checking performance of AppPAL is acceptable as unless a policy consists of hundreds of delegating principals the overhead of checking an AppPAL policy is negligible, even on a power constrained device such as a mobile phone.
+
 
 \begin{table}
   \centering\sffamily\scriptsize\noindent
@@ -1320,8 +1458,8 @@ rule, implying the second is redundant?
 Policies can be checked for many properties including:
 \begin{description}
 \item[Satisfiability.] Do there exist rules which can never be satisfied?
-\item[Equivalence.] Do there exist rules which have the same conditions in order to satisfy them?
-\item[Redundancy.] Do there exist multiple rules to make a decision where one requires a subset of the facts in order to satisfy it?
+\item[Equivalence.] Do there exist rules which have the require the same ground facts to be proven in order to satisfy them?
+\item[Redundancy.] Do there exist multiple rules to make a decision where one is satisfied by a subset of the facts that satisfy the other?
 \item[Consistency.] Can two contradictory decisions be made?
 \end{description}
 
@@ -1339,30 +1477,30 @@ of the form \texttt{can$\star$} and
 \label{ssec:checking-satisfiability}
 
 An assertion is \emph{satisfiable} if there are sufficient facts
-such that the assertion's conditions can be met.  We care about this
-property when writing policies as it means that our assertions affect
-something.  If an assertion is \emph{unsatisfiable,} then this may
-indicate that we have failed to specify one of the conditions it
-depends upon.
+such that the assertion's conditions can be met.
+%
+This is related to the concept of \emph{satisfiability} in SMT solving
+(where a propositional logic formula is satisfiable if there is an
+assignment of truth values to the propositional variables that makes
+the formula true), but made more complex by the recursive nature of
+AppPAL's (and other policy and database languages) assertions. Instead
+of just looking for an assignment of variables, we must look to see if
+there are rules and facts sufficient that we can derive the
+satisfiable statement.
 
-When an assertion is satisfiable, there is a combination of facts that
-could satisfy its conditionals. If there are no facts that could ever
-satisfy the rule, then the policy may have a bug. An analogy can be
-drawn to an \emph{conditional always false bug} in a conventional
-programming language: we have code (or in this case a rule) that can
-never be used as the conditions for using it can never occur.
+We care about this property when writing policies as it means that our
+assertions affect something.  If an assertion is \emph{unsatisfiable,}
+then this may indicate that we have failed to specify one of the
+conditions it depends upon.
 
-Satisfiability can be defined inductively as the least set satisfiable such that:
-\begin{align*}
-  G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
-                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
-                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
-\end{align*}
-
-This is a similar idea to the notions of \emph{satisfiability} in Datalog (and,
-more generally, in logic programming). A Datalog predicate, found by satisfying a
-rule, is satisfiable if there are sufficient ground facts in the database to
-deduce it. Formally, satisfiability in Datalog is defined
+In Datalog (and, more generally, in logic programming) a Datalog
+predicate, found by satisfying a rule, is satisfiable if there are
+sufficient ground facts in the database to deduce it. Formally,
+satisfiability in Datalog is defined in terms of the \ac{IDB} (the
+Datalog \emph{program}, analogous to a policy file loaded into an
+AppPAL assertion context), and the \ac{EDB} (a set of facts from both
+the \ac{IDB} and those which can be derived using rules).
+Satisfiability for Datalog is defined
 as~\cite{alon_levy_equivalence_1993}:
 
 \begin{quote}
@@ -1371,12 +1509,37 @@ as~\cite{alon_levy_equivalence_1993}:
   non-empty relationship for $s$.
 \end{quote}
 
-Our satisfiability checker works by examining which assertions each principal could possibly say from a given assertion context.
-When checking the satisfiability we ask whether there is a mechanism in the policy for the principal to use a given predicate, using the following rules:
+In AppPAL, when an assertion is satisfiable, there is a combination of
+facts that could satisfy its conditionals. If there are no facts that
+could ever satisfy the rule, then the policy may have a bug. An
+analogy can be drawn to an \emph{conditional always false bug} in a
+conventional programming language: we have code (or in this case a
+rule) that can never be used as the conditions for using it can never
+occur.
+
+Drawing from the Datalog definition of satisfiability, we define an
+AppPAL statement $G$ as satisfiable if there exists some \ac{AC} such
+that there is an assertion $A$ within the AC and some assignment of
+variables $\theta$ such that $A\theta$ derives $G$, and that all the
+conditions in the body of $A\theta$ are also satisfiable.  Formally,
+we define this as:
+%
+\begin{align*}
+  G \in \text{Satisfiable}~\text{\textit{if}}~\exists A \in \text{AC}:~&\exists \theta:~G\equiv\text{head}(A\theta) \\
+                                                              \wedge~ & (\text{conditionals}(A) = \emptyset \\
+                                                                      & \vee~\forall G^\prime \in \text{conditionals}(A\theta).~G^\prime \in \text{Satisfiable}.)
+\end{align*}
+
+Our satisfiability checker works by examining which assertions each
+principal could possibly say from a given assertion context.  When
+checking the satisfiability we ask whether there is a mechanism in the
+policy for the principal to use a given predicate.
+We use the following
+rules with a relaxed notion of $\in$, that allows variable unification:
 
 \begin{center}\footnotesize
   \begin{equation*}
-\infer{
+\infer[(1)]{
   AC\vdash (\text{\tt principal}, \text{\tt predicate})\in \text{Satisfiable}
 }{
   \begin{array}{c}
@@ -1387,7 +1550,7 @@ When checking the satisfiability we ask whether there is a mechanism in the poli
   \end{equation*}
   
   \begin{equation*}
-\infer{
+\infer[(2)]{
   AC\vdash (\text{\tt principal}, \text{\tt predicate})\in \text{Satisfiable}
 }{
   \begin{array}{c}
@@ -1398,6 +1561,37 @@ When checking the satisfiability we ask whether there is a mechanism in the poli
 }
   \end{equation*}
 \end{center}
+
+Informally the rules say when a policy (in an assertion context) supports the notion that a principal can say a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable).  Rule (1) says that a principal can make statements using a predicate if the assertion context contains an example of them doing so; and that if that example has conditionals, they policy also supports them saying each conditional's predicate.
+Rule (2) handles the case with delegation:  a principal can use a predicate (that (\texttt{principal},~\texttt{predicate})~$\in$~Satisfiable), if they say someone else can say the predicate, and the policy supports the other person being able to use that predicate (that (S,~\texttt{predicate})~$\in$~Satisfiable)).
+
+\pagebreak
+To give an example, if we have an assertion context with the following assertions:
+\begin{lstlisting}
+'alice' says 'bob' recommends('angry-birds').
+
+'alice' says 'claire' canInstall(App)
+  if 'bob' recommends(App).
+
+'alice' says 'claire' mustInstall(App)
+  if 'bob' highlyRecommends(App).  
+\end{lstlisting}
+\noindent The first assertion can be used to show that:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
+\noindent The assertion is present in the policy and there are no conditions, so:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
+
+\noindent The second assertion shows that:
+$$(\text{\tt 'alice'},\text{\tt canInstall(App)}) \in \text{Satisfiable}$$
+\noindent In the second case we have a condition, but since the first assertion showed that:
+$$(\text{\tt 'alice'},\text{\tt recommends('angry-birds')}) \in \text{Satisfiable}$$
+\noindent Then we allow (with the relaxed notion of $\in$) that:
+$$(\text{\tt 'alice'},\text{\tt recommends(App)}) \in \text{Satisfiable}$$
+
+\noindent Finally the third assertion cannot be used to show that:
+$$(\text{\tt 'alice'},\text{\tt mustInstall(App)}) \in \text{Satisfiable}$$
+\noindent As we have no way to show that:
+$$(\text{\tt 'alice'},\text{\tt highlyRecommends(App)})$$
 
 We also add a somewhat weaker notion of satisfiability (Satisfiable$^\star$) which distinguishes
 statements that might be satisfiable, but depend on delegation, and where the
@@ -1432,12 +1626,22 @@ made an assertion that is itself unsatisfiable.
   \end{equation*}
 \end{center}
 
+The satisfiability rules are reminiscent of AppPAL's \emph{cond} and
+\emph{can-say} rules shown in \autoref{fig:secpal-rules}, but far more
+general.  AppPAL's evaluation rules decide if a specific assertion by
+a speaker is supported by an assertion context.  In contrast, the
+satisfiability rules look at whether it is possible that the
+evaluation rules \emph{could} decide that the assertion is
+supported---that the AppPAL evaluation rules could conceivably be
+satisfied, not that the evaluation rules are satisfied for a specific
+assertion.
+  
 This definition of satisfiability is not complete (it ignores relationships
 formed using \emph{can-act-as}, as well as delegations to principals specified
 as variables). It is, however, useful as a debugging tool as it can quickly
 check that a policy contains enough statements to make any decision.
 
-For an example of satisfiability, consider the following snippet taken
+For a real example of the satisfiability checker in use, consider the following snippet taken
 from the NHS policy described in \autoref{chap:byod}.  The rule
 described in the policy is that an app must be approved by the
 \ac{IGC} as well as by either the \ac{CACPG} as well as the \ac{MIG}
@@ -1488,7 +1692,6 @@ specific assertions as well. It also reports the assertions that may be
 satisfiable through delegation given additional statements (the
 Satisfiable$^\star$) separately at the bottom.
 
-\noindent\begin{minipage}{\textwidth}
 These checks are simple and we don't take into
 account dependencies between variables. If we add, for example, the statements:
 
@@ -1497,7 +1700,6 @@ account dependencies between variables. If we add, for example, the statements:
 'cacpg' says 'dropbox' isUsableClinically.
 'mig' says 'instagram' isUsableNonClinically.
 \end{lstlisting}
-\end{minipage}
 
 Then we will still never find any installable apps, as the \ac{IGC}, \ac{CACPG}
 and \ac{MIG} need to agree on the same app to find it installable. Our rules for
@@ -1569,7 +1771,6 @@ about here:
 These ideas can be applied to AppPAL to detect some potential problems in AppPAL policies. For instance,  consider the
 following AppPAL policy:
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 'alice' says App isInstallable
   if App isRecommended,
@@ -1579,7 +1780,6 @@ following AppPAL policy:
   if App isNotMalware,
      App isGood.
 \end{lstlisting}
-\end{minipage}
 
 Alice checks that the app is not malware when checking the app is
 installable and when checking that the app is recommended.  The check
@@ -1603,7 +1803,9 @@ devices in the first assertion).
   if U hasLost(Device).
 \end{lstlisting}
 
-We can check for this kind of irrelevance by building a proof-graph for the
+Whilst the irrelevance adds redundancy and can slow down inferences when making policy checks, it can also aid policy comprehension.  In the previous example the repeated checks as to whether someone is a user do not, strictly, need to be done.  They do, however, clarify what the type of each variable is.  A future implementation of AppPAL might incorporate code to remove the redundant checks automatically.  In order to remove the redundant checks we must first be able to identify them, however.
+
+We can check for irrelevance by building a proof-graph for the
 assertion context.  Every node (shown in a box) represents an AppPAL fact we
 might wish to prove.  For every assertion in the context we create a proof
 (represented as a number in brackets) for the head of the assertion, which is
@@ -1623,12 +1825,10 @@ dashed ones can be removed to remove the irrelevance.
 In contrast, unreachability occurs when a fact does not take part in the minimal
 derivation tree of a fact.  As a simple example consider the following policy:
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}
 'alice' says App isInstallable if App isNotMalware.
 'alice' says App isInstallable if App isNotMalware,  App isRecommended.
 \end{lstlisting}
-\end{minipage}
 
 To detect unreachability for a given policy we again build the proof-graph (shown
 in \autoref{fig:unreachability}).  For each proof node we collect the facts
@@ -1744,74 +1944,11 @@ equivalent policies).
   \label{fig:redundancy-complex}
 \end{figure}
 
-%When we run the tool 
-%\begin{lstlisting}
-%java -jar Lint.jar --redundancy unreachable.policy
-%[I]: loaded 1/1 files of 2 assertions
-%[I]: flattened 0 node(s)
-%[W]: 'alice' says App isInstallable. has unreachable derivation trees.
-%\end{lstlisting}
-
-
-
-% To build the graphs, each statement we might want to prove (a goal) becomes a
-% node in the graph, its children are organised into sets of goals (a proof),
-% where if all the goals in any set were proved true then the goal node would also
-% become true. If a node has an empty set of goals to prove it is a fact. Once the
-% graph has been constructed (taking into account delegation and unification with
-% other statements), the graph is flattened by applying the flatten procedure
-% (Listing~\ref{alg:flatten}) repeatedly until a fixed point is reached. When the
-% graph has been flattened we look for redundancy by looking for goals with proofs
-% that are subsets of their other proofs, implying that if the larger proof is
-% true, then the shorter proof will always be true too; and different goals with
-% identical proofs, implying that the two decisions are not
-% independent~(Listing~\ref{alg:redundancy}).
-
-% \begin{lstlisting}[language=Python,float,caption={Procedure for flattening the redundancy graph.},label={alg:flatten}]
-% def flatten(graph):
-%   for goal in graph.goals:
-%     hoist = true
-%     for proof in graph[goal]:
-%       for proof_goal in proof:
-%         if not proof_goal.is_fact:
-%           hoist = False
-%           break
-%       if hoist == True:
-%         hoist(graph, goal)
-
-% def hoist(graph, target):
-%   for parent in graph[target].parents:
-%     for proof in parent.proofs:
-%       if proof.uses(target):
-%         for replacements in graph[target].parents:
-%           parent.proofs += proof.replace(target, replacements)
-%           parent.proofs -= proof
-% \end{lstlisting}
-
-% \begin{lstlisting}[language=Python,float,caption={Procedure to check for redundancy.},label={alg:redundancy}]
-% def check_redundancy(graph) -> boolean:
-%   for goal in graph.goals:
-%     for a in graph[goal]:
-%       for b in graph[goal]:
-%         if a >= b and a.goals.subset(b.goals):
-%           if b.goals.subset(a.goals):
-%             warn(a+" has multiple equivalent proofs")
-%           else
-%             warn(a+" has a redundant proof")
-%     for other_goal in graph.goals:
-%       if goal > other_goal:
-%         for a in graph[goal]:
-%           for b in graph[other_goal]:
-%             if not (a.goals.is_empty() or b.is_empty())
-%                and a.goals == b.goals:
-%               warn(a+" and "+b+" have equivalent proofs")
-% \end{lstlisting}
-
 \end{document}
 
 % vim: set makeprg=make\ ch3.pdf:
 
 %%% Local Variables:
 %%% mode: latex
-%%% TeX-master: "../ch3.tex"
+%%% TeX-master: "../thesis"
 %%% End:
